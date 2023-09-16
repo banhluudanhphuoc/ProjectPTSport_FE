@@ -4,9 +4,16 @@ import { Link } from "react-router-dom";
 import logo from './logo192.png';
 import { AiOutlineSearch, AiOutlineUser, AiOutlineShopping } from "react-icons/ai";
 import { ROUTERS } from "utils/router";
-
+import { CartProvider, useCart } from "react-use-cart";
 
 const Header = () => {
+    const {
+        isEmpty,
+        totalUniqueItems,
+        items,
+        updateItemQuantity,
+        removeItem,
+    } = useCart();
     const [menus, setMenus] = useState([
         {
             name: "Nam",
@@ -100,7 +107,7 @@ const Header = () => {
                         </Link></div>
                     <div className="header_shopping">
                         <Link to={""} >
-                            <AiOutlineShopping /><span className="number_shopping">5</span>
+                            <AiOutlineShopping /><span className="number_shopping">{totalUniqueItems}</span>
                         </Link>
 
                     </div>

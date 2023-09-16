@@ -1,45 +1,40 @@
 import HomePage from "./pages/users/homePage";
 import { ROUTERS } from "./utils/router";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Outlet } from "react-router-dom";
 import MasterLayout from "./pages/users/theme/masterLayout";
 import ProfilePage from "./pages/users/profilePage";
-import ProductPage from "pages/users/productPage";
-import CartPage from "pages/users/cartPage";
-const renderUserRouter = () => {
-    const userRouters = [{
-        path: ROUTERS.USER.HOME,
-        component: <HomePage />
-    },
-    {
-        path: ROUTERS.USER.PROFILE,
-        component: <ProfilePage />
-    },
-    {
-        path: ROUTERS.USER.PRODUCT_DETAIL,
-        component: <ProductPage />
-    },
-    {
-        path: ROUTERS.USER.CART,
-        component: <CartPage />
-    },
+import ProductPage from "./pages/users/productPage";
+import CartPage from "./pages/users/cartPage";
+import Dashboard from "pages/admin/dashBoard";
 
-
-    ];
-
+const UserRoutes = () => {
     return (
         <MasterLayout>
             <Routes>
-                {
-                    userRouters.map((item, key) => (
-                        <Route key={key} path={item.path} element={item.component} />
-                    ))}
+                <Route path={ROUTERS.USER.HOME} element={<HomePage />} />
+                <Route path={ROUTERS.USER.PROFILE} element={<ProfilePage />} />
+                <Route path={ROUTERS.USER.PRODUCT_DETAIL} element={<ProductPage />} />
+                <Route path={ROUTERS.USER.CART} element={<CartPage />} />
             </Routes>
         </MasterLayout>
     );
 };
 
+const AdminRoutes = () => {
+    return (
+        <Routes>
+            <Route path={ROUTERS.ADMIN.DASHBOARD} element={<Dashboard />} />
+        </Routes>
+    );
+};
+
 const RouterCustom = () => {
-    return renderUserRouter();
+    return (
+        <Routes>
+            <Route path="/admin/*" element={<AdminRoutes />} />
+            <Route path="/*" element={<UserRoutes />} />
+        </Routes>
+    );
 };
 
 export default RouterCustom;

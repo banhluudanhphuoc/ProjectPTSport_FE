@@ -1,85 +1,70 @@
 import { memo } from "react";
 import { CartProvider, useCart } from "react-use-cart";
-
+import { Table, ActionIcon, Card, Grid, Button } from '@mantine/core';
+import './style.scss';
 const CartPage = () => {
-    function Page() {
-        const { addItem } = useCart();
-
-        const products = [
-            {
-                id: 1,
-                name: "Malm",
-                price: 9900,
-                quantity: 1
-            },
-            {
-                id: 2,
-                name: "Nordli",
-                price: 16500,
-                quantity: 5
-            },
-            {
-                id: 3,
-                name: "Kullen",
-                price: 4500,
-                quantity: 1
-            },
-        ];
-
-        return (
-            <div>
-                {products.map((p) => (
-                    <div key={p.id}>
-                        <button onClick={() => addItem(p)}>Add to cart</button>
-                    </div>
-                ))}
-            </div>
-        );
-    }
+    const {
+        isEmpty,
+        totalUniqueItems,
+        items,
+        updateItemQuantity,
+        removeItem,
+        cartTotal,
+        emptyCart,
+        clearCartMetadata
+    } = useCart();
 
 
-    const { addItem } = useCart();
-    function Cart() {
-        const {
-            isEmpty,
-            totalUniqueItems,
-            items,
-            updateItemQuantity,
-            removeItem,
-        } = useCart();
 
-        if (isEmpty) return <p>Your cart is empty</p>;
 
-        return (
-            <>
-                <h1>Cart ({totalUniqueItems})</h1>
-
-                <ul>
-                    {items.map((item) => (
-                        <li key={item.id}>
-                            {item.quantity} x {item.name} &mdash;
-                            <button
-                                onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
-                            >
-                                -
-                            </button>
-                            <button
-                                onClick={() => updateItemQuantity(item.id, item.quantity + 1)}
-                            >
-                                +
-                            </button>
-                            <button onClick={() => removeItem(item.id)}>&times;</button>
-                        </li>
-                    ))}
-                </ul>
-            </>
-        );
-    }
     return <>
         <CartProvider>
-            <Page />
-            <Cart />
-        </CartProvider>
+            <div className="cart">
+                <div className="container">
+                    <Grid>
+                        <Grid.Col md={9}>
+                            <Card radius="md" shadow="sm" p="lg">
+                                <h1>Giỏ hàng ({totalUniqueItems})</h1>
+                                <Table striped withBorder highlightOnHover horizontalSpacing="lg" verticalSpacing="lg" fontSize="lg" captionSide="bottom">
+                                    <thead>
+                                        <tr>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Hình ảnh</th>
+                                            <th>Giá</th>
+                                            <th>Số lượng</th>
+                                        </tr>
+                                    </thead>
+                                    {items.map((item) => (
+
+                                        < tbody >
+                                            <tr key={item.id}>
+                                                <td className="action_cart_page">{item.product_name}<ActionIcon variant="subtle" onClick={() => removeItem(item.id)}>&times;</ActionIcon></td>
+                                                <td></td>
+                                                <td>{item.price}</td>
+                                                <td className="action_cart_page">
+                                                    <ActionIcon variant="subtle" onClick={() => updateItemQuantity(item.id, item.quantity - 1)}>-</ActionIcon>
+                                                    {item.quantity}
+                                                    <ActionIcon variant="subtle" onClick={() => updateItemQuantity(item.id, item.quantity + 1)}>+</ActionIcon>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    ))}
+                                </Table>
+
+                            </Card>
+                        </Grid.Col>
+                        <Grid.Col md={3}>
+                            <Card radius="md" shadow="sm" p="lg">
+                                <div className="thanhtoan">Tổng :
+                                    {cartTotal}
+                                </div>
+                                <Button>Thanh Toán</Button>
+                            </Card>
+                        </Grid.Col>
+                    </Grid>
+                </div>
+            </div>
+        </CartProvider >
     </>
 };
 
