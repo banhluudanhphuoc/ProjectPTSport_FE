@@ -1,59 +1,40 @@
-import { memo, useState, useEffect, useRef } from "react";
-import slider1 from '../../../assets/users/slider/slider_1.webp';
+import { memo, useState, useEffect } from "react";
 import { Image } from "@mantine/core";
 import './style.scss';
+import { useParams } from "react-router-dom";
 
 const ProductPage = () => {
-    const [index, setIndex] = useState(0);
-    const myRef = useRef(null);
+    const [category, setCategory] = useState(null);
+    const { category: categoryId } = useParams();
 
-    // const handleTab = (newIndex) => {
-    //     setIndex(newIndex);
-    //     const images = myRef.current.children;
-    //     for (let i = 0; i < images.length; i++) {
-    //         images[i].className = images[i].className.replace("active", "");
-    //     }
-    //     images[newIndex].className = "active";
-    // };
+    useEffect(() => {
+        // Simulate fetching product details from an API based on productId
+        // Replace this with actual data fetching logic
+        const fetchProductPage = async () => {
+            try {
+                const response = await fetch(`/api/categories/${categoryId}`);
+                if (response.ok) {
+                    const categoryData = await response.json();
+                    setCategory(categoryData);
+                } else {
+                    // Handle error response
+                    console.error("Failed to fetch product details");
+                }
+            } catch (error) {
+                console.error("Error while fetching product details:", error);
+            }
+        };
 
-    // useEffect(() => {
-    //     myRef.current.children[index].className = "active";
-    // }, [index]);
+        fetchProductPage();
+    }, [categoryId]);
 
-    const products = [
-        {
-            product_id: 1,
-            status: 1,
-            description: 'ok1',
-            inventory: 1,
-            product_name: 'giay nike',
-            price: 10,
-            category_id: 1,
-            manufacturer_id: 1,
-            img_src: slider1,
-        },
-    ];
-
-    return (
-        <div className="app">
-            {products.map((item, itemIndex) => (
-                <div className="details" key={item.product_id}>
-                    <div className="big-img">
-                        <Image src={item.img_src} alt=""></Image>
-                    </div>
-
-                    <div className="box">
-                        <div className="row">
-                            <h2>{item.product_name}</h2>
-                            <span>${item.price}</span>
-                        </div>
-                        <p>{item.description}</p>
-                        <button className="cart">Add to cart</button>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
+    if (!category) {
+        // Product details are still being fetched, or an error occurred
+        return <h1>ProductPage 1</h1>;
+    }
+    else {
+        return <h1>ProductPage </h1>;
+    }
 };
 
 export default memo(ProductPage);

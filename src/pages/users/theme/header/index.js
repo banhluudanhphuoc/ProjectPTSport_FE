@@ -2,7 +2,8 @@ import { memo, useState } from "react";
 import './style.scss';
 import { Link } from "react-router-dom";
 import logo from './logo192.png';
-import { AiOutlineSearch, AiOutlineUser, AiOutlineShopping } from "react-icons/ai";
+import { AiOutlineSearch, AiOutlineUser, AiOutlineShopping, BiUserCircle } from "react-icons/ai";
+
 import { ROUTERS } from "utils/router";
 import { CartProvider, useCart } from "react-use-cart";
 
@@ -106,7 +107,7 @@ const Header = () => {
                             <AiOutlineUser />
                         </Link></div>
                     <div className="header_shopping">
-                        <Link to={""} >
+                        <Link to={"/cart"} >
                             <AiOutlineShopping /><span className="number_shopping">{totalUniqueItems}</span>
                         </Link>
 

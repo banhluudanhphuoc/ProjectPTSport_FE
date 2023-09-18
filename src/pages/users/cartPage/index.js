@@ -2,6 +2,7 @@ import { memo } from "react";
 import { CartProvider, useCart } from "react-use-cart";
 import { Table, ActionIcon, Card, Grid, Button } from '@mantine/core';
 import './style.scss';
+import { Link } from "react-router-dom";
 const CartPage = () => {
     const {
         isEmpty,
@@ -21,6 +22,7 @@ const CartPage = () => {
         <CartProvider>
             <div className="cart">
                 <div className="container">
+
                     <Grid>
                         <Grid.Col md={9}>
                             <Card radius="md" shadow="sm" p="lg">
@@ -55,10 +57,11 @@ const CartPage = () => {
                         </Grid.Col>
                         <Grid.Col md={3}>
                             <Card radius="md" shadow="sm" p="lg">
-                                <div className="thanhtoan">Tổng :
-                                    {cartTotal}
+                                <div className="thanhtoan">
+                                    <h3>Tổng tiền :{cartTotal}</h3>
                                 </div>
-                                <Button>Thanh Toán</Button>
+                                <Link to={"/checkout"}><Button>Tiến hành thanh toán</Button></Link>
+
                             </Card>
                         </Grid.Col>
                     </Grid>

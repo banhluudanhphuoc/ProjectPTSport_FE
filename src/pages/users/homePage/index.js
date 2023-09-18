@@ -189,7 +189,8 @@ const HomePage = () => {
                                                 <Text className='descripsion_modal'>{item.description}</Text>
                                             </div>
                                             <div>
-                                                <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}  >Mua</Button>
+                                                <Link to={"/product-detail/" + item.product_id}><Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }} >Mua</Button></Link>
+
                                                 <Button variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }} onClick={() => addItem(item)} >Thêm vào giỏ hàng</Button>
                                             </div>
                                         </Grid.Col>

@@ -103,11 +103,13 @@
         display: flex;
         input{
             height: 90%;
-            margin-left: 5%;
+            margin-left: 10%;
             border: none;
             outline: none;
         }
         .search_icon{
+            display: block;
+            justify-content: end;
             height: 34px;
             background-color: map.get($theme-colors, "backround_header");
             width: 20%;
