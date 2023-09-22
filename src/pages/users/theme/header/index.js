@@ -93,6 +93,7 @@ const Header = () => {
                         <img src={logo} className="header_logo" alt="logo" />
                     </Link>
                 </div>
+
                 <div className="col-sm-4 col-md-4 col-xl-4 col-lg-4 header_top_right">
                     <div className="search_box">
                         <input type={"text"} id="search_text" />

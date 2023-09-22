@@ -13,5 +13,13 @@ export const ROUTERS = {
     ADMIN: {
         DASHBOARD: "dashboard",
         LOGIN: "admin-login",
+        PRODUCTS_LIST: "products_list",
+        PRODUCT_EDIT: "product_edit",
+        PRODUCT_CREATE: "product_create",
+        CUSTOMERS: "customers",
+        POSTERS_LIST: "posters_list",
+
+        CATEGORIES_LIST: "categories_list",
+        ORDERS: "orders",
     }
 }

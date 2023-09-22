@@ -1,0 +1,37 @@
+.header_admin{
+    border: solid 1px;
+    height: 50px;
+    display: inline-flex;
+    width : 100%;
+}
+.header_left_admin{
+    width: 1200px;
+    padding :0;
+}
+.header_right_admin{
+    padding :0;
+    display: flex;
+    justify-content: end;
+    align-content: center;
+    align-items: center;
+    .name-account{
+        display :inline-block;
+        text-align: center;
+        margin: 0 10px;
+        
+    }
+    .admin-account{
+        height: 45px;
+        width: 45px;
+        background-color: #d2abab;
+        border-radius: 50px;
+        margin: 0 10px;
+    }
+    .button_setting_admin{
+        background-color: white;
+        box-shadow: none;
+        border: none;
+        font-size: larger;
+        
+    }
+}

@@ -5,10 +5,13 @@
     background-color: map.get($theme-colors, "backround_header");
     width: 100%;
     display: flex;
+    overflow: hidden;
+    position: fixed;
+    z-index: 1;
+    top: 0; 
 }
 
 .header_top_left {
-    
     display: flex;
     margin-left: auto;
     margin-right: auto;
