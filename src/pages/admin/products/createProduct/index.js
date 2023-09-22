@@ -16,21 +16,29 @@ import {
     FileButton,
     NativeSelect,
     Title,
+    Textarea,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
 const CreateProductAdmin = () => {
+
     const [valueBrand, setValueBrand] = useState('');
     const [valueCategories, setValueCategories] = useState('');
     const [files, setFiles] = useState([]);
     const form = useForm({
-        initialValues: { name: '', email: '', age: 0 },
+        initialValues: {
+            name: '',
+            email: '',
+            age: 0,
+            description: '', // Add the description field
+        },
 
         // functions will be used to validate values at corresponding key
         validate: {
             name: (value) => (value.length < 2 ? 'Tên sản phẩm quá ngắn' : null),
             price: (value) => (value == null ? 'Không được để trống' : null),
             inventory: (value) => (value == 0 || value == null ? 'Số lượng không được bằng 0 hoặc để trống' : null),
+            description: (value) => (value.length < 10 ? 'Mô tả quá ngắn' : null), // Add validation for the description field
         },
     });
     return (
@@ -84,6 +92,16 @@ const CreateProductAdmin = () => {
                                 { label: 'Vues', valueCategories: 'vues' },
                             ]}
                         />
+                        <Textarea
+                            mt="sm"
+                            id="productDescription"
+                            label="Mô tả sản phẩm"
+                            placeholder="Mô tả sản phẩm"
+                            {...form.getInputProps('description')}
+                            rows={10}
+                            className="custom-textarea"
+                        />
+
                         <FileButton onChange={setFiles} accept="image/png,image/jpeg" multiple mt="sm">
                             {(props) => <Button {...props}>Upload image</Button>}
                         </FileButton>
@@ -99,12 +117,12 @@ const CreateProductAdmin = () => {
                             ))}
                         </ul>
                         <Button type="submit" mt="sm">
-                            Thêm
+                            Thêm sản phẩm
                         </Button>
                     </form>
                 </Box>
             </div>
-        </Grid.Col>
+        </Grid.Col >
     );
 };
 

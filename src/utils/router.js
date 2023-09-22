@@ -13,13 +13,25 @@ export const ROUTERS = {
     ADMIN: {
         DASHBOARD: "dashboard",
         LOGIN: "admin-login",
+
         PRODUCTS_LIST: "products_list",
         PRODUCT_EDIT: "product_edit",
         PRODUCT_CREATE: "product_create",
-        CUSTOMERS: "customers",
+
+        CUSTOMERS_LIST: "customers_list",
+        CUSTOMER_CREATE: "customers_create",
+        CUSTOMER_EDIT: "customers_edit",
+
         POSTERS_LIST: "posters_list",
+        POSTER_CREATE: "post_create",
+        POSTER_EDIT: "post_edit",
+
 
         CATEGORIES_LIST: "categories_list",
-        ORDERS: "orders",
+        CATEGORY_EDIT: "category_edit",
+        CATEGORY_CREATE: "category_create",
+
+        ORDERS_LIST: "orders_list_admin",
+        ORDER_DETAIL: "order_detail_admin",
     }
 }

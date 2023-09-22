@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { AiOutlineMail } from "react-icons/ai";
 import { Grid } from '@mantine/core';
 
-const OrdersAdmin = () => {
+const OrderDetailAdmin = () => {
     return (
         <Grid.Col md={10}>
             <div className="orders_admin">
@@ -15,4 +15,4 @@ const OrdersAdmin = () => {
     );
 };
 
-export default memo(OrdersAdmin);
+export default memo(OrderDetailAdmin);
