@@ -1,0 +1,19 @@
+.customer_admin{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    .img_customer_admin{
+        height: 100px;
+        width: 100px;
+        background-color: #aaa;
+        border-radius: 100px;
+    }
+    .button_customer_admin{
+        height: 30px;
+        width: 30px;
+        margin-left: 3px;
+        border: none;
+        background-color: white;
+        font-size: large;
+    }
+}

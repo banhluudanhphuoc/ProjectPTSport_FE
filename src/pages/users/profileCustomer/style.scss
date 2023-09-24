@@ -1,0 +1,50 @@
+
+
+.profile_customer_left_top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .button_edit_profile_customer{
+        font-size: 15px;
+
+    }
+}
+.profile_customer_right_orders{
+    border-radius: 15px;
+    margin-top: 10px;
+    box-shadow: 2px 2px 1px 3px lightblue;
+    .profile_customer_right_orders_top{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin: 10px 10px 10px 10px;
+        .profile_customer_right_orders_status{
+            text-align: end;
+            align-items: center;
+            display: flex;
+           
+        }
+        
+    }
+    .profile_customer_right_orders_mid{
+        display: flex;
+        align-items: center;
+        background-color: #05f3ff;
+        .profile_customer_right_orders_mid_info{
+            margin-left: 10px;
+        }
+        .profile_customer_right_orders_image{
+            margin-left: 5px;
+            height: 100px !important;
+            width: 100px !important;
+            border-radius: 50px ;
+            background-color: wheat;
+            margin-bottom: 10px;
+        }
+    }
+    .profile_customer_right_orders_bottom{
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 10px 10px 10px;
+    }
+}

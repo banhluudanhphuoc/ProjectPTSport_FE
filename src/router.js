@@ -2,7 +2,6 @@ import HomePage from "./pages/users/homePage";
 import { ROUTERS } from "./utils/router";
 import { Route, Routes } from "react-router-dom";
 
-
 import MasterLayout from "./pages/users/theme/masterLayout";
 import ProfilePage from "./pages/users/profilePage";
 import ProductDetail from "./pages/users/productDetail";
@@ -11,6 +10,10 @@ import ProductPage from "pages/users/productPage";
 import CheckoutPage from "pages/users/checkoutPage";
 import LoginUserPage from "pages/users/loginPage";
 import RegisterPage from "pages/users/registerPage";
+import ConfirmPhoneNumber from "pages/users/confirmPhoneNumber";
+import ProfileCustomer from "pages/users/profileCustomer";
+import ProfileCustomerEdit from "pages/users/profileCustomerEdit";
+
 
 import MasterLayoutAdmin from "pages/admin/theme/masterLayoutAdmin";
 import DashBoard from "pages/admin/dashBoard";
@@ -59,6 +62,9 @@ const UserRoutes = () => {
     return (
         <MasterLayout>
             <Routes>
+                <Route path={ROUTERS.USER.PROFILE_CUSTOMER_EDIT} element={<ProfileCustomerEdit />} />
+                <Route path={ROUTERS.USER.PROFILE_CUSTOMER} element={<ProfileCustomer />} />
+                <Route path={ROUTERS.USER.CONFIRM_PHONE_NUMBER} element={<ConfirmPhoneNumber />} />
                 <Route path={ROUTERS.USER.HOME} element={<HomePage />} />
                 <Route path={ROUTERS.USER.PROFILE} element={<ProfilePage />} />
                 <Route path={ROUTERS.USER.PRODUCT_DETAIL} element={<HomePage />} />
@@ -72,7 +78,9 @@ const UserRoutes = () => {
 };
 
 const AdminRoutes = () => {
+
     return (
+
         <MasterLayoutAdmin>
             <Routes>
                 <Route path={ROUTERS.ADMIN.DASHBOARD} element={<DashBoard />} />

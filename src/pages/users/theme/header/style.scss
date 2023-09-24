@@ -5,7 +5,7 @@
     background-color: map.get($theme-colors, "backround_header");
     width: 100%;
     display: flex;
-    overflow: hidden;
+    // overflow: hidden;
     position: fixed;
     z-index: 1;
     top: 0; 
@@ -20,17 +20,21 @@
     color: map.get($theme-colors, "header_text");
     font-family: mulish;
     align-items: center;
+    
     ul{
+        
         display: flex;
         margin-top: auto;
         margin-bottom: auto;
         // /justify-content: space-around;
         li{
+           
             list-style: none;
             margin-right: 20px;
             position: relative;
         }
         li:hover .header_menu_dropdown{
+           
             opacity: 1;
             visibility: visible;
         }
@@ -52,7 +56,7 @@
             display: block;
             position: absolute;
             width :max-content;
-            z-index: 9;
+            z-index: 10;
             padding: 5px 0;
             transition: all , 0.3s;
             opacity: 0;

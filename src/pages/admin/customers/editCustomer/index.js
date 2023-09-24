@@ -49,7 +49,7 @@ const EditCustomerAdmin = () => {
                         <Title order={3} size="h1">
                             Thêm sản phẩm
                         </Title>
-                        <TextInput label="Tên sản phẩm" placeholder="Tên sản phẩm" id="productName" {...form.getInputProps('name')} />
+                        <TextInput label="Họ và tên" placeholder="Họ và tên" id="productName" {...form.getInputProps('name')} />
                         <NumberInput
                             mt="sm"
                             id="productPrice"

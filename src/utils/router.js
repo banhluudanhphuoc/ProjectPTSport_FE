@@ -9,6 +9,9 @@ export const ROUTERS = {
         CHECKOUT_PAGE: "checkout",
         LOGIN_USER: "login-user",
         REGISTER: "register",
+        CONFIRM_PHONE_NUMBER: "confirm_phone_number",
+        PROFILE_CUSTOMER: "profile_customer",
+        PROFILE_CUSTOMER_EDIT: "profile_customer_edit",
     },
     ADMIN: {
         DASHBOARD: "dashboard",
@@ -19,8 +22,8 @@ export const ROUTERS = {
         PRODUCT_CREATE: "product_create",
 
         CUSTOMERS_LIST: "customers_list",
-        CUSTOMER_CREATE: "customers_create",
-        CUSTOMER_EDIT: "customers_edit",
+        CUSTOMER_CREATE: "customer_create",
+        CUSTOMER_EDIT: "customer_edit",
 
         POSTERS_LIST: "posters_list",
         POSTER_CREATE: "post_create",

@@ -7,7 +7,6 @@ import { Grid, Card, Table } from '@mantine/core';
 
 
 
-
 const OrdersListAdmin = () => {
     const items = [
         { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon', id: 1 },

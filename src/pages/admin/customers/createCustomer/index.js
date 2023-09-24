@@ -17,6 +17,7 @@ import {
     NativeSelect,
     Title,
     Textarea,
+    PasswordInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
@@ -30,6 +31,7 @@ const CreateCustomerAdmin = () => {
             name: '',
             email: '',
             age: 0,
+            password: '',
             description: '', // Add the description field
         },
 
@@ -39,6 +41,7 @@ const CreateCustomerAdmin = () => {
             price: (value) => (value == null ? 'Không được để trống' : null),
             inventory: (value) => (value == 0 || value == null ? 'Số lượng không được bằng 0 hoặc để trống' : null),
             description: (value) => (value.length < 10 ? 'Mô tả quá ngắn' : null), // Add validation for the description field
+            password: (value) => (value.length < 8 ? 'Mật khẩu phải trên 8 kí tự' : null),
         },
     });
     return (
@@ -49,7 +52,12 @@ const CreateCustomerAdmin = () => {
                         <Title order={3} size="h1">
                             Thêm sản phẩm
                         </Title>
-                        <TextInput label="Tên sản phẩm" placeholder="Tên sản phẩm" id="productName" {...form.getInputProps('name')} />
+                        <TextInput label="Họ và tên" placeholder="Họ và tên" id="productName" {...form.getInputProps('name')} />
+                        <PasswordInput
+                            label="Mật khẩu"
+                            className="password-admin"
+                            {...form.getInputProps('password')}
+                        />
                         <NumberInput
                             mt="sm"
                             id="productPrice"

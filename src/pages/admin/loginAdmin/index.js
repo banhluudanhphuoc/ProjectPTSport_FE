@@ -10,10 +10,10 @@ const AdminLogin = ({ theme }) => {
         }
     });
     return <>
-        <Card>
+        <Card >
             <div className="container">
                 <div className="login-admin">
-                    <Card>
+                    <Card shadow="sm" padding="lg" radius="md">
                         <div className="title-login-admin">
                             <h1 >Đăng nhập</h1>
                         </div>

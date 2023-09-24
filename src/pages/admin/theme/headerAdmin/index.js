@@ -15,12 +15,23 @@ import {
 
 const HeaderAdmin = () => {
     return <div className="header_admin">
+
         <div className="container">
             <div className="row">
                 <Grid>
+
                     <Grid.Col md={6} className="header_left_admin">
-                        <h1>ADMINISTRATOR</h1>
+                        <Text
+                            ta="center"
+                            size="xl"
+                            fw={900}
+                            variant="gradient"
+                            gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                        >
+                            ADMINISTRATOR
+                        </Text>
                     </Grid.Col>
+
                     <Grid.Col md={6} className="header_right_admin">
                         <h3 className="name-account">Name</h3>
                         <div className="admin-account">
@@ -72,6 +83,8 @@ const HeaderAdmin = () => {
                             </Menu>
                         </div>
                     </Grid.Col>
+
+
                 </Grid>
             </div>
         </div>

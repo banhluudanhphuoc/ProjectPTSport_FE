@@ -20,7 +20,6 @@ ul, li {
   
   /* Styles for each menu item */
   .menu-item {
-    
     cursor: pointer;
     padding: 5px;
     border: 1px solid transparent;
@@ -29,12 +28,14 @@ ul, li {
   
   .menu-item:hover {
     background-color: #ddd;
+    border-radius: 50px;
   }
   
   /* Styles for the active menu item */
   .menu-item.active {
     background-color: #007bff;
     color: #fff;
+    border-radius: 50px;
   }
   
   /* Styles for sub-menu */

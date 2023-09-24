@@ -33,7 +33,7 @@ const CheckoutPage = () => {
     return <>
         <div className="container">
             <div className="checkout">
-                <Card>
+                <Card shadow="sm" padding="lg" radius="md" withBorder>
                     <h1 className="title_checkout">Thanh toán đơn hàng</h1>
                     <Grid>
                         <Grid.Col md={8}>

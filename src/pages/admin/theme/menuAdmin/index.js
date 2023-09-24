@@ -1,7 +1,7 @@
 import './style.scss';
 import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
-import { Grid } from '@mantine/core';
+import { Card, Grid } from '@mantine/core';
 import React, { useState, memo } from "react";
 import InfiniteMultiLevelMenu from './menu';
 
@@ -48,7 +48,7 @@ const MenuAdmin = () => {
                     id: 7,
                     label: 'Orders',
                     icon: 'Orders',
-                    link: '/admin/orders_list',
+                    link: '/admin/orders_list_admin',
                 },
                 {
                     id: 8,
@@ -80,8 +80,11 @@ const MenuAdmin = () => {
     ];
     return (
         <Grid.Col md={2}>
-            <div className="menu_admin">
-                <InfiniteMultiLevelMenu menuData={menuData} />
+            <div >
+                <Card>
+                    <InfiniteMultiLevelMenu menuData={menuData} />
+                </Card>
+
             </div>
         </Grid.Col>
     );
