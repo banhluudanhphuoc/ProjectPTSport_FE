@@ -1,98 +1,86 @@
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 import './style.scss';
-import logo from '../header/logo192.png';
 import { Link } from "react-router-dom";
+import logo from '../header/logo192.png';
 import { AiOutlineMail, AiOutlinePhone, AiTwotoneEnvironment, AiFillFacebook, AiFillInstagram, AiFillYoutube } from "react-icons/ai";
-import bocongthuong from './logoFooter/logoSaleNoti.png';
-import vnpay from './logoFooter/vnpay.png';
+import { ROUTERS } from "utils/router";
+import { CartProvider, useCart } from "react-use-cart";
+import { Image } from "react-bootstrap";
+import ExampImg from '../../../../style/img/i1.jpg';
 
 const Footer = () => {
-    return <div className="footer">
-        <div className="container">
-            <div className="row">
-                <div className="footer_top">
-                    <div className="col-sm-3 col-md-3 col-xl-3 col-lg-3 footer1">
-                        <div className="footer_logo">
-                            <Link to={""}>
-                                <img src={logo} className="logo_footer" alt="logo" />
-                            </Link>
-                        </div>
-                        <div className="footer_address">
-                            <div className="footer_address_icon">
-                                <AiTwotoneEnvironment />
-                            </div>
-                            <span>Địa chỉ : 12 Nguyễn Văn Bảo , Gò Vấp</span>
-                        </div>
-                        <div className="footer_numberphone">
-                            <div className="footer_numberphone_icon">
-                                <AiOutlinePhone />
-                            </div>
-                            <span>1234567890</span>
-                        </div>
-                        <div className="footer_email">
-                            <div className="footer_email_icon">
-                                <AiOutlineMail />
-                            </div>
-                            <span>ptsports@student.iuh.edu.vn</span>
+    return (
+        <footer className="footer-area section_gap">
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-3  col-md-6 col-sm-6">
+                        <div className="single-footer-widget">
+                            <h6>About Us</h6>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                                ut labore dolore
+                                magna aliqua.
+                            </p>
                         </div>
                     </div>
-                    <div className="col-sm-3 col-md-3 col-xl-3 col-lg-3 footer2">
-                        <h4>CHÍNH SÁCH</h4>
-                        <ul>
-                            <li><Link to={""} className="link_footer2">Chính sách bảo mật</Link></li>
-                            <li><Link to={""} className="link_footer2">Quy định sử dụng</Link></li>
-                            <li><Link to={""} className="link_footer2">Chính sách thanh toán</Link></li>
-                            <li><Link to={""} className="link_footer2">Chính sách vận chuyển</Link></li>
-                            <li><Link to={""} className="link_footer2">Đổi trả hàng online</Link></li>
-                            <li><Link to={""} className="link_footer2">Đổi trả hàng tại shop</Link></li>
-                        </ul>
-                    </div>
-                    <div className="col-sm-3 col-md-3 col-xl-3 col-lg-3 footer3">
-                        <h4>VỀ CHÚNG TÔI</h4>
-                        <ul>
-                            <li><Link to={""} className="link_footer3">Giới thiệu</Link></li>
-                            <li><Link to={""} className="link_footer3">Hướng dẫn mua hàng online</Link></li>
-                            <li><Link to={""} className="link_footer3">Tuyển dụng</Link></li>
-                            <li><Link to={""} className="link_footer3">Hệ thống cửa hàng</Link></li>
-                            <li><Link to={""} className="link_footer3">Tuyển đại lý</Link></li>
-                        </ul>
-                    </div>
-                    <div className="col-sm-3 col-md-3 col-xl-3 col-lg-3 footer4">
-                        <h4>ĐĂNG KÍ NHẬN TIN</h4>
-                        <span>Bạn có muốn nhận thêm ưu đãi đặc biệt ? <br /> Đăng kí ngay. </span>
-                        <div className="dangki_mail_box">
-                            <input type={"text"} id="dangki_mail_text" />
-                            <div className="dangki_footer4_click">
-                                <Link to={""} className="dangki_footer4">Đăng kí</Link>
+                    <div className="col-lg-4  col-md-6 col-sm-6">
+                        <div className="single-footer-widget">
+                            <h6>Newsletter</h6>
+                            <p>Stay update with our latest</p>
+                            <div className="" id="mc_embed_signup">
+                                <form target="_blank" className="form-inline">
+                                    <div className="d-flex flex-row">
+                                        <input className="form-control" name="EMAIL" placeholder="Enter Email"
+                                            required="" type="email" />
+                                        <button className="click-btn btn btn-default"><i className="fa fa-long-arrow-right"
+                                            aria-hidden="true"></i></button>
+                                    </div>
+                                    <div className="info"></div>
+                                </form>
                             </div>
                         </div>
-                        <div className="footer4_icon">
-                            <ul>
-                                <li><Link to={""}><AiFillFacebook /></Link></li>
-                                <li><Link to={""}><AiFillInstagram /></Link></li>
-                                <li><Link to={""}><AiFillYoutube /></Link></li>
+                    </div>
+                    <div className="col-lg-3  col-md-6 col-sm-6">
+                        <div className="single-footer-widget mail-chimp">
+                            <h6 className="mb-20">Instragram Feed</h6>
+                            <ul className="instafeed d-flex flex-wrap">
+                                <li><Image alt="" src={ExampImg} /></li>
+                                <li><Image alt="" src={ExampImg} /></li>
+                                <li><Image alt="" src={ExampImg} /></li>
+                                <li><Image alt="" src={ExampImg} /></li>
+                                <li><Image alt="" src={ExampImg} /></li>
+                                <li><Image alt="" src={ExampImg} /></li>
+                                <li><Image alt="" src={ExampImg} /></li>
+                                <li><Image alt="" src={ExampImg} /></li>
                             </ul>
                         </div>
                     </div>
+                    <div className="col-lg-2 col-md-6 col-sm-6">
+                        <div className="single-footer-widget">
+                            <h6>Follow Us</h6>
+                            <p>Let us be social</p>
+                            <div className="footer-social d-flex align-items-center">
+                                <a href="#"><i className="fa fa-facebook"></i></a>
+                                <a href="#"><i className="fa fa-twitter"></i></a>
+                                <a href="#"><i className="fa fa-dribbble"></i></a>
+                                <a href="#"><i className="fa fa-behance"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="footer_bottom">
-                    <div className="col-sm-4 col-md-4 col-xl-4 col-lg-4">
-                        <Link to={"#"}>
-                            <img src={bocongthuong} className="logo_bocongthuong" alt="logo" />
-                        </Link>
-                    </div>
-                    <div className="col-sm-4 col-md-4 col-xl-4 col-lg-4 footer_bottom_ban_quyen">
-                        <span>© 2023 Công ty Cổ phần Đầu tư Phát Triển Thương Mại PT Sports. MST/ĐKKD/QĐTL: ********** | Bản quyền của <Link to={""}>PT Sports</Link> </span>
-                    </div>
-                    <div className="col-sm-4 col-md-4 col-xl-4 col-lg-4">
-                        <Link to={"#"}>
-                            <img src={vnpay} className="logo_vnpay" alt="logo" />
-                        </Link>
-                    </div>
+                <div className="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+                    <p className="footer-text m-0">
+
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is
+                        made with <i className="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
+                            target="_blank">PT SPORTS</a>
+
+                    </p>
                 </div>
             </div>
-        </div>
-    </div>;
+        </footer>
+    );
 };
 
 export default memo(Footer);

@@ -1,149 +1,18 @@
-@use "sass:map";
-@import "style/pages/theme";
-
-.header_top {
-    background-color: map.get($theme-colors, "backround_header");
-    width: 100%;
-    display: flex;
-    // overflow: hidden;
-    position: fixed;
-    z-index: 1;
-    top: 0; 
-}
-
-.header_top_left {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    font-weight: 600;
-    font-size: large;
-    color: map.get($theme-colors, "header_text");
-    font-family: mulish;
-    align-items: center;
+.custom_menu{
+    font-size: xl-large !important;
+    font-weight: 800 !important;
+    text-decoration: none;
+    color: #FFC000 !important;
     
-    ul{
-        
-        display: flex;
-        margin-top: auto;
-        margin-bottom: auto;
-        // /justify-content: space-around;
-        li{
-           
-            list-style: none;
-            margin-right: 20px;
-            position: relative;
-        }
-        li:hover .header_menu_dropdown{
-           
-            opacity: 1;
-            visibility: visible;
-        }
-        .link_header_left {
-            text-decoration: none;
-            color: map.get($theme-colors, "header_text");
-            &:hover{
-                visibility: visible;
-                text-decoration :underline;
-            }
-        }
-        // .active a{
-        //     color: map.get($theme-colors, "header_text");
-        //     font-weight: 900;
-        // }
-        .header_menu_dropdown{
+}
 
-            background-color: map.get($theme-colors, "backround_header_solid");
-            display: block;
-            position: absolute;
-            width :max-content;
-            z-index: 10;
-            padding: 5px 0;
-            transition: all , 0.3s;
-            opacity: 0;
-            visibility: hidden;
-            li{
-                a{
-                    text-transform: capitalize;
-                    color: map.get($theme-colors, "header_text");
-                    font-weight: 400;
-                    padding: 5px 15px;
-                    text-decoration: none;
-                }
-                :hover{
-
-                    color: map.get($theme-colors, "header_text");
-                    font-weight: 900;
-                }
-            }
-        }
+.custom_menu_sub{
+    font-size: xl-large !important;
+    font-weight: 800 !important;
+    text-decoration: none;
+    color: #FFC000 !important;
+    &:hover{
+        color: white !important;
     }
-
     
-
-}
-
-.header_top_mid{
-    display: flex;
-    justify-content: center;
-    .header_logo{
-        height: 80px;
-        width: 80px;
-    }
-}
-
-.header_top_right{
-    font-family: mulish;
-    margin-top: auto;
-    margin-bottom: auto;
-    font-weight: 500;
-    font-size: xx-large;
-    color: map.get($theme-colors, "header_text");
-    justify-content: end;
-    display: flex;
-    column-gap: 10px;
-    .search_box{
-        height: 40px;
-        width: 60%;
-        background-color: white;
-        border-radius: 25px;
-        align-items: center;
-        display: flex;
-        input{
-            height: 90%;
-            margin-left: 10%;
-            border: none;
-            outline: none;
-        }
-        .search_icon{
-            display: block;
-            justify-content: end;
-            height: 34px;
-            background-color: map.get($theme-colors, "backround_header");
-            width: 20%;
-            border-radius: 50px;
-            align-items: center;
-            text-align: center;
-        }
-    }
-    .header_user{
-        color: map.get($theme-colors, "header_text");
-        text-decoration: none;
-    }
-    .head_shopping{
-        color: map.get($theme-colors, "header_text");
-        text-decoration: none;
-    }
-    .number_shopping{
-        color: white;
-        background: red;
-        position: absolute;
-        height: 20px;
-        width: 20px;
-        border-radius: 40px;
-        display: inline-block;
-        text-align: center;
-        line-height: 20px;
-        font-size: 13px;
-        font-weight: 500;
-    }
 }

@@ -1,51 +1,87 @@
 import { memo } from "react";
 import "./style.scss";
-import { useForm } from '@mantine/form';
-import { PasswordInput, Group, Button, Box, Card, TextInput } from '@mantine/core';
+import {
+    PasswordInput,
+    Group,
+    Button,
+    Box,
+    Card,
+    TextInput,
+    PinInput,
+    Grid,
+    Image,
+    Text,
+    ThemeIcon,
+    List,
+    Tabs,
+    rem,
+    NativeSelect,
+    Avatar,
+    Select,
+} from '@mantine/core';
+import Banner from "../../users/theme/banner";
 import { Link } from "react-router-dom";
+import LoginImg from '../../../style/img/login.jpg';
+
 const LoginUserPage = () => {
-    const form = useForm({
-        initialValues: {
-            password: '',
-        }
-    });
+    // const form = useForm({
+    //     initialValues: {
+    //         password: '',
+    //     }
+    // });alt=""/
     return <>
-        <div className="container">
-            <div className="login-user">
-                <Card>
-                    <div className="title-login-user">
-                        <h1 >Đăng nhập</h1>
+        <Banner />
+        <section class="login_box_area section_gap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="login_box_img">
+                            <img class="img-fluid" src={LoginImg} alt="" />
+                            <div class="hover">
+                                <h4>New to our website?</h4>
+                                <p>There are advances being made in science and technology everyday, and a good example of this is the</p>
+                                <a class="primary-btn" href="registration.html">Create an Account</a>
+                            </div>
+                        </div>
                     </div>
-                    <Box maw={340} mx="auto">
-                        <form onSubmit={form.onSubmit((values) => console.log(values))}>
-                            <TextInput
-                                label="Tên đăng nhập"
-                                placeholder="Tên đăng nhập (Username)"
-                                withAsterisk {...form.getInputProps('name')}
-                                className="username"
-                            />
-                            <PasswordInput
-                                label="Mật khẩu"
-                                placeholder="Mật khẩu (Password)"
-                                className="password-user"
-                                {...form.getInputProps('password')}
-                            />
-
-                            <Group mt="md" className="link_dangki">
-                                <Button type="submit">Đăng nhập</Button>
-                            </Group>
-                        </form>
-
-                        <span className="link_dangki">
-                            Chưa có tài khoản ?
-                            <Link to={"/register"}>
-                                Đăng kí ngay
-                            </Link>
-                        </span>
-                    </Box>
-                </Card>
+                    <div class="col-lg-6">
+                        <div class="login_form_inner">
+                            <h3>Log in to enter</h3>
+                            <form class="row login_form" action="" method="" id="contactForm" >
+                                <div class="col-md-12">
+                                    <TextInput
+                                        label="Tên đăng nhập"
+                                        placeholder="Tên đăng nhập"
+                                        // withAsterisk {...form.getInputProps('name')}
+                                        id="username"
+                                    />
+                                </div>
+                                <div class="col-md-12">
+                                    <PasswordInput
+                                        label="Mật khẩu"
+                                        mt="md"
+                                        placeholder="Mật khẩu "
+                                        className="password-user"
+                                        // {...form.getInputProps('password')}
+                                        id="password"
+                                    />
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <div class="creat_account">
+                                        <input type="checkbox" id="f-option2" name="selector" />
+                                        <label for="f-option2">Keep me logged in</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <button type="submit" value="submit" class="primary-btn">Log In</button>
+                                    <a href="#">Forgot Password?</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
     </>
 };
 

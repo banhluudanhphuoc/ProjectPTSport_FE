@@ -1,5 +1,15 @@
-.action_cart_page{
-    display: flex;
-    text-align: center;
+.gray_btn{
+    line-height: 38px;
+    background: #e8f0f2;
+    border: 1px solid #eeeeee;
+    border-radius: 3px;
+    padding: 0px 40px;
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.btn-custom{
+    text-decoration: none;
 
 }

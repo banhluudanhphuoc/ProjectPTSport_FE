@@ -21,11 +21,15 @@ import {
     Avatar,
     Select,
 } from '@mantine/core';
+import LoginImg from '../../../style/img/login.jpg';
 import { notifications } from '@mantine/notifications';
 import { DateInput } from '@mantine/dates';
 import { IconCheck } from '@tabler/icons-react';
 import axios from "axios";
 import { modals } from '@mantine/modals';
+import Banner from "../../users/theme/banner";
+import { Container, Col, Row } from "react-bootstrap";
+
 const RegisterPage = () => {
 
     const form = useForm({
@@ -114,17 +118,28 @@ const RegisterPage = () => {
     };
 
     return <>
-        <div className="container">
-            <div className="login-user">
-                <Card >
-                    <div className="title-login-user">
-                        <h1 >Đăng kí</h1>
+        <Banner />
+        <section class="login_box_area section_gap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="login_box_img">
+                            <img class="img-fluid" src={LoginImg} alt="" />
+                            <div class="hover">
+                                <h4>Do you already have an account ?</h4>
+                                <p>There are advances being made in science and technology everyday, and a good example of this is the</p>
+                                <a class="primary-btn" href="registration.html">Login</a>
+                            </div>
+                        </div>
                     </div>
-                    <Box maw={800} mx="auto">
-                        <form onSubmit={form.onSubmit(openConfirmationModal)}>
-                            <Card shadow="sm" padding="lg" radius="md" withBorder>
-                                <Grid>
-                                    <Grid.Col md={6}>
+                    <div class="col-lg-6">
+                        <div class="login_form_inner">
+                            <h3>Register</h3>
+                            <form class="row login_form" id="contactForm" novalidate="novalidate" onSubmit={form.onSubmit(openConfirmationModal)}>
+
+
+                                <Row>
+                                    <Col md='6'>
                                         <TextInput
                                             label="Tên đăng nhập"
                                             placeholder="Tên đăng nhập"
@@ -146,8 +161,9 @@ const RegisterPage = () => {
                                             placeholder="Nhập lại mật khẩu"
                                             {...form.getInputProps('confirmPassword')}
                                         />
-                                    </Grid.Col>
-                                    <Grid.Col md={6}>
+
+                                    </Col>
+                                    <Col md='6'>
                                         <TextInput
                                             label="Họ và tên"
                                             placeholder="Họ và tên"
@@ -187,17 +203,18 @@ const RegisterPage = () => {
                                             {...form.getInputProps('gender')}
                                             id="gender"
                                         />
-                                    </Grid.Col>
-                                </Grid>
-                                <Group mt="md" className="regiter_button">
-                                    <Button type="submit">Đăng kí</Button>
-                                </Group>
-                            </Card>
-                        </form>
-                    </Box>
-                </Card>
+                                    </Col>
+                                    <div class="col-md-12 form-group mt-5">
+                                        <button type="submit" value="submit" class="primary-btn">Register</button>
+
+                                    </div>
+                                </Row>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
     </>
 };
 

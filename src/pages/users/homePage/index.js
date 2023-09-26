@@ -1,4 +1,3 @@
-
 import {
     Box,
     Button,
@@ -13,221 +12,327 @@ import Modal from 'react-modal';
 import { memo } from "react";
 import './style.scss';
 import React, { useState, useEffect } from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import slider1 from '../../../assets/users/slider/slider_1.webp';
-import slider2 from '../../../assets/users/slider/slider_2.jpg';
-import slider3 from '../../../assets/users/slider/slider_3.webp';
-import slider5 from '../../../assets/users/slider/slider_5.webp';
-import banner from '../../../assets/users/banner/banner.jpg';
+import RelatedProductArea from "../theme/relatedProductArea";
 import { Link } from 'react-router-dom';
 import { AiFillEye, AiOutlineShopping } from "react-icons/ai";
 import { CartProvider, useCart } from "react-use-cart";
+
+import bannerImg from '../../../style/img/banner/banner-img.png';
+import FreeDeliveryImg from '../../../style/img/features/f-icon1.png';
+import ReturnPolicyImg from '../../../style/img/features/f-icon2.png';
+import SupportImg from '../../../style/img/features/f-icon3.png';
+import SecurePaymentImg from '../../../style/img/features/f-icon4.png';
+
+import category1 from '../../../style/img/category/c1.jpg';
+import category2 from '../../../style/img/category/c2.jpg';
+import category3 from '../../../style/img/category/c3.jpg';
+import category4 from '../../../style/img/category/c4.jpg';
+import category5 from '../../../style/img/category/c5.jpg';
+
+import product1 from '../../../style/img/product/p6.jpg';
+
+import brand1 from '../../../style/img/brand/1.png';
+import brand2 from '../../../style/img/brand/2.png';
+import brand3 from '../../../style/img/brand/3.png';
+import brand4 from '../../../style/img/brand/4.png';
+import brand5 from '../../../style/img/brand/5.png';
+
+import r1 from '../../../style/img/r1.jpg';
+
 const HomePage = () => {
     const { addItem } = useCart();
-    const settings = {
-        autoplay: true,
-        autoplaySpeed: 3000,
-        infinite: true,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        nextArrow: (
-            <div>
-                <div className="next-slick-arrow"> ⫸ </div>
-            </div>
-        ),
-        prevArrow: (
-            <div>
-                <div className="prev-slick-arrow"> ⫷ </div>
-            </div>
-        ),
-    };
-    const Images = [
-        {
-            id: 1,
-            src: slider1,
-            alt: "Image 1",
-        },
-        {
-            id: 2,
-            src: slider2,
-            alt: "Image 2",
-        },
-        {
-            id: 3,
-            src: slider3,
-            alt: "Image 3",
-        },
-        {
-            id: 5,
-            src: slider5,
-            alt: "Image 5",
-        },
 
-    ];
-    const product = [
-        {
-            id: "1",
-            product_id: 1,
-            status: 1,
-            description: 'ok1',
-            inventory: 1,
-            product_name: 'giay nike',
-            price: 10,
-            category_id: 1,
-            manufacturer_id: 1,
-            img_src: slider1,
-        },
-        {
-            id: 2,
-            product_id: 2,
-            status: 2,
-            description: 'ok2',
-            inventory: 2,
-            product_name: 'giay nike 2',
-            price: 20,
-            category_id: 2,
-            manufacturer_id: 2,
-            img_src: slider2,
-        },
-        {
-            id: 3,
-            product_id: 3,
-            status: 3,
-            description: 'ok3',
-            inventory: 3,
-            product_name: 'giay nike 3',
-            price: 103,
-            category_id: 3,
-            manufacturer_id: 3,
-            img_src: slider5,
-        },
 
-    ];
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-        },
-    };
-
-    let subtitle;
-    const [openModals, setOpenModals] = useState({});
-    const [modalIsOpen, setIsOpen] = React.useState(false);
-    const [selectedProduct, setSelectedProduct] = useState(null);
-    useEffect(() => {
-        Modal.setAppElement('#yourAppElement');
-    }, []);
-    function openModal(productId) {
-        //setIsOpen(true);
-        setOpenModals((prevOpenModals) => ({
-            ...prevOpenModals,
-            [productId]: true,
-        }));
-    }
-    // function openModal(item) {
-    //     setSelectedProduct(item);
-    //     setIsOpen(true);
-    // }
-
-    function afterOpenModal() {
-        subtitle.style.color = '#f00';
-    }
-
-    function closeModal(productId) {
-        //setIsOpen(false);
-        setOpenModals((prevOpenModals) => ({
-            ...prevOpenModals,
-            [productId]: false,
-        }));
-    }
-    // function closeModal() {
-    //     setIsOpen(false);
-    // }
-    return <>
-        <div className="container">
-            <div className="row">
-                <div className="content">
-                    <div className="container">
-                        <div className="homePage_slider">
-                            <Slider {...settings}>
-                                {Images.map((item) => (
-                                    <div key={item.id}>
-                                        <img src={item.src} alt={item.alt} className="img_slider" />
+    return (<>
+        <section class="banner-area">
+            <div class="container">
+                <div class="row fullscreen align-items-center justify-content-start">
+                    <div class="col-lg-12">
+                        <div class="active-banner-slider owl-carousel">
+                            {/* <!-- single-slide --> */}
+                            <div class="row single-slide align-items-center d-flex">
+                                <div class="col-lg-5 col-md-6">
+                                    <div class="banner-content">
+                                        <h1>Nike New  Collection!</h1>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                            incididunt ut labore et
+                                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                                        <div class="add-bag d-flex align-items-center">
+                                            <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+                                            <span class="add-text text-uppercase">Add to Bag</span>
+                                        </div>
                                     </div>
-                                ))}
-                            </Slider>
-                        </div>
-                        <div id="yourAppElement"></div>
-
-                        {product.map((item) => (
-                            <Modal
-                                isOpen={openModals[item.product_id]} // Use openModals state for each product
-                                onAfterOpen={afterOpenModal}
-                                onRequestClose={() => closeModal(item.product_id)} // Close the specific product's modal
-                                style={customStyles}
-                                contentLabel="Product"
-                                key={item.product_id}
-                            >
-                                <div className='product_modal'>
-                                    <Grid grow>
-                                        <Grid.Col span={4}>
-                                            <Image width={200} height={250} mx="auto" radius="md" src={slider1} alt="Random image" className="product_img_modal" />
-                                        </Grid.Col>
-                                        <Grid.Col span={4}>
-                                            <div className="close_button_modal_product">
-                                                <CloseButton title="Close popover" size="xl" iconSize={20} onClick={() => closeModal(item.product_id)} />
-                                            </div>
-                                            <div>
-                                                <Box><Link className='product_name_modal' ref={(_subtitle) => (subtitle = _subtitle)}>{item.product_name}</Link></Box>
-                                                <Text className='price_modal'>{item.price}</Text>
-                                                <Text className='descripsion_modal'>{item.description}</Text>
-                                            </div>
-                                            <div>
-                                                <Link to={"/product-detail/" + item.product_id}><Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }} >Mua</Button></Link>
-
-                                                <Button variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }} onClick={() => addItem(item)} >Thêm vào giỏ hàng</Button>
-                                            </div>
-                                        </Grid.Col>
-                                    </Grid>
                                 </div>
-                            </Modal>
-                        ))}
-                        <Card><h1>Sản phẩm bán chạy</h1></Card>
-                        <div className="hot_product">
-                            {product.map((item) => (
-                                <Card radius="md" shadow="sm" p="lg">
-                                    <Grid>
-                                        <Grid.Col md={3} key={item.product_id}>
-                                            <div className="product">
-                                                <Image width={200} height={250} mx="auto" radius="md" src={item.img_src} alt="Random image" className="product_img" />
-                                                <Box><Link className="product_name">{item.product_name}</Link></Box>
-                                                <Text className='price_modal'>{item.price}</Text>
-                                                <button onClick={() => openModal(item.product_id)} className="fast_view_product"><Avatar color="cyan" radius="xl"><AiFillEye /></Avatar></button>
-                                                <button className="buy_product"><Avatar color="cyan" radius="xl"><AiOutlineShopping /></Avatar></button>
-                                            </div>
-                                        </Grid.Col>
-                                    </Grid>
-                                </Card>
-                            ))}
-                        </div>
-                        <div className="banner">
-                            <Card radius="md" shadow="sm" p="lg">
-                                <img src={banner} alt='banner' />
-                            </Card>
+                                <div class="col-lg-7">
+                                    <div class="banner-img">
+                                        <Image class="img-fluid" src={bannerImg} alt='' />
+                                    </div>
+                                </div>
+                            </div>
+                            {/* <!-- single-slide --> */}
+                            <div class="row single-slide">
+                                <div class="col-lg-5">
+                                    <div class="banner-content">
+                                        <h1>Nike New Collection!</h1>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                            incididunt ut labore et
+                                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                                        <div class="add-bag d-flex align-items-center">
+                                            <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+                                            <span class="add-text text-uppercase">Add to Bag</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7">
+                                    <div class="banner-img">
+                                        <Image class="img-fluid" src={bannerImg} alt='' />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </>
+        </section>
+        {/* <!-- End banner Area -->
+
+        <!-- start features Area --> */}
+        <section class="features-area section_gap">
+            <div class="container">
+                <div class="row features-inner">
+                    {/* <!-- single features --> */}
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="single-features">
+                            <div class="f-icon">
+                                <img src={FreeDeliveryImg} alt='' />
+                            </div>
+                            <h6>Free Delivery</h6>
+                            <p>Free Shipping on all order</p>
+                        </div>
+                    </div>
+                    {/* <!-- single features --> */}
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="single-features">
+                            <div class="f-icon">
+                                <img src={ReturnPolicyImg} alt='' />
+                            </div>
+                            <h6>Return Policy</h6>
+                            <p>Free Shipping on all order</p>
+                        </div>
+                    </div>
+                    {/* <!-- single features --> */}
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="single-features">
+                            <div class="f-icon">
+                                <img src={SupportImg} alt='' />
+                            </div>
+                            <h6>24/7 Support</h6>
+                            <p>Free Shipping on all order</p>
+                        </div>
+                    </div>
+                    {/* <!-- single features --> */}
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="single-features">
+                            <div class="f-icon">
+                                <img src={SecurePaymentImg} alt='' />
+                            </div>
+                            <h6>Secure Payment</h6>
+                            <p>Free Shipping on all order</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {/* <!-- end features Area -->
+
+        <!-- Start category Area --> */}
+        <section class="category-area">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-md-12">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8">
+                                <div class="single-deal">
+                                    <div class="overlay"></div>
+                                    <Image class="img-fluid w-100" src={category1} alt="" />
+                                    <Link class="img-pop-up" target="_blank" to={"#"}>
+                                        <div class="deal-details">
+                                            <h6 class="deal-title">Sneaker for Sports</h6>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <div class="single-deal">
+                                    <div class="overlay"></div>
+                                    <Image class="img-fluid w-100" src={category2} alt="" />
+                                    <Link class="img-pop-up" target="_blank" to={"#"}>
+                                        <div class="deal-details">
+                                            <h6 class="deal-title">Sneaker for Sports</h6>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <div class="single-deal">
+                                    <div class="overlay"></div>
+                                    <Image class="img-fluid w-100" src={category3} alt="" />
+                                    <Link class="img-pop-up" target="_blank" to={"#"}>
+                                        <div class="deal-details">
+                                            <h6 class="deal-title">Sneaker for Sports</h6>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <div class="single-deal">
+                                    <div class="overlay"></div>
+                                    <Image class="img-fluid w-100" src={category4} alt="" />
+                                    <Link class="img-pop-up" target="_blank" to={"#"}>
+                                        <div class="deal-details">
+                                            <h6 class="deal-title">Sneaker for Sports</h6>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-deal">
+                            <div class="overlay"></div>
+                            <Image class="img-fluid w-100" src={category5} alt="" />
+                            <Link class="img-pop-up" target="_blank" to={"#"}>
+                                <div class="deal-details">
+                                    <h6 class="deal-title">Sneaker for Sports</h6>
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {/* <!-- End category Area -->
+
+        <!-- start product Area --> */}
+        <section class="owl-carousel active-product-area section_gap">
+            {/*  <!-- single product slide -->  */}
+            <div class="single-product-slider">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 text-center">
+                            <div class="section-title">
+                                <h1>Lastest Products</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {/* <!-- single product --> */}
+                        <div class="col-lg-3 col-md-6">
+                            <div class="single-product">
+                                <Image class="img-fluid" src={product1} alt="" />
+                                <div class="product-details">
+                                    <h6>addidas New Hammer sole
+                                        for Sports person
+                                    </h6>
+                                    <div class="price">
+                                        <h6>$150.00</h6>
+                                        <h6 class="l-through">$210.00</h6>
+                                    </div>
+                                    <div class="prd-bottom">
+                                        <Link to={''} class="social-info">
+                                            <span class="ti-bag"></span>
+                                            <p class="hover-text">Add to bag</p>
+                                        </Link>
+                                        <Link to={''} class="social-info">
+                                            <span class="lnr lnr-heart"></span>
+                                            <p class="hover-text">Wishlist</p>
+                                        </Link>
+                                        <Link to={''} class="social-info">
+                                            <span class="lnr lnr-move"></span>
+                                            <p class="hover-text">view more</p>
+                                        </Link>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {/* <!-- single product slide --> */}
+            <div class="single-product-slider">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 text-center">
+                            <div class="section-title">
+                                <h1>Coming Products</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {/* <!-- single product --> */}
+                        <div class="col-lg-3 col-md-6">
+                            <div class="single-product">
+                                <Image class="img-fluid" src={product1} alt="" />
+                                <div class="product-details">
+                                    <h6>addidas New Hammer sole
+                                        for Sports person
+                                    </h6>
+                                    <div class="price">
+                                        <h6>$150.00</h6>
+                                        <h6 class="l-through">$210.00</h6>
+                                    </div>
+                                    <div class="prd-bottom">
+                                        <Link to={''} class="social-info">
+                                            <span class="ti-bag"></span>
+                                            <p class="hover-text">Add to bag</p>
+                                        </Link>
+                                        <Link to={''} class="social-info">
+                                            <span class="lnr lnr-heart"></span>
+                                            <p class="hover-text">Wishlist</p>
+                                        </Link>
+                                        <Link to={''} class="social-info">
+                                            <span class="lnr lnr-move"></span>
+                                            <p class="hover-text">view more</p>
+                                        </Link>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
 
+        {/* <!-- Start brand Area --> */}
+        <section class="brand-area section_gap">
+            <div class="container">
+                <div class="row">
+                    <Link class="col single-img" to={''}>
+                        <img class="img-fluid d-block mx-auto" src={brand1} alt="" />
+                    </Link>
+                    <Link class="col single-img" to={''}>
+                        <img class="img-fluid d-block mx-auto" src={brand2} alt="" />
+                    </Link>
+                    <Link class="col single-img" to={''}>
+                        <img class="img-fluid d-block mx-auto" src={brand3} alt="" />
+                    </Link>
+                    <Link class="col single-img" to={''}>
+                        <img class="img-fluid d-block mx-auto" src={brand4} alt="" />
+                    </Link>
+                    <Link class="col single-img" to={''}>
+                        <img class="img-fluid d-block mx-auto" src={brand5} alt="" />
+                    </Link>
+                </div>
+            </div>
+        </section>
+        {/* <!-- End brand Area --> */}
+        <RelatedProductArea />
+
+    </>);
 };
 
 export default memo(HomePage);

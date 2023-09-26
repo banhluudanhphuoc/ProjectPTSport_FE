@@ -6,14 +6,17 @@ import MasterLayout from "./pages/users/theme/masterLayout";
 import ProfilePage from "./pages/users/profilePage";
 import ProductDetail from "./pages/users/productDetail";
 import CartPage from "./pages/users/cartPage";
-import ProductPage from "pages/users/productPage";
+import CategoryPage from "pages/users/categoryPage";
 import CheckoutPage from "pages/users/checkoutPage";
 import LoginUserPage from "pages/users/loginPage";
 import RegisterPage from "pages/users/registerPage";
 import ConfirmPhoneNumber from "pages/users/confirmPhoneNumber";
 import ProfileCustomer from "pages/users/profileCustomer";
 import ProfileCustomerEdit from "pages/users/profileCustomerEdit";
-
+import Confirmation from "pages/users/confirmation";
+import ContactPage from "pages/users/contactPage";
+import BlogsPage from "pages/users/blogsPage";
+import BlogDetail from "pages/users/blogDetail";
 
 import MasterLayoutAdmin from "pages/admin/theme/masterLayoutAdmin";
 import DashBoard from "pages/admin/dashBoard";
@@ -51,9 +54,9 @@ const RouterCustom = () => {
             <Route path="/admin/poster_edit/:poster" element={<MasterLayoutAdmin><EditPosterAdmin /></MasterLayoutAdmin>} />
             <Route path="/admin/order_detail_admin/:order" element={<MasterLayoutAdmin><OrderDetailAdmin /></MasterLayoutAdmin>} />
             {/* Product Detail, Product Page, Checkout */}
-            <Route path="/product-detail/:product" element={<MasterLayout><ProductDetail /></MasterLayout>} />
-            <Route path="/product-page/:category" element={<MasterLayout><ProductPage /></MasterLayout>} />
-            <Route path="/checkout" element={<CheckoutPage />} />
+            {/* <Route path="/product-detail/:product" element={<MasterLayout><ProductDetail /></MasterLayout>} /> */}
+            {/* <Route path="/category-page/:category" element={<MasterLayout><CategoryPage /></MasterLayout>} /> */}
+
         </Routes>
     );
 };
@@ -62,14 +65,19 @@ const UserRoutes = () => {
     return (
         <MasterLayout>
             <Routes>
+                <Route path={ROUTERS.USER.BLOG_DETAIL} element={<BlogDetail />} />
+                <Route path={ROUTERS.USER.BLOGS_PAGE} element={<BlogsPage />} />
+                <Route path={ROUTERS.USER.CONTACT_PAGE} element={<ContactPage />} />
+                <Route path={ROUTERS.USER.CONFIRMATION_PAGE} element={<Confirmation />} />
+                <Route path={ROUTERS.USER.CHECKOUT_PAGE} element={<CheckoutPage />} />
                 <Route path={ROUTERS.USER.PROFILE_CUSTOMER_EDIT} element={<ProfileCustomerEdit />} />
                 <Route path={ROUTERS.USER.PROFILE_CUSTOMER} element={<ProfileCustomer />} />
                 <Route path={ROUTERS.USER.CONFIRM_PHONE_NUMBER} element={<ConfirmPhoneNumber />} />
                 <Route path={ROUTERS.USER.HOME} element={<HomePage />} />
                 <Route path={ROUTERS.USER.PROFILE} element={<ProfilePage />} />
-                <Route path={ROUTERS.USER.PRODUCT_DETAIL} element={<HomePage />} />
+                <Route path={ROUTERS.USER.PRODUCT_DETAIL} element={<ProductDetail />} />
                 <Route path={ROUTERS.USER.CART} element={<CartPage />} />
-                <Route path={ROUTERS.USER.PRODUCT_PAGE} element={<ProductPage />} />
+                <Route path={ROUTERS.USER.CATEGORY_PAGE} element={<CategoryPage />} />
                 <Route path={ROUTERS.USER.LOGIN_USER} element={<LoginUserPage />} />
                 <Route path={ROUTERS.USER.REGISTER} element={<RegisterPage />} />
             </Routes>
