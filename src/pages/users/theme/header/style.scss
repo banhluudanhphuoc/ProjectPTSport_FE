@@ -16,3 +16,28 @@
     }
     
 }
+li.nav-item{
+    position: relative;
+    .cart-count {
+        background-color: #FFC000;
+        color: white !important; /* Màu chữ */
+        border-radius: 50%; /* Để tạo hình tròn */
+        width: 20px; /* Chiều rộng */
+        height: 20px; /* Chiều cao */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px; 
+        font-weight: bold;
+        z-index: 999;
+        position: absolute;
+        top: 50%; /* Cách trên là 50% chiều cao của container */
+        left: 15px;
+        transform: translateY(-50%);
+      }
+    .icon-cart{
+        color: #FFC000 !important;
+        font-size: 20px;
+    }
+}
+

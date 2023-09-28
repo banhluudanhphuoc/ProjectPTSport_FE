@@ -1,4 +1,3 @@
-import { height } from "@mui/system";
 import { memo } from "react";
 import Footer from "../footer";
 import Header from "../header";
@@ -23,12 +22,13 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 const MasterLayout = ({ children, ...props }) => {
+
     return (
         <div {...props}>
             <Header />
-
             {children}
             <Footer />
+
         </div>
     );
 };

@@ -13,17 +13,15 @@ const Footer = () => {
         <footer className="footer-area section_gap">
             <div className="container">
                 <div className="row">
-                    <div className="col-lg-3  col-md-6 col-sm-6">
+                    <div className="col-lg-4  col-md-6 col-sm-6">
                         <div className="single-footer-widget">
                             <h6>About Us</h6>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                                ut labore dolore
-                                magna aliqua.
+                                "Discover PT Sport – your go-to source for top-tier sportswear, shoes, and gear, featuring renowned brands like Adidas and Nike. We're your partner in athletic excellence, offering quality products and dedicated service. Join us on your active journey today!"
                             </p>
                         </div>
                     </div>
-                    <div className="col-lg-4  col-md-6 col-sm-6">
+                    <div className="col-lg-3  col-md-6 col-sm-6">
                         <div className="single-footer-widget">
                             <h6>Newsletter</h6>
                             <p>Stay update with our latest</p>
@@ -60,22 +58,19 @@ const Footer = () => {
                             <h6>Follow Us</h6>
                             <p>Let us be social</p>
                             <div className="footer-social d-flex align-items-center">
-                                <a href="#"><i className="fa fa-facebook"></i></a>
-                                <a href="#"><i className="fa fa-twitter"></i></a>
-                                <a href="#"><i className="fa fa-dribbble"></i></a>
-                                <a href="#"><i className="fa fa-behance"></i></a>
+                                <Link to="#"><i className="fa fa-facebook"></i></Link>
+                                <Link to="#"><i className="fa fa-twitter"></i></Link>
+                                <Link to="#"><i className="fa fa-dribbble"></i></Link>
+                                <Link to="#"><i className="fa fa-behance"></i></Link>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
                     <p className="footer-text m-0">
-
-                        Copyright &copy;
-                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is
-                        made with <i className="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
-                            target="_blank">PT SPORTS</a>
-
+                        <script>document.write(new Date().getFullYear());</script>
+                        "Celebrating Sport, Defining Style – <i className="fa fa-heart-o" aria-hidden="true"></i> <Link to=""
+                            target="_blank">PT SPORTS</Link>, Where Excellence Meets Passion."
                     </p>
                 </div>
             </div>

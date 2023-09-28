@@ -4332,17 +4332,17 @@ label {
     .cart_inner .table tbody tr.shipping_area .shipping_box h6 i {
       color: #777777;
       padding-left: 5px; }
-  .cart_inner .table tbody tr.shipping_area .shipping_box .shipping_select {
+  .cart_inner .table tbody tr.shipping_area .shipping_box  {
     display: block;
     width: 100%;
     background: #e8f0f2;
     border: 1px solid #eeeeee;
     height: 40px;
     margin-bottom: 20px; }
-    .cart_inner .table tbody tr.shipping_area .shipping_box .shipping_select .list {
+    .cart_inner .table tbody tr.shipping_area .shipping_box  .list {
       width: 100%;
       border-radius: 0px; }
-      .cart_inner .table tbody tr.shipping_area .shipping_box .shipping_select .list li {
+      .cart_inner .table tbody tr.shipping_area .shipping_box  .list li {
         font-size: 14px;
         font-weight: normal;
         color: #777777; }

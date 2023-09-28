@@ -1,38 +1,51 @@
-.header_admin{
-    border: solid 1px;
-    height: 50px;
-    display: inline-flex;
-    width : 100%;
-    text-align: center;
-}
-.header_left_admin{
-    width: 1200px;
-    padding :0;
-}
-.header_right_admin{
-    padding :0;
-    display: flex;
-    justify-content: end;
-    align-content: center;
-    align-items: center;
-    .name-account{
-        display :inline-block;
-        text-align: center;
-        margin: 0 10px;
-        
+.header {
+    padding-top: var(--mantine-spacing-sm);
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+    border-bottom: 1px solid light-dark(var(--mantine-color-gray-2), transparent);
+    margin-bottom: 120px;
+  }
+  
+  .mainSection {
+    padding-bottom: var(--mantine-spacing-sm);
+  }
+  
+  .user {
+    color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+    border-radius: var(--mantine-radius-sm);
+    transition: background-color 100ms ease;
+  
+    &:hover {
+      background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
     }
-    .admin-account{
-        height: 45px;
-        width: 45px;
-        background-color: #d2abab;
-        border-radius: 50px;
-        margin: 0 10px;
+  
+    
+  }
+  
+  .userActive {
+    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
+  }
+  
+  .tabsList {
+    &::before {
+      display: none;
     }
-    .button_setting_admin{
-        background-color: white;
-        box-shadow: none;
-        border: none;
-        font-size: larger;
-        
+  }
+  
+  .tab {
+    font-weight: 500;
+    height: 38px;
+    background-color: transparent;
+    position: relative;
+    bottom: -1px;
+  
+    &:hover {
+      background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5));
     }
-}
+  
+    &[data-active] {
+      background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+      border-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
+      border-bottom-color: transparent;
+    }
+  }

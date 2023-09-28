@@ -2,22 +2,7 @@ import { memo } from "react";
 import "./style.scss";
 import {
     PasswordInput,
-    Group,
-    Button,
-    Box,
-    Card,
     TextInput,
-    PinInput,
-    Grid,
-    Image,
-    Text,
-    ThemeIcon,
-    List,
-    Tabs,
-    rem,
-    NativeSelect,
-    Avatar,
-    Select,
 } from '@mantine/core';
 import Banner from "../../users/theme/banner";
 import { Link } from "react-router-dom";
@@ -40,7 +25,7 @@ const LoginUserPage = () => {
                             <div class="hover">
                                 <h4>New to our website?</h4>
                                 <p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-                                <a class="primary-btn" href="registration.html">Create an Account</a>
+                                <Link class="primary-btn" href="registration.html">Create an Account</Link>
                             </div>
                         </div>
                     </div>
@@ -74,7 +59,7 @@ const LoginUserPage = () => {
                                 </div>
                                 <div class="col-md-12 form-group">
                                     <button type="submit" value="submit" class="primary-btn">Log In</button>
-                                    <a href="#">Forgot Password?</a>
+                                    <Link href="#">Forgot Password?</Link>
                                 </div>
                             </form>
                         </div>

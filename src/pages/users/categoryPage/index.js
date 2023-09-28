@@ -1,7 +1,6 @@
 import { memo, useState, useEffect } from "react";
 import { Image } from "@mantine/core";
 import './style.scss';
-import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import Banner from "../../users/theme/banner";
@@ -36,112 +35,112 @@ const CategoryPage = () => {
                             <ul class="main-categories">
 
 
-                                <li class="main-nav-list"><a data-toggle="collapse" href="#fruitsVegetable" aria-expanded="false" aria-controls="fruitsVegetable"><span
-                                    class="lnr lnr-arrow-right"></span>Fruits and Vegetables<span class="number">(53)</span></a>
+                                <li class="main-nav-list"><Link data-toggle="collapse" href="#fruitsVegetable" aria-expanded="false" aria-controls="fruitsVegetable"><span
+                                    class="lnr lnr-arrow-right"></span>Fruits and Vegetables<span class="number">(53)</span></Link>
                                     <ul class="collapse" id="fruitsVegetable" data-toggle="collapse" aria-expanded="false" aria-controls="fruitsVegetable">
-                                        <li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
+                                        <li class="main-nav-list child"><Link href="#">Frozen Fish<span class="number">(13)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Dried Fish<span class="number">(09)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Fresh Fish<span class="number">(17)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat Alternatives<span class="number">(01)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat<span class="number">(11)</span></Link></li>
                                     </ul>
                                 </li>
 
 
 
-                                <li class="main-nav-list"><a data-toggle="collapse" href="#meatFish" aria-expanded="false" aria-controls="meatFish"><span
-                                    class="lnr lnr-arrow-right"></span>Meat and Fish<span class="number">(53)</span></a>
+                                <li class="main-nav-list"><Link data-toggle="collapse" href="#meatFish" aria-expanded="false" aria-controls="meatFish"><span
+                                    class="lnr lnr-arrow-right"></span>Meat and Fish<span class="number">(53)</span></Link>
                                     <ul class="collapse" id="meatFish" data-toggle="collapse" aria-expanded="false" aria-controls="meatFish">
-                                        <li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
+                                        <li class="main-nav-list child"><Link href="#">Frozen Fish<span class="number">(13)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Dried Fish<span class="number">(09)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Fresh Fish<span class="number">(17)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat Alternatives<span class="number">(01)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat<span class="number">(11)</span></Link></li>
                                     </ul>
                                 </li>
 
 
 
-                                <li class="main-nav-list"><a data-toggle="collapse" href="#cooking" aria-expanded="false" aria-controls="cooking"><span
-                                    class="lnr lnr-arrow-right"></span>Cooking<span class="number">(53)</span></a>
+                                <li class="main-nav-list"><Link data-toggle="collapse" href="#cooking" aria-expanded="false" aria-controls="cooking"><span
+                                    class="lnr lnr-arrow-right"></span>Cooking<span class="number">(53)</span></Link>
                                     <ul class="collapse" id="cooking" data-toggle="collapse" aria-expanded="false" aria-controls="cooking">
-                                        <li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
+                                        <li class="main-nav-list child"><Link href="#">Frozen Fish<span class="number">(13)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Dried Fish<span class="number">(09)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Fresh Fish<span class="number">(17)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat Alternatives<span class="number">(01)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat<span class="number">(11)</span></Link></li>
                                     </ul>
                                 </li>
-                                <li class="main-nav-list"><a data-toggle="collapse" href="#beverages" aria-expanded="false" aria-controls="beverages"><span
-                                    class="lnr lnr-arrow-right"></span>Beverages<span class="number">(24)</span></a>
+                                <li class="main-nav-list"><Link data-toggle="collapse" href="#beverages" aria-expanded="false" aria-controls="beverages"><span
+                                    class="lnr lnr-arrow-right"></span>Beverages<span class="number">(24)</span></Link>
                                     <ul class="collapse" id="beverages" data-toggle="collapse" aria-expanded="false" aria-controls="beverages">
-                                        <li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
+                                        <li class="main-nav-list child"><Link href="#">Frozen Fish<span class="number">(13)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Dried Fish<span class="number">(09)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Fresh Fish<span class="number">(17)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat Alternatives<span class="number">(01)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat<span class="number">(11)</span></Link></li>
                                     </ul>
                                 </li>
-                                <li class="main-nav-list"><a data-toggle="collapse" href="#homeClean" aria-expanded="false" aria-controls="homeClean"><span
-                                    class="lnr lnr-arrow-right"></span>Home and Cleaning<span class="number">(53)</span></a>
+                                <li class="main-nav-list"><Link data-toggle="collapse" href="#homeClean" aria-expanded="false" aria-controls="homeClean"><span
+                                    class="lnr lnr-arrow-right"></span>Home and Cleaning<span class="number">(53)</span></Link>
                                     <ul class="collapse" id="homeClean" data-toggle="collapse" aria-expanded="false" aria-controls="homeClean">
-                                        <li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
+                                        <li class="main-nav-list child"><Link href="#">Frozen Fish<span class="number">(13)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Dried Fish<span class="number">(09)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Fresh Fish<span class="number">(17)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat Alternatives<span class="number">(01)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat<span class="number">(11)</span></Link></li>
                                     </ul>
                                 </li>
-                                <li class="main-nav-list"><a href="#">Pest Control<span class="number">(24)</span></a></li>
-                                <li class="main-nav-list"><a data-toggle="collapse" href="#officeProduct" aria-expanded="false" aria-controls="officeProduct"><span
-                                    class="lnr lnr-arrow-right"></span>Office Products<span class="number">(77)</span></a>
+                                <li class="main-nav-list"><Link href="#">Pest Control<span class="number">(24)</span></Link></li>
+                                <li class="main-nav-list"><Link data-toggle="collapse" href="#officeProduct" aria-expanded="false" aria-controls="officeProduct"><span
+                                    class="lnr lnr-arrow-right"></span>Office Products<span class="number">(77)</span></Link>
                                     <ul class="collapse" id="officeProduct" data-toggle="collapse" aria-expanded="false" aria-controls="officeProduct">
-                                        <li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
+                                        <li class="main-nav-list child"><Link href="#">Frozen Fish<span class="number">(13)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Dried Fish<span class="number">(09)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Fresh Fish<span class="number">(17)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat Alternatives<span class="number">(01)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat<span class="number">(11)</span></Link></li>
                                     </ul>
                                 </li>
-                                <li class="main-nav-list"><a data-toggle="collapse" href="#beauttyProduct" aria-expanded="false" aria-controls="beauttyProduct"><span
-                                    class="lnr lnr-arrow-right"></span>Beauty Products<span class="number">(65)</span></a>
+                                <li class="main-nav-list"><Link data-toggle="collapse" href="#beauttyProduct" aria-expanded="false" aria-controls="beauttyProduct"><span
+                                    class="lnr lnr-arrow-right"></span>Beauty Products<span class="number">(65)</span></Link>
                                     <ul class="collapse" id="beauttyProduct" data-toggle="collapse" aria-expanded="false" aria-controls="beauttyProduct">
-                                        <li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
+                                        <li class="main-nav-list child"><Link href="#">Frozen Fish<span class="number">(13)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Dried Fish<span class="number">(09)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Fresh Fish<span class="number">(17)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat Alternatives<span class="number">(01)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat<span class="number">(11)</span></Link></li>
                                     </ul>
                                 </li>
-                                <li class="main-nav-list"><a data-toggle="collapse" href="#healthProduct" aria-expanded="false" aria-controls="healthProduct"><span
-                                    class="lnr lnr-arrow-right"></span>Health Products<span class="number">(29)</span></a>
+                                <li class="main-nav-list"><Link data-toggle="collapse" href="#healthProduct" aria-expanded="false" aria-controls="healthProduct"><span
+                                    class="lnr lnr-arrow-right"></span>Health Products<span class="number">(29)</span></Link>
                                     <ul class="collapse" id="healthProduct" data-toggle="collapse" aria-expanded="false" aria-controls="healthProduct">
-                                        <li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
+                                        <li class="main-nav-list child"><Link href="#">Frozen Fish<span class="number">(13)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Dried Fish<span class="number">(09)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Fresh Fish<span class="number">(17)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat Alternatives<span class="number">(01)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat<span class="number">(11)</span></Link></li>
                                     </ul>
                                 </li>
-                                <li class="main-nav-list"><a href="#">Pet Care<span class="number">(29)</span></a></li>
-                                <li class="main-nav-list"><a data-toggle="collapse" href="#homeAppliance" aria-expanded="false" aria-controls="homeAppliance"><span
-                                    class="lnr lnr-arrow-right"></span>Home Appliances<span class="number">(15)</span></a>
+                                <li class="main-nav-list"><Link href="#">Pet Care<span class="number">(29)</span></Link></li>
+                                <li class="main-nav-list"><Link data-toggle="collapse" href="#homeAppliance" aria-expanded="false" aria-controls="homeAppliance"><span
+                                    class="lnr lnr-arrow-right"></span>Home Appliances<span class="number">(15)</span></Link>
                                     <ul class="collapse" id="homeAppliance" data-toggle="collapse" aria-expanded="false" aria-controls="homeAppliance">
-                                        <li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat<span class="number">(11)</span></a></li>
+                                        <li class="main-nav-list child"><Link href="#">Frozen Fish<span class="number">(13)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Dried Fish<span class="number">(09)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Fresh Fish<span class="number">(17)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat Alternatives<span class="number">(01)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat<span class="number">(11)</span></Link></li>
                                     </ul>
                                 </li>
-                                <li class="main-nav-list"><a class="border-bottom-0" data-toggle="collapse" href="#babyCare" aria-expanded="false"
-                                    aria-controls="babyCare"><span class="lnr lnr-arrow-right"></span>Baby Care<span class="number">(48)</span></a>
+                                <li class="main-nav-list"><Link class="border-bottom-0" data-toggle="collapse" href="#babyCare" aria-expanded="false"
+                                    aria-controls="babyCare"><span class="lnr lnr-arrow-right"></span>Baby Care<span class="number">(48)</span></Link>
                                     <ul class="collapse" id="babyCare" data-toggle="collapse" aria-expanded="false" aria-controls="babyCare">
-                                        <li class="main-nav-list child"><a href="#">Frozen Fish<span class="number">(13)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Dried Fish<span class="number">(09)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Fresh Fish<span class="number">(17)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#">Meat Alternatives<span class="number">(01)</span></a></li>
-                                        <li class="main-nav-list child"><a href="#" class="border-bottom-0">Meat<span class="number">(11)</span></a></li>
+                                        <li class="main-nav-list child"><Link href="#">Frozen Fish<span class="number">(13)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Dried Fish<span class="number">(09)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Fresh Fish<span class="number">(17)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#">Meat Alternatives<span class="number">(01)</span></Link></li>
+                                        <li class="main-nav-list child"><Link href="#" class="border-bottom-0">Meat<span class="number">(11)</span></Link></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -194,13 +193,13 @@ const CategoryPage = () => {
                                 </select>
                             </div>
                             <div class="pagination">
-                                <a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-                                <a href="#" class="active">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-                                <a href="#">6</a>
-                                <a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                <Link href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></Link>
+                                <Link href="#" class="active">1</Link>
+                                <Link href="#">2</Link>
+                                <Link href="#">3</Link>
+                                <Link href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></Link>
+                                <Link href="#">6</Link>
+                                <Link href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></Link>
                             </div>
                         </div>
                         {/* <!-- End Filter Bar -->
@@ -211,7 +210,7 @@ const CategoryPage = () => {
                                 {/* <!-- single product --> */}
                                 <div class="col-lg-4 col-md-6">
                                     <div class="single-product">
-                                        <img class="img-fluid" src="img/product/p6.jpg" alt="" />
+                                        <img class="img-fluid" src={imgExamp} alt="" />
                                         <div class="product-details">
                                             <h6>addidas New Hammer sole
                                                 for Sports person</h6>
@@ -269,7 +268,15 @@ const CategoryPage = () => {
                                     <div class="quick-view-content">
                                         <div class="top">
                                             <h3 class="head">Mill Oil 1000W Heater, White</h3>
-                                            <div class="price d-flex align-items-center"><span class="lnr lnr-tag"></span> <span class="ml-10">$149.99</span></div>
+                                            <div class="price d-flex align-items-center">
+                                                <span class="lnr lnr-tag"></span>
+                                                <span class="ml-10">$149.99</span>
+                                            </div>
+                                            <div class="price d-flex align-items-center">
+                                                <span class="lnr lnr-tag"></span>
+                                                <span class="ml-10 l-through">$150</span>
+                                            </div>
+
                                             <div class="category">Category: <span>Household</span></div>
                                             <div class="available">Availibility: <span>In Stock</span></div>
                                         </div>
@@ -277,22 +284,9 @@ const CategoryPage = () => {
                                             <p >Mill Oil is an innovative oil filled radiator with the most modern technology. If you are
                                                 looking for something that can make your interior look awesome, and at the same time give you the pleasant
                                                 warm feeling during the winter.</p>
-                                            <a href="#" class="view-full">View full Details <span class="lnr lnr-arrow-right"></span></a>
+                                            <Link href="#" class="view-full">View full Details <span class="lnr lnr-arrow-right"></span></Link>
                                         </div>
-                                        <div class="bottom">
-                                            <div className="quantity-container d-flex align-items-center mt-15">
-                                                Quantity:
-                                                <input type="text" className="quantity-amount ml-15" value={quantity} readOnly />
-                                                <div className="arrow-btn d-inline-flex flex-column">
-                                                    <button className="increase arrow" type="button" title="Increase Quantity" onClick={increaseQuantity}>
-                                                        <span className="lnr lnr-chevron-up"></span>
-                                                    </button>
-                                                    <button className="decrease arrow" type="button" title="Decrease Quantity" onClick={decreaseQuantity}>
-                                                        <span className="lnr lnr-chevron-down"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -301,7 +295,7 @@ const CategoryPage = () => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" >
+                    <Button className=" btn_add_to_card" >
                         Add to Cart
                     </Button>
                     <Button variant="secondary" onClick={() => setShowModal(false)}>

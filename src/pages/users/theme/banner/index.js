@@ -14,7 +14,7 @@ const Banner = () => {
             <div class="container">
                 <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                     <div class="col-first">
-                        <h1>PT SPORTS</h1>
+                        <h1 className="mr-5">PT SPORTS</h1>
                         <nav class="d-flex align-items-center">
                         </nav>
                     </div>

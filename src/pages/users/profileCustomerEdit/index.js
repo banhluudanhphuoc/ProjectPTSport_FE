@@ -1,9 +1,6 @@
 import React, { useState, memo } from "react";
 import "./style.scss";
 import { DateInput } from '@mantine/dates';
-import { notifications } from '@mantine/notifications';
-import { IconCheck } from '@tabler/icons-react';
-import { modals } from '@mantine/modals';
 import axios from "axios";
 import {
     PasswordInput,
@@ -24,17 +21,7 @@ import {
     Avatar,
     Select,
 } from '@mantine/core';
-import {
-    AiOutlineEdit,
-    AiOutlineDelete,
-    AiOutlineProfile,
-    AiOutlineNotification,
-    AiTwotoneEye,
-    AiTwotoneStar,
-    AiFillCheckCircle,
-    AiOutlineUser,
-} from "react-icons/ai";
-import { IconPhoto, IconMessageCircle, IconSettings } from '@tabler/icons-react';
+
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
 import { Link } from "react-router-dom";
 const ProfileCustomerEdit = () => {
@@ -72,32 +59,7 @@ const ProfileCustomerEdit = () => {
 
 
     const openConfirmationModal = () => {
-        try {
-            form.validate();
-            console.log("Form values:", form.validate());
-            console.log("Form values:", form.values);
-            console.log("Validation results:", form.errors);
-            console.log("form.formValid :", form.formValid);
-            if (form.formValid) {
-                console.log("Form is valid.Opening modal."); // Add this line for debugging
-                modals.openConfirmModal({
-                    title: 'Vui lòng xác nhận lại',
-                    children: (
-                        <Text size="sm">
-                            Bạn có muốn cập nhật lại thông tin không?
-                        </Text>
-                    ),
-                    labels: { confirm: 'Có', cancel: 'Không' },
-                    onCancel: () => console.log('Cancel'),
-                    onConfirm: () => console.log('onConfirm'),
-                    // onConfirm: () => handleSubmit(), // Handle form submission on confirmation
-                });
-            } else {
-                console.log("Form is not valid."); // Add this line for debugging
-            }
-        } catch (error) {
-            console.log(error);
-        }
+
 
     };
     const handleSubmit = async () => {
@@ -108,13 +70,6 @@ const ProfileCustomerEdit = () => {
             // Handle the server response (e.g., show success message)
             console.log("Server response:", response.data);
 
-            // Show a success notification
-            notifications.show({
-                color: "teal",
-                title: "Lưu thành công",
-                message: "Thông tin của bạn đã được cập nhật.",
-                icon: <IconCheck style={{ width: rem(18), height: rem(18) }} />,
-            });
 
             // You can also redirect the user to a different page on success
             // Example: history.push("/success");
@@ -122,12 +77,6 @@ const ProfileCustomerEdit = () => {
             // Handle any errors that occur during the request (e.g., show an error message)
             console.error("Error:", error);
 
-            // Show an error notification
-            notifications.show({
-                color: "red",
-                title: "Lỗi",
-                message: "Có lỗi xảy ra khi cập nhật thông tin.",
-            });
         }
     };
 

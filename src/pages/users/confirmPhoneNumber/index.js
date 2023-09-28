@@ -1,6 +1,5 @@
 import { memo } from "react";
 import "./style.scss";
-import { useForm } from '@mantine/form';
 import { PasswordInput, Group, Button, Box, Card, TextInput, PinInput, Text } from '@mantine/core';
 import { Link } from "react-router-dom";
 import Banner from "../../users/theme/banner";

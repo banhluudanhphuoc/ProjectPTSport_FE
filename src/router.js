@@ -1,6 +1,8 @@
 import HomePage from "./pages/users/homePage";
 import { ROUTERS } from "./utils/router";
 import { Route, Routes } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
 
 import MasterLayout from "./pages/users/theme/masterLayout";
 import ProfilePage from "./pages/users/profilePage";
@@ -19,6 +21,7 @@ import BlogsPage from "pages/users/blogsPage";
 import BlogDetail from "pages/users/blogDetail";
 
 import MasterLayoutAdmin from "pages/admin/theme/masterLayoutAdmin";
+
 import DashBoard from "pages/admin/dashBoard";
 import LoginAdmin from "pages/admin/loginAdmin";
 
@@ -37,12 +40,14 @@ import CreateProductAdmin from "pages/admin/products/createProduct";
 import CustomersListAdmin from "pages/admin/customers/listCustomers";
 import CreateCustomerAdmin from "pages/admin/customers/createCustomer";
 import EditCustomerAdmin from "pages/admin/customers/editCustomer";
+import AccountSettings from "pages/admin/customers/accountSettings";
 
 import OrdersListAdmin from "pages/admin/orders/listOrders";
 import OrderDetailAdmin from "pages/admin/orders/orderDetails";
 const RouterCustom = () => {
     return (
         <Routes>
+
             {/* User Routes */}
             <Route path="/*" element={<UserRoutes />} />
             {/* Admin Routes */}
@@ -62,6 +67,10 @@ const RouterCustom = () => {
 };
 
 const UserRoutes = () => {
+    const location = useLocation();
+    useEffect(() => {
+        window.scrollTo(0, 0); // Cuộn lên đầu trang khi chuyển trang
+    }, [location.pathname]);
     return (
         <MasterLayout>
             <Routes>
@@ -99,6 +108,7 @@ const AdminRoutes = () => {
                 <Route path={ROUTERS.ADMIN.CATEGORIES_LIST} element={<CategoriesListAdmin />} />
                 <Route path={ROUTERS.ADMIN.CUSTOMERS_LIST} element={<CustomersListAdmin />} />
                 <Route path={ROUTERS.ADMIN.CUSTOMER_CREATE} element={<CreateCustomerAdmin />} />
+                <Route path={ROUTERS.ADMIN.ACCOUNT_SETTINGS} element={<AccountSettings />} />
                 <Route path={ROUTERS.ADMIN.CATEGORY_CREATE} element={<CreateCategoryAdmin />} />
                 <Route path={ROUTERS.ADMIN.ORDERS_LIST} element={<OrdersListAdmin />} />
             </Routes>

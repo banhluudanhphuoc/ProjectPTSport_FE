@@ -1,7 +1,5 @@
 import { memo, useState, useEffect } from "react";
-import { Image } from "@mantine/core";
 import './style.scss';
-import { useParams } from "react-router-dom";
 import Banner from "../../users/theme/banner";
 import { Link } from 'react-router-dom';
 import RelatedProductArea from "../theme/relatedProductArea";
@@ -46,23 +44,8 @@ const ProductDetail = () => {
     // }
 
     const [mainImage, setMainImage] = useState(ProductImg);
-
-    const [quantity, setQuantity] = useState(1); // Khởi tạo số lượng ban đầu
-
-    const increaseQuantity = () => {
-        // Tăng số lượng lên 1 khi nút tăng được nhấn
-        setQuantity(quantity + 1);
-    };
-
-    const decreaseQuantity = () => {
-        // Giảm số lượng đi 1 khi nút giảm được nhấn, nhưng không cho phép số lượng nhỏ hơn 1
-        if (quantity > 1) {
-            setQuantity(quantity - 1);
-        }
-    };
     return (
         <>
-
             <Banner />
             <div class="product_image_area">
                 <div class="container">
@@ -118,20 +101,9 @@ const ProductDetail = () => {
                                 <p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
                                     something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
                                     during the winter.</p>
-                                <div className="quantity-container d-flex align-items-center mt-15">
-                                    Quantity:
-                                    <input type="text" className="quantity-amount ml-15" value={quantity} readOnly />
-                                    <div className="arrow-btn d-inline-flex flex-column">
-                                        <button className="increase arrow" type="button" title="Increase Quantity" onClick={increaseQuantity}>
-                                            <span className="lnr lnr-chevron-up"></span>
-                                        </button>
-                                        <button className="decrease arrow" type="button" title="Decrease Quantity" onClick={decreaseQuantity}>
-                                            <span className="lnr lnr-chevron-down"></span>
-                                        </button>
-                                    </div>
-                                </div>
+
                                 <div class="card_area d-flex align-items-center">
-                                    <Link class="primary-btn btn-product-detail" href="#">Add to Cart</Link>
+                                    <Link class="primary-btn btn-product-detail" to="/cart">Add to Cart</Link>
                                     <Link class="icon_btn btn-product-detail" href="#"><i class="lnr lnr lnr-heart"></i></Link>
                                 </div>
                             </div>
@@ -266,7 +238,7 @@ const ProductDetail = () => {
                                                     <div class="media-body">
                                                         <h4>Blake Ruiz</h4>
                                                         <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                                        <a class="reply_btn" href="#">Reply</a>
+                                                        <Link class="reply_btn" href="#">Reply</Link>
                                                     </div>
                                                 </div>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
@@ -285,7 +257,7 @@ const ProductDetail = () => {
                                                     <div class="media-body">
                                                         <h4>Blake Ruiz</h4>
                                                         <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                                        <a class="reply_btn" href="#">Reply</a>
+                                                        <Link class="reply_btn" href="#">Reply</Link>
                                                     </div>
                                                 </div>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
@@ -304,7 +276,7 @@ const ProductDetail = () => {
                                                     <div class="media-body">
                                                         <h4>Blake Ruiz</h4>
                                                         <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                                        <a class="reply_btn" href="#">Reply</a>
+                                                        <Link class="reply_btn" href="#">Reply</Link>
                                                     </div>
                                                 </div>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
@@ -364,54 +336,54 @@ const ProductDetail = () => {
                                                     <h4>Based on 3 Reviews</h4>
                                                     <ul class="list">
                                                         <li>
-                                                            <a href="#" className="link-star">5 Star
+                                                            <Link href="#" className="link-star">5 Star
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 01
-                                                            </a>
+                                                            </Link>
                                                         </li>
                                                         <li>
-                                                            <a href="#" className="link-star">4 Star
+                                                            <Link href="#" className="link-star">4 Star
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star-o"></i>
                                                                 01
-                                                            </a>
+                                                            </Link>
                                                         </li>
                                                         <li>
-                                                            <a href="#" className="link-star">3 Star
+                                                            <Link href="#" className="link-star">3 Star
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star-o"></i>
                                                                 <i class="fa fa-star-o"></i>
                                                                 01
-                                                            </a>
+                                                            </Link>
                                                         </li>
                                                         <li>
-                                                            <a href="#" className="link-star">2 Star
+                                                            <Link href="#" className="link-star">2 Star
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star-o"></i>
                                                                 <i class="fa fa-star-o"></i>
                                                                 <i class="fa fa-star-o"></i>
                                                                 01
-                                                            </a>
+                                                            </Link>
                                                         </li>
                                                         <li>
-                                                            <a href="#" className="link-star">1 Star
+                                                            <Link href="#" className="link-star">1 Star
                                                                 <i class="fa fa-star"></i>
                                                                 <i class="fa fa-star-o"></i>
                                                                 <i class="fa fa-star-o"></i>
                                                                 <i class="fa fa-star-o"></i>
                                                                 <i class="fa fa-star-o"></i>
                                                                 01
-                                                            </a>
+                                                            </Link>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -479,11 +451,11 @@ const ProductDetail = () => {
                                             <h4>Add a Review</h4>
                                             <p>Your Rating:</p>
                                             <ul class="list">
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><Link href="#"><i class="fa fa-star"></i></Link></li>
+                                                <li><Link href="#"><i class="fa fa-star"></i></Link></li>
+                                                <li><Link href="#"><i class="fa fa-star"></i></Link></li>
+                                                <li><Link href="#"><i class="fa fa-star"></i></Link></li>
+                                                <li><Link href="#"><i class="fa fa-star"></i></Link></li>
                                             </ul>
                                             <p>Outstanding</p>
                                             <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">

@@ -1,32 +1,9 @@
 import { memo, useState } from "react";
 import { withRouter } from 'react-router-dom';
 import "./style.scss";
-import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
-import {
-    PasswordInput,
-    Group,
-    Button,
-    Box,
-    Card,
-    TextInput,
-    PinInput,
-    Grid,
-    Image,
-    Text,
-    ThemeIcon,
-    List,
-    Tabs,
-    rem,
-    NativeSelect,
-    Avatar,
-    Select,
-} from '@mantine/core';
+import { Link } from "react-router-dom";
 import LoginImg from '../../../style/img/login.jpg';
-import { notifications } from '@mantine/notifications';
-import { DateInput } from '@mantine/dates';
-import { IconCheck } from '@tabler/icons-react';
 import axios from "axios";
-import { modals } from '@mantine/modals';
 import Banner from "../../users/theme/banner";
 import { Container, Col, Row } from "react-bootstrap";
 
@@ -47,12 +24,12 @@ const ContactPage = () => {
                             </div>
                             <div className="info_item">
                                 <i className="lnr lnr-phone-handset"></i>
-                                <h6><a href="#">00 (440) 9865 562</a></h6>
+                                <h6><Link href="#">00 (440) 9865 562</Link></h6>
                                 <p>Mon to Fri 9am to 6 pm</p>
                             </div>
                             <div className="info_item">
                                 <i className="lnr lnr-envelope"></i>
-                                <h6><a href="#">support@colorlib.com</a></h6>
+                                <h6><Link href="#">support@colorlib.com</Link></h6>
                                 <p>Send us your query anytime!</p>
                             </div>
                         </div>

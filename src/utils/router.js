@@ -28,6 +28,8 @@ export const ROUTERS = {
         CUSTOMERS_LIST: "customers_list",
         CUSTOMER_CREATE: "customer_create",
         CUSTOMER_EDIT: "customer_edit",
+        ACCOUNT_SETTINGS: "account-settings",
+
 
         POSTERS_LIST: "posters_list",
         POSTER_CREATE: "post_create",

@@ -92,3 +92,14 @@
       width: 50px;
     }
   }
+
+  .btn_add_to_card{
+    color: #FD8400;
+    background-color: white;
+    border: #FD8400;
+    &:hover{
+      background-color: #FD8400;
+      color: white;
+    }
+
+  }

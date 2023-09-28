@@ -18,37 +18,7 @@ const CategoriesListAdmin = () => {
     ];
 
     return <>
-        <Grid.Col md={10}>
-            <div className="posts_admin">
-                <Card radius="md" shadow="sm" p="lg">
-                    <h1>Posters</h1>
-                    <Table striped withBorder highlightOnHover horizontalSpacing="lg" verticalSpacing="lg" fontSize="lg" captionSide="bottom">
-                        <thead>
-                            <tr>
-                                <th>Tên sản phẩm</th>
-                                <th>Hình ảnh</th>
-                                <th>Giá</th>
-                                <th>Số lượng</th>
-                                <th>Số lượng</th>
-                            </tr>
-                        </thead>
-                        {items.map((item) => (
-
-                            < tbody >
-                                <tr key={item.id}>
-                                    <td >{item.name}</td>
-                                    <td></td>
-                                    <td>{item.price}</td>
-                                    <td >{item.quantity}</td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        ))}
-                    </Table>
-
-                </Card>
-            </div>
-        </Grid.Col>
+        <></>
     </>
 };
 

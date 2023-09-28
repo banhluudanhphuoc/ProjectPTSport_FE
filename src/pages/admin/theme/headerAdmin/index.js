@@ -1,94 +1,104 @@
-
 import { memo } from "react";
 import './style.scss';
-import { Link } from "react-router-dom";
-import { AiOutlineMenu } from "react-icons/ai";
-import { Button, Group, TextInput, NumberInput, Box, Grid, Card, Table, ActionIcon, NativeSelect, Image, Menu, Text, rem } from '@mantine/core';
-import {
-    IconSettings,
-    IconSearch,
-    IconPhoto,
-    IconMessageCircle,
-    IconTrash,
-    IconArrowsLeftRight,
-} from '@tabler/icons-react';
+
+import ImgAvt from '../../../../assets/admin/img/avatars/1.png';
 
 const HeaderAdmin = () => {
-    return <div className="header_admin">
 
-        <div className="container">
-            <div className="row">
-                <Grid>
 
-                    <Grid.Col md={6} className="header_left_admin">
-                        <Text
-                            ta="center"
-                            size="xl"
-                            fw={900}
-                            variant="gradient"
-                            gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-                        >
-                            ADMINISTRATOR
-                        </Text>
-                    </Grid.Col>
+    return (
+        <>
+            <nav
+                class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                id="layout-navbar"
+            >
+                <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                    <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                        <i class="bx bx-menu bx-sm"></i>
+                    </a>
+                </div>
 
-                    <Grid.Col md={6} className="header_right_admin">
-                        <h3 className="name-account">Name</h3>
-                        <div className="admin-account">
-                            <Link><Image src="" alt="" /></Link>
+                <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+
+                    <div class="navbar-nav align-items-center">
+                        <div class="nav-item d-flex align-items-center">
+                            <i class="bx bx-search fs-4 lh-0"></i>
+                            <input
+                                type="text"
+                                class="form-control border-0 shadow-none"
+                                placeholder="Search..."
+                                aria-label="Search..."
+                            />
                         </div>
-                        <div className="menu_header_admin">
-                            <Menu shadow="md" width={200}>
-                                <Menu.Target>
-                                    <button className="button_setting_admin"><AiOutlineMenu /></button>
-                                </Menu.Target>
-
-                                <Menu.Dropdown>
-                                    <Menu.Label>Application</Menu.Label>
-                                    <Menu.Item leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
-                                        Settings
-                                    </Menu.Item>
-                                    <Menu.Item leftSection={<IconMessageCircle style={{ width: rem(14), height: rem(14) }} />}>
-                                        Messages
-                                    </Menu.Item>
-                                    <Menu.Item leftSection={<IconPhoto style={{ width: rem(14), height: rem(14) }} />}>
-                                        Gallery
-                                    </Menu.Item>
-                                    <Menu.Item
-                                        leftSection={<IconSearch style={{ width: rem(14), height: rem(14) }} />}
-                                        rightSection={
-                                            <Text size="xs" c="dimmed">
-                                                ⌘K
-                                            </Text>
-                                        }
-                                    >
-                                        Search
-                                    </Menu.Item>
-
-                                    <Menu.Divider />
-
-                                    <Menu.Label>Danger zone</Menu.Label>
-                                    <Menu.Item
-                                        leftSection={<IconArrowsLeftRight style={{ width: rem(14), height: rem(14) }} />}
-                                    >
-                                        Transfer my data
-                                    </Menu.Item>
-                                    <Menu.Item
-                                        color="red"
-                                        leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
-                                    >
-                                        Delete my account
-                                    </Menu.Item>
-                                </Menu.Dropdown>
-                            </Menu>
-                        </div>
-                    </Grid.Col>
+                    </div>
 
 
-                </Grid>
-            </div>
-        </div>
-    </div >;
-};
+                    <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+
+                        <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                                <div class="avatar avatar-online">
+                                    <img src={ImgAvt} alt class="w-px-40 h-auto rounded-circle" />
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 me-3">
+                                                <div class="avatar avatar-online">
+                                                    <img src={ImgAvt} alt class="w-px-40 h-auto rounded-circle" />
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <span class="fw-semibold d-block">John Doe</span>
+                                                <small class="text-muted">Admin</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="dropdown-divider"></div>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="bx bx-user me-2"></i>
+                                        <span class="align-middle">My Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="bx bx-cog me-2"></i>
+                                        <span class="align-middle">Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <span class="d-flex align-items-center align-middle">
+                                            <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
+                                            <span class="flex-grow-1 align-middle">Billing</span>
+                                            <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="dropdown-divider"></div>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="auth-login-basic.html">
+                                        <i class="bx bx-power-off me-2"></i>
+                                        <span class="align-middle">Log Out</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
+        </>
+    );
+}
 
 export default memo(HeaderAdmin);

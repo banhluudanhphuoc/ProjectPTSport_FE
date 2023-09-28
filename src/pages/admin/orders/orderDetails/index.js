@@ -6,13 +6,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { Grid } from '@mantine/core';
 
 const OrderDetailAdmin = () => {
-    return (
-        <Grid.Col md={10}>
-            <div className="orders_admin">
-                OrdersAdmin
-            </div>
-        </Grid.Col>
-    );
+    return <></>
 };
 
 export default memo(OrderDetailAdmin);
