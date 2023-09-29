@@ -10,16 +10,23 @@ import { Image } from "react-bootstrap";
 
 import r1 from '../../../../style/img/r1.jpg';
 import category5 from '../../../../style/img/category/c5.jpg';
+import { useTranslation } from "react-i18next";
 
 
 const Footer = () => {
+    const { t, i18n } = useTranslation();
+    const [currentLanguage, setCurrentLanguage] = useState('VI');
+    const handleLanguageChange = (newLanguage, lng) => {
+        setCurrentLanguage(newLanguage)
+        i18n.changeLanguage(lng);
+    };
     return (
         <section class="related-product-area section_gap_bottom">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-6 text-center">
                         <div class="section-title">
-                            <h1>Deals of the Week</h1>
+                            <h1>{t("deals_of_the_week")}</h1>
 
                         </div>
                     </div>

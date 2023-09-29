@@ -10,9 +10,9 @@
     }
 }
 .profile_customer_right_orders{
-    border-radius: 15px;
+
     margin-top: 10px;
-    box-shadow: 2px 2px 1px 3px lightblue;
+    border: #FFC000 1px solid;
     .profile_customer_right_orders_top{
         display: flex;
         width: 100%;
@@ -22,14 +22,14 @@
             text-align: end;
             align-items: center;
             display: flex;
-           
+            margin-right: 2%;
         }
-        
+
     }
     .profile_customer_right_orders_mid{
         display: flex;
         align-items: center;
-        background-color: #05f3ff;
+        background-color: #FFC000;
         .profile_customer_right_orders_mid_info{
             margin-left: 10px;
         }

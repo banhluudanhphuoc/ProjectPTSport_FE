@@ -1,6 +1,5 @@
 import { memo } from "react";
 import "./style.scss";
-import { useForm } from '@mantine/form';
 import {
     PasswordInput,
     Group,
@@ -35,19 +34,15 @@ import {
     AiOutlineCloseCircle,
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import Banner from "../../users/theme/banner";
 const ProfileCustomer = () => {
-    const items = [
-        { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
-        { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
-        { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
-        { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
-        { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-    ];
+
 
 
     return <>
+        <Banner />
         <div className="container">
-            <Card shadow="sm" padding="lg" radius="md" withBorder>
+            <Card shadow="sm" withBorder>
                 <div className="title-profile-customer">
                     <h3 >Xin chào Anh/Chị : Tam</h3>
                 </div>
@@ -72,6 +67,7 @@ const ProfileCustomer = () => {
                         <Tabs color="grape" variant="outline" radius="md" defaultValue="gallery">
                             <Tabs.List>
                                 <Tabs.Tab
+
                                     value="orders"
                                     icon={<ThemeIcon color="teal" size={24} radius="xl">
                                         <AiOutlineProfile />

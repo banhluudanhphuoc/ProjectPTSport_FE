@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 import Footer from "../footer";
 import Header from "../header";
 
@@ -21,8 +21,14 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
+import { useTranslation } from "react-i18next";
 const MasterLayout = ({ children, ...props }) => {
-
+    const { t, i18n } = useTranslation();
+    const [currentLanguage, setCurrentLanguage] = useState('VI');
+    const handleLanguageChange = (newLanguage, lng) => {
+        setCurrentLanguage(newLanguage)
+        i18n.changeLanguage(lng);
+    };
     return (
         <div {...props}>
             <Header />

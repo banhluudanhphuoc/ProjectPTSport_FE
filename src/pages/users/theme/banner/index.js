@@ -9,6 +9,7 @@ import { Image } from "react-bootstrap";
 
 
 const Banner = () => {
+
     return (
         <section class="banner-area organic-breadcrumb">
             <div class="container">

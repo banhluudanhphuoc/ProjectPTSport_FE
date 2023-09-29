@@ -41,3 +41,18 @@ li.nav-item{
     }
 }
 
+.language{
+    border: none;
+    background-color: white;
+    color: #FFC000;
+    font-size: 0.7rem;
+    &.active {
+        color: red ;
+        font-size: 0.8rem ;
+    }
+}
+.mid-language{
+    color: #FFC000 !important;
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+}

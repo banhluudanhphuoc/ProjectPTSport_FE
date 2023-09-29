@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './style/style.scss';
 import RouterCustom from './router';
 import { CartProvider, useCart } from "react-use-cart";
+import './i18n';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

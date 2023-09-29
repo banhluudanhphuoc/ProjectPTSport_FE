@@ -22,6 +22,7 @@ import {
     Select,
 } from '@mantine/core';
 
+import Banner from "../../users/theme/banner";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
 import { Link } from "react-router-dom";
 const ProfileCustomerEdit = () => {
@@ -82,8 +83,9 @@ const ProfileCustomerEdit = () => {
 
 
     return <>
+        <Banner />
         <div className="container">
-            <Card shadow="sm" padding="lg" radius="md" withBorder>
+            <Card shadow="sm" padding="lg" withBorder>
                 <div className="title-profile-customer">
                     <h3 >Xin chào Anh/Chị : Tam</h3>
                 </div>

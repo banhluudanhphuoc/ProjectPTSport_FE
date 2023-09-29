@@ -6,10 +6,12 @@ import { AiOutlineSearch, AiOutlineUser, AiOutlineShopping, BiUserCircle } from 
 import { ROUTERS } from "utils/router";
 import { CartProvider, useCart } from "react-use-cart";
 import { Image } from "react-bootstrap";
-
-
+import { useTranslation } from "react-i18next";
 const Header = () => {
-
+    const { t, i18n } = useTranslation();
+    // const changeLanguage = lng => {
+    //     i18n.changeLanguage(lng);
+    // };
     const {
         isEmpty,
         totalUniqueItems,
@@ -17,6 +19,13 @@ const Header = () => {
         updateItemQuantity,
         removeItem,
     } = useCart();
+
+    const [currentLanguage, setCurrentLanguage] = useState('VI');
+
+    const handleLanguageChange = (newLanguage, lng) => {
+        setCurrentLanguage(newLanguage)
+        i18n.changeLanguage(lng);
+    };
 
 
     return (
@@ -35,21 +44,22 @@ const Header = () => {
 
                         <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                             <ul class="nav navbar-nav menu_nav ml-auto ">
-                                <li class="nav-item active"><a class="nav-link custom_menu" href="/">home</a></li>
+
+                                <li class="nav-item active"><a class="nav-link custom_menu" href="/">{t('menu_home')}</a></li>
                                 <li class="nav-item submenu dropdown">
                                     <Link to="/category-page" className="nav-link dropdown-toggle custom_menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        categories
+                                        {t('menu_categries')}
                                     </Link>
                                     <ul class="dropdown-menu">
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">featured</Link></li>
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">clothes</Link></li>
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">shoes</Link></li>
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">accessories</Link></li>
+                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">{t('menu_featured')}</Link></li>
+                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">{t('menu_clothes')}</Link></li>
+                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">{t('menu_shoes')}</Link></li>
+                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">{t('menu_accessories')}</Link></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item submenu dropdown">
                                     <Link to="/category-page" className="nav-link dropdown-toggle custom_menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        brands
+                                        {t('menu_brands')}
                                     </Link>
                                     <ul class="dropdown-menu">
                                         <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">nike</Link></li>
@@ -64,8 +74,8 @@ const Header = () => {
                                         Blog
                                     </Link>
                                 </li>
-                                <li class="nav-item"><Link class="nav-link custom_menu" to="/contact">Contact</Link></li>
-                                <li class="nav-item"><Link class="nav-link custom_menu" to="/login-user">login</Link></li>
+                                <li class="nav-item"><Link class="nav-link custom_menu" to="/contact">{t('menu_contact')}</Link></li>
+                                <li class="nav-item"><Link class="nav-link custom_menu" to="/login-user">{t('menu_login')}</Link></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right ">
                                 <li class="nav-item">
@@ -76,6 +86,21 @@ const Header = () => {
                                 </li>
                                 <li class="nav-item">
                                     <button class="search "><span class="lnr lnr-magnifier custom_menu" id="search"></span></button>
+                                </li>
+                                <li className="nav-item">
+                                    <button
+                                        className={`language ${currentLanguage === 'VI' ? 'active' : ''}`}
+                                        onClick={() => handleLanguageChange("VI", "VI")}
+                                    >
+                                        VI
+                                    </button>
+                                    <span className="mid-language">|</span>
+                                    <button
+                                        className={`language ${currentLanguage === 'EN' ? 'active' : ''}`}
+                                        onClick={() => handleLanguageChange("EN", "EN")}
+                                    >
+                                        EN
+                                    </button>
                                 </li>
                             </ul>
                         </div>

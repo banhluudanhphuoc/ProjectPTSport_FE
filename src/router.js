@@ -19,6 +19,7 @@ import Confirmation from "pages/users/confirmation";
 import ContactPage from "pages/users/contactPage";
 import BlogsPage from "pages/users/blogsPage";
 import BlogDetail from "pages/users/blogDetail";
+import OrderDetailCustomer from "pages/users/orderDetailCustomer";
 
 import MasterLayoutAdmin from "pages/admin/theme/masterLayoutAdmin";
 
@@ -74,6 +75,7 @@ const UserRoutes = () => {
     return (
         <MasterLayout>
             <Routes>
+                <Route path={ROUTERS.USER.ORDER_DETAIL_CUSTOMER} element={<OrderDetailCustomer />} />
                 <Route path={ROUTERS.USER.BLOG_DETAIL} element={<BlogDetail />} />
                 <Route path={ROUTERS.USER.BLOGS_PAGE} element={<BlogsPage />} />
                 <Route path={ROUTERS.USER.CONTACT_PAGE} element={<ContactPage />} />

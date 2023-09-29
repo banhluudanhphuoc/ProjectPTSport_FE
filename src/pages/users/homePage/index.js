@@ -33,8 +33,14 @@ import brand4 from '../../../style/img/brand/4.png';
 import brand5 from '../../../style/img/brand/5.png';
 
 import r1 from '../../../style/img/r1.jpg';
-
+import { useTranslation } from "react-i18next";
 const HomePage = () => {
+    const { t, i18n } = useTranslation();
+    const [currentLanguage, setCurrentLanguage] = useState('VI');
+    const handleLanguageChange = (newLanguage, lng) => {
+        setCurrentLanguage(newLanguage)
+        i18n.changeLanguage(lng);
+    };
     const { addItem, updateItemQuantity } = useCart();
     const [showModal, setShowModal] = useState(false);
     const [quantity, setQuantity] = useState(1); // Khởi tạo số lượng ban đầu
@@ -89,18 +95,9 @@ const HomePage = () => {
                             <div class="row single-slide align-items-center d-flex">
                                 <div class="col-lg-5 col-md-6">
                                     <div class="banner-content">
-                                        <h1>NIKE New  Collection!</h1>
-                                        <p>
-                                            Nike Jordan 1 - The Choice for Trendsetting Women
-                                            The fusion of Nike and Jordan has given birth to the iconic Nike Jordan 1,
-                                            making waves in the sneaker market. Its unique sneaker style perfectly
-                                            complements the edgy personalities of trendsetting women, adding a touch of individuality and unmatched flair.
-                                            In 2020, the Nike Jordan 1 became an essential addition to the wardrobes of fashion-forward women.
-                                        </p>
-                                        <div class="add-bag d-flex align-items-center">
-                                            <Link class="add-btn" href=""><span class="lnr lnr-cross"></span></Link>
-                                            <span class="add-text text-uppercase">Add to Bag</span>
-                                        </div>
+                                        <h1>{t('banner_title1')}</h1>
+                                        <p> {t('banner_content1')}</p>
+
                                     </div>
                                 </div>
                                 <div class="col-lg-7">
@@ -113,18 +110,9 @@ const HomePage = () => {
                             <div class="row single-slide align-items-center d-flex">
                                 <div class="col-lg-5 col-md-6">
                                     <div class="banner-content">
-                                        <h1>ADIDAS New Collection!</h1>
-                                        <p>
-                                            The "Adidas Falcon Core Black Cloud White B28129" appears to be a specific model or colorway
-                                            of Adidas Falcon sneakers. This sneaker model likely features a core black and cloud white color scheme,
-                                            with the style number B28129 serving as a unique identifier for this particular design.
-                                            The Adidas Falcon is known for its retro-inspired chunky silhouette and is a popular choice among sneaker
-                                            enthusiasts for its blend of fashion and comfort.
-                                        </p>
-                                        <div class="add-bag d-flex align-items-center">
-                                            <Link class="add-btn" href=""><span class="lnr lnr-cross"></span></Link>
-                                            <span class="add-text text-uppercase">Add to Bag</span>
-                                        </div>
+                                        <h1>{t('banner_title2')}</h1>
+                                        <p> {t('banner_content2')}</p>
+
                                     </div>
                                 </div>
                                 <div class="col-lg-7">
@@ -136,16 +124,9 @@ const HomePage = () => {
                             <div class="row single-slide align-items-center d-flex">
                                 <div class="col-lg-5 col-md-6">
                                     <div class="banner-content">
-                                        <h1>PUMA New Collection!</h1>
-                                        <p>
-                                            Instead of opting for the delicate floral-patterned dresses, if you want to embrace a more seductive,
-                                            alluring look without going overboard, consider getting a stylish and edgy denim two-strap dress.
-                                            Pair it with a pair of Puma women's auth sneakers for that perfect blend of sophistication and individuality!
-                                        </p>
-                                        <div class="add-bag d-flex align-items-center">
-                                            <Link class="add-btn" ><span class="lnr lnr-cross"></span></Link>
-                                            <span class="add-text text-uppercase">Add to Bag</span>
-                                        </div>
+                                        <h1>{t('banner_title3')}</h1>
+                                        <p> {t('banner_content3')}</p>
+
                                     </div>
                                 </div>
                                 <div class="col-lg-7">
@@ -169,8 +150,8 @@ const HomePage = () => {
                             <div class="f-icon">
                                 <img src={FreeDeliveryImg} alt='' />
                             </div>
-                            <h6>Free Delivery</h6>
-                            <p>Free Shipping on all order</p>
+                            <h6>{t('free_delivery_title')}</h6>
+                            <p>{t('free_delivery')}</p>
                         </div>
                     </div>
                     {/* <!-- single features --> */}
@@ -179,8 +160,8 @@ const HomePage = () => {
                             <div class="f-icon">
                                 <img src={ReturnPolicyImg} alt='' />
                             </div>
-                            <h6>Return Policy</h6>
-                            <p>Free Shipping on all order</p>
+                            <h6>{t('return_policy_title')}</h6>
+                            <p>{t('return_policy')}</p>
                         </div>
                     </div>
                     {/* <!-- single features --> */}
@@ -189,8 +170,8 @@ const HomePage = () => {
                             <div class="f-icon">
                                 <img src={SupportImg} alt='' />
                             </div>
-                            <h6>24/7 Support</h6>
-                            <p>Free Shipping on all order</p>
+                            <h6>{t('24/7_support_title')}</h6>
+                            <p>{t('24/7_support')}</p>
                         </div>
                     </div>
                     {/* <!-- single features --> */}
@@ -199,8 +180,8 @@ const HomePage = () => {
                             <div class="f-icon">
                                 <img src={SecurePaymentImg} alt='' />
                             </div>
-                            <h6>Secure Payment</h6>
-                            <p>Free Shipping on all order</p>
+                            <h6>{t('secure_payment_title')}</h6>
+                            <p>{t('secure_payment')}</p>
                         </div>
                     </div>
                 </div>
@@ -220,7 +201,7 @@ const HomePage = () => {
                                     <img class="img-fluid w-100" src={category1} alt="" />
                                     <Link class="img-pop-up" target="_blank" to={"#"}>
                                         <div class="deal-details">
-                                            <h6 class="deal-title">Featured</h6>
+                                            <h6 class="deal-title">{t('category_featured')}</h6>
                                         </div>
                                     </Link>
                                 </div>
@@ -231,7 +212,7 @@ const HomePage = () => {
                                     <img class="img-fluid w-100" src={category2} alt="" />
                                     <Link class="img-pop-up" target="_blank" to={"#"}>
                                         <div class="deal-details">
-                                            <h6 class="deal-title">Clothes</h6>
+                                            <h6 class="deal-title">{t('category_clothes')}</h6>
                                         </div>
                                     </Link>
                                 </div>
@@ -242,7 +223,7 @@ const HomePage = () => {
                                     <img class="img-fluid w-100" src={category3} alt="" />
                                     <Link class="img-pop-up" target="_blank" to={"#"}>
                                         <div class="deal-details">
-                                            <h6 class="deal-title">Accessories</h6>
+                                            <h6 class="deal-title">{t('category_accessories')}</h6>
                                         </div>
                                     </Link>
                                 </div>
@@ -253,7 +234,7 @@ const HomePage = () => {
                                     <img class="img-fluid w-100" src={category4} alt="" />
                                     <Link class="img-pop-up" target="_blank" to={"#"}>
                                         <div class="deal-details">
-                                            <h6 class="deal-title">Shoes</h6>
+                                            <h6 class="deal-title">{t('category_shoes')}</h6>
                                         </div>
                                     </Link>
                                 </div>
@@ -266,7 +247,7 @@ const HomePage = () => {
                             <img class="img-fluid w-100" src={category5} alt="" />
                             <Link class="img-pop-up" target="_blank" to={"#"}>
                                 <div class="deal-details">
-                                    <h6 class="deal-title">Sales off</h6>
+                                    <h6 class="deal-title">{t('category_sale')}</h6>
                                 </div>
                             </Link>
                         </div>
@@ -284,7 +265,7 @@ const HomePage = () => {
                     <div class="row justify-content-center">
                         <div class="col-lg-6 text-center">
                             <div class="section-title">
-                                <h1>Lastest Products</h1>
+                                <h1>{t('lastest_product')}</h1>
                             </div>
                         </div>
                     </div>
@@ -335,7 +316,7 @@ const HomePage = () => {
                     <div class="row justify-content-center">
                         <div class="col-lg-6 text-center">
                             <div class="section-title">
-                                <h1>Coming Products</h1>
+                                <h1>{t('comming_product')}</h1>
                             </div>
                         </div>
                     </div>
