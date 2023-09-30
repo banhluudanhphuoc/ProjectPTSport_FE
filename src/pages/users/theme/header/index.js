@@ -58,7 +58,7 @@ const Header = () => {
                                     </ul>
                                 </li>
                                 <li class="nav-item submenu dropdown">
-                                    <Link to="/category-page" className="nav-link dropdown-toggle custom_menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <Link to="/brand-page" className="nav-link dropdown-toggle custom_menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                         {t('menu_brands')}
                                     </Link>
                                     <ul class="dropdown-menu">
@@ -71,7 +71,7 @@ const Header = () => {
                                 </li>
                                 <li class="nav-item submenu dropdown">
                                     <Link to="/blogs" className="nav-link dropdown-toggle custom_menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        Blog
+                                        {t('menu_blogs')}
                                     </Link>
                                 </li>
                                 <li class="nav-item"><Link class="nav-link custom_menu" to="/contact">{t('menu_contact')}</Link></li>
@@ -110,7 +110,7 @@ const Header = () => {
             <div class="search_input" id="search_input_box">
                 <div class="container">
                     <form class="d-flex justify-content-between" >
-                        <input type="text" class="form-control" id="search_input" placeholder="Search Here" />
+                        <input type="text" class="form-control" id="search_input" placeholder={t('search_here')} />
                         <button type="submit" class="btn"></button>
                         <span class="lnr lnr-cross" id="close_search" title="Close Search" ></span>
                     </form>

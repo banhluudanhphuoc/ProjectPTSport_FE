@@ -4,7 +4,7 @@ import './style.scss';
 import { Link } from "react-router-dom";
 import Banner from "../../users/theme/banner";
 import { Icon } from '@iconify/react';
-import ImgCart from '../../../style/img/cart.jpg';
+import { useTranslation } from "react-i18next";
 
 const CartPage = () => {
     const {
@@ -18,6 +18,13 @@ const CartPage = () => {
         clearCartMetadata
     } = useCart();
 
+    const { t, i18n } = useTranslation();
+    const [currentLanguage, setCurrentLanguage] = useState('VI');
+    const handleLanguageChange = (newLanguage, lng) => {
+        setCurrentLanguage(newLanguage)
+        i18n.changeLanguage(lng);
+    };
+
     return <>
         <CartProvider>
             <Banner />
@@ -28,10 +35,10 @@ const CartPage = () => {
                             <table className="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col" className="col-4">Product</th>
-                                        <th scope="col" className="col-3">Price</th>
-                                        <th scope="col" className="col-4">Quantity</th>
-                                        <th scope="col" className="col-2">Total</th>
+                                        <th scope="col" className="col-4">{t('cart_product')}</th>
+                                        <th scope="col" className="col-3">{t('cart_price')}</th>
+                                        <th scope="col" className="col-4">{t('cart_quantity')}</th>
+                                        <th scope="col" className="col-2">{t('cart_total')}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -95,7 +102,7 @@ const CartPage = () => {
 
                                         </td>
                                         <td>
-                                            <h4>Subtotal</h4>
+                                            <h4>{t('cart_subtotal')}</h4>
                                         </td>
                                         <td>
                                             <h4>${cartTotal}</h4>
@@ -141,7 +148,7 @@ const CartPage = () => {
                                         </td>
                                         <td>
                                             <div className="checkout_btn_inner d-flex ">
-                                                <Link className="gray_btn btn-custom" href="#">Continue Shopping</Link>
+                                                <Link className="gray_btn btn-custom" to='/category-page'>{t('cart_continue_shoping')}</Link>
                                             </div>
 
                                         </td>
@@ -149,7 +156,7 @@ const CartPage = () => {
                                         </td>
                                         <td>
                                             <div className="checkout_btn_inner">
-                                                <Link className="primary-btn btn-custom" to="/checkout">Proceed to checkout</Link>
+                                                <Link className="primary-btn btn-custom" to="/checkout">{t('cart_process_checkout')}</Link>
                                             </div>
                                         </td>
                                     </tr>

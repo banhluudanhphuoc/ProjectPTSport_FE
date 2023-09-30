@@ -32,7 +32,6 @@ import brand3 from '../../../style/img/brand/3.png';
 import brand4 from '../../../style/img/brand/4.png';
 import brand5 from '../../../style/img/brand/5.png';
 
-import r1 from '../../../style/img/r1.jpg';
 import { useTranslation } from "react-i18next";
 const HomePage = () => {
     const { t, i18n } = useTranslation();
@@ -272,8 +271,8 @@ const HomePage = () => {
                     <div class="row">
                         {product.map((item) => (
 
-                            < div class="col-lg-3 col-md-6" >
-                                <div class="single-product" key={item.product_id}>
+                            < div class="col-lg-3 col-md-6" key={item.product_id}>
+                                <div class="single-product" >
                                     <img class="img-fluid" src={item.img_src} alt="" />
                                     <div class="product-details">
                                         <h6>{item.product_name}</h6>
@@ -284,21 +283,21 @@ const HomePage = () => {
                                         <div class="prd-bottom">
                                             <Link class="social-info" onClick={() => addItem(item)} href="#">
                                                 <span class="ti-bag"></span>
-                                                <p class="hover-text">Add to bag</p>
+                                                <p class="hover-text">{t('add_to_bag')}</p>
                                             </Link>
                                             <Link to={''} class="social-info">
                                                 <span class="lnr lnr-heart"></span>
-                                                <p class="hover-text">Wishlist</p>
+                                                <p class="hover-text">{t('wishlist')}</p>
                                             </Link>
                                             <Link to={''} className="social-info" onClick={() => setShowModal(item.product_id)}>
                                                 <span className="lnr lnr-eye" ></span>
                                                 <p className="hover-text" >
-                                                    Quick view
+                                                    {t('quick_view')}
                                                 </p>
                                             </Link>
                                             <Link to='/product-detail' class="social-info">
                                                 <span class="lnr lnr-move"></span>
-                                                <p class="hover-text">view more</p>
+                                                <p class="hover-text">{t('view_more')}</p>
                                             </Link>
 
                                         </div>
@@ -323,8 +322,8 @@ const HomePage = () => {
                     <div class="row">
                         {product.map((item) => (
 
-                            < div class="col-lg-3 col-md-6" >
-                                <div class="single-product" key={item.product_id}>
+                            < div class="col-lg-3 col-md-6" key={item.product_id}>
+                                <div class="single-product" >
                                     <img class="img-fluid" src={item.img_src} alt="" />
                                     <div class="product-details">
                                         <h6>{item.product_name}</h6>
@@ -335,21 +334,21 @@ const HomePage = () => {
                                         <div class="prd-bottom">
                                             <Link class="social-info" onClick={() => addItem(item)} href="#">
                                                 <span class="ti-bag"></span>
-                                                <p class="hover-text">Add to bag</p>
+                                                <p class="hover-text">{t('add_to_bag')}</p>
                                             </Link>
                                             <Link to={''} class="social-info">
                                                 <span class="lnr lnr-heart"></span>
-                                                <p class="hover-text">Wishlist</p>
+                                                <p class="hover-text">{t('wishlist')}</p>
                                             </Link>
                                             <Link to={''} className="social-info" onClick={() => setShowModal(item.product_id)}>
                                                 <span className="lnr lnr-eye" ></span>
                                                 <p className="hover-text" >
-                                                    Quick view
+                                                    {t('quick_view')}
                                                 </p>
                                             </Link>
                                             <Link to='/product-detail' class="social-info">
                                                 <span class="lnr lnr-move"></span>
-                                                <p class="hover-text">view more</p>
+                                                <p class="hover-text">{t('view_more')}</p>
                                             </Link>
 
                                         </div>
@@ -387,17 +386,17 @@ const HomePage = () => {
         </section >
         < RelatedProductArea />
         {product.map((item) => (
-            <Modal show={showModal} onHide={() => setShowModal(false)} key={item.product_id}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Quick View Product</Modal.Title>
+            <Modal show={showModal === item.product_id} onHide={() => setShowModal(false)} key={item.product_id}>
+                <Modal.Header >
+
                 </Modal.Header>
-                <Modal.Body className="set_width_modal">
+                <Modal.Body className="set_width_modal" key={item.id}>
                     <div class="container relative">
                         <div class="product-quick-view">
                             <div class="row align-items-center">
                                 <div class="col-lg-6">
                                     <div class="quick-view-carousel">
-                                        <img src={item.img_src} alt="" class="item" />
+                                        <img src={item.img_src} alt="" class="item" width={200} />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -429,10 +428,10 @@ const HomePage = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn_add_to_card" onClick={() => addItem(item)}>
-                        Add to Cart
+                        {t('add_to_bag')}
                     </Button>
                     <Button variant="secondary" onClick={() => setShowModal(false)}>
-                        Close
+                        {t('close')}
                     </Button>
 
                 </Modal.Footer>

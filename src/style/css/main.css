@@ -1525,7 +1525,7 @@ h1, h2, h3, h4, h5, h6 {
     .single-product .product-details .prd-bottom .social-info {
       position: relative;
       display: inline-block;
-      width: 35px;
+      width: 40px;
       -webkit-transition: all 0.3s ease 0s;
       -moz-transition: all 0.3s ease 0s;
       -o-transition: all 0.3s ease 0s;

@@ -12,8 +12,46 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import ImgReview1 from '../../../style/img/product/review-1.png';
 import ImgReview2 from '../../../style/img/product/review-2.png';
 import ImgReview3 from '../../../style/img/product/review-3.png';
+import SizeChart from '../../../assets/users/size-charts/giay-nam.png';
+
+
+import { useTranslation } from "react-i18next";
 
 const ProductDetail = () => {
+    const { t, i18n } = useTranslation();
+    const [currentLanguage, setCurrentLanguage] = useState('VI');
+    const handleLanguageChange = (newLanguage, lng) => {
+        setCurrentLanguage(newLanguage)
+        i18n.changeLanguage(lng);
+    };
+
+    const stars = document.querySelectorAll('.star');
+    stars.forEach((star, index) => {
+        star.addEventListener('mouseover', () => {
+            // Thay đổi class của biểu tượng Font Awesome khi hover
+            star.querySelector('i').classList.remove('fa-star-o');
+            star.querySelector('i').classList.add('fa-star');
+        });
+
+        star.addEventListener('mouseout', () => {
+            // Đảm bảo rằng class đã chuyển đổi được đổi trở lại sau khi hover
+            if (!star.classList.contains('active')) {
+                star.querySelector('i').classList.remove('fa-star');
+                star.querySelector('i').classList.add('fa-star-o');
+            }
+        });
+
+        star.addEventListener('click', () => {
+            // Xóa lớp 'active' khỏi tất cả các ngôi sao
+            stars.forEach((s, i) => {
+                s.classList.remove('active');
+            });
+            // Thêm lớp 'active' cho các ngôi sao từ vị trí 0 đến vị trí được click
+            for (let i = 0; i <= index; i++) {
+                stars[i].classList.add('active');
+            }
+        });
+    });
     // const [product, setProduct] = useState(null);
     // const { product: productId } = useParams();
 
@@ -117,16 +155,16 @@ const ProductDetail = () => {
                 <Tab.Container id="my-tabs" defaultActiveKey="home">
                     <Nav variant="tabs">
                         <Nav.Item>
-                            <Nav.Link eventKey="home">Description</Nav.Link>
+                            <Nav.Link eventKey="home">{t('product_detail_description')}</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="profile">Specification</Nav.Link>
+                            <Nav.Link eventKey="size-chart">{t('product_detail_size_charts')}</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="contact">Comments</Nav.Link>
+                            <Nav.Link eventKey="contact">{t('product_detail_comments')}</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="review">Reviews</Nav.Link>
+                            <Nav.Link eventKey="review">{t('product_detail_reviews')}</Nav.Link>
                         </Nav.Item>
                     </Nav>
 
@@ -150,77 +188,10 @@ const ProductDetail = () => {
                                     streamlined plan of cooking that is more efficient for one person creating less</p>
                             </div>
                         </Tab.Pane>
-                        <Tab.Pane eventKey="profile">
+                        <Tab.Pane eventKey="size-chart">
                             <div className="container mt-5 mb-5 ">
                                 <div class="table-responsive">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <h5>Width</h5>
-                                                </td>
-                                                <td>
-                                                    <h5>128mm</h5>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h5>Height</h5>
-                                                </td>
-                                                <td>
-                                                    <h5>508mm</h5>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h5>Depth</h5>
-                                                </td>
-                                                <td>
-                                                    <h5>85mm</h5>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h5>Weight</h5>
-                                                </td>
-                                                <td>
-                                                    <h5>52gm</h5>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h5>Quality checking</h5>
-                                                </td>
-                                                <td>
-                                                    <h5>yes</h5>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h5>Freshness Duration</h5>
-                                                </td>
-                                                <td>
-                                                    <h5>03days</h5>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h5>When packeting</h5>
-                                                </td>
-                                                <td>
-                                                    <h5>Without touch of hand</h5>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <h5>Each Box contains</h5>
-                                                </td>
-                                                <td>
-                                                    <h5>60pcs</h5>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <img src={SizeChart} alt="" />
                                 </div>
                             </div>
 
@@ -288,30 +259,30 @@ const ProductDetail = () => {
                                 </Col>
                                 <Col md='6'>
                                     <div class="review_box">
-                                        <h4>Post a comment</h4>
+                                        <h4>{t('product_detail_post_comment')}</h4>
                                         <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name" />
+                                                    <input type="text" class="form-control" id="name" name="name" placeholder={t('product_detail_post_comment_name')} />
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" />
+                                                    <input type="email" class="form-control" id="email" name="email" placeholder={t('product_detail_post_comment_email')} />
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="number" name="number" placeholder="Phone Number" />
+                                                    <input type="text" class="form-control" id="number" name="number" placeholder={t('product_detail_post_comment_number')} />
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
+                                                    <textarea class="form-control" name="message" id="message" rows="1" placeholder={t('product_detail_post_comment_message')}></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 text-right">
-                                                <button type="submit" value="submit" class="btn primary-btn">Submit Now</button>
+                                                <button type="submit" value="submit" class="btn primary-btn">{t('product_detail_post_comment_submit')}</button>
                                             </div>
                                         </form>
                                     </div>
@@ -448,17 +419,17 @@ const ProductDetail = () => {
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="review_box mt-3">
-                                            <h4>Add a Review</h4>
-                                            <p>Your Rating:</p>
-                                            <ul class="list">
-                                                <li><Link href="#"><i class="fa fa-star"></i></Link></li>
-                                                <li><Link href="#"><i class="fa fa-star"></i></Link></li>
-                                                <li><Link href="#"><i class="fa fa-star"></i></Link></li>
-                                                <li><Link href="#"><i class="fa fa-star"></i></Link></li>
-                                                <li><Link href="#"><i class="fa fa-star"></i></Link></li>
+                                            <h4>{t('product_detail_post_review_add')}</h4>
+                                            <p>{t('product_detail_post_review_rate')}:</p>
+                                            <ul class="star-rating list">
+                                                <li class="star"><i class="fa fa-star-o"></i></li>
+                                                <li class="star"><i class="fa fa-star-o"></i></li>
+                                                <li class="star"><i class="fa fa-star-o"></i></li>
+                                                <li class="star"><i class="fa fa-star-o"></i></li>
+                                                <li class="star"><i class="fa fa-star-o"></i></li>
                                             </ul>
-                                            <p>Outstanding</p>
-                                            <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+
+                                            <form class="row contact_form" action="" method="post" id="contactForm" novalidate="novalidate">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <input
@@ -466,7 +437,7 @@ const ProductDetail = () => {
                                                             class="form-control"
                                                             id="name"
                                                             name="name"
-                                                            placeholder="Your Full name"
+                                                            placeholder={t('product_detail_post_comment_name')}
                                                             onfocus="this.placeholder = ''"
                                                             onblur="this.placeholder = 'Your Full name'"
                                                         />
@@ -479,7 +450,7 @@ const ProductDetail = () => {
                                                             class="form-control"
                                                             id="email"
                                                             name="email"
-                                                            placeholder="Email Address"
+                                                            placeholder={t('product_detail_post_comment_email')}
                                                             onfocus="this.placeholder = ''"
                                                             onblur="this.placeholder = 'Email Address'"
                                                         />
@@ -492,7 +463,7 @@ const ProductDetail = () => {
                                                             class="form-control"
                                                             id="number"
                                                             name="number"
-                                                            placeholder="Phone Number"
+                                                            placeholder={t('product_detail_post_comment_number')}
                                                             onfocus="this.placeholder = ''"
                                                             onblur="this.placeholder = 'Phone Number'"
                                                         />
@@ -505,7 +476,7 @@ const ProductDetail = () => {
                                                             name="message"
                                                             id="message"
                                                             rows="1"
-                                                            placeholder="Review"
+                                                            placeholder={t('product_detail_post_comment_review')}
                                                             onfocus="this.placeholder = ''"
                                                             onblur="this.placeholder = 'Review'">
 
@@ -513,7 +484,7 @@ const ProductDetail = () => {
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 text-right">
-                                                    <button type="submit" value="submit" class="primary-btn">Submit Now</button>
+                                                    <button type="submit" value="submit" class="primary-btn">{t('product_detail_post_comment_submit')}</button>
                                                 </div>
                                             </form>
                                         </div>

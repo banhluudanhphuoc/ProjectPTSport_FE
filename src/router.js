@@ -59,10 +59,11 @@ const RouterCustom = () => {
             <Route path="/admin/customer_edit/:customer" element={<MasterLayoutAdmin><EditCustomerAdmin /></MasterLayoutAdmin>} />
             <Route path="/admin/poster_edit/:poster" element={<MasterLayoutAdmin><EditPosterAdmin /></MasterLayoutAdmin>} />
             <Route path="/admin/order_detail_admin/:order" element={<MasterLayoutAdmin><OrderDetailAdmin /></MasterLayoutAdmin>} />
-            {/* Product Detail, Product Page, Checkout */}
-            {/* <Route path="/product-detail/:product" element={<MasterLayout><ProductDetail /></MasterLayout>} /> */}
-            {/* <Route path="/category-page/:category" element={<MasterLayout><CategoryPage /></MasterLayout>} /> */}
 
+
+            <Route path="/product-detail/:product" element={<MasterLayout><ProductDetail /></MasterLayout>} />
+            <Route path="/category-page/:category" element={<MasterLayout><CategoryPage /></MasterLayout>} />
+            <Route path="/brand-page/:brand" element={<MasterLayout><CategoryPage /></MasterLayout>} />
         </Routes>
     );
 };
@@ -88,7 +89,8 @@ const UserRoutes = () => {
                 <Route path={ROUTERS.USER.PROFILE} element={<ProfilePage />} />
                 <Route path={ROUTERS.USER.PRODUCT_DETAIL} element={<ProductDetail />} />
                 <Route path={ROUTERS.USER.CART} element={<CartPage />} />
-                <Route path={ROUTERS.USER.CATEGORY_PAGE} element={<CategoryPage />} />
+                <Route path={ROUTERS.USER.CATEGORY_PAGE} element={<CategoryPage type="category" />} />
+                <Route path={ROUTERS.USER.BRAND_PAGE} element={<CategoryPage type="brand" />} />
                 <Route path={ROUTERS.USER.LOGIN_USER} element={<LoginUserPage />} />
                 <Route path={ROUTERS.USER.REGISTER} element={<RegisterPage />} />
             </Routes>

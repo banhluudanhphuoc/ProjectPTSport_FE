@@ -45,3 +45,29 @@
     font-size: 12px;
     margin-left: 2px;
 }
+
+/* Định dạng phần tử div bao quanh */
+.col-md-12.form-group.p_star {
+  margin-bottom: 20px; /* Khoảng cách dưới div */
+}
+
+/* Định dạng danh sách thả xuống */
+.country_select {
+  width: 100%; /* Chiều rộng 100% của div bao quanh */
+  padding: 10px; /* Khoảng cách nội dung bên trong select */
+  border: 1px solid #ccc; /* Đường viền */
+  border-radius: 5px; /* Góc bo tròn */
+  font-size: 14px; /* Kích thước chữ */
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+
+
+/* Định dạng tùy chọn trong danh sách thả xuống */
+.country_select option {
+  padding: 10px; /* Khoảng cách nội dung bên trong option */
+  font-size: 16px; /* Kích thước chữ */
+}
+

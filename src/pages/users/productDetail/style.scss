@@ -35,3 +35,20 @@
 	padding-top: 20px;
 	padding-bottom: 20px;
 } 
+
+.star-rating {
+  list-style: none;
+  padding: 0;
+  display: inline-block;
+}
+
+.star {
+  display: inline-block;
+  font-size: 20px; /* Điều chỉnh kích thước ngôi sao */
+  cursor: pointer;
+  transition: color 0.2s; /* Hiệu ứng khi hover */
+}
+
+.star.active {
+  color: #ffcc00; /* Màu của ngôi sao đầy khi hover hoặc được chọn */
+}
