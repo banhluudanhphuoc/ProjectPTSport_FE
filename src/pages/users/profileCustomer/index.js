@@ -2,23 +2,13 @@ import { memo } from "react";
 import React, { useState, useEffect } from 'react';
 import "./style.scss";
 import {
-    PasswordInput,
-    Group,
     Button,
-    Box,
     Card,
-    TextInput,
-    PinInput,
     Grid,
     Image,
     Text,
     ThemeIcon,
-    List,
     Tabs,
-    rem,
-    Table,
-    ScrollArea,
-    Highlight,
     Mark,
     Avatar,
 } from '@mantine/core';
