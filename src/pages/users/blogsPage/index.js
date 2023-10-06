@@ -11,13 +11,19 @@ import BlogImg2 from '../../../style/img/blog/main-blog/m-blog-2.jpg';
 import BlogImg3 from '../../../style/img/blog/main-blog/m-blog-3.jpg';
 import BlogImg4 from '../../../style/img/blog/main-blog/m-blog-4.jpg';
 import BlogImg5 from '../../../style/img/blog/main-blog/m-blog-5.jpg';
-
+import { useTranslation } from "react-i18next";
 const BlogsPage = () => {
 
+    const { t, i18n } = useTranslation();
+    const [currentLanguage, setCurrentLanguage] = useState('VI');
+    const handleLanguageChange = (newLanguage, lng) => {
+        setCurrentLanguage(newLanguage)
+        i18n.changeLanguage(lng);
+    };
 
 
     return <>
-        <Banner />
+        <Banner pageTitle={t('pageTitle_news')} />
         <section className="blog_categorie_area">
             <Container>
                 <Row>
@@ -26,7 +32,7 @@ const BlogsPage = () => {
                             <img src={BlogsCategoryImg3} alt="post" />
                             <div className="categories_details">
                                 <div className="categories_text">
-                                    <a href="blog-details.html" classNameName="custom_the_a">
+                                    <a href="blog-details.html" className="custom_the_a">
                                         <h5>Social Life</h5>
                                     </a>
                                     <div className="border_line"></div>
@@ -40,7 +46,7 @@ const BlogsPage = () => {
                             <img src={BlogsCategoryImg2} alt="post" />
                             <div className="categories_details">
                                 <div className="categories_text">
-                                    <a href="blog-details.html" classNameName="custom_the_a">
+                                    <a href="blog-details.html" className="custom_the_a">
                                         <h5>Politics</h5>
                                     </a>
                                     <div className="border_line"></div>
@@ -54,7 +60,7 @@ const BlogsPage = () => {
                             <img src={BlogsCategoryImg1} alt="post" />
                             <div className="categories_details">
                                 <div className="categories_text">
-                                    <a href="blog-details.html" classNameName="custom_the_a">
+                                    <a href="blog-details.html" className="custom_the_a">
                                         <h5>Food</h5>
                                     </a>
                                     <div className="border_line"></div>
@@ -78,16 +84,16 @@ const BlogsPage = () => {
                                 <div className="col-md-3">
                                     <div className="blog_info text-right">
                                         <div className="post_tag">
-                                            <a href="#" classNameName="custom_the_a">Food,</a>
-                                            <a className="active" href="#" classNameName="custom_the_a">Technology,</a>
-                                            <a href="#" classNameName="custom_the_a">Politics,</a>
-                                            <a href="#" classNameName="custom_the_a">Lifestyle</a>
+                                            <a href="#" className="custom_the_a">Food,</a>
+                                            <a className="active" href="#" className="custom_the_a">Technology,</a>
+                                            <a href="#" className="custom_the_a">Politics,</a>
+                                            <a href="#" className="custom_the_a">Lifestyle</a>
                                         </div>
                                         <ul className="blog_meta list">
-                                            <li><a href="#" classNameName="custom_the_a">Mark wiens<i className="lnr lnr-user"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">12 Dec, 2018<i className="lnr lnr-calendar-full"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">1.2M Views<i className="lnr lnr-eye"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">06 Comments<i className="lnr lnr-bubble"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">Mark wiens<i className="lnr lnr-user"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">12 Dec, 2018<i className="lnr lnr-calendar-full"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">1.2M Views<i className="lnr lnr-eye"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">06 Comments<i className="lnr lnr-bubble"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -110,16 +116,16 @@ const BlogsPage = () => {
                                 <div className="col-md-3">
                                     <div className="blog_info text-right">
                                         <div className="post_tag">
-                                            <a href="#" classNameName="custom_the_a">Food,</a>
-                                            <a className="active" href="#" classNameName="custom_the_a">Technology,</a>
-                                            <a href="#" classNameName="custom_the_a">Politics,</a>
-                                            <a href="#" classNameName="custom_the_a">Lifestyle</a>
+                                            <a href="#" className="custom_the_a">Food,</a>
+                                            <a className="active" href="#" className="custom_the_a">Technology,</a>
+                                            <a href="#" className="custom_the_a">Politics,</a>
+                                            <a href="#" className="custom_the_a">Lifestyle</a>
                                         </div>
                                         <ul className="blog_meta list">
-                                            <li><a href="#" classNameName="custom_the_a">Mark wiens<i className="lnr lnr-user"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">12 Dec, 2018<i className="lnr lnr-calendar-full"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">1.2M Views<i className="lnr lnr-eye"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">06 Comments<i className="lnr lnr-bubble"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">Mark wiens<i className="lnr lnr-user"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">12 Dec, 2018<i className="lnr lnr-calendar-full"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">1.2M Views<i className="lnr lnr-eye"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">06 Comments<i className="lnr lnr-bubble"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -142,16 +148,16 @@ const BlogsPage = () => {
                                 <div className="col-md-3">
                                     <div className="blog_info text-right">
                                         <div className="post_tag">
-                                            <a href="#" classNameName="custom_the_a">Food,</a>
-                                            <a className="active" href="#" classNameName="custom_the_a">Technology,</a>
-                                            <a href="#" classNameName="custom_the_a">Politics,</a>
-                                            <a href="#" classNameName="custom_the_a">Lifestyle</a>
+                                            <a href="#" className="custom_the_a">Food,</a>
+                                            <a className="active" href="#" className="custom_the_a">Technology,</a>
+                                            <a href="#" className="custom_the_a">Politics,</a>
+                                            <a href="#" className="custom_the_a">Lifestyle</a>
                                         </div>
                                         <ul className="blog_meta list">
-                                            <li><a href="#" classNameName="custom_the_a">Mark wiens<i className="lnr lnr-user"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">12 Dec, 2018<i className="lnr lnr-calendar-full"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">1.2M Views<i className="lnr lnr-eye"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">06 Comments<i className="lnr lnr-bubble"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">Mark wiens<i className="lnr lnr-user"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">12 Dec, 2018<i className="lnr lnr-calendar-full"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">1.2M Views<i className="lnr lnr-eye"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">06 Comments<i className="lnr lnr-bubble"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -174,16 +180,16 @@ const BlogsPage = () => {
                                 <div className="col-md-3">
                                     <div className="blog_info text-right">
                                         <div className="post_tag">
-                                            <a href="#" classNameName="custom_the_a">Food,</a>
-                                            <a className="active" href="#" classNameName="custom_the_a">Technology,</a>
-                                            <a href="#" classNameName="custom_the_a">Politics,</a>
-                                            <a href="#" classNameName="custom_the_a">Lifestyle</a>
+                                            <a href="#" className="custom_the_a">Food,</a>
+                                            <a className="active" href="#" className="custom_the_a">Technology,</a>
+                                            <a href="#" className="custom_the_a">Politics,</a>
+                                            <a href="#" className="custom_the_a">Lifestyle</a>
                                         </div>
                                         <ul className="blog_meta list">
-                                            <li><a href="#" classNameName="custom_the_a">Mark wiens<i className="lnr lnr-user"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">12 Dec, 2018<i className="lnr lnr-calendar-full"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">1.2M Views<i className="lnr lnr-eye"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">06 Comments<i className="lnr lnr-bubble"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">Mark wiens<i className="lnr lnr-user"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">12 Dec, 2018<i className="lnr lnr-calendar-full"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">1.2M Views<i className="lnr lnr-eye"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">06 Comments<i className="lnr lnr-bubble"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -206,16 +212,16 @@ const BlogsPage = () => {
                                 <div className="col-md-3">
                                     <div className="blog_info text-right">
                                         <div className="post_tag">
-                                            <a href="#" classNameName="custom_the_a">Food,</a>
-                                            <a className="active" href="#" classNameName="custom_the_a">Technology,</a>
-                                            <a href="#" classNameName="custom_the_a">Politics,</a>
-                                            <a href="#" classNameName="custom_the_a">Lifestyle</a>
+                                            <a href="#" className="custom_the_a">Food,</a>
+                                            <a className="active" href="#" className="custom_the_a">Technology,</a>
+                                            <a href="#" className="custom_the_a">Politics,</a>
+                                            <a href="#" className="custom_the_a">Lifestyle</a>
                                         </div>
                                         <ul className="blog_meta list">
-                                            <li><a href="#" classNameName="custom_the_a">Mark wiens<i className="lnr lnr-user"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">12 Dec, 2018<i className="lnr lnr-calendar-full"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">1.2M Views<i className="lnr lnr-eye"></i></a></li>
-                                            <li><a href="#" classNameName="custom_the_a">06 Comments<i className="lnr lnr-bubble"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">Mark wiens<i className="lnr lnr-user"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">12 Dec, 2018<i className="lnr lnr-calendar-full"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">1.2M Views<i className="lnr lnr-eye"></i></a></li>
+                                            <li><a href="#" className="custom_the_a">06 Comments<i className="lnr lnr-bubble"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -237,19 +243,19 @@ const BlogsPage = () => {
                             <nav className="blog-pagination justify-content-center d-flex">
                                 <ul className="pagination">
                                     <li className="page-item">
-                                        <a href="#" classNameName="custom_the_a" className="page-link" aria-label="Previous">
+                                        <a href="#" className="custom_the_a" className="page-link" aria-label="Previous">
                                             <span aria-hidden="true">
                                                 <span className="lnr lnr-chevron-left"></span>
                                             </span>
                                         </a>
                                     </li>
-                                    <li className="page-item"><a href="#" classNameName="custom_the_a" className="page-link">01</a></li>
-                                    <li className="page-item active"><a href="#" classNameName="custom_the_a" className="page-link">02</a></li>
-                                    <li className="page-item"><a href="#" classNameName="custom_the_a" className="page-link">03</a></li>
-                                    <li className="page-item"><a href="#" classNameName="custom_the_a" className="page-link">04</a></li>
-                                    <li className="page-item"><a href="#" classNameName="custom_the_a" className="page-link">09</a></li>
+                                    <li className="page-item"><a href="#" className="custom_the_a" className="page-link">01</a></li>
+                                    <li className="page-item active"><a href="#" className="custom_the_a" className="page-link">02</a></li>
+                                    <li className="page-item"><a href="#" className="custom_the_a" className="page-link">03</a></li>
+                                    <li className="page-item"><a href="#" className="custom_the_a" className="page-link">04</a></li>
+                                    <li className="page-item"><a href="#" className="custom_the_a" className="page-link">09</a></li>
                                     <li className="page-item">
-                                        <a href="#" classNameName="custom_the_a" className="page-link" aria-label="Next">
+                                        <a href="#" className="custom_the_a" className="page-link" aria-label="Next">
                                             <span aria-hidden="true">
                                                 <span className="lnr lnr-chevron-right"></span>
                                             </span>
@@ -275,10 +281,10 @@ const BlogsPage = () => {
                                 <h4>Charlie Barber</h4>
                                 <p>Senior blog writer</p>
                                 <div className="social_icon">
-                                    <a href="#" classNameName="custom_the_a"><i className="fa fa-facebook"></i></a>
-                                    <a href="#" classNameName="custom_the_a"><i className="fa fa-twitter"></i></a>
-                                    <a href="#" classNameName="custom_the_a"><i className="fa fa-github"></i></a>
-                                    <a href="#" classNameName="custom_the_a"><i className="fa fa-behance"></i></a>
+                                    <a href="#" className="custom_the_a"><i className="fa fa-facebook"></i></a>
+                                    <a href="#" className="custom_the_a"><i className="fa fa-twitter"></i></a>
+                                    <a href="#" className="custom_the_a"><i className="fa fa-github"></i></a>
+                                    <a href="#" className="custom_the_a"><i className="fa fa-behance"></i></a>
                                 </div>
                                 <p>Boot camps have its supporters andit sdetractors. Some people do not understand why you
                                     should have to spend money on boot camp when you can get. Boot camps have itssuppor
@@ -326,50 +332,50 @@ const BlogsPage = () => {
                                 <div className="br"></div>
                             </aside>
                             <aside className="single_sidebar_widget ads_widget">
-                                <a href="#" classNameName="custom_the_a"><img className="img-fluid" src="img/blog/add.jpg" alt="" /></a>
+                                <a href="#" className="custom_the_a"><img className="img-fluid" src="img/blog/add.jpg" alt="" /></a>
                                 <div className="br"></div>
                             </aside>
                             <aside className="single_sidebar_widget post_category_widget">
                                 <h4 className="widget_title">Post Catgories</h4>
                                 <ul className="list cat-list">
                                     <li>
-                                        <a href="#" classNameName="custom_the_a" className="d-flex justify-content-between">
+                                        <a href="#" className="custom_the_a" className="d-flex justify-content-between">
                                             <p>Technology</p>
                                             <p>37</p>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" classNameName="custom_the_a" className="d-flex justify-content-between">
+                                        <a href="#" className="custom_the_a" className="d-flex justify-content-between">
                                             <p>Lifestyle</p>
                                             <p>24</p>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" classNameName="custom_the_a" className="d-flex justify-content-between">
+                                        <a href="#" className="custom_the_a" className="d-flex justify-content-between">
                                             <p>Fashion</p>
                                             <p>59</p>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" classNameName="custom_the_a" className="d-flex justify-content-between">
+                                        <a href="#" className="custom_the_a" className="d-flex justify-content-between">
                                             <p>Art</p>
                                             <p>29</p>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" classNameName="custom_the_a" className="d-flex justify-content-between">
+                                        <a href="#" className="custom_the_a" className="d-flex justify-content-between">
                                             <p>Food</p>
                                             <p>15</p>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" classNameName="custom_the_a" className="d-flex justify-content-between">
+                                        <a href="#" className="custom_the_a" className="d-flex justify-content-between">
                                             <p>Architecture</p>
                                             <p>09</p>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" classNameName="custom_the_a" className="d-flex justify-content-between">
+                                        <a href="#" className="custom_the_a" className="d-flex justify-content-between">
                                             <p>Adventure</p>
                                             <p>44</p>
                                         </a>
@@ -398,7 +404,7 @@ const BlogsPage = () => {
 
                                         />
                                     </div>
-                                    <a href="#" classNameName="custom_the_a" className="bbtns">Subcribe</a>
+                                    <a href="#" className="custom_the_a" className="bbtns">Subcribe</a>
                                 </div>
                                 <p className="text-bottom">You can unsubscribe at any time</p>
                                 <div className="br"></div>
@@ -406,18 +412,18 @@ const BlogsPage = () => {
                             <aside className="single-sidebar-widget tag_cloud_widget">
                                 <h4 className="widget_title">Tag Clouds</h4>
                                 <ul className="list">
-                                    <li><a href="#" classNameName="custom_the_a">Technology</a></li>
-                                    <li><a href="#" classNameName="custom_the_a">Fashion</a></li>
-                                    <li><a href="#" classNameName="custom_the_a">Architecture</a></li>
-                                    <li><a href="#" classNameName="custom_the_a">Fashion</a></li>
-                                    <li><a href="#" classNameName="custom_the_a">Food</a></li>
-                                    <li><a href="#" classNameName="custom_the_a">Technology</a></li>
-                                    <li><a href="#" classNameName="custom_the_a">Lifestyle</a></li>
-                                    <li><a href="#" classNameName="custom_the_a">Art</a></li>
-                                    <li><a href="#" classNameName="custom_the_a">Adventure</a></li>
-                                    <li><a href="#" classNameName="custom_the_a">Food</a></li>
-                                    <li><a href="#" classNameName="custom_the_a">Lifestyle</a></li>
-                                    <li><a href="#" classNameName="custom_the_a">Adventure</a></li>
+                                    <li><a href="#" className="custom_the_a">Technology</a></li>
+                                    <li><a href="#" className="custom_the_a">Fashion</a></li>
+                                    <li><a href="#" className="custom_the_a">Architecture</a></li>
+                                    <li><a href="#" className="custom_the_a">Fashion</a></li>
+                                    <li><a href="#" className="custom_the_a">Food</a></li>
+                                    <li><a href="#" className="custom_the_a">Technology</a></li>
+                                    <li><a href="#" className="custom_the_a">Lifestyle</a></li>
+                                    <li><a href="#" className="custom_the_a">Art</a></li>
+                                    <li><a href="#" className="custom_the_a">Adventure</a></li>
+                                    <li><a href="#" className="custom_the_a">Food</a></li>
+                                    <li><a href="#" className="custom_the_a">Lifestyle</a></li>
+                                    <li><a href="#" className="custom_the_a">Adventure</a></li>
                                 </ul>
                             </aside>
                         </div>

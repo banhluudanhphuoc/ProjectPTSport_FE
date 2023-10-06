@@ -1,7 +1,7 @@
 .nice-select {
   -webkit-tap-highlight-color: transparent;
   background-color: #fff;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   border: solid 1px #e8e8e8;
   box-sizing: border-box;
   clear: both;
@@ -88,7 +88,7 @@
       min-height: 34px; }
   .nice-select .list {
     background-color: #fff;
-    border-radius: 5px;
+    /* border-radius: 5px; */
     box-shadow: 0 0 0 1px rgba(68, 68, 68, 0.11);
     box-sizing: border-box;
     margin-top: 4px;

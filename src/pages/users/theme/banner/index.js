@@ -1,14 +1,11 @@
 import { memo, useState, useEffect } from "react";
-
 import { Link } from "react-router-dom";
-import { AiOutlineMail, AiOutlinePhone, AiTwotoneEnvironment, AiFillFacebook, AiFillInstagram, AiFillYoutube } from "react-icons/ai";
-
 import { ROUTERS } from "utils/router";
 import { CartProvider, useCart } from "react-use-cart";
 import { Image } from "react-bootstrap";
 
 
-const Banner = () => {
+const Banner = ({ pageTitle }) => {
 
     return (
         <section class="banner-area organic-breadcrumb">
@@ -17,6 +14,7 @@ const Banner = () => {
                     <div class="col-first">
                         <h1 className="mr-5">PT SPORTS</h1>
                         <nav class="d-flex align-items-center">
+                            <h5>{pageTitle}</h5>
                         </nav>
                     </div>
                 </div>

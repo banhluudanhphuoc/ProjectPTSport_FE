@@ -1,15 +1,14 @@
 import { memo, useState, useEffect } from "react";
-import { Image } from "@mantine/core";
 import './style.scss';
-import { Link, useParams } from 'react-router-dom';
-import { Modal, Button } from 'react-bootstrap';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Modal, Button, Image } from 'react-bootstrap';
 import Banner from "../../users/theme/banner";
 import { useTranslation } from "react-i18next";
-import imgExamp from '../../../style/img/organic-food/q1.jpg';
 import product1 from '../../../style/img/product/p6.jpg';
 import { CartProvider, useCart } from "react-use-cart";
 import RelatedProductArea from "../theme/relatedProductArea";
-
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 const CategoryPage = ({ type }) => {
     const { type: routeType } = useParams();
     const { t, i18n } = useTranslation();
@@ -22,6 +21,15 @@ const CategoryPage = ({ type }) => {
     const [showModal, setShowModal] = useState(false);
     const [quantity, setQuantity] = useState(1); // Khởi tạo số lượng ban đầu
 
+    const navigate = useNavigate();
+    const handleAddToCart = (item) => {
+        // Xử lý thêm sản phẩm vào giỏ hàng ở đây
+        addItem(item);
+        // Hiển thị thông báo thành công
+        NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
+            navigate("/cart");
+        });
+    };
     const product = [
         {
             id: "1",
@@ -110,7 +118,13 @@ const CategoryPage = ({ type }) => {
 
     return (
         <>
-            <Banner />
+            <NotificationContainer />
+            {type === 'category' ?
+                <Banner pageTitle={t('pageTitle_category')} />
+                :
+                <Banner pageTitle={t('pageTitle_brand')} />}
+
+
             {/* <!-- End Banner Area-- > */}
             <div className="container">
                 <div className="row">
@@ -149,8 +163,8 @@ const CategoryPage = ({ type }) => {
                     <div className="col-xl-9 col-lg-8 col-md-7">
 
                         <div className="filter-bar d-flex flex-wrap align-items-center">
-                            <div className="sorting_custom">
-                                <select >
+                            <div className="pagination">
+                                <select class="nice-select">
                                     <option value="1">{t('sorting_default')}</option>
                                     <option value="2">{t('sorting_price_high')}</option>
                                     <option value="3">{t('sorting_price_low')}</option>
@@ -186,7 +200,7 @@ const CategoryPage = ({ type }) => {
                                                 </div>
                                                 <div className="prd-bottom">
 
-                                                    <Link className="social-info" onClick={() => addItem(item)} href="#">
+                                                    <Link className="social-info" onClick={() => handleAddToCart(item)} href="#">
                                                         <span className="ti-bag"></span>
                                                         <p className="hover-text">{t('add_to_bag')}</p>
                                                     </Link>
@@ -225,7 +239,7 @@ const CategoryPage = ({ type }) => {
                         <Modal.Header >
 
                         </Modal.Header>
-                        <Modal.Body classNameName="set_width_modal" key={item.id}>
+                        <Modal.Body className="set_width_modal" key={item.id}>
                             <div className="container relative">
                                 <div className="product-quick-view">
                                     <div className="row align-items-center">
@@ -247,12 +261,12 @@ const CategoryPage = ({ type }) => {
                                                         <span className="ml-10 l-through">${item.price}</span>
                                                     </div>
 
-                                                    <div className="category">Category: <span>Household</span></div>
-                                                    <div className="available">Availibility: <span>In Stock</span></div>
+                                                    <div className="category">{t('modal_category')}: <span>Household</span></div>
+                                                    <div className="available">{t('modal_availibility')}: <span>In Stock</span></div>
                                                 </div>
                                                 <div className="middle">
                                                     <p >{item.description}</p>
-                                                    <Link to='/product-detail' className="view-full">View full Details <span className="lnr lnr-arrow-right"></span></Link>
+                                                    <Link to='/product-detail' className="view-full">{t('modal_view_full')}<span className="lnr lnr-arrow-right"></span></Link>
                                                 </div>
                                             </div>
                                         </div>
@@ -262,7 +276,7 @@ const CategoryPage = ({ type }) => {
 
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button classNameName="btn_add_to_card" onClick={() => addItem(item)}>
+                            <Button className="btn_add_to_card" onClick={() => handleAddToCart(item)}>
                                 {t('add_to_bag')}
                             </Button>
                             <Button variant="secondary" onClick={() => setShowModal(false)}>

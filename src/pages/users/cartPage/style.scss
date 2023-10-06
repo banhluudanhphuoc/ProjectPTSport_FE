@@ -13,3 +13,11 @@
     text-decoration: none;
 
 }
+
+.media-body-custom{
+    display: flex;
+    button{
+        border: none;
+        background-color: none;
+    }
+}

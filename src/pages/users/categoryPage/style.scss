@@ -93,16 +93,26 @@
     }
   }
 
-  .btn_add_to_card{
-    color: #FD8400;
-    background-color: white;
-    border: #FD8400;
+
+.btn_add_to_card{
+    color: #FD8400 !important;
+    background-color: white !important;
+    border: #FD8400 !important;
     &:hover{
-      background-color: #FD8400;
-      color: white;
+      background-color: #FD8400 !important;
+      color: white !important;
     }
 
   }
-  .sorting_custom {
-    margin-top: 10px;
-    margin-right: 10px; }
+
+    .filter-bar {
+      padding: 0px 20px 10px 20px !important;
+      background: #828bb3 !important; }
+      .filter-bar a, .filter-bar i {
+        color: #000 !important; }
+        
+.sorting_custom{
+  padding-top: 0.853rem;
+  padding-bottom: 0.853rem;
+  display: flex;
+}

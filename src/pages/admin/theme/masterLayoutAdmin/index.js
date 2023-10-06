@@ -23,10 +23,10 @@ import '../../../../assets/admin/vendor/libs/apex-charts/apexcharts.js';
 const MasterLayoutAdmin = ({ children, ...props }) => {
     return (
         <div {...props}>
-            <div class="layout-wrapper layout-content-navbar">
-                <div class="layout-container">
+            <div className="layout-wrapper layout-content-navbar">
+                <div className="layout-container">
                     <MenuAdmin />
-                    <div class="layout-page">
+                    <div className="layout-page">
                         <HeaderAdmin />
                         {children}
                     </div>

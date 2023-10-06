@@ -50,7 +50,7 @@ const MenuAdmin = () => {
                     </li>
                     {/*product*/}
                     <li class="menu-header small text-uppercase">
-                        <span class="menu-header-text">products</span>
+                        <span class="menu-header-text">Sản phẩm & Đơn hàng</span>
                     </li>
                     <li className={`menu-item ${activeMainMenu === "Product" ? "open active" : ""}`}>
                         <Link
@@ -59,20 +59,74 @@ const MenuAdmin = () => {
                             onClick={() => handleMainMenuClick("Product")}
                         >
                             <Icon icon="ri:product-hunt-fill" className="menu-icon tf-icons" />
-                            <div data-i18n="Products">Products</div>
+                            <div data-i18n="Products">Sản phẩm</div>
                         </Link>
                         <ul className="menu-sub">
                             <li className={`menu-item ${activeSubMenu === "list-product" ? "active" : ""}`}>
                                 <Link to="/admin/products_list" className="menu-link" onClick={() => handleSubMenuClick("list-product")}>
-                                    <div data-i18n="Without menu">Products List</div>
+                                    <div data-i18n="Without menu">Danh sách sản phẩm</div>
+                                </Link>
+                            </li>
+                            <li className={`menu-item ${activeSubMenu === "create-product" ? "active" : ""}`}>
+                                <Link to="/admin/product_create" className="menu-link" onClick={() => handleSubMenuClick("create-product")}>
+                                    <div data-i18n="Without menu">Thêm mới sản phẩm</div>
+                                </Link>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li className={`menu-item ${activeMainMenu === "order" ? "open active" : ""}`}>
+                        <Link
+                            to="javascript:void(0);"
+                            className={`menu-link menu-toggle`}
+                            onClick={() => handleMainMenuClick("order")}
+                        >
+                            <Icon icon="tdesign:order-descending" className="menu-icon tf-icons" />
+                            <div data-i18n="orders">Đơn hàng</div>
+                        </Link>
+                        <ul className="menu-sub">
+                            <li className={`menu-item ${activeSubMenu === "list-order" ? "active" : ""}`}>
+                                <Link to="/admin/orders_list_admin" className="menu-link" onClick={() => handleSubMenuClick("list-order")}>
+                                    <div data-i18n="Without menu">Tất cả đơn hàng</div>
+                                </Link>
+                            </li>
+                            <li className={`menu-item ${activeSubMenu === "ordered" ? "active" : ""}`}>
+                                <Link to="/admin/orders_list_admin_ordered" className="menu-link" onClick={() => handleSubMenuClick("ordered")}>
+                                    <div data-i18n="Without menu">Đơn hàng đã đặt hàng</div>
+                                </Link>
+                            </li>
+                            <li className={`menu-item ${activeSubMenu === "order-pending" ? "active" : ""}`}>
+                                <Link to="/admin/orders_list_admin_pending" className="menu-link" onClick={() => handleSubMenuClick("order-pending")}>
+                                    <div data-i18n="Without menu">Đơn hàng đang xử lý</div>
+                                </Link>
+                            </li>
+                            <li className={`menu-item ${activeSubMenu === "order-pay" ? "active" : ""}`}>
+                                <Link to="/admin/orders_list_admin_pay" className="menu-link" onClick={() => handleSubMenuClick("order-pay")}>
+                                    <div data-i18n="Without menu">Đơn hàng đang đợi thanh toán</div>
+                                </Link>
+                            </li>
+                            <li className={`menu-item ${activeSubMenu === "order-delivering" ? "active" : ""}`}>
+                                <Link to="/admin/orders_list_admin_delivering" className="menu-link" onClick={() => handleSubMenuClick("order-delivering")}>
+                                    <div data-i18n="Without menu">Đơn hàng đang giao</div>
+                                </Link>
+                            </li>
+                            <li className={`menu-item ${activeSubMenu === "order-completed" ? "active" : ""}`}>
+                                <Link to="/admin/orders_list_admin_completed" className="menu-link" onClick={() => handleSubMenuClick("order-completed")}>
+                                    <div data-i18n="Without menu">Đơn hàng đã hoàn thành</div>
+                                </Link>
+                            </li>
+                            <li className={`menu-item ${activeSubMenu === "order-cancelled" ? "active" : ""}`}>
+                                <Link to="/admin/orders_list_admin_cancelled" className="menu-link" onClick={() => handleSubMenuClick("order-cancelled")}>
+                                    <div data-i18n="Without menu">Đơn hàng bị hủy</div>
                                 </Link>
                             </li>
 
                         </ul>
                     </li>
+
                     {/*CATRGORIES & BRANDS*/}
                     <li class="menu-header small text-uppercase">
-                        <span class="menu-header-text">CATRGORIES & BRANDS</span>
+                        <span class="menu-header-text">Danh mục & Thương hiệu</span>
                     </li>
                     <li className={`menu-item ${activeMainMenu === "categories" ? "open active" : ""}`}>
                         <Link
@@ -81,12 +135,17 @@ const MenuAdmin = () => {
                             onClick={() => handleMainMenuClick("categories")}
                         >
                             <Icon icon="iconamoon:category-fill" className="menu-icon tf-icons" />
-                            <div data-i18n="Categories">Categories</div>
+                            <div data-i18n="Categories">Danh mục</div>
                         </Link>
                         <ul className="menu-sub">
                             <li className={`menu-item ${activeSubMenu === "list-categories" ? "active" : ""}`}>
                                 <Link to="/admin/categories_list" className="menu-link" onClick={() => handleSubMenuClick("list-categories")}>
-                                    <div data-i18n="Without menu">Categories List</div>
+                                    <div data-i18n="Without menu">Danh sách danh mục</div>
+                                </Link>
+                            </li>
+                            <li className={`menu-item ${activeSubMenu === "create-category" ? "active" : ""}`}>
+                                <Link to="/admin/category_create" className="menu-link" onClick={() => handleSubMenuClick("create-category")}>
+                                    <div data-i18n="Without menu">Thêm mới danh mục</div>
                                 </Link>
                             </li>
 
@@ -98,18 +157,53 @@ const MenuAdmin = () => {
                             className={`menu-link menu-toggle`}
                             onClick={() => handleMainMenuClick("brands")}
                         >
-                            <Icon icon="tabler:brand-cake" className="menu-icon tf-icons" />
-                            <div data-i18n="Brands">Brands</div>
+                            <Icon icon="tabler:brand-itch" className="menu-icon tf-icons" />
+                            <div data-i18n="Brands">Thương hiệu</div>
                         </Link>
                         <ul className="menu-sub">
                             <li className={`menu-item ${activeSubMenu === "list-brands" ? "active" : ""}`}>
-                                <Link to="/admin/brands-list" className="menu-link" onClick={() => handleSubMenuClick("list-brands")}>
-                                    <div data-i18n="Brands List">Brands List</div>
+                                <Link to="/admin/brands_list" className="menu-link" onClick={() => handleSubMenuClick("list-brands")}>
+                                    <div data-i18n="Brands List">Danh sách thương hiệu</div>
+                                </Link>
+                            </li>
+
+                            <li className={`menu-item ${activeSubMenu === "create-brand" ? "active" : ""}`}>
+                                <Link to="/admin/brand_create" className="menu-link" onClick={() => handleSubMenuClick("create-brand")}>
+                                    <div data-i18n="Brands List">Thêm mới thương hiệu</div>
+                                </Link>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    {/*news*/}
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Tin tức</span>
+                    </li>
+                    <li className={`menu-item ${activeMainMenu === "news" ? "open active" : ""}`}>
+                        <Link
+                            to="javascript:void(0);"
+                            className={`menu-link menu-toggle`}
+                            onClick={() => handleMainMenuClick("news")}
+                        >
+                            <Icon icon="fluent:news-20-filled" className="menu-icon tf-icons" />
+                            <div data-i18n="News">Tin tức</div>
+                        </Link>
+                        <ul className="menu-sub">
+                            <li className={`menu-item ${activeSubMenu === "list-news" ? "active" : ""}`}>
+                                <Link to="/admin/news_list" className="menu-link" onClick={() => handleSubMenuClick("list-news")}>
+                                    <div data-i18n="Without menu">Danh sách tin tức</div>
+                                </Link>
+                            </li>
+                            <li className={`menu-item ${activeSubMenu === "create-news" ? "active" : ""}`}>
+                                <Link to="/admin/news_create" className="menu-link" onClick={() => handleSubMenuClick("create-news")}>
+                                    <div data-i18n="Without menu">Thêm mới tin tức</div>
                                 </Link>
                             </li>
 
                         </ul>
                     </li>
+
                     {/*users & account*/}
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">users & account</span>
@@ -126,7 +220,7 @@ const MenuAdmin = () => {
                         <ul className="menu-sub">
                             <li className={`menu-item ${activeSubMenu === "customers_list" ? "active" : ""}`}>
                                 <Link to="/admin/customers_list" className="menu-link" onClick={() => handleSubMenuClick("customers_list")}>
-                                    <div data-i18n="User List">User List</div>
+                                    <div data-i18n="User List">Danh sách khách hàng</div>
                                 </Link>
                             </li>
 
@@ -139,12 +233,12 @@ const MenuAdmin = () => {
                             onClick={() => handleMainMenuClick("account")}
                         >
                             <Icon icon="ri:account-box-fill" className="menu-icon tf-icons" />
-                            <div data-i18n="Account">Account</div>
+                            <div data-i18n="Account">Tài khoản</div>
                         </Link>
                         <ul className="menu-sub">
                             <li className={`menu-item ${activeSubMenu === "account-settings" ? "active" : ""}`}>
                                 <Link to="/admin/account-settings" className="menu-link" onClick={() => handleSubMenuClick("account-settings")}>
-                                    <div data-i18n="Account Settings">Account Settings</div>
+                                    <div data-i18n="Account Settings">Cài đặt tài khoản</div>
                                 </Link>
                             </li>
 

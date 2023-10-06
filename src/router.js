@@ -26,13 +26,17 @@ import MasterLayoutAdmin from "pages/admin/theme/masterLayoutAdmin";
 import DashBoard from "pages/admin/dashBoard";
 import LoginAdmin from "pages/admin/loginAdmin";
 
-import PostersListAdmin from "pages/admin/posts/listPost";
-import CreatePosterAdmin from "pages/admin/posts/createPost";
-import EditPosterAdmin from "pages/admin/posts/editPost";
-
 import CategoriesListAdmin from "pages/admin/categories/listCategories";
 import EditCategoryAdmin from "pages/admin/categories/editCategory";
 import CreateCategoryAdmin from "pages/admin/categories/createCategory";
+
+import EditBrandAdmin from "pages/admin/brands/editBrand";
+import BrandsListAdmin from "pages/admin/brands/listBrands";
+import CreateBrandAdmin from "pages/admin/brands/createBrand";
+
+import EditNewsAdmin from "pages/admin/news/editNews";
+import CreateNewsAdmin from "pages/admin/news/createNews";
+import ListNewsAdmin from "pages/admin/news/listNews";
 
 import ListProductsAdmin from "pages/admin/products/listProducts";
 import EditProductAdmin from "pages/admin/products/editProduct";
@@ -45,6 +49,12 @@ import AccountSettings from "pages/admin/customers/accountSettings";
 
 import OrdersListAdmin from "pages/admin/orders/listOrders";
 import OrderDetailAdmin from "pages/admin/orders/orderDetails";
+import ListOrdersCancelled from "pages/admin/orders/listOrdersCancelled";
+import ListOrdersCompleted from "pages/admin/orders/listOrdersCompleted";
+import ListOrdersDelivering from "pages/admin/orders/listOrdersDelivering";
+import ListOrdersOrdered from "pages/admin/orders/listOrdersOrdered";
+import ListOrdersPay from "pages/admin/orders/listOrdersPay";
+import ListOrdersPending from "pages/admin/orders/listOrdersPending";
 const RouterCustom = () => {
     return (
         <Routes>
@@ -56,11 +66,10 @@ const RouterCustom = () => {
             <Route path="/admin/admin-login" element={<LoginAdmin />} />
             <Route path="/admin/product_edit/:product" element={<MasterLayoutAdmin><EditProductAdmin /></MasterLayoutAdmin>} />
             <Route path="/admin/category_edit/:category" element={<MasterLayoutAdmin><EditCategoryAdmin /></MasterLayoutAdmin>} />
+            <Route path="/admin/brand_edit/:category" element={<MasterLayoutAdmin><EditBrandAdmin /></MasterLayoutAdmin>} />
             <Route path="/admin/customer_edit/:customer" element={<MasterLayoutAdmin><EditCustomerAdmin /></MasterLayoutAdmin>} />
-            <Route path="/admin/poster_edit/:poster" element={<MasterLayoutAdmin><EditPosterAdmin /></MasterLayoutAdmin>} />
+            <Route path="/admin/news_edit/:news" element={<MasterLayoutAdmin><EditNewsAdmin /></MasterLayoutAdmin>} />
             <Route path="/admin/order_detail_admin/:order" element={<MasterLayoutAdmin><OrderDetailAdmin /></MasterLayoutAdmin>} />
-
-
             <Route path="/product-detail/:product" element={<MasterLayout><ProductDetail /></MasterLayout>} />
             <Route path="/category-page/:category" element={<MasterLayout><CategoryPage /></MasterLayout>} />
             <Route path="/brand-page/:brand" element={<MasterLayout><CategoryPage /></MasterLayout>} />
@@ -71,7 +80,7 @@ const RouterCustom = () => {
 const UserRoutes = () => {
     const location = useLocation();
     useEffect(() => {
-        window.scrollTo(0, 0); // Cuộn lên đầu trang khi chuyển trang
+        window.scrollTo(0, 0);
     }, [location.pathname]);
     return (
         <MasterLayout>
@@ -105,8 +114,8 @@ const AdminRoutes = () => {
         <MasterLayoutAdmin>
             <Routes>
                 <Route path={ROUTERS.ADMIN.DASHBOARD} element={<DashBoard />} />
-                <Route path={ROUTERS.ADMIN.POSTERS_LIST} element={<PostersListAdmin />} />
-                <Route path={ROUTERS.ADMIN.POSTER_CREATE} element={<CreatePosterAdmin />} />
+                <Route path={ROUTERS.ADMIN.NEWS_LIST} element={<ListNewsAdmin />} />
+                <Route path={ROUTERS.ADMIN.NEWS_CREATE} element={<CreateNewsAdmin />} />
                 <Route path={ROUTERS.ADMIN.PRODUCTS_LIST} element={<ListProductsAdmin />} />
                 <Route path={ROUTERS.ADMIN.PRODUCT_CREATE} element={<CreateProductAdmin />} />
                 <Route path={ROUTERS.ADMIN.CATEGORIES_LIST} element={<CategoriesListAdmin />} />
@@ -115,6 +124,14 @@ const AdminRoutes = () => {
                 <Route path={ROUTERS.ADMIN.ACCOUNT_SETTINGS} element={<AccountSettings />} />
                 <Route path={ROUTERS.ADMIN.CATEGORY_CREATE} element={<CreateCategoryAdmin />} />
                 <Route path={ROUTERS.ADMIN.ORDERS_LIST} element={<OrdersListAdmin />} />
+                <Route path={ROUTERS.ADMIN.BRANDS_LIST} element={<BrandsListAdmin />} />
+                <Route path={ROUTERS.ADMIN.BRAND_CREATE} element={<CreateBrandAdmin />} />
+                <Route path={ROUTERS.ADMIN.ORDERS_LIST_CANCELLED} element={<ListOrdersCancelled />} />
+                <Route path={ROUTERS.ADMIN.ORDERS_LIST_PENDING} element={<ListOrdersPending />} />
+                <Route path={ROUTERS.ADMIN.ORDERS_LIST_COMPLETED} element={<ListOrdersCompleted />} />
+                <Route path={ROUTERS.ADMIN.ORDERS_LIST_DELIVERING} element={<ListOrdersDelivering />} />
+                <Route path={ROUTERS.ADMIN.ORDERS_LIST_ORDERED} element={<ListOrdersOrdered />} />
+                <Route path={ROUTERS.ADMIN.ORDERS_LIST_PAY} element={<ListOrdersPay />} />
             </Routes>
         </MasterLayoutAdmin>
 

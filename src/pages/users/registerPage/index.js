@@ -81,7 +81,7 @@ const RegisterPage = () => {
     };
 
     return <>
-        <Banner />
+        <Banner pageTitle={t('pageTitle_register')} />
         <section class="login_box_area section_gap">
             <div class="container">
                 <div class="row">
@@ -94,7 +94,7 @@ const RegisterPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 container">
+                    <div class="col-lg-6">
                         <div class="row ml-5">
                             <h3>{t('register_register')}</h3>
                             <form class="row login_form" id="contactForm" novalidate="novalidate" >

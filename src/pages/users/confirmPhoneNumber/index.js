@@ -1,13 +1,21 @@
 import { memo } from "react";
 import "./style.scss";
+import React, { useState, useEffect } from 'react';
 import { PasswordInput, Group, Button, Box, Card, TextInput, PinInput, Text } from '@mantine/core';
 import { Link } from "react-router-dom";
 import Banner from "../../users/theme/banner";
 import { Container, Row, Col, } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 const ConfirmPhoneNumber = () => {
+    const { t, i18n } = useTranslation();
+    const [currentLanguage, setCurrentLanguage] = useState('VI');
+    const handleLanguageChange = (newLanguage, lng) => {
+        setCurrentLanguage(newLanguage)
+        i18n.changeLanguage(lng);
+    };
 
     return <>
-        <Banner />
+        <Banner pageTitle={t('pageTitle_confirm_phone_number')} />
         <Container className=" mt-5 mb-5">
             <Row>
                 <Col>

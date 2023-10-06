@@ -10,13 +10,13 @@ export const ROUTERS = {
         CHECKOUT_PAGE: "checkout",
         LOGIN_USER: "login-user",
         REGISTER: "register",
-        CONFIRM_PHONE_NUMBER: "confirm-phone_number",
-        PROFILE_CUSTOMER: "profile_customer",
+        CONFIRM_PHONE_NUMBER: "confirm-phone-number",
+        PROFILE_CUSTOMER: "profile-customer",
         PROFILE_CUSTOMER_EDIT: "profile-customer-edit",
         CONFIRMATION_PAGE: "confirmation",
         CONTACT_PAGE: "contact",
-        BLOGS_PAGE: "blogs",
-        BLOG_DETAIL: "blog_detail",
+        BLOGS_PAGE: "news",
+        BLOG_DETAIL: "news-detail",
         ORDER_DETAIL_CUSTOMER: "order-detail-customer",
     },
     ADMIN: {
@@ -32,17 +32,26 @@ export const ROUTERS = {
         CUSTOMER_EDIT: "customer_edit",
         ACCOUNT_SETTINGS: "account-settings",
 
-
-        POSTERS_LIST: "posters_list",
-        POSTER_CREATE: "post_create",
-        POSTER_EDIT: "post_edit",
-
-
         CATEGORIES_LIST: "categories_list",
         CATEGORY_EDIT: "category_edit",
         CATEGORY_CREATE: "category_create",
 
+        BRANDS_LIST: "brands_list",
+        BRAND_EDIT: "brand_edit",
+        BRAND_CREATE: "brand_create",
+
+        NEWS_LIST: "news_list",
+        NEWS_EDIT: "news_edit",
+        NEWS_CREATE: "news_create",
+
         ORDERS_LIST: "orders_list_admin",
         ORDER_DETAIL: "order_detail_admin",
+        ORDERS_LIST_PENDING: "orders_list_admin_pending",
+        ORDERS_LIST_COMPLETED: "orders_list_admin_completed",
+        ORDERS_LIST_CANCELLED: "orders_list_admin_cancelled",
+        ORDERS_LIST_DELIVERING: "orders_list_admin_delivering",
+        ORDERS_LIST_PAY: "orders_list_admin_pay",
+        ORDERS_LIST_ORDERED: "orders_list_admin_ordered",
+
     }
 }

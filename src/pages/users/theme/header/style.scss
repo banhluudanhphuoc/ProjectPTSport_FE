@@ -1,14 +1,20 @@
 .custom_menu{
     font-size: xl-large !important;
-    font-weight: 800 !important;
+    font-weight: 600 !important;
     text-decoration: none;
+    color: #000 !important;
+    &:hover{
+        color: #FFC000 !important;
+    }
+}
+
+.active-menu-item {
     color: #FFC000 !important;
-    
 }
 
 .custom_menu_sub{
     font-size: xl-large !important;
-    font-weight: 800 !important;
+    font-weight: 600 !important;
     text-decoration: none;
     color: #FFC000 !important;
     &:hover{
@@ -36,23 +42,33 @@ li.nav-item{
         transform: translateY(-50%);
       }
     .icon-cart{
-        color: #FFC000 !important;
+        color: #000 ;
         font-size: 20px;
+        &:hover{
+            color: #FFC000 !important;
+        }
+        .active-menu-item {
+            color: #FFC000 !important;
+        }
     }
 }
 
 .language{
     border: none;
     background-color: white;
-    color: #FFC000;
+    color: #000;
     font-size: 0.7rem;
+    &:hover{
+        color: #FFC000 ;
+    }
     &.active {
-        color: red ;
+        color: #FFC000 ;
         font-size: 0.8rem ;
+        font-weight: 500;
     }
 }
 .mid-language{
-    color: #FFC000 !important;
+    color: #000;
     margin-left: 0.3rem;
     margin-right: 0.3rem;
 }

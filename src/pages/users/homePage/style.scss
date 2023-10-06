@@ -15,3 +15,43 @@
     }
 
   }
+
+
+  .container,
+  .container-fluid,
+  .container-xxl,
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm {
+    width: 100% !important;
+    padding-right: var(--bs-gutter-x, 1.625rem) !important;
+    padding-left: var(--bs-gutter-x, 1.625rem) !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    max-width: 1140px !important;
+    font-family: "Roboto" !important;
+  }
+
+  h1,h2,h3,h4,h5,h6{
+    font-family: "Roboto" !important;
+  }
+
+  #scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 10px 15px;
+    font-size: 16px;
+}
+
+#scrollToTopBtn:hover {
+    background-color: #0056b3;
+}

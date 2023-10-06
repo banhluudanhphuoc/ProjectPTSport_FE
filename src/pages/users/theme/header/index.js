@@ -7,11 +7,16 @@ import { ROUTERS } from "utils/router";
 import { CartProvider, useCart } from "react-use-cart";
 import { Image } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-const Header = () => {
+
+
+const Header = ({ isHome }) => {
     const { t, i18n } = useTranslation();
-    // const changeLanguage = lng => {
-    //     i18n.changeLanguage(lng);
-    // };
+    const [currentLanguage, setCurrentLanguage] = useState('VI');
+    const handleLanguageChange = (newLanguage, lng) => {
+        setCurrentLanguage(newLanguage)
+        i18n.changeLanguage(lng);
+    };
+
     const {
         isEmpty,
         totalUniqueItems,
@@ -20,72 +25,135 @@ const Header = () => {
         removeItem,
     } = useCart();
 
-    const [currentLanguage, setCurrentLanguage] = useState('VI');
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const handleLanguageChange = (newLanguage, lng) => {
-        setCurrentLanguage(newLanguage)
-        i18n.changeLanguage(lng);
+    const [activeMenuItem, setActiveMenuItem] = useState(null);
+
+    const handleMainMenuClick = (mainMenuId) => {
+        setActiveMenuItem(mainMenuId);
     };
 
 
     return (
 
-        <header class="header_area sticky-header">
-            <div class="main_menu">
-                <nav class="navbar navbar-expand-lg navbar-light main_box">
-                    <div class="container">
-                        <a class="navbar-brand logo_h" href='/' ><Image src={logo} width="80px" alt="" /></a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
+        <header className="header_area sticky-header">
+            <div className="main_menu">
+                <nav className="navbar navbar-expand-lg navbar-light main_box">
+                    <div className="container">
+                        <a className="navbar-brand logo_h" href='/' ><Image src={logo} width="80px" alt="" /></a>
+                        <button
+                            id="navbarSupportedContentButton"
+                            className="navbar-toggler"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded={isMenuOpen ? 'true' : 'false'}
+                            aria-label="Toggle navigation"
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        >
+                            <span className="icon-bar"></span>
+                            <span className="icon-bar"></span>
+                            <span className="icon-bar"></span>
                         </button>
 
-                        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-                            <ul class="nav navbar-nav menu_nav ml-auto ">
+                        <div className="collapse navbar-collapse offset" id="navbarSupportedContent">
+                            <ul className="nav navbar-nav menu_nav ml-auto ">
+                                <li className="nav-item">
+                                    <a
+                                        className={`nav-link custom_menu ${isHome ? "active-menu-item" : ""}`}
+                                        href="/"
+                                        onClick={() => handleMainMenuClick("home")}
+                                    >
+                                        {t('menu_home')}
+                                    </a>
+                                </li>
+                                <li className="nav-item submenu dropdown">
 
-                                <li class="nav-item active"><a class="nav-link custom_menu" href="/">{t('menu_home')}</a></li>
-                                <li class="nav-item submenu dropdown">
-                                    <Link to="/category-page" className="nav-link dropdown-toggle custom_menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <Link
+                                        to="/category-page"
+                                        className={`nav-link dropdown-toggle custom_menu ${activeMenuItem === "category" ? "active-menu-item" : ""}`}
+                                        onClick={() => handleMainMenuClick("category")}
+                                        data-toggle="dropdown" role="button"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                    >
                                         {t('menu_categries')}
                                     </Link>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">{t('menu_featured')}</Link></li>
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">{t('menu_clothes')}</Link></li>
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">{t('menu_shoes')}</Link></li>
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">{t('menu_accessories')}</Link></li>
+                                    <ul className="dropdown-menu">
+                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">{t('menu_featured')}</Link></li>
+                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">{t('menu_clothes')}</Link></li>
+                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">{t('menu_shoes')}</Link></li>
+                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">{t('menu_accessories')}</Link></li>
                                     </ul>
                                 </li>
-                                <li class="nav-item submenu dropdown">
-                                    <Link to="/brand-page" className="nav-link dropdown-toggle custom_menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <li className="nav-item submenu dropdown" >
+                                    <Link
+                                        to="/brand-page"
+                                        className={`nav-link dropdown-toggle custom_menu ${activeMenuItem === "brand" ? "active-menu-item" : ""}`}
+                                        onClick={() => handleMainMenuClick("brand")}
+                                        data-toggle="dropdown"
+                                        role="button"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                    >
                                         {t('menu_brands')}
                                     </Link>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">nike</Link></li>
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">adidas</Link></li>
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">puma</Link></li>
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">fila</Link></li>
-                                        <li class="nav-item"><Link class="nav-link custom_menu_sub" to="">Champion</Link></li>
+                                    <ul className="dropdown-menu">
+                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">nike</Link></li>
+                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">adidas</Link></li>
+                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">puma</Link></li>
+                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">fila</Link></li>
+                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">Champion</Link></li>
                                     </ul>
                                 </li>
-                                <li class="nav-item submenu dropdown">
-                                    <Link to="/blogs" className="nav-link dropdown-toggle custom_menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <li className="nav-item submenu dropdown">
+                                    <Link
+                                        to="/news"
+                                        className={`nav-link dropdown-toggle custom_menu ${activeMenuItem === "news" ? "active-menu-item" : ""}`}
+                                        onClick={() => handleMainMenuClick("news")}
+                                        data-toggle="dropdown"
+                                        role="button"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                    >
                                         {t('menu_blogs')}
                                     </Link>
                                 </li>
-                                <li class="nav-item"><Link class="nav-link custom_menu" to="/contact">{t('menu_contact')}</Link></li>
-                                <li class="nav-item"><Link class="nav-link custom_menu" to="/login-user">{t('menu_login')}</Link></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right ">
-                                <li class="nav-item">
-                                    <Link className="cart custom_menu" to="/cart">
-                                        <span class="ti-bag icon-cart"></span>
-                                        {totalUniqueItems > 0 && <span className="cart-count">{totalUniqueItems}</span>}
+                                <li className="nav-item">
+                                    <Link
+                                        className={`nav-link dropdown-toggle custom_menu ${activeMenuItem === "contact" ? "active-menu-item" : ""}`}
+                                        onClick={() => handleMainMenuClick("contact")}
+                                        to="/contact">
+                                        {t('menu_contact')}
                                     </Link>
                                 </li>
-                                <li class="nav-item">
-                                    <button class="search "><span class="lnr lnr-magnifier custom_menu" id="search"></span></button>
+                                <li className="nav-item">
+                                    <Link
+                                        className={`nav-link dropdown-toggle custom_menu ${activeMenuItem === "login" ? "active-menu-item" : ""}`}
+                                        onClick={() => handleMainMenuClick("login")}
+                                        to="/login-user">
+                                        {t('menu_login')}
+                                    </Link>
+                                </li>
+                            </ul>
+                            <ul className="nav navbar-nav navbar-right ">
+                                <li className="nav-item">
+                                    {totalUniqueItems > 0 &&
+
+
+                                        <Link
+                                            className="cart custom_menu"
+                                            to="/cart"
+                                            onClick={() => handleMainMenuClick("cart")}
+                                        >
+                                            <span className={`ti-bag icon-cart ${activeMenuItem === "cart" ? "active-menu-item" : ""}`}></span>
+                                            <span className="cart-count">{totalUniqueItems}</span>
+                                        </Link>
+                                    }
+                                </li>
+                                <li className="nav-item">
+                                    <button className="search "><span className="lnr lnr-magnifier custom_menu" id="search"></span></button>
                                 </li>
                                 <li className="nav-item">
                                     <button
@@ -106,17 +174,17 @@ const Header = () => {
                         </div>
                     </div>
                 </nav>
-            </div>
-            <div class="search_input" id="search_input_box">
-                <div class="container">
-                    <form class="d-flex justify-content-between" >
-                        <input type="text" class="form-control" id="search_input" placeholder={t('search_here')} />
-                        <button type="submit" class="btn"></button>
-                        <span class="lnr lnr-cross" id="close_search" title="Close Search" ></span>
+            </div >
+            <div className="search_input" id="search_input_box">
+                <div className="container">
+                    <form className="d-flex justify-content-between" >
+                        <input type="text" className="form-control" id="search_input" placeholder={t('search_here')} />
+                        <button type="submit" className="btn"></button>
+                        <span className="lnr lnr-cross" id="close_search" title="Close Search" ></span>
                     </form>
                 </div>
             </div>
-        </header>
+        </header >
 
     );
 };

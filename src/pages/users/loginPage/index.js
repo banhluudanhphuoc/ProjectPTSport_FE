@@ -21,7 +21,7 @@ const LoginUserPage = () => {
     //     }
     // });alt=""/
     return <>
-        <Banner />
+        <Banner pageTitle={t('pageTitle_login')} />
         <section class="login_box_area section_gap">
             <div class="container">
                 <div class="row">

@@ -1,11 +1,12 @@
 import { memo, useState, useEffect } from "react";
 import { CartProvider, useCart } from "react-use-cart";
 import './style.scss';
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import Banner from "../../users/theme/banner";
 import { Icon } from '@iconify/react';
 import { useTranslation } from "react-i18next";
-
+import { Modal, Button, Image } from 'react-bootstrap';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 const CartPage = () => {
     const {
         isEmpty,
@@ -25,13 +26,40 @@ const CartPage = () => {
         i18n.changeLanguage(lng);
     };
 
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const [itemToRemove, setItemToRemove] = useState(null);
+
+    const handleDeleteProduct = (item) => {
+        setItemToRemove(item);
+        setShowConfirmationModal(true);
+    };
+    const navigate = useNavigate();
+    const confirmDeleteProduct = () => {
+        if (itemToRemove) {
+            removeItem(itemToRemove.id);
+            setItemToRemove(null);
+            setShowConfirmationModal(false);
+            NotificationManager.success(
+                'Sản phẩm đã được xóa khỏi giỏ hàng',
+                'Xóa sản phẩm',
+                2000
+            );
+        }
+
+    };
+    useEffect(() => {
+        if (totalUniqueItems === 0) {
+            navigate('/category-page');
+        }
+    }, [totalUniqueItems]);
     return <>
         <CartProvider>
-            <Banner />
+            <NotificationContainer />
+            <Banner pageTitle={t('pageTitle_cart')} />
             <section className="cart_area">
                 <div className="container">
                     <div className="cart_inner">
-                        <div className="table table-hover ">
+                        <div className="table-responsive">
                             <table className="table">
                                 <thead>
                                     <tr>
@@ -43,14 +71,19 @@ const CartPage = () => {
                                 </thead>
                                 <tbody>
                                     {items.map((item) => (
-                                        <tr>
+                                        <tr key={item.id}>
                                             <td>
                                                 <div className="media">
                                                     <div className="d-flex">
                                                         <img src={item.img_src} alt="" width={100} />
                                                     </div>
-                                                    <div className="media-body">
+                                                    <div className="media-body media-body-custom">
                                                         <p>{item.product_name}</p>
+                                                        <span className="ml-5">
+                                                            <Link onClick={() => handleDeleteProduct(item)} to="#">
+                                                                <Icon icon="ph:x" />
+                                                            </Link>
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </td>
@@ -59,13 +92,14 @@ const CartPage = () => {
                                             </td>
                                             <td>
                                                 <div class="product_count">
-                                                    <input type="text" name="qty" id="sst" maxlength="12" value={item.quantity} title="Quantity:"
+                                                    <input type="text" name="qty" id="sst" maxLength="12" value={item.quantity} title="Quantity:"
                                                         class="input-text qty" />
                                                     <div class="arrow-btn d-inline-flex flex-column">
                                                         <button class="increase items-count" type="button" title="Increase Quantity" onClick={() => updateItemQuantity(item.id, item.quantity + 1)}>
                                                             <Icon icon="teenyicons:up-outline" />
                                                         </button>
-                                                        <button className="reduced items-count" type="button" title="Decrease Quantity" onClick={() => updateItemQuantity(item.id, item.quantity - 1)}>
+                                                        <button className="reduced items-count" type="button" title="Decrease Quantity" onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
+                                                            style={{ display: item.quantity === 1 ? 'none' : 'block' }}>
                                                             <Icon icon="teenyicons:down-outline" />
                                                         </button>
                                                     </div>
@@ -121,10 +155,10 @@ const CartPage = () => {
                                         <td>
                                             <div className="shipping_box">
                                                 <ul className="list">
-                                                    <li><Link href="#" classNameName="btn-custom">Flat Rate: $5.00</Link></li>
-                                                    <li><Link href="#" classNameName="btn-custom">Free Shipping</Link></li>
-                                                    <li><Link href="#" classNameName="btn-custom">Flat Rate: $10.00</Link></li>
-                                                    <li className="active"><Link href="#" classNameName="btn-custom">Local Delivery: $2.00</Link></li>
+                                                    <li><Link href="#" className="btn-custom">Flat Rate: $5.00</Link></li>
+                                                    <li><Link href="#" className="btn-custom">Free Shipping</Link></li>
+                                                    <li><Link href="#" className="btn-custom">Flat Rate: $10.00</Link></li>
+                                                    <li className="active"><Link href="#" className="btn-custom">Local Delivery: $2.00</Link></li>
                                                 </ul>
                                                 <h6>Calculate Shipping <i className="fa fa-caret-down" aria-hidden="true"></i></h6>
                                                 <select className="shipping_select">
@@ -153,6 +187,7 @@ const CartPage = () => {
 
                                         </td>
                                         <td>
+
                                         </td>
                                         <td>
                                             <div className="checkout_btn_inner">
@@ -166,6 +201,24 @@ const CartPage = () => {
                     </div>
                 </div>
             </section>
+            {showConfirmationModal && (
+                <Modal show={showConfirmationModal} onHide={() => setShowConfirmationModal(false)}>
+                    <Modal.Header>
+                        <Modal.Title>Xác nhận xóa sản phẩm</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => setShowConfirmationModal(false)}>
+                            Hủy
+                        </Button>
+                        <Button variant="primary" onClick={confirmDeleteProduct}>
+                            Xác nhận
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
         </CartProvider >
     </>
 };

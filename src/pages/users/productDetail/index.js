@@ -13,8 +13,9 @@ import ImgReview1 from '../../../style/img/product/review-1.png';
 import ImgReview2 from '../../../style/img/product/review-2.png';
 import ImgReview3 from '../../../style/img/product/review-3.png';
 import SizeChart from '../../../assets/users/size-charts/giay-nam.png';
-
-
+import { CartProvider, useCart } from "react-use-cart";
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 import { useTranslation } from "react-i18next";
 
 const ProductDetail = () => {
@@ -24,7 +25,14 @@ const ProductDetail = () => {
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
     };
-
+    const { addItem, updateItemQuantity } = useCart();
+    const handleAddToCart = (item) => {
+        // Xử lý thêm sản phẩm vào giỏ hàng ở đây
+        addItem(item);
+        // Hiển thị thông báo thành công
+        NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000);
+        // Cập nhật số lượng sản phẩm trong giỏ hàng hoặc thực hiện các công việc khác
+    };
     const stars = document.querySelectorAll('.star');
     stars.forEach((star, index) => {
         star.addEventListener('mouseover', () => {
@@ -84,7 +92,8 @@ const ProductDetail = () => {
     const [mainImage, setMainImage] = useState(ProductImg);
     return (
         <>
-            <Banner />
+            <NotificationContainer />
+            <Banner pageTitle="ten san pham" />
             <div class="product_image_area">
                 <div class="container">
                     <div class="row s_product_inner">
@@ -141,7 +150,7 @@ const ProductDetail = () => {
                                     during the winter.</p>
 
                                 <div class="card_area d-flex align-items-center">
-                                    <Link class="primary-btn btn-product-detail" to="/cart">Add to Cart</Link>
+                                    <Link class="primary-btn btn-product-detail" to="/cart" onClick={() => handleAddToCart()}>Add to Cart</Link>
                                     <Link class="icon_btn btn-product-detail" href="#"><i class="lnr lnr lnr-heart"></i></Link>
                                 </div>
                             </div>

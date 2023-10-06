@@ -93,13 +93,13 @@ const CheckoutPage = () => {
     //     },
     // });
     return <>
-        <Banner />
+        <Banner pageTitle={t('pageTitle_checkout')} />
         <section className="checkout_area section_gap">
             <div className="container">
 
                 {/* <div className="cupon_area">
                     <div className="check_title">
-                        <h2>Have a coupon? <Link href="#" classNameName="the_a_checkout">Click here to enter your code</Link></h2>
+                        <h2>Have a coupon? <Link href="#" className="the_a_checkout">Click here to enter your code</Link></h2>
                     </div>
                     <input type="text" placeholder="Enter coupon code" />
                     <Link className="tp_btn the_a_checkout" href="#" >Apply Coupon</Link>
@@ -188,8 +188,8 @@ const CheckoutPage = () => {
                                     </ul>
                                     <ul className="list list_2">
                                         <li><Link href="#" className="the_a_checkout">{t('checkout_your_order_subtotal')} <span>${cartTotal}</span></Link></li>
-                                        {/* <li><Link href="#" classNameName="the_a_checkout">Shipping <span>Flat rate: $50.00</span></Link></li>
-                                    <li><Link href="#" classNameName="the_a_checkout">Total <span>$2210.00</span></Link></li> */}
+                                        {/* <li><Link href="#" className="the_a_checkout">Shipping <span>Flat rate: $50.00</span></Link></li>
+                                    <li><Link href="#" className="the_a_checkout">Total <span>$2210.00</span></Link></li> */}
                                     </ul>
                                     <div className="payment_item">
                                         <div className="radion_btn">

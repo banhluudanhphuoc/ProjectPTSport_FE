@@ -1,4 +1,5 @@
 import React, { useState, memo } from "react";
+import { useTranslation } from "react-i18next";
 import "./style.scss";
 import { DateInput } from '@mantine/dates';
 import axios from "axios";
@@ -26,7 +27,12 @@ import Banner from "../../users/theme/banner";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
 import { Link } from "react-router-dom";
 const ProfileCustomerEdit = () => {
-
+    const { t, i18n } = useTranslation();
+    const [currentLanguage, setCurrentLanguage] = useState('VI');
+    const handleLanguageChange = (newLanguage, lng) => {
+        setCurrentLanguage(newLanguage)
+        i18n.changeLanguage(lng);
+    };
     const form = useForm({
         initialValues: {
             password: '',
@@ -83,7 +89,7 @@ const ProfileCustomerEdit = () => {
 
 
     return <>
-        <Banner />
+        <Banner pageTitle={t('pageTitle_customer_profile_edit')} />
         <div className="container">
             <Card shadow="sm" padding="lg" withBorder>
                 <div className="title-profile-customer">

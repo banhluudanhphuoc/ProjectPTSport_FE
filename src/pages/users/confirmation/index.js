@@ -27,7 +27,7 @@ const Confirmation = () => {
 
     return <>
 
-        <Banner />
+        <Banner pageTitle={t('pageTitle_confirmation')} />
         <section class="order_details section_gap">
             <div class="container">
                 <h3 class="title_confirmation">{t('confirmation_thank')}</h3>

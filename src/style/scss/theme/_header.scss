@@ -71,7 +71,6 @@
 					display: inline-block;
 					font-size: 12px;
 					font-weight: 500;
-					color: $title-color;
 					@media (min-width: 991px) {
 						padding: 10px 0;
 					}
@@ -82,7 +81,7 @@
 				&:hover,
 				&.active {
 					.nav-link {
-						color: $primary-color;
+				
 					}
 				}
 				&.submenu {
@@ -127,9 +126,9 @@
 							margin-left: 0px;
 							@include transition();
 							&.active {
-								background: $primary-color;
+								background: $primary-color !important;
 								.nav-link {
-									color: #fff;
+									color: #fff !important;
 								}
 							}
 							.nav-link {
