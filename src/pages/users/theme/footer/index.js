@@ -3,8 +3,6 @@ import './style.scss';
 import { Link } from "react-router-dom";
 import logo from '../header/logo192.png';
 import { AiOutlineMail, AiOutlinePhone, AiTwotoneEnvironment, AiFillFacebook, AiFillInstagram, AiFillYoutube } from "react-icons/ai";
-import { ROUTERS } from "utils/router";
-import { CartProvider, useCart } from "react-use-cart";
 import { Image } from "react-bootstrap";
 import ExampImg from '../../../../style/img/i1.jpg';
 import { useTranslation } from "react-i18next";
