@@ -171,7 +171,7 @@ const resources = {
             "profile_edit": "Chỉnh sửa thông tin",
             "profile_my_order": "Đơn hàng của tôi",
             "profile_my_notice": "Thông báo của tôi",
-            "profile_my_viewed": "Vừa xem sản phẩm",
+            "profile_my_viewed": "Sản phẩm vừa xem",
             "profile_my_review": "Bài đánh giá của tôi",
             "profile_my_history": "Lịch sử tích lũy điểm",
             "profile_order": "Đặt hàng",

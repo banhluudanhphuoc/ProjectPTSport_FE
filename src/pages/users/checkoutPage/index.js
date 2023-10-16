@@ -128,7 +128,7 @@ const CheckoutPage = () => {
 
                                 <div className="col-md-12 form-group p_star">
                                     <label htmlFor="city"> {t('checkout_city')}</label>
-                                    <select id="city" value={selectedCity} onChange={handleCityChange} className="country_select">
+                                    <select id="city" value={selectedCity} onChange={handleCityChange} className="country_select ">
                                         <option value="" disabled> {t('checkout_city_select')}</option>
                                         {cities.map((city) => (
                                             <option key={city.Id} value={city.Id}>
@@ -139,7 +139,7 @@ const CheckoutPage = () => {
                                 </div>
                                 <div className="col-md-12 form-group p_star">
                                     <label htmlFor="district"> {t('checkout_district')}</label>
-                                    <select id="district" value={selectedDistrict} onChange={handleDistrictChange} className="country_select">
+                                    <select id="district" value={selectedDistrict} onChange={handleDistrictChange} className="country_select ">
                                         <option value="" disabled> {t('checkout_district_select')}</option>
                                         {districts.map((district) => (
                                             <option key={district.Id} value={district.Id}>

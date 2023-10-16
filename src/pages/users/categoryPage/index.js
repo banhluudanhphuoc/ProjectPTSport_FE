@@ -2,13 +2,16 @@ import { memo, useState, useEffect } from "react";
 import './style.scss';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Modal, Button, Image } from 'react-bootstrap';
-import Banner from "../../users/theme/banner";
+import Banner from "pages/users/theme/banner";
 import { useTranslation } from "react-i18next";
-import product1 from '../../../style/img/product/p6.jpg';
+import product1 from 'style/img/product/p6.jpg';
 import { CartProvider, useCart } from "react-use-cart";
-import RelatedProductArea from "../theme/relatedProductArea";
+import RelatedProductArea from "pages/users/theme/relatedProductArea";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import ProductModal from "components/user/modal/ProductModal";
+import ProductItem from "components/user/items/ProductItem";
+
 const CategoryPage = ({ type }) => {
     const { type: routeType } = useParams();
     const { t, i18n } = useTranslation();
@@ -116,6 +119,8 @@ const CategoryPage = ({ type }) => {
         },
     ];
 
+    const isHomePage = type === 'category' || type === 'brand' ? false : null;
+
     return (
         <>
             <NotificationContainer />
@@ -188,39 +193,14 @@ const CategoryPage = ({ type }) => {
                         <section className="lattest-product-area pb-40 category-list">
                             <div className="row">
                                 {product.map((item) => (
-
-                                    <div className="col-lg-4 col-md-6" key={item.product_id}>
-                                        <div className="single-product">
-                                            <img className="img-fluid" src={item.img_src} alt="" />
-                                            <div className="product-details">
-                                                <h6>{item.product_name}</h6>
-                                                <div className="price">
-                                                    <h6>${item.price}</h6>
-                                                    <h6 className="l-through">${item.price}</h6>
-                                                </div>
-                                                <div className="prd-bottom">
-
-                                                    <Link className="social-info" onClick={() => handleAddToCart(item)} href="#">
-                                                        <span className="ti-bag"></span>
-                                                        <p className="hover-text">{t('add_to_bag')}</p>
-                                                    </Link>
-                                                    <Link to={''} className="social-info">
-                                                        <span className="lnr lnr-heart"></span>
-                                                        <p className="hover-text">{t('wishlist')}</p>
-                                                    </Link>
-                                                    <Link to={''} className="social-info" onClick={() => setShowModal(item.product_id)}>
-                                                        <span className="lnr lnr-eye" ></span>
-                                                        <p className="hover-text" >{t('quick_view')}</p>
-                                                    </Link>
-                                                    <Link to='/product-detail' className="social-info">
-                                                        <span className="lnr lnr-move"></span>
-                                                        <p className="hover-text">{t('view_more')}</p>
-                                                    </Link>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <ProductItem
+                                        isHomePage={isHomePage}
+                                        product={item}
+                                        handleAddToCart={handleAddToCart}
+                                        t={t}
+                                        setShowModal={setShowModal} // Truyền setShowModal xuống
+                                        key={item.product_id}
+                                    />
                                 ))}
 
 
@@ -233,61 +213,16 @@ const CategoryPage = ({ type }) => {
                 < RelatedProductArea />
             </div>
 
-            {
-                product.map((item) => (
-                    <Modal show={showModal === item.product_id} onHide={() => setShowModal(false)} key={item.product_id}>
-                        <Modal.Header >
-
-                        </Modal.Header>
-                        <Modal.Body className="set_width_modal" key={item.id}>
-                            <div className="container relative">
-                                <div className="product-quick-view">
-                                    <div className="row align-items-center">
-                                        <div className="col-lg-6">
-                                            <div className="quick-view-carousel">
-                                                <img src={item.img_src} alt="" className="item" width={200} />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div className="quick-view-content">
-                                                <div className="top">
-                                                    <h3 className="head">{item.product_name}</h3>
-                                                    <div className="price d-flex align-items-center">
-                                                        <span className="lnr lnr-tag"></span>
-                                                        <span className="ml-10">${item.price}</span>
-                                                    </div>
-                                                    <div className="price d-flex align-items-center">
-                                                        <span className="lnr lnr-tag"></span>
-                                                        <span className="ml-10 l-through">${item.price}</span>
-                                                    </div>
-
-                                                    <div className="category">{t('modal_category')}: <span>Household</span></div>
-                                                    <div className="available">{t('modal_availibility')}: <span>In Stock</span></div>
-                                                </div>
-                                                <div className="middle">
-                                                    <p >{item.description}</p>
-                                                    <Link to='/product-detail' className="view-full">{t('modal_view_full')}<span className="lnr lnr-arrow-right"></span></Link>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button className="btn_add_to_card" onClick={() => handleAddToCart(item)}>
-                                {t('add_to_bag')}
-                            </Button>
-                            <Button variant="secondary" onClick={() => setShowModal(false)}>
-                                {t('close')}
-                            </Button>
-
-                        </Modal.Footer>
-                    </Modal>
-
-                ))
-            }
+            {product.map((item) => (
+                <ProductModal
+                    product={item}
+                    showModal={showModal === item.product_id}
+                    setShowModal={setShowModal}
+                    handleAddToCart={handleAddToCart}
+                    t={t}
+                    key={item.product_id}
+                />
+            ))}
 
         </>
 

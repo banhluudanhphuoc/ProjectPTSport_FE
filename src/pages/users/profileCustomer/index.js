@@ -1,17 +1,7 @@
 import { memo } from "react";
 import React, { useState, useEffect } from 'react';
 import "./style.scss";
-import {
-    Button,
-    Card,
-    Grid,
-    Image,
-    Text,
-    ThemeIcon,
-    Tabs,
-    Mark,
-    Avatar,
-} from '@mantine/core';
+import { Tab, Nav, Container, Row, Col } from 'react-bootstrap';
 import {
     AiOutlineEdit,
     AiOutlineDelete,
@@ -28,6 +18,9 @@ import {
     AiFillCreditCard,
     AiOutlineRocket,
 } from "react-icons/ai";
+import ImgReview1 from '../../../style/img/product/review-1.png';
+
+import SizeChart from '../../../assets/users/size-charts/giay-nam.png';
 import { Link } from "react-router-dom";
 import Banner from "../../users/theme/banner";
 import { useTranslation } from "react-i18next";
@@ -43,133 +36,101 @@ const ProfileCustomer = () => {
     return <>
         <Banner pageTitle={t('pageTitle_customer_profile')} />
         <div className="container">
-            <Card shadow="sm" withBorder>
-                <div className="title-profile-customer mt-3 ml-3">
+            <div className="row  mt-5">
+                <div className="title-profile-customer d-flex">
                     <h3 >{t('profile_title')} : Tam</h3>
+                    <p mt="sm" ml="sm">{t('profile_phone')}: 0123456789</p>
+                    <button className="button_edit_profile_customer btn btn-primary" mt="sm" ml="sm">
+                        <AiOutlineEdit /> {t('profile_edit')}
+                    </button>
                 </div>
-                <Grid>
-                    <Grid.Col md="3" className="profile_customer_left" mt="sm">
-                        <div className="profile_customer_left_top">
-                            <div >
-                                <Avatar variant="transparent" radius="xl" size="xl" color="cyan" src="" />
-                            </div>
-                            <div >
-                                <Text mt="sm" ml="sm">{t('profile_phone')}: 0123456789</Text>
-                                <Button className="button_edit_profile_customer" mt="sm" ml="sm">
-                                    <AiOutlineEdit /> {t('profile_edit')}
-                                </Button>
-                            </div>
+            </div>
+            <div className="profile_customer">
+                <Tab.Container id="my-tabs" defaultActiveKey="my_order" >
+                    <Nav variant="tabs">
+                        <Nav.Item >
+                            <Nav.Link eventKey="my_order" ><AiOutlineProfile className="icon_profile" />{t('profile_my_order')}</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item >
+                            <Nav.Link eventKey="my_notice" ><AiOutlineNotification className="icon_profile" />{t('profile_my_notice')}</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item >
+                            <Nav.Link eventKey="my_viewed" > <AiTwotoneEye className="icon_profile" />{t('profile_my_viewed')}</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item >
+                            <Nav.Link eventKey="review" ><AiTwotoneStar className="icon_profile" /> {t('profile_my_review')}</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item >
+                            <Nav.Link eventKey="my_history" > <AiFillCheckCircle className="icon_profile" />{t('profile_my_history')}</Nav.Link>
+                        </Nav.Item>
+                    </Nav>
 
-                        </div>
-                        <div className="profile_customer_left_down">
-                        </div>
-                    </Grid.Col>
-                    <Grid.Col md="9">
-                        <Tabs color="grape" variant="outline" radius="md" defaultValue="gallery">
-                            <Tabs.List>
-                                <Tabs.Tab
-
-                                    value="orders"
-                                    icon={<ThemeIcon color="teal" size={24} radius="xl">
-                                        <AiOutlineProfile />
-                                    </ThemeIcon>}>
-                                    {t('profile_my_order')}
-                                </Tabs.Tab>
-                                <Tabs.Tab
-                                    value="messages"
-                                    icon={<ThemeIcon color="blueviolet" size={24} radius="xl">
-                                        <AiOutlineNotification />
-                                    </ThemeIcon>}>
-                                    {t('profile_my_notice')}
-                                </Tabs.Tab>
-                                <Tabs.Tab
-                                    value="product_seen"
-                                    icon={<ThemeIcon color="greenyellow" size={24} radius="xl">
-                                        <AiTwotoneEye />
-                                    </ThemeIcon>}>
-                                    {t('profile_my_viewed')}
-                                </Tabs.Tab>
-                                <Tabs.Tab
-                                    value="evaluate"
-                                    icon={<ThemeIcon color="yellow" size={24} radius="xl">
-                                        <AiTwotoneStar />
-                                    </ThemeIcon>}>
-                                    {t('profile_my_review')}
-                                </Tabs.Tab>
-                                <Tabs.Tab
-                                    value="history_score"
-                                    icon={<ThemeIcon color="blue" size={24} radius="xl">
-                                        <AiFillCheckCircle />
-                                    </ThemeIcon>}>
-                                    {t('profile_my_history')}
-                                </Tabs.Tab>
-                            </Tabs.List>
-
-                            <Tabs.Panel value="orders">
-
-
-                                <div className="profile_customer_right_orders">
-                                    <div className="profile_customer_right_orders_top">
-                                        <div>
-                                            <Text>{t('profile_order')}<Mark> #123123123</Mark></Text>
-                                        </div>
-                                        <div className="profile_customer_right_orders_status">
-                                            <ThemeIcon color="yellow" size={24} radius="xl">
-                                                <AiOutlineClockCircle />
-                                            </ThemeIcon>
-                                            {t('profile_order_pending')}
-                                        </div>
-                                    </div>
-                                    <div className="profile_customer_right_orders_mid">
-                                        <div>
-                                            <Image mt="sm" alt="" src="" className="profile_customer_right_orders_image" />
-                                        </div>
-                                        <div className="profile_customer_right_orders_mid_info">
+                    <Tab.Content>
+                        <Tab.Pane eventKey="my_order">
+                            <div className="container mt-2 mb-2">
+                                <div className="col-md-12">
+                                    <div className="profile_customer_right_orders">
+                                        <div className="profile_customer_right_orders_top">
                                             <div>
-                                                <Link>  {t('profile_product_name')} </Link>
+                                                <span>{t('profile_order')}<span> #123123123</span></span>
                                             </div>
-                                            <div>
-                                                <Text> {t('profile_product_price')}</Text>
-                                                <Text> {t('profile_product_quantity')} : 1</Text>
+                                            <div className="profile_customer_right_orders_status">
+                                                <AiOutlineClockCircle className="mr-1" />
+                                                {t('profile_order_pending')}
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="profile_customer_right_orders_bottom" >
-                                        <Link >{t('profile_view_order_detail')}</Link>
-                                        <Text>{t('profile_order_total')} : 123123</Text>
+                                        <div className="profile_customer_right_orders_mid">
+                                            <div>
+                                                <img alt="" src={ImgReview1} className="profile_customer_right_orders_image" width="100px" />
+                                            </div>
+                                            <div className="profile_customer_right_orders_mid_info">
+                                                <div>
+                                                    <Link>  {t('profile_product_name')} </Link>
+                                                </div>
+                                                <div>
+                                                    <span> {t('profile_product_price')}</span>
+                                                    <span> {t('profile_product_quantity')} : 1</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="profile_customer_right_orders_bottom" >
+                                            <Link >{t('profile_view_order_detail')}</Link>
+                                            <span>{t('profile_order_total')} : 123123</span>
+                                        </div>
                                     </div>
                                 </div>
 
 
+
                                 <div className="profile_customer_right_orders">
                                     <div className="profile_customer_right_orders_top">
                                         <div>
-                                            <Text>Đơn hàng<Mark> #123123123</Mark></Text>
+                                            <span>Đơn hàng<span> #123123123</span></span>
                                         </div>
                                         <div className="profile_customer_right_orders_status">
-                                            <ThemeIcon color="teal" size={24} radius="xl">
-                                                <AiOutlineCheckCircle />
-                                            </ThemeIcon>
+
+                                            <AiOutlineCheckCircle />
+
                                             Đơn hàng hoàn tất
                                         </div>
                                     </div>
                                     <div className="profile_customer_right_orders_mid">
                                         <div>
-                                            <Image mt="sm" alt="" src="" className="profile_customer_right_orders_image" />
+                                            <img mt="sm" alt="" src={ImgReview1} className="profile_customer_right_orders_image" />
                                         </div>
                                         <div className="profile_customer_right_orders_mid_info">
                                             <div>
                                                 <Link> Tên sản phẩm </Link>
                                             </div>
                                             <div>
-                                                <Text>Giá</Text>
-                                                <Text>Số lượng : 1</Text>
+                                                <span>Giá</span>
+                                                <span>Số lượng : 1</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="profile_customer_right_orders_bottom" >
                                         <Link >Xem chi tiết đơn hàng</Link>
-                                        <Text>Tổng tiền : 123123</Text>
+                                        <span>Tổng tiền : 123123</span>
                                     </div>
                                 </div>
 
@@ -177,32 +138,32 @@ const ProfileCustomer = () => {
                                 <div className="profile_customer_right_orders">
                                     <div className="profile_customer_right_orders_top">
                                         <div>
-                                            <Text>Đơn hàng<Mark> #123123123</Mark></Text>
+                                            <span>Đơn hàng<span> #123123123</span></span>
                                         </div>
                                         <div className="profile_customer_right_orders_status">
-                                            <ThemeIcon color="red" size={24} radius="xl">
-                                                <AiOutlineCloseCircle />
-                                            </ThemeIcon>
+
+                                            <AiOutlineCloseCircle />
+
                                             Đơn hàng bị hủy
                                         </div>
                                     </div>
                                     <div className="profile_customer_right_orders_mid">
                                         <div>
-                                            <Image mt="sm" alt="" src="" className="profile_customer_right_orders_image" />
+                                            <img mt="sm" alt="" src="" className="profile_customer_right_orders_image" />
                                         </div>
                                         <div>
                                             <div>
                                                 <Link> Tên sản phẩm </Link>
                                             </div>
                                             <div>
-                                                <Text>Giá</Text>
-                                                <Text>Số lượng : 1</Text>
+                                                <span>Giá</span>
+                                                <span>Số lượng : 1</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="profile_customer_right_orders_bottom">
                                         <Link>Xem chi tiết đơn hàng</Link>
-                                        <Text>Tổng tiền : 123123</Text>
+                                        <span>Tổng tiền : 123123</span>
                                     </div>
                                 </div>
 
@@ -210,32 +171,32 @@ const ProfileCustomer = () => {
                                 <div className="profile_customer_right_orders">
                                     <div className="profile_customer_right_orders_top">
                                         <div>
-                                            <Text>Đơn hàng<Mark> #123123123</Mark></Text>
+                                            <span>Đơn hàng<span> #123123123</span></span>
                                         </div>
                                         <div className="profile_customer_right_orders_status">
-                                            <ThemeIcon color="indigo" size={24} radius="xl">
-                                                <AiOutlineLike />
-                                            </ThemeIcon>
+
+                                            <AiOutlineLike />
+
                                             Đã đặt hàng
                                         </div>
                                     </div>
                                     <div className="profile_customer_right_orders_mid">
                                         <div>
-                                            <Image mt="sm" alt="" src="" className="profile_customer_right_orders_image" />
+                                            <img mt="sm" alt="" src="" className="profile_customer_right_orders_image" />
                                         </div>
                                         <div>
                                             <div>
                                                 <Link> Tên sản phẩm </Link>
                                             </div>
                                             <div>
-                                                <Text>Giá</Text>
-                                                <Text>Số lượng : 1</Text>
+                                                <span>Giá</span>
+                                                <span>Số lượng : 1</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="profile_customer_right_orders_bottom">
                                         <Link>Xem chi tiết đơn hàng</Link>
-                                        <Text>Tổng tiền : 123123</Text>
+                                        <span>Tổng tiền : 123123</span>
                                     </div>
                                 </div>
 
@@ -243,86 +204,106 @@ const ProfileCustomer = () => {
                                 <div className="profile_customer_right_orders">
                                     <div className="profile_customer_right_orders_top">
                                         <div>
-                                            <Text>Đơn hàng<Mark> #123123123</Mark></Text>
+                                            <span>Đơn hàng<span> #123123123</span></span>
                                         </div>
                                         <div className="profile_customer_right_orders_status">
-                                            <ThemeIcon color="pink" size={24} radius="xl">
-                                                <AiFillCreditCard />
-                                            </ThemeIcon>
+
+                                            <AiFillCreditCard />
+
                                             Chờ thanh toán
                                         </div>
                                     </div>
                                     <div className="profile_customer_right_orders_mid">
                                         <div>
-                                            <Image mt="sm" alt="" src="" className="profile_customer_right_orders_image" />
+                                            <img mt="sm" alt="" src="" className="profile_customer_right_orders_image" />
                                         </div>
                                         <div>
                                             <div>
                                                 <Link> Tên sản phẩm </Link>
                                             </div>
                                             <div>
-                                                <Text>Giá</Text>
-                                                <Text>Số lượng : 1</Text>
+                                                <span>Giá</span>
+                                                <span>Số lượng : 1</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="profile_customer_right_orders_bottom">
                                         <Link>Xem chi tiết đơn hàng</Link>
-                                        <Text>Tổng tiền : 123123</Text>
+                                        <span>Tổng tiền : 123123</span>
                                     </div>
                                 </div>
 
                                 <div className="profile_customer_right_orders">
                                     <div className="profile_customer_right_orders_top">
                                         <div>
-                                            <Text>Đơn hàng<Mark> #123123123</Mark></Text>
+                                            <span>Đơn hàng<span> #123123123</span></span>
                                         </div>
                                         <div className="profile_customer_right_orders_status">
-                                            <ThemeIcon color="red" size={24} radius="xl">
-                                                <AiOutlineRocket />
-                                            </ThemeIcon>
+
+                                            <AiOutlineRocket />
+
                                             Đang giao hàng
                                         </div>
                                     </div>
                                     <div className="profile_customer_right_orders_mid">
                                         <div>
-                                            <Image mt="sm" alt="" src="" className="profile_customer_right_orders_image" />
+                                            <img mt="sm" alt="" src="" className="profile_customer_right_orders_image" />
                                         </div>
                                         <div>
                                             <div>
                                                 <Link> Tên sản phẩm </Link>
                                             </div>
                                             <div>
-                                                <Text>Giá</Text>
-                                                <Text>Số lượng : 1</Text>
+                                                <span>Giá</span>
+                                                <span>Số lượng : 1</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="profile_customer_right_orders_bottom">
                                         <Link>Xem chi tiết đơn hàng</Link>
-                                        <Text>Tổng tiền : 123123</Text>
+                                        <span>Tổng tiền : 123123</span>
                                     </div>
                                 </div>
+                            </div>
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="my_notice">
+                            <div className="container mt-5 mb-5 ">
+                                <div class="table-responsive">
+                                    <img src={SizeChart} alt="" />
+                                </div>
+                            </div>
 
-                            </Tabs.Panel>
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="my_viewed">
+                            <div className="container mt-5 mb-5 ">
+                                <div class="table-responsive">
+                                    <img src={SizeChart} alt="" />
+                                </div>
+                            </div>
 
-                            <Tabs.Panel value="messages">
-                                Messages tab content
-                            </Tabs.Panel>
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="review">
+                            <div className="container mt-5 mb-5 ">
+                                <div class="table-responsive">
+                                    <img src={SizeChart} alt="" />
+                                </div>
+                            </div>
 
-                            <Tabs.Panel value="product_seen">
-                                Messages tab content
-                            </Tabs.Panel>
-                            <Tabs.Panel value="evaluate">
-                                Messages tab content
-                            </Tabs.Panel>
-                            <Tabs.Panel value="history_score">
-                                Settings tab content
-                            </Tabs.Panel>
-                        </Tabs>
-                    </Grid.Col>
-                </Grid>
-            </Card>
+                        </Tab.Pane>
+
+                        <Tab.Pane eventKey="my_history">
+                            <div className="container mt-5 mb-5 ">
+                                <div class="table-responsive">
+                                    <img src={SizeChart} alt="" />
+                                </div>
+                            </div>
+
+                        </Tab.Pane>
+                    </Tab.Content>
+                </Tab.Container>
+            </div>
+
+
 
         </div>
     </>

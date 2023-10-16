@@ -85,6 +85,7 @@ const UserRoutes = () => {
     return (
         <MasterLayout>
             <Routes>
+                <Route path={ROUTERS.USER.VERIFY_EMAIL} element={<LoginUserPage />} />
                 <Route path={ROUTERS.USER.ORDER_DETAIL_CUSTOMER} element={<OrderDetailCustomer />} />
                 <Route path={ROUTERS.USER.BLOG_DETAIL} element={<BlogDetail />} />
                 <Route path={ROUTERS.USER.BLOGS_PAGE} element={<BlogsPage />} />

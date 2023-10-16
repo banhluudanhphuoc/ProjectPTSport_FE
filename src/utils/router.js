@@ -18,6 +18,7 @@ export const ROUTERS = {
         BLOGS_PAGE: "news",
         BLOG_DETAIL: "news-detail",
         ORDER_DETAIL_CUSTOMER: "order-detail-customer",
+        VERIFY_EMAIL: "verify-email",
     },
     ADMIN: {
         DASHBOARD: "dashboard",
@@ -54,4 +55,6 @@ export const ROUTERS = {
         ORDERS_LIST_ORDERED: "orders_list_admin_ordered",
 
     }
+
+
 }
