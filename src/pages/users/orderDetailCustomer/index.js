@@ -19,13 +19,13 @@ const OrderDetailCustomer = () => {
         <Banner pageTitle={t('pageTitle_order_detail')} />
         <div className="container card ">
             <div className="row mt-5 ml-3">
-                <div className="col-md-11">
+                <div className="col-md-10">
                     <h2>{t('order_detail')}</h2>
                     <p><strong>{t('order_detail_number')}:</strong> id</p>
                     <p><strong>{t('order_detail_date')}:</strong> date </p>
                     <p><strong>{t('order_detail_status')}:</strong> status</p>
                 </div>
-                <div className="col-md-1 align-right">
+                <div className="col-md-2 align-right">
                     <Link to="/profile-customer">
                         <Button className="btn btn-customer">{t('order_detail_button_back')}</Button>
                     </Link>
@@ -56,24 +56,22 @@ const OrderDetailCustomer = () => {
             </div>
 
             <div className="row mt-3 ml-3">
-                <div className="col-md-12">
+                <div className="col-md-6">
                     <h3>{t('order_detail_shiping_info')}</h3>
-                    <p><strong>{t('order_detail_shiping_info_name')}:</strong>anh a</p>
+                    < p > <strong>{t('order_detail_shiping_info_name')}:</strong>anh a</p>
                     <p><strong>{t('order_detail_shiping_info_phone_number')}:</strong>123123123</p>
                     <p><strong>{t('order_detail_shiping_info_address')}:</strong> long an</p>
                     <p><strong>{t('order_detail_shiping_info_ward')}:</strong> tan an</p>
                     <p><strong>{t('order_detail_shiping_info_district')}:</strong> tan an</p>
                     <p><strong>{t('order_detail_shiping_info_city')}:</strong> tan an</p>
                 </div>
-            </div>
-
-            <div className="row ml-3 mb-3">
-                <div className="col-md-12">
+                <div className="col-md-6">
                     <h3>{t('order_detail_payment_info')}</h3>
                     <p><strong>{t('order_detail_payment_info_method')}:</strong> method</p>
                     <h2><strong>{t('order_detail_payment_total')}:</strong> $60</h2>
                 </div>
             </div>
+
         </div>
 
     </>

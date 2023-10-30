@@ -71,7 +71,7 @@ const CartPage = () => {
                                 </thead>
                                 <tbody>
                                     {items.map((item) => (
-                                        <tr key={item.id}>
+                                        <tr key={item.id} className="cart_product">
                                             <td>
                                                 <div className="media">
                                                     <div className="d-flex">

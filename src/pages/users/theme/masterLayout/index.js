@@ -24,7 +24,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import { useTranslation } from "react-i18next";
 import ScrollToTop from "react-scroll-to-top";
-
+import { AuthProvider } from "context/AuthContext";
 const MasterLayout = ({ children, ...props }) => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -34,18 +34,21 @@ const MasterLayout = ({ children, ...props }) => {
     };
     const location = useLocation();
     const isHome = location.pathname === '/';
+
     return (
         <div {...props}>
+            <AuthProvider>
+                <Header isHome={isHome} />
+                <ScrollToTop
+                    smooth
+                    color="#FD8400"
+                    viewBox="0 0 24 24"
+                    svgPath="M12 19V6M5 12l7-7 7 7"
+                />
+                {children}
+                <Footer />
+            </AuthProvider>
 
-            <Header isHome={isHome} />
-            <ScrollToTop
-                smooth
-                color="#FD8400"
-                viewBox="0 0 24 24"
-                svgPath="M12 19V6M5 12l7-7 7 7"
-            />
-            {children}
-            <Footer />
         </div>
     );
 };

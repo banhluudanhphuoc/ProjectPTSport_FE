@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import "./style.scss";
 import { Tab, Nav, Container, Row, Col } from 'react-bootstrap';
@@ -24,6 +25,7 @@ import SizeChart from '../../../assets/users/size-charts/giay-nam.png';
 import { Link } from "react-router-dom";
 import Banner from "../../users/theme/banner";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "context/AuthContext";
 const ProfileCustomer = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -31,6 +33,14 @@ const ProfileCustomer = () => {
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
     };
+    const navigate = useNavigate();
+    const { isLoggedIn } = useAuth();
+    const { setIsLoggedIn } = useAuth();
+    useEffect(() => {
+        if (isLoggedIn === false) {
+            navigate('/login-user');
+        }
+    }, [navigate]);
 
 
     return <>
@@ -40,9 +50,9 @@ const ProfileCustomer = () => {
                 <div className="title-profile-customer d-flex">
                     <h3 >{t('profile_title')} : Tam</h3>
                     <p mt="sm" ml="sm">{t('profile_phone')}: 0123456789</p>
-                    <button className="button_edit_profile_customer btn btn-primary" mt="sm" ml="sm">
+                    <Link to={"/profile-customer-edit"} className="button_edit_profile_customer btn btn-primary" mt="sm" ml="sm">
                         <AiOutlineEdit /> {t('profile_edit')}
-                    </button>
+                    </Link>
                 </div>
             </div>
             <div className="profile_customer">
@@ -70,7 +80,7 @@ const ProfileCustomer = () => {
                             <div className="container mt-2 mb-2">
                                 <div className="col-md-12">
                                     <div className="profile_customer_right_orders">
-                                        <div className="profile_customer_right_orders_top">
+                                        <div className="profile_customer_right_orders_top success">
                                             <div>
                                                 <span>{t('profile_order')}<span> #123123123</span></span>
                                             </div>

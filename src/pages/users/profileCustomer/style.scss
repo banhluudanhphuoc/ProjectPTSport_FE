@@ -20,20 +20,33 @@
 }
 
 .profile_customer_right_orders:hover{
-
 	background-color: rgba(233, 226, 226, 0.2);
 }
 
+
+
+
 .profile_customer_right_orders{
-	background-color: white;
     margin-top: 10px;
     border: #FFC000 1px solid;
+
 	
     .profile_customer_right_orders_top{
         display: flex;
         width: 100%;
         justify-content: space-between;
-        margin: 10px 10px 10px 10px;
+
+	&.success{
+		padding: 10px 10px 10px 10px;
+		background-color: rgba(0, 128, 0, 0.5);
+		color: rgb(255, 255, 255);
+	}
+
+
+
+
+
+
         .profile_customer_right_orders_status{
             text-align: end;
             align-items: center;

@@ -18,6 +18,10 @@ const resources = {
             "menu_shoes": "Giày",
             "menu_accessories": "Phụ Kiện",
             "search_here": "Tìm",
+            "menu_logout": "Đăng xuất",
+            "menu_profile": "Hồ sơ",
+            "menu_change_pass": "Đổi mật khẩu",
+
 
             "footer_about_us": "Về Chúng Tôi",
             "footer_about_content": "Khám phá PT Sport - nguồn cung cấp trang phục, giày và dụng cụ thể thao hàng đầu của bạn,có các thương hiệu nổi tiếng như Adidas và Nike, ....Chúng tôi là đối tác của bạn trong lĩnh vực thể thao xuất sắc,cung cấp sản phẩm chất lượng và dịch vụ tận tâm.Hãy tham gia cùng chúng tôi trên hành trình năng động của bạn ngay hôm nay!",
@@ -200,9 +204,9 @@ const resources = {
             "order_detail_shiping_info_name": "Tên",
             "order_detail_shiping_info_phone_number": "Số điện thoại",
             "order_detail_shiping_info_address": "Địa chỉ",
-            "order_detail_shiping_info_ward": "Phường",
-            "order_detail_shiping_info_district": "Quận",
-            "order_detail_shiping_info_city": "Thành phố",
+            "order_detail_shiping_info_ward": "Phường/Xã/Thị trấn",
+            "order_detail_shiping_info_district": "Quận/Huyện",
+            "order_detail_shiping_info_city": "Tỉnh/Thành phố",
             "order_detail_payment_info": "Thông tin thanh toán",
             "order_detail_payment_info_method": "Phương thức thanh toán",
             "order_detail_payment_total": "Tổng số tiền",
@@ -216,6 +220,7 @@ const resources = {
             "pageTitle_confirm_phone_number": "Xác nhận số điện thoại",
             "pageTitle_contact": "Liên hệ",
             "pageTitle_login": "Đăng nhập",
+            "pageTitle_forgot_password": "Quên mật khẩu",
             "pageTitle_order_detail": "Chi tiết đơn hàng",
             "pageTitle_customer_profile": "Hồ sơ khách hàng",
             "pageTitle_customer_profile_edit": "Chỉnh sửa hồ sơ khách hàng",
@@ -223,6 +228,10 @@ const resources = {
 
             "notification_add_product_to_cart_success": "Sản phẩm đã được thêm vào giỏ hàng thành công .Nhấn vào đây để đi tới giỏ hàng ",
             "notification_add_product_to_cart_success_title": "Thành công",
+
+            "forgot_pass_title": "Quên mật khẩu",
+            "forgot_pass_email": "Nhập Email",
+            "forgot_pass_button": "Gửi mật khẩu mới",
 
         }
     },
@@ -239,6 +248,9 @@ const resources = {
             "menu_shoes": "Shoes",
             "menu_accessories": "Accessories",
             "search_here": "Search Here",
+            "menu_logout": "Log out",
+            "menu_profile": "Profile",
+            "menu_change_pass": "Change Password",
 
             "footer_about_us": "About Us",
             "footer_about_content": "Discover PT Sport – your go-to source for top-tier sportswear, shoes, and gear, featuring renowned brands like Adidas and Nike,.... We're your partner in athletic excellence, offering quality products and dedicated service. Join us on your active journey today!",
@@ -438,6 +450,7 @@ const resources = {
             "pageTitle_confirm_phone_number": "Confirm Phone Number",
             "pageTitle_contact": "Contact",
             "pageTitle_login": "Login",
+            "pageTitle_forgot_password": "Forgot Password",
             "pageTitle_order_detail": "Order Details",
             "pageTitle_customer_profile": "Customer Profile",
             "pageTitle_customer_profile_edit": "Edit Customer Profile",
@@ -445,6 +458,10 @@ const resources = {
 
             "notification_add_product_to_cart_success": "The product has been successfully added to the cart.Click to go to Cart",
             "notification_add_product_to_cart_success_title": "Successfully",
+
+            "forgot_pass_title": "Forgot Password",
+            "forgot_pass_email": "Enter Email",
+            "forgot_pass_button": "Send new password",
 
         }
     }

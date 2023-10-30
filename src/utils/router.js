@@ -19,8 +19,11 @@ export const ROUTERS = {
         BLOG_DETAIL: "news-detail",
         ORDER_DETAIL_CUSTOMER: "order-detail-customer",
         VERIFY_EMAIL: "verify-email",
+        FORGOT_PASSWORD: "forgot-password",
+        NOT_FOUND: "*",
     },
     ADMIN: {
+        NOT_FOUND_ADMIN: "*",
         DASHBOARD: "dashboard",
         LOGIN: "admin-login",
 

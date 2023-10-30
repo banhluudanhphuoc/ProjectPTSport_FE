@@ -6,6 +6,7 @@ import axios from "axios";
 import Banner from "../../users/theme/banner";
 import { Container, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import GoogleMap from "components/ggMap/googleMap";
 const ContactPage = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -18,6 +19,9 @@ const ContactPage = () => {
         <Banner pageTitle={t('pageTitle_contact')} />
         <section className="contact_area section_gap_bottom">
             <Container className="mt-5">
+                <div className="row mb-5">
+                    <GoogleMap />
+                </div>
                 <div className="row">
                     <div className="col-lg-3">
                         <div className="contact_info">

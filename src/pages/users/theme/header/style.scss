@@ -1,4 +1,10 @@
+.icon_logged{
+    font-size: 25px;
+}
+
 .custom_menu{
+    display: block !important;
+    align-content: center !important;
     font-size: xl-large !important;
     font-weight: 600 !important;
     text-decoration: none;
@@ -6,6 +12,9 @@
     &:hover{
         color: #FFC000 !important;
     }
+}
+.navbar-nav{
+    align-items: baseline !important;
 }
 
 .active-menu-item {

@@ -1,4 +1,5 @@
-import React, { useState, memo } from "react";
+import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, memo } from 'react';
 import { useTranslation } from "react-i18next";
 import "./style.scss";
 import { DateInput } from '@mantine/dates';
@@ -24,6 +25,7 @@ import {
 import Banner from "../../users/theme/banner";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
 import { Link } from "react-router-dom";
+import { useAuth } from "context/AuthContext";
 const ProfileCustomerEdit = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -63,29 +65,14 @@ const ProfileCustomerEdit = () => {
     });
 
 
-    const openConfirmationModal = () => {
-
-
-    };
-    const handleSubmit = async () => {
-        try {
-            // Send form data as JSON to the server
-            const response = await axios.post("http://localhost:8080/api/v1/signup", form.values);
-
-            // Handle the server response (e.g., show success message)
-            console.log("Server response:", response.data);
-
-
-            // You can also redirect the user to a different page on success
-            // Example: history.push("/success");
-        } catch (error) {
-            // Handle any errors that occur during the request (e.g., show an error message)
-            console.error("Error:", error);
-
+    const navigate = useNavigate();
+    const { isLoggedIn } = useAuth();
+    const { setIsLoggedIn } = useAuth();
+    useEffect(() => {
+        if (isLoggedIn === false) {
+            navigate('/login-user');
         }
-    };
-
-
+    }, [navigate]);
     return <>
         <Banner pageTitle={t('pageTitle_customer_profile_edit')} />
         <div className="container">
@@ -115,7 +102,7 @@ const ProfileCustomerEdit = () => {
                                 <h1 >Cập nhật thông tin</h1>
                             </div>
                             <Box maw={800} mx="auto">
-                                <form onSubmit={openConfirmationModal}>
+                                <form >
                                     <Card shadow="sm" padding="lg" radius="md" withBorder>
                                         <Grid>
                                             <Grid.Col md={6}>

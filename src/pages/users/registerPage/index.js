@@ -61,7 +61,7 @@ const RegisterPage = () => {
 
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const api = process.env.REACT_APP_API_KEY;
+    const api = process.env.REACT_APP_API_URL;
     const handleRegisterClick = async () => {
         form.validate();
 
@@ -79,11 +79,12 @@ const RegisterPage = () => {
                 if (response.data.status === 200) {
 
                     NotificationManager.success(
-                        'Đăng ký thành công. Vui lòng kiểm tra email để xác thực. Bạn có thể click vào đây để check mail.',
+                        'Đăng ký thành công. Vui lòng kiểm tra email để xác thực. Bạn có thể nhấn vào đây để kiểm tra email.',
                         'Đăng ký thành công',
                         5000,
                         () => {
-                            window.location.href = 'https://mail.google.com/';
+                            // Open a new tab or window with the Gmail URL
+                            window.open('https://mail.google.com/', '_blank');
                         }
                     );
                     setTimeout(function () {

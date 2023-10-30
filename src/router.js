@@ -1,9 +1,10 @@
 import HomePage from "./pages/users/homePage";
 import { ROUTERS } from "./utils/router";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import React, { useEffect } from 'react';
 
+import NotFound from "pages/users/notFound";
 import MasterLayout from "./pages/users/theme/masterLayout";
 import ProfilePage from "./pages/users/profilePage";
 import ProductDetail from "./pages/users/productDetail";
@@ -20,8 +21,10 @@ import ContactPage from "pages/users/contactPage";
 import BlogsPage from "pages/users/blogsPage";
 import BlogDetail from "pages/users/blogDetail";
 import OrderDetailCustomer from "pages/users/orderDetailCustomer";
+import ForgotPassword from "pages/users/forgotPassword";
 
 import MasterLayoutAdmin from "pages/admin/theme/masterLayoutAdmin";
+import NotFoundAdmin from "pages/admin/notFound";
 
 import DashBoard from "pages/admin/dashBoard";
 import LoginAdmin from "pages/admin/loginAdmin";
@@ -61,6 +64,7 @@ const RouterCustom = () => {
 
             {/* User Routes */}
             <Route path="/*" element={<UserRoutes />} />
+
             {/* Admin Routes */}
             <Route path="/admin/*" element={<AdminRoutes />} />
             <Route path="/admin/admin-login" element={<LoginAdmin />} />
@@ -77,6 +81,7 @@ const RouterCustom = () => {
     );
 };
 
+
 const UserRoutes = () => {
     const location = useLocation();
     useEffect(() => {
@@ -85,6 +90,7 @@ const UserRoutes = () => {
     return (
         <MasterLayout>
             <Routes>
+                <Route path={ROUTERS.USER.FORGOT_PASSWORD} element={<ForgotPassword />} />
                 <Route path={ROUTERS.USER.VERIFY_EMAIL} element={<LoginUserPage />} />
                 <Route path={ROUTERS.USER.ORDER_DETAIL_CUSTOMER} element={<OrderDetailCustomer />} />
                 <Route path={ROUTERS.USER.BLOG_DETAIL} element={<BlogDetail />} />
@@ -103,17 +109,17 @@ const UserRoutes = () => {
                 <Route path={ROUTERS.USER.BRAND_PAGE} element={<CategoryPage type="brand" />} />
                 <Route path={ROUTERS.USER.LOGIN_USER} element={<LoginUserPage />} />
                 <Route path={ROUTERS.USER.REGISTER} element={<RegisterPage />} />
+                <Route path={ROUTERS.USER.NOT_FOUND} element={<NotFound />} />
             </Routes>
         </MasterLayout>
     );
 };
 
 const AdminRoutes = () => {
-
     return (
-
         <MasterLayoutAdmin>
             <Routes>
+                <Route path={ROUTERS.ADMIN.NOT_FOUND_ADMIN} element={<NotFoundAdmin />} />
                 <Route path={ROUTERS.ADMIN.DASHBOARD} element={<DashBoard />} />
                 <Route path={ROUTERS.ADMIN.NEWS_LIST} element={<ListNewsAdmin />} />
                 <Route path={ROUTERS.ADMIN.NEWS_CREATE} element={<CreateNewsAdmin />} />

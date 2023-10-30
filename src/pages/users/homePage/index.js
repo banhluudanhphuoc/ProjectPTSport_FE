@@ -107,7 +107,6 @@ const HomePage = () => {
 
         <NotificationContainer />
         <section className="banner-area d-block">
-
             <div className="container d-block">
                 <div className="row fullscreen align-items-center justify-content-start">
                     <div className="col-lg-12">
