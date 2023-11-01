@@ -21,6 +21,7 @@ export const ROUTERS = {
         VERIFY_EMAIL: "verify-email",
         FORGOT_PASSWORD: "forgot-password",
         NOT_FOUND: "*",
+        CHANGE_PASSWORD: "change-password",
     },
     ADMIN: {
         NOT_FOUND_ADMIN: "*",

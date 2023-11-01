@@ -46,7 +46,7 @@ const Header = ({ isHome }) => {
         localStorage.removeItem('token_login');
         // Đặt isLoggedIn thành false
         setIsLoggedIn(false);
-        navigate('/login-user');
+        window.location.href = '/login-user';
     };
 
     return (
@@ -161,7 +161,7 @@ const Header = ({ isHome }) => {
                                             <li className="nav-item">
                                                 <Link
                                                     className="nav-link custom_menu_sub"
-                                                    to=""
+                                                    to="change-password"
                                                     onClick={() => handleMainMenuClick("logged")}
                                                 >
                                                     {t('menu_change_pass')}

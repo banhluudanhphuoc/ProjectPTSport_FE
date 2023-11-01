@@ -25,7 +25,8 @@ const LoginUserPage = () => {
     const { setIsLoggedIn } = useAuth();
 
     useEffect(() => {
-        if (isLoggedIn === true) {
+        const confirm_token = localStorage.getItem("token_login");
+        if (confirm_token !== null) {
             navigate('/profile-customer');
         }
     }, [navigate]);

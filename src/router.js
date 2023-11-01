@@ -22,6 +22,7 @@ import BlogsPage from "pages/users/blogsPage";
 import BlogDetail from "pages/users/blogDetail";
 import OrderDetailCustomer from "pages/users/orderDetailCustomer";
 import ForgotPassword from "pages/users/forgotPassword";
+import ChangePassword from "pages/users/changePassword";
 
 import MasterLayoutAdmin from "pages/admin/theme/masterLayoutAdmin";
 import NotFoundAdmin from "pages/admin/notFound";
@@ -90,6 +91,7 @@ const UserRoutes = () => {
     return (
         <MasterLayout>
             <Routes>
+                <Route path={ROUTERS.USER.CHANGE_PASSWORD} element={<ChangePassword />} />
                 <Route path={ROUTERS.USER.FORGOT_PASSWORD} element={<ForgotPassword />} />
                 <Route path={ROUTERS.USER.VERIFY_EMAIL} element={<LoginUserPage />} />
                 <Route path={ROUTERS.USER.ORDER_DETAIL_CUSTOMER} element={<OrderDetailCustomer />} />

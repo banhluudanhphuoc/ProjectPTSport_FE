@@ -225,6 +225,7 @@ const resources = {
             "pageTitle_customer_profile": "Hồ sơ khách hàng",
             "pageTitle_customer_profile_edit": "Chỉnh sửa hồ sơ khách hàng",
             "pageTitle_register": "Đăng ký",
+            "pageTitle_change_password": "Đổi mật khẩu",
 
             "notification_add_product_to_cart_success": "Sản phẩm đã được thêm vào giỏ hàng thành công .Nhấn vào đây để đi tới giỏ hàng ",
             "notification_add_product_to_cart_success_title": "Thành công",
@@ -233,6 +234,11 @@ const resources = {
             "forgot_pass_email": "Nhập Email",
             "forgot_pass_button": "Gửi mật khẩu mới",
 
+
+            "change_password_new": "Mật khẩu mới",
+            "change_password_new_confirm": "Xác nhận mật khẩu mới",
+            "change_password_ole": "Mật khẩu cũ",
+            "change_password": "Đổi mật khẩu",
         }
     },
     EN: {
@@ -455,6 +461,7 @@ const resources = {
             "pageTitle_customer_profile": "Customer Profile",
             "pageTitle_customer_profile_edit": "Edit Customer Profile",
             "pageTitle_register": "Register",
+            "pageTitle_change_password": "Change Password",
 
             "notification_add_product_to_cart_success": "The product has been successfully added to the cart.Click to go to Cart",
             "notification_add_product_to_cart_success_title": "Successfully",
@@ -462,6 +469,11 @@ const resources = {
             "forgot_pass_title": "Forgot Password",
             "forgot_pass_email": "Enter Email",
             "forgot_pass_button": "Send new password",
+
+            "change_password_new": "New Password",
+            "change_password_new_confirm": "Confirm New Password",
+            "change_password_ole": "Old Password",
+            "change_password": "Change Password",
 
         }
     }

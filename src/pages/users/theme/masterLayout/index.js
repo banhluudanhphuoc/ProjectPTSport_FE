@@ -35,6 +35,8 @@ const MasterLayout = ({ children, ...props }) => {
     const location = useLocation();
     const isHome = location.pathname === '/';
 
+
+
     return (
         <div {...props}>
             <AuthProvider>

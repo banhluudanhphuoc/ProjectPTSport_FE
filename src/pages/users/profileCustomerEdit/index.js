@@ -101,33 +101,11 @@ const ProfileCustomerEdit = () => {
                             <div className="title-login-user">
                                 <h1 >Cập nhật thông tin</h1>
                             </div>
-                            <Box maw={800} mx="auto">
+                            <Box mx="auto">
                                 <form >
                                     <Card shadow="sm" padding="lg" radius="md" withBorder>
                                         <Grid>
-                                            <Grid.Col md={6}>
-                                                <TextInput
-                                                    label="Tên đăng nhập"
-                                                    placeholder="Tên đăng nhập"
-                                                    withAsterisk {...form.getInputProps('name')}
-                                                    id="name"
-                                                />
-                                                <PasswordInput
-                                                    label="Mật khẩu"
-                                                    mt="md"
-                                                    placeholder="Mật khẩu "
-                                                    withAsterisk
-                                                    {...form.getInputProps('password')}
-                                                    id="password"
-                                                />
-                                                <PasswordInput
-                                                    mt="md"
-                                                    label="Nhập lại mật khẩu"
-                                                    placeholder="Nhập lại mật khẩu"
-                                                    {...form.getInputProps('confirmPassword')}
-                                                    withAsterisk
-                                                />
-                                            </Grid.Col>
+
                                             <Grid.Col md={6}>
                                                 <TextInput
                                                     label="Họ và tên"
