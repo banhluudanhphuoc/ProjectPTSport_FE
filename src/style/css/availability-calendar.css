@@ -1,6 +1,4 @@
-/**
- * Calendar toolbar
- */
+/* 
 .availability-calendar-toolbar {
 	padding-bottom: 15px;
 	font-size: 1.4em;
@@ -45,9 +43,7 @@
 }
 
 
-/**
- * Calendar table and cells
- */
+
 .availability-calendar {
 	width: 100%;
 	table-layout: fixed;
@@ -92,4 +88,4 @@
 	right: 51%;
 	border-radius: 0 6px 6px 0;
 	border-right: 1px solid #A33;
-}
+} */

@@ -19,7 +19,7 @@ const ListProductsAdmin = () => {
                                 <img className="card-img-top" src={Img} alt="Card image cap" />
                                 <div className="card-body">
                                     <h5 className="card-title"> Tên sản phẩm </h5>
-                                    <Link to={"/admin/product_edit"} className="btn btn-outline-primary">Sửa </Link>
+                                    <Link to={"/administrator-management/product_edit"} className="btn btn-outline-primary">Sửa </Link>
                                     <Link href="javascript:void(0)" className="btn btn-outline-danger ml-2">Xóa</Link>
                                 </div>
                             </div>

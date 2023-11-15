@@ -5,14 +5,17 @@ import './style/style.scss';
 import RouterCustom from './router';
 import { CartProvider } from "react-use-cart";
 import './i18n';
+import { AuthProviderAdmin } from 'context/AuthContextAdmin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
   <BrowserRouter>
-    <CartProvider>
-      <RouterCustom />
-    </CartProvider>
+    <AuthProviderAdmin>
+      <CartProvider>
+        <RouterCustom />
+      </CartProvider>
+    </AuthProviderAdmin>
   </BrowserRouter>
 
 

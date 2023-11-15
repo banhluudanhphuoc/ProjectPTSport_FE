@@ -50,7 +50,6 @@ const MasterLayout = ({ children, ...props }) => {
                 {children}
                 <Footer />
             </AuthProvider>
-
         </div>
     );
 };

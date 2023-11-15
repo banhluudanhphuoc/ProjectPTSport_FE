@@ -6,7 +6,7 @@ import Banner from "../../users/theme/banner";
 import Img404 from "../../../assets/users/404/page-misc-error-light.png";
 const NotFound = () => {
     return <>
-        <Banner pageTitle={"404"} />
+        <Banner pageTitle={"404 Not Found"} />
         <div class="container-xxl container-p-y not-found">
             <div class="misc-wrapper">
                 <h2 class="mb-2 mx-2">Page Not Found :(</h2>

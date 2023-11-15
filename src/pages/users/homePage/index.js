@@ -1,4 +1,3 @@
-
 import { Modal, Button, Image } from 'react-bootstrap';
 import { memo } from "react";
 import './style.scss';
@@ -117,12 +116,11 @@ const HomePage = () => {
                                     <div className="banner-content">
                                         <h1>{t('banner_title1')}</h1>
                                         <p> {t('banner_content1')}</p>
-
                                     </div>
                                 </div>
                                 <div className="col-lg-7">
                                     <div className="banner-img">
-                                        <img className="img-fluid" src={bannerImg2} alt='' />
+                                        <Image className="img-fluid" src={bannerImg2} alt='' />
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +135,7 @@ const HomePage = () => {
                                 </div>
                                 <div className="col-lg-7">
                                     <div className="banner-img">
-                                        <img className="img-fluid" src={bannerImg3} alt='' />
+                                        <Image className="img-fluid" src={bannerImg3} alt='' />
                                     </div>
                                 </div>
                             </div>
@@ -151,7 +149,7 @@ const HomePage = () => {
                                 </div>
                                 <div className="col-lg-7">
                                     <div className="banner-img">
-                                        <img className="img-fluid" src={bannerImg4} alt='' />
+                                        <Image className="img-fluid" src={bannerImg4} alt='' />
                                     </div>
                                 </div>
                             </div>
@@ -273,13 +271,13 @@ const HomePage = () => {
                     </div>
                 </Row>
             </Container>
-        </section >
+        </section>
         {/* <!-- End category Area -->
 
         <!-- start product Area --> */}
-        < section className="owl-carousel active-product-area section_gap" >
+        <section className="owl-carousel active-product-area section_gap" >
             {/*  <!-- single product slide -->  */}
-            < div className="single-product-slider" >
+            <div className="single-product-slider" >
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-lg-6 text-center">
@@ -301,9 +299,9 @@ const HomePage = () => {
 
                     </div>
                 </div>
-            </div >
+            </div>
             {/* <!-- single product slide --> */}
-            < div className="single-product-slider" >
+            <div className="single-product-slider" >
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-lg-6 text-center">
@@ -324,12 +322,12 @@ const HomePage = () => {
                         ))}
                     </div>
                 </div>
-            </div >
-        </section >
+            </div>
+        </section>
 
 
         {/* <!-- Start brand Area --> */}
-        < section className="brand-area section_gap" >
+        <section className="brand-area section_gap" >
             <div className="container">
                 <div className="row">
                     <Link className="col single-img" to={''}>
@@ -349,8 +347,8 @@ const HomePage = () => {
                     </Link>
                 </div>
             </div>
-        </section >
-        < RelatedProductArea />
+        </section>
+        <RelatedProductArea />
 
         {product.map((item) => (
             <ProductModal

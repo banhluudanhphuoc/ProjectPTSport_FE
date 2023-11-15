@@ -21,27 +21,27 @@ const Footer = () => {
         i18n.changeLanguage(lng);
     };
     return (
-        <section class="related-product-area section_gap_bottom">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6 text-center">
-                        <div class="section-title">
+        <section className="related-product-area section_gap_bottom">
+            <div className="container">
+                <div className="row justify-content-center">
+                    <div className="col-lg-6 text-center">
+                        <div className="section-title">
                             <h1>{t("deals_of_the_week")}</h1>
 
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-9">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                                <div class="single-related-product d-flex">
+                <div className="row">
+                    <div className="col-lg-9">
+                        <div className="row">
+                            <div className="col-lg-4 col-md-4 col-sm-6 mb-20">
+                                <div className="single-related-product d-flex">
                                     <Link to={''}><img src={r1} alt="" /></Link>
-                                    <div class="desc">
-                                        <Link class="title"> Black lace Heels</Link>
-                                        <div class="price">
+                                    <div className="desc">
+                                        <Link className="title"> Black lace Heels</Link>
+                                        <div className="price">
                                             <h6>$189.00</h6>
-                                            <h6 class="l-through">$210.00</h6>
+                                            <h6 className="l-through">$210.00</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -49,10 +49,10 @@ const Footer = () => {
 
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="ctg-right">
+                    <div className="col-lg-3">
+                        <div className="ctg-right">
                             <a href="#" target="_blank">
-                                <img class="img-fluid d-block mx-auto" src={category5} alt="" />
+                                <img className="img-fluid d-block mx-auto" src={category5} alt="" />
                             </a>
                         </div>
                     </div>

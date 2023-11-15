@@ -83,13 +83,14 @@ const Header = ({ isHome }) => {
                                         {t('menu_home')}
                                     </a>
                                 </li>
-                                <li className="nav-item submenu dropdown">
 
+                                <li className="nav-item submenu dropdown">
                                     <Link
                                         to="/category-page"
                                         className={`nav-link dropdown-toggle custom_menu ${activeMenuItem === "category" ? "active-menu-item" : ""}`}
                                         onClick={() => handleMainMenuClick("category")}
-                                        data-toggle="dropdown" role="button"
+                                        data-toggle="dropdown"
+                                        role="button"
                                         aria-haspopup="true"
                                         aria-expanded="false"
                                     >
@@ -140,51 +141,62 @@ const Header = ({ isHome }) => {
                                     </Link>
                                 </li>
 
-                                {isLoggedIn ? (
-                                    <li className="nav-item nav-item submenu dropdown">
-                                        <Link className={`nav-link custom_menu custom_icon_logged ${activeMenuItem === "logged" ? "active-menu-item" : ""}`}
-                                            onClick={() => handleMainMenuClick("logged")}
-                                            to="/profile-customer"
-                                        >
-                                            <BiUserCircle className="icon_logged" />
-                                        </Link>
-                                        <ul className="dropdown-menu">
-                                            <li className="nav-item">
-                                                <Link
-                                                    className="nav-link custom_menu_sub"
-                                                    to="/profile-customer"
-                                                    onClick={() => handleMainMenuClick("logged")}
-                                                >
-                                                    {t('menu_profile')}
-                                                </Link>
-                                            </li>
-                                            <li className="nav-item">
-                                                <Link
-                                                    className="nav-link custom_menu_sub"
-                                                    to="change-password"
-                                                    onClick={() => handleMainMenuClick("logged")}
-                                                >
-                                                    {t('menu_change_pass')}
-                                                </Link>
-                                            </li>
-                                            <li className="nav-item"><Link className="nav-link custom_menu_sub" onClick={handleLogout}>{t('menu_logout')}</Link></li>
-                                        </ul>
-                                    </li>
-                                ) : (
-                                    <li className="nav-item ">
+                                <li className="nav-item submenu dropdown">
+                                    {isLoggedIn ? (
+                                        // If the user is logged in, render the dropdown menu
+                                        <>
+                                            <Link
+                                                className={`nav-link custom_menu dropdown-toggle custom_icon_logged ${activeMenuItem === "logged" ? "active-menu-item" : ""}`}
+                                                onClick={() => handleMainMenuClick("logged")}
+                                                data-toggle="dropdown"
+                                                role="button"
+                                                aria-haspopup="true"
+                                                aria-expanded="false"
+                                            >
+                                                <BiUserCircle className="icon_logged" />
+                                            </Link>
+                                            <ul className="dropdown-menu">
+                                                <li className="nav-item">
+                                                    <Link
+                                                        className="nav-link custom_menu_sub"
+                                                        to="/profile-customer"
+                                                        onClick={() => handleMainMenuClick("logged")}
+                                                    >
+                                                        {t('menu_profile')}
+                                                    </Link>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <Link
+                                                        className="nav-link custom_menu_sub"
+                                                        to="/change-password"
+                                                        onClick={() => handleMainMenuClick("logged")}
+                                                    >
+                                                        {t('menu_change_pass')}
+                                                    </Link>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <Link
+                                                        className="nav-link custom_menu_sub"
+                                                        onClick={handleLogout}
+                                                    >
+                                                        {t('menu_logout')}
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        </>
+                                    ) : (
+                                        // If the user is not logged in, render the login link
                                         <Link
                                             className={`nav-link custom_menu ${activeMenuItem === "login" ? "active-menu-item" : ""}`}
                                             onClick={() => handleMainMenuClick("login")}
-                                            to="/login-user">
+                                            to="/login-user"
+                                        >
                                             {t('menu_login')}
                                         </Link>
-                                    </li>
-                                )}
+                                    )}
+                                </li>
 
-
-                            </ul>
-                            <ul className="nav navbar-nav navbar-right ">
-                                <li className="nav-item">
+                                <li className="nav-item submenu dropdown">
                                     {totalUniqueItems > 0 &&
                                         <Link
                                             className="cart custom_menu"
@@ -197,7 +209,7 @@ const Header = ({ isHome }) => {
                                     }
                                 </li>
                                 <li className="nav-item">
-                                    <button className="search "><span className="lnr lnr-magnifier custom_menu" id="search"></span></button>
+                                    <button className="search"><span className="lnr lnr-magnifier custom_menu" id="search"></span></button>
                                 </li>
                                 <li className="nav-item">
                                     <button
@@ -215,6 +227,10 @@ const Header = ({ isHome }) => {
                                     </button>
                                 </li>
                             </ul>
+                            {/* <ul className="nav navbar-nav navbar-right">
+
+
+                            </ul> */}
                         </div>
                     </div>
                 </nav>

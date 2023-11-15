@@ -45,7 +45,7 @@ const LoginUserPage = () => {
                 // Create a data object with the token
                 const data = { token: token };
                 // Send a POST request to your server
-                await axios.post(api + "/verify-email", data);
+                await axios.post(api + "/user/verify-email", data);
 
             } catch (error) {
                 console.error('Error:', error.message);
@@ -63,15 +63,24 @@ const LoginUserPage = () => {
 
         try {
             // Sử dụng Axios
-            const response = await axios.post(api + "/login", { username, password });
+            const response = await axios.post(api + "/user/login", { username, password });
             if (response.data.status === 200) {
                 const token = response.data.token;
                 localStorage.setItem("token_login", token);
                 setIsLoggedIn(true);
                 navigate('/cart');
-            } else {
+            } else if (response.data.status === 201) {
+                NotificationManager.error(
+                    response.data.message + " Click vào đây để xác thực qua email", "",
+                    5000,
+                    () => {
+                        // Open a new tab or window with the Gmail URL
+                        window.open('https://mail.google.com/', '_blank');
+                    }
+                );
+            }
+            else {
                 NotificationManager.error(response.data.message);
-
             }
         } catch (error) {
             // Xử lý lỗi nếu có lỗi trong quá trình gửi yêu cầu

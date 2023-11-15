@@ -59,25 +59,26 @@ import ListOrdersDelivering from "pages/admin/orders/listOrdersDelivering";
 import ListOrdersOrdered from "pages/admin/orders/listOrdersOrdered";
 import ListOrdersPay from "pages/admin/orders/listOrdersPay";
 import ListOrdersPending from "pages/admin/orders/listOrdersPending";
+
+const admin = "administrator-management";
 const RouterCustom = () => {
     return (
         <Routes>
-
             {/* User Routes */}
             <Route path="/*" element={<UserRoutes />} />
-
-            {/* Admin Routes */}
-            <Route path="/admin/*" element={<AdminRoutes />} />
-            <Route path="/admin/admin-login" element={<LoginAdmin />} />
-            <Route path="/admin/product_edit/:product" element={<MasterLayoutAdmin><EditProductAdmin /></MasterLayoutAdmin>} />
-            <Route path="/admin/category_edit/:category" element={<MasterLayoutAdmin><EditCategoryAdmin /></MasterLayoutAdmin>} />
-            <Route path="/admin/brand_edit/:category" element={<MasterLayoutAdmin><EditBrandAdmin /></MasterLayoutAdmin>} />
-            <Route path="/admin/customer_edit/:customer" element={<MasterLayoutAdmin><EditCustomerAdmin /></MasterLayoutAdmin>} />
-            <Route path="/admin/news_edit/:news" element={<MasterLayoutAdmin><EditNewsAdmin /></MasterLayoutAdmin>} />
-            <Route path="/admin/order_detail_admin/:order" element={<MasterLayoutAdmin><OrderDetailAdmin /></MasterLayoutAdmin>} />
             <Route path="/product-detail/:product" element={<MasterLayout><ProductDetail /></MasterLayout>} />
             <Route path="/category-page/:category" element={<MasterLayout><CategoryPage /></MasterLayout>} />
             <Route path="/brand-page/:brand" element={<MasterLayout><CategoryPage /></MasterLayout>} />
+            {/* Admin Routes */}
+            <Route path={`/${admin}/*`} element={<AdminRoutes />} />
+            <Route path={`/${admin}/admin-login`} element={<LoginAdmin />} />
+            <Route path={`/${admin}/product_edit/:product`} element={<MasterLayoutAdmin><EditProductAdmin /></MasterLayoutAdmin>} />
+            <Route path={`/${admin}/category_edit/:category`} element={<MasterLayoutAdmin><EditCategoryAdmin /></MasterLayoutAdmin>} />
+            <Route path={`/${admin}/brand_edit/:category`} element={<MasterLayoutAdmin><EditBrandAdmin /></MasterLayoutAdmin>} />
+            <Route path={`/${admin}/customer_edit/:customer`} element={<MasterLayoutAdmin><EditCustomerAdmin /></MasterLayoutAdmin>} />
+            <Route path={`/${admin}/news_edit/:news`} element={<MasterLayoutAdmin><EditNewsAdmin /></MasterLayoutAdmin>} />
+            <Route path={`/${admin}/order_detail_admin/:order`} element={<MasterLayoutAdmin><OrderDetailAdmin /></MasterLayoutAdmin>} />
+
         </Routes>
     );
 };
@@ -118,6 +119,10 @@ const UserRoutes = () => {
 };
 
 const AdminRoutes = () => {
+    const location = useLocation();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
     return (
         <MasterLayoutAdmin>
             <Routes>

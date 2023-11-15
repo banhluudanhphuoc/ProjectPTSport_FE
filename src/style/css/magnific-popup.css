@@ -1,4 +1,4 @@
-/* Magnific Popup CSS */
+/* 
 .mfp-bg {
   top: 0;
   left: 0;
@@ -241,7 +241,7 @@ button::-moz-focus-inner {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
     background: #000; }
 
-/* Main image in popup */
+
 img.mfp-img {
   width: auto;
   max-width: 100%;
@@ -252,7 +252,7 @@ img.mfp-img {
   padding: 40px 0 40px;
   margin: 0 auto; }
 
-/* The shadow behind the image */
+
 .mfp-figure {
   line-height: 0; }
   .mfp-figure:after {
@@ -298,9 +298,7 @@ img.mfp-img {
   cursor: pointer; }
 
 @media screen and (max-width: 800px) and (orientation: landscape), screen and (max-height: 300px) {
-  /**
-       * Remove all paddings around the image on small screen
-       */
+  
   .mfp-img-mobile .mfp-image-holder {
     padding-left: 0;
     padding-right: 0; }
@@ -348,4 +346,4 @@ img.mfp-img {
     transform-origin: 100%; }
   .mfp-container {
     padding-left: 6px;
-    padding-right: 6px; } }
+    padding-right: 6px; } } */

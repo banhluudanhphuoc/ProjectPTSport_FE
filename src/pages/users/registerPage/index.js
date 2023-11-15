@@ -68,7 +68,7 @@ const RegisterPage = () => {
         if (form.isValid()) {
             try {
                 setIsLoading(true);
-                const response = await axios.post(api + '/registration', {
+                const response = await axios.post(api + '/user/registration', {
                     username: form.values.username,
                     password: form.values.password,
                     name: form.values.full_name,

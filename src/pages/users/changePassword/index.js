@@ -58,7 +58,7 @@ const ChangePassword = () => {
         const token_login = localStorage.getItem('token_login');
         try {
             // Sử dụng Axios
-            const response = await axios.post(api + "/change-password", { oldPassword, newPassword }, {
+            const response = await axios.post(api + "/user/change-password", { oldPassword, newPassword }, {
                 headers: {
                     'Authorization': `Bearer ${token_login}`
                 }

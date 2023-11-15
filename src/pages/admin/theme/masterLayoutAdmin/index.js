@@ -2,6 +2,7 @@ import { memo } from "react";
 import MenuAdmin from "../menuAdmin";
 import HeaderAdmin from "../headerAdmin";
 import FooterAdmin from "../footerAdmin";
+import Cookies from 'js-cookie'; // Import thư viện js-cookie
 
 import '../../../../assets/admin/vendor/css/core.css';
 import '../../../../assets/admin/vendor/css/theme-default.css';
@@ -17,23 +18,30 @@ import '../../../../assets/admin/vendor/libs/perfect-scrollbar/perfect-scrollbar
 import '../../../../assets/admin/vendor/js/menu.js';
 import '../../../../assets/admin/vendor/libs/apex-charts/apexcharts.js';
 //import '../../../../assets/admin/js/main.js';
-
-
+import { useAuthAdmin } from "context/AuthContextAdmin";
+import { Route, Navigate } from 'react-router-dom';
 
 const MasterLayoutAdmin = ({ children, ...props }) => {
-    return (
-        <div {...props}>
-            <div className="layout-wrapper layout-content-navbar">
-                <div className="layout-container">
-                    <MenuAdmin />
-                    <div className="layout-page">
-                        <HeaderAdmin />
-                        {children}
+    const CookieAdmin = Cookies.get('adminToken'); // Kiểm tra cookie 'adminToken'
+
+    if (CookieAdmin) {
+        return (
+            <div {...props}>
+                <div className="layout-wrapper layout-content-navbar">
+                    <div className="layout-container">
+                        <MenuAdmin />
+                        <div className="layout-page">
+                            <HeaderAdmin />
+                            {children}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
+    else {
+        return <Navigate to="/administrator-management/admin-login" />;
+    }
 };
 
 export default memo(MasterLayoutAdmin);
