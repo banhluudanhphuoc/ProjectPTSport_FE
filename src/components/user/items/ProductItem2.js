@@ -7,7 +7,6 @@ import { LuMoveDiagonal } from "react-icons/lu";
 import { NotificationManager } from 'react-notifications';
 import Cookies from 'js-cookie';
 
-
 const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, userId }) => {
     function formatCurrency(amount) {
         // Sử dụng NumberFormat để định dạng số
@@ -19,7 +18,6 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
         // Áp dụng định dạng và trả về chuỗi đã định dạng
         return formatter.format(amount);
     }
-
     const api = process.env.REACT_APP_API_URL;
     const addToWishlist = async () => {
         const userToken = Cookies.get('userToken');
@@ -52,7 +50,7 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
 
     return (
         <div
-            className="col-lg-3 col-md-6 col-sm-6 product-item mt-2 card"
+            className="col-lg-4 col-md-6 col-sm-6 product-item mt-2 card"
             key={product.id}
         >
             <div className="single-product">

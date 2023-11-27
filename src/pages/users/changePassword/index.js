@@ -12,7 +12,7 @@ import LoginImg from '../../../style/img/login.jpg';
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
-import { useAuth } from "context/AuthContext";
+import Cookies from 'js-cookie';
 const ChangePassword = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -21,14 +21,14 @@ const ChangePassword = () => {
         i18n.changeLanguage(lng);
     };
     const navigate = useNavigate();
-    const { isLoggedIn } = useAuth();
-    const { setIsLoggedIn } = useAuth();
     useEffect(() => {
-        if (isLoggedIn === false) {
-            console.log(isLoggedIn);
+        const userToken = Cookies.get('userToken');
+        if (!userToken) {
             navigate('/login-user');
         }
+
     }, [navigate]);
+
 
     const form = useForm({
         initialValues: {
@@ -39,12 +39,22 @@ const ChangePassword = () => {
 
         validate: {
             oldPassword: (value) => (value.length < 1 ? 'Vui lòng nhập mật khẩu cũ .' : null),
-            password: (value) => (value.length < 8 ? 'Mật khẩu mới phải trên 8 kí tự' : null),
-            confirmPassword: (value, values) => value !== values.password ? 'Nhập lại mật khẩu không giống mật khẩu ở trên' : null,
+            password: (value) => {
+                const minLength = 10;
+                if (value.length < minLength) {
+                    return 'Mật khẩu mới phải trên 10 kí tự';
+                }
+                if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+                    return 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt';
+                }
+                if (!/[A-Z]/.test(value) || !/[a-z]/.test(value)) {
+                    return 'Mật khẩu phải chứa ít nhất một chữ hoa và một chữ thường';
+                }
+                return null;
+            },
+            confirmPassword: (value, values) => value !== values.password ? 'Mật khẩu nhập lại không đúng.' : null,
         },
     });
-
-
 
 
 
@@ -55,31 +65,30 @@ const ChangePassword = () => {
         form.validate();
         const oldPassword = document.getElementById("oldPassword").value;
         const newPassword = document.getElementById("password").value;
-        const token_login = localStorage.getItem('token_login');
+        const userToken = Cookies.get('userToken');
         try {
             // Sử dụng Axios
-            const response = await axios.post(api + "/user/change-password", { oldPassword, newPassword }, {
+            const response = await axios.put(api + "/user/password", { oldPassword, newPassword }, {
                 headers: {
-                    'Authorization': `Bearer ${token_login}`
+                    'Authorization': `Bearer ${userToken}`
                 }
 
             });
-            if (response.data.status === 200) {
-                NotificationManager.success(response.data.message);
-                if (token_login) {
-                    localStorage.removeItem('token_login');
+            if (response.status === 200) {
+                NotificationManager.success(response.data);
+                if (userToken) {
+                    Cookies.remove('userToken');
                 }
-                setIsLoggedIn(false);
                 setTimeout(() => {
                     navigate('/login-user');
-                }, 3000); // 5000 miligiây (5 giây)
+                }, 3000);
             } else {
-                NotificationManager.error(response.data.message);
+                NotificationManager.error(response.data);
             }
         } catch (error) {
             if (error.response) {
                 // Nếu có phản hồi từ máy chủ, bạn có thể trích xuất thông điệp lỗi từ đó
-                const errorMessage = error.response.data.message;
+                const errorMessage = error.response.data;
                 console.log('Lỗi từ máy chủ:', errorMessage);
                 NotificationManager.error(errorMessage);
             } else {

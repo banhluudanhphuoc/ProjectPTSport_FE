@@ -5,25 +5,55 @@ import '../../../../assets/admin/vendor/js/menu.js';
 import { Icon } from '@iconify/react';
 import { useLocation } from 'react-router-dom';
 import LogoImg from './logo192.png';
-
+import { useEffect } from "react";
+import Cookies from 'js-cookie'; // Import thư viện js-cookie
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 const MenuAdmin = () => {
     const [activeMainMenu, setActiveMainMenu] = useState(null);
     const [activeSubMenu, setActiveSubMenu] = useState(null);
     const location = useLocation();
+    const admin_url = process.env.REACT_APP_ADMIN_URL;
     const handleMainMenuClick = (mainMenuId) => {
         setActiveMainMenu(prevActive => prevActive === mainMenuId ? null : mainMenuId);
     };
     const handleSubMenuClick = (subMenuId) => {
         setActiveSubMenu(subMenuId);
     };
+    const navigate = useNavigate();
+    const api = process.env.REACT_APP_API_URL_AUTH;
+    const adminToken = Cookies.get('adminToken');
+    const [user, setUser] = useState([]);
+    useEffect(() => {
 
+
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(`${api}/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                // Xử lý phản hồi từ server (response.data)
+                setUser(response.data);
+            } catch (error) {
+                // Xử lý lỗi
+                console.error('Error fetching admin:', error);
+            }
+        };
+
+        fetchUser();
+    }, []);
 
     return (
         <>
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-                    <Link to={"/administrator-management/dashboard"} class="app-brand-link">
+                    <Link to={`${admin_url}/dashboard`} class="app-brand-link">
                         <span class="app-brand-logo demo">
                             <img src={LogoImg} alt='' width={"100px"} onClick={() => handleMainMenuClick("dashboard")} />
                         </span>
@@ -39,9 +69,9 @@ const MenuAdmin = () => {
 
                 <ul class="menu-inner py-1">
                     {/*dashboard*/}
-                    <li className={`menu-item ${location.pathname === '/administrator-management/dashboard' ? 'active' : ''}`}>
+                    <li className={`menu-item ${location.pathname === `${admin_url}/dashboard` ? 'active' : ''}`}>
                         <Link
-                            to="/administrator-management/dashboard"
+                            to={`${admin_url}/dashboard`}
                             className={`menu-link`}
                             onClick={() => handleMainMenuClick("dashboard")}
                         >
@@ -63,14 +93,14 @@ const MenuAdmin = () => {
                             <div data-i18n="Products">Sản phẩm</div>
                         </Link>
                         <ul className="menu-sub">
-                            <li className={`menu-item ${location.pathname === '/administrator-management/products_list' ? 'active' : ''}`}>
+                            <li className={`menu-item ${location.pathname === `${admin_url}/products_list` ? 'active' : ''}`}>
                                 {/* <li className={`menu-item ${activeSubMenu === "list-product" ? "active" : ""}`}> */}
-                                <Link to="/administrator-management/products_list" className="menu-link" onClick={() => handleSubMenuClick("list-product")}>
+                                <Link to={`${admin_url}/products_list`} className="menu-link" onClick={() => handleSubMenuClick("list-product")}>
                                     <div data-i18n="Without menu">Danh sách sản phẩm</div>
                                 </Link>
                             </li>
                             <li className={`menu-item ${activeSubMenu === "create-product" ? "active" : ""}`}>
-                                <Link to="/administrator-management/product_create" className="menu-link" onClick={() => handleSubMenuClick("create-product")}>
+                                <Link to={`${admin_url}/product_create`} className="menu-link" onClick={() => handleSubMenuClick("create-product")}>
                                     <div data-i18n="Without menu">Thêm mới sản phẩm</div>
                                 </Link>
                             </li>
@@ -88,37 +118,37 @@ const MenuAdmin = () => {
                         </Link>
                         <ul className="menu-sub">
                             <li className={`menu-item ${activeSubMenu === "list-order" ? "active" : ""}`}>
-                                <Link to="/administrator-management/orders_list_admin" className="menu-link" onClick={() => handleSubMenuClick("list-order")}>
+                                <Link to={`${admin_url}/orders_list_admin`} className="menu-link" onClick={() => handleSubMenuClick("list-order")}>
                                     <div data-i18n="Without menu">Tất cả đơn hàng</div>
                                 </Link>
                             </li>
                             <li className={`menu-item ${activeSubMenu === "ordered" ? "active" : ""}`}>
-                                <Link to="/administrator-management/orders_list_admin_ordered" className="menu-link" onClick={() => handleSubMenuClick("ordered")}>
+                                <Link to={`${admin_url}/orders_list_admin_ordered`} className="menu-link" onClick={() => handleSubMenuClick("ordered")}>
                                     <div data-i18n="Without menu">Đơn hàng đã đặt hàng</div>
                                 </Link>
                             </li>
                             <li className={`menu-item ${activeSubMenu === "order-pending" ? "active" : ""}`}>
-                                <Link to="/administrator-management/orders_list_admin_pending" className="menu-link" onClick={() => handleSubMenuClick("order-pending")}>
+                                <Link to={`${admin_url}/orders_list_admin_pending`} className="menu-link" onClick={() => handleSubMenuClick("order-pending")}>
                                     <div data-i18n="Without menu">Đơn hàng đang xử lý</div>
                                 </Link>
                             </li>
                             <li className={`menu-item ${activeSubMenu === "order-pay" ? "active" : ""}`}>
-                                <Link to="/administrator-management/orders_list_admin_pay" className="menu-link" onClick={() => handleSubMenuClick("order-pay")}>
+                                <Link to={`${admin_url}/orders_list_admin_pay`} className="menu-link" onClick={() => handleSubMenuClick("order-pay")}>
                                     <div data-i18n="Without menu">Đơn hàng đang đợi thanh toán</div>
                                 </Link>
                             </li>
                             <li className={`menu-item ${activeSubMenu === "order-delivering" ? "active" : ""}`}>
-                                <Link to="/administrator-management/orders_list_admin_delivering" className="menu-link" onClick={() => handleSubMenuClick("order-delivering")}>
+                                <Link to={`${admin_url}/orders_list_admin_delivering`} className="menu-link" onClick={() => handleSubMenuClick("order-delivering")}>
                                     <div data-i18n="Without menu">Đơn hàng đang giao</div>
                                 </Link>
                             </li>
                             <li className={`menu-item ${activeSubMenu === "order-completed" ? "active" : ""}`}>
-                                <Link to="/administrator-management/orders_list_admin_completed" className="menu-link" onClick={() => handleSubMenuClick("order-completed")}>
+                                <Link to={`${admin_url}/orders_list_admin_completed`} className="menu-link" onClick={() => handleSubMenuClick("order-completed")}>
                                     <div data-i18n="Without menu">Đơn hàng đã hoàn thành</div>
                                 </Link>
                             </li>
                             <li className={`menu-item ${activeSubMenu === "order-cancelled" ? "active" : ""}`}>
-                                <Link to="/administrator-management/orders_list_admin_cancelled" className="menu-link" onClick={() => handleSubMenuClick("order-cancelled")}>
+                                <Link to={`${admin_url}/orders_list_admin_cancelled`} className="menu-link" onClick={() => handleSubMenuClick("order-cancelled")}>
                                     <div data-i18n="Without menu">Đơn hàng bị hủy</div>
                                 </Link>
                             </li>
@@ -132,7 +162,7 @@ const MenuAdmin = () => {
                     </li>
                     <li className={`menu-item ${activeMainMenu === "categories" ? "open active" : ""}`}>
                         <Link
-                            to="javascript:void(0);"
+
                             className={`menu-link menu-toggle`}
                             onClick={() => handleMainMenuClick("categories")}
                         >
@@ -141,12 +171,12 @@ const MenuAdmin = () => {
                         </Link>
                         <ul className="menu-sub">
                             <li className={`menu-item ${activeSubMenu === "list-categories" ? "active" : ""}`}>
-                                <Link to="/administrator-management/categories_list" className="menu-link" onClick={() => handleSubMenuClick("list-categories")}>
+                                <Link to={`${admin_url}/categories_list`} className="menu-link" onClick={() => handleSubMenuClick("list-categories")}>
                                     <div data-i18n="Without menu">Danh sách danh mục</div>
                                 </Link>
                             </li>
                             <li className={`menu-item ${activeSubMenu === "create-category" ? "active" : ""}`}>
-                                <Link to="/administrator-management/category_create" className="menu-link" onClick={() => handleSubMenuClick("create-category")}>
+                                <Link to={`${admin_url}/category_create`} className="menu-link" onClick={() => handleSubMenuClick("create-category")}>
                                     <div data-i18n="Without menu">Thêm mới danh mục</div>
                                 </Link>
                             </li>
@@ -155,7 +185,7 @@ const MenuAdmin = () => {
                     </li>
                     <li className={`menu-item ${activeMainMenu === "brands" ? "open active" : ""}`}>
                         <Link
-                            to="javascript:void(0);"
+
                             className={`menu-link menu-toggle`}
                             onClick={() => handleMainMenuClick("brands")}
                         >
@@ -164,13 +194,13 @@ const MenuAdmin = () => {
                         </Link>
                         <ul className="menu-sub">
                             <li className={`menu-item ${activeSubMenu === "list-brands" ? "active" : ""}`}>
-                                <Link to="/administrator-management/brands_list" className="menu-link" onClick={() => handleSubMenuClick("list-brands")}>
+                                <Link to={`${admin_url}/brands_list`} className="menu-link" onClick={() => handleSubMenuClick("list-brands")}>
                                     <div data-i18n="Brands List">Danh sách thương hiệu</div>
                                 </Link>
                             </li>
 
                             <li className={`menu-item ${activeSubMenu === "create-brand" ? "active" : ""}`}>
-                                <Link to="/administrator-management/brand_create" className="menu-link" onClick={() => handleSubMenuClick("create-brand")}>
+                                <Link to={`${admin_url}/brand_create`} className="menu-link" onClick={() => handleSubMenuClick("create-brand")}>
                                     <div data-i18n="Brands List">Thêm mới thương hiệu</div>
                                 </Link>
                             </li>
@@ -184,7 +214,7 @@ const MenuAdmin = () => {
                     </li>
                     <li className={`menu-item ${activeMainMenu === "news" ? "open active" : ""}`}>
                         <Link
-                            to="javascript:void(0);"
+
                             className={`menu-link menu-toggle`}
                             onClick={() => handleMainMenuClick("news")}
                         >
@@ -193,12 +223,12 @@ const MenuAdmin = () => {
                         </Link>
                         <ul className="menu-sub">
                             <li className={`menu-item ${activeSubMenu === "list-news" ? "active" : ""}`}>
-                                <Link to="/administrator-management/news_list" className="menu-link" onClick={() => handleSubMenuClick("list-news")}>
+                                <Link to={`${admin_url}/news_list`} className="menu-link" onClick={() => handleSubMenuClick("list-news")}>
                                     <div data-i18n="Without menu">Danh sách tin tức</div>
                                 </Link>
                             </li>
                             <li className={`menu-item ${activeSubMenu === "create-news" ? "active" : ""}`}>
-                                <Link to="/administrator-management/news_create" className="menu-link" onClick={() => handleSubMenuClick("create-news")}>
+                                <Link to={`${admin_url}/news_create`} className="menu-link" onClick={() => handleSubMenuClick("create-news")}>
                                     <div data-i18n="Without menu">Thêm mới tin tức</div>
                                 </Link>
                             </li>
@@ -212,7 +242,6 @@ const MenuAdmin = () => {
                     </li>
                     <li className={`menu-item ${activeMainMenu === "users" ? "open active" : ""}`}>
                         <Link
-                            to="javascript:void(0);"
                             className={`menu-link menu-toggle`}
                             onClick={() => handleMainMenuClick("users")}
                         >
@@ -221,7 +250,7 @@ const MenuAdmin = () => {
                         </Link>
                         <ul className="menu-sub">
                             <li className={`menu-item ${activeSubMenu === "customers_list" ? "active" : ""}`}>
-                                <Link to="/administrator-management/customers_list" className="menu-link" onClick={() => handleSubMenuClick("customers_list")}>
+                                <Link to={`${admin_url}/customers_list`} className="menu-link" onClick={() => handleSubMenuClick("customers_list")}>
                                     <div data-i18n="User List">Danh sách khách hàng</div>
                                 </Link>
                             </li>
@@ -230,7 +259,6 @@ const MenuAdmin = () => {
                     </li>
                     <li className={`menu-item ${activeMainMenu === "account" ? "open active" : ""}`}>
                         <Link
-                            to="javascript:void(0);"
                             className={`menu-link menu-toggle`}
                             onClick={() => handleMainMenuClick("account")}
                         >
@@ -239,7 +267,7 @@ const MenuAdmin = () => {
                         </Link>
                         <ul className="menu-sub">
                             <li className={`menu-item ${activeSubMenu === "account-settings" ? "active" : ""}`}>
-                                <Link to="/administrator-management/account-settings" className="menu-link" onClick={() => handleSubMenuClick("account-settings")}>
+                                <Link to={`${admin_url}/account-settings/${user.userId}`} className="menu-link" onClick={() => handleSubMenuClick("account-settings")}>
                                     <div data-i18n="Account Settings">Cài đặt tài khoản</div>
                                 </Link>
                             </li>

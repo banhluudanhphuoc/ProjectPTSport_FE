@@ -1,14 +1,66 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import './style.scss';
 import { Link } from "react-router-dom";
 import ImgAvt from '../../../../assets/admin/img/avatars/1.png';
 import { Modal, Button, Image } from 'react-bootstrap';
 import Cookies from 'js-cookie'; // Import thư viện js-cookie
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { RiAdminFill } from "react-icons/ri";
 const HeaderAdmin = () => {
-    const handleLogout = () => {
-        Cookies.remove("adminToken");
-        window.location.href = '/administrator-management/admin-login';
-    }
+    const navigate = useNavigate();
+    const api = process.env.REACT_APP_API_URL_AUTH;
+    const adminToken = Cookies.get('adminToken');
+    const [admin, setAdmin] = useState([]);
+    const admin_url = process.env.REACT_APP_ADMIN_URL;
+
+    useEffect(() => {
+
+
+        const fetchAdmin = async () => {
+            try {
+                const response = await axios.get(api + '/me', {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                // Xử lý phản hồi từ server (response.data)
+                setAdmin(response.data);
+            } catch (error) {
+                // Xử lý lỗi
+                console.error('Error fetching admin:', error);
+            }
+        };
+
+        fetchAdmin();
+    }, []);
+
+
+    const handleLogout = async () => {
+        try {
+            // Gửi yêu cầu đến endpoint logout của API
+            const response = await axios.get(
+                api + '/logout',
+                {},
+                {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`,
+                    },
+                }
+            );
+            // Kiểm tra xem logout có thành công hay không
+            if (response.status === 200) {
+                Cookies.remove('adminToken')
+                navigate(admin_url + '/admin-login');
+            } else {
+                console.error('Logout failed:', response.data);
+            }
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
+    };
 
     return (
         <>
@@ -17,7 +69,7 @@ const HeaderAdmin = () => {
                 id="layout-navbar"
             >
                 <div className="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-                    <Link className="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                    <Link className="nav-item nav-link px-0 me-xl-4">
                         <i className="bx bx-menu bx-sm"></i>
                     </Link>
                 </div>
@@ -41,23 +93,25 @@ const HeaderAdmin = () => {
 
 
                         <li className="nav-item navbar-dropdown dropdown-user dropdown ">
-                            <Link className="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                                <div className="avatar avatar-online">
-                                    <img src={ImgAvt} alt="" className="w-px-40 h-auto rounded-circle" />
+                            <Link className="nav-link dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <div className="avatar avatar-online custom-avt">
+                                    <RiAdminFill />
+                                    {/* <img src={admin.avatar} alt="" className="w-px-40 h-auto rounded-circle " /> */}
                                 </div>
                             </Link>
                             <ul className="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <Link className="dropdown-item" href="#">
+                                    <Link className="dropdown-item">
                                         <div className="d-flex">
                                             <div className="flex-shrink-0 me-3">
-                                                <div className="avatar avatar-online">
-                                                    <img src={ImgAvt} alt="" className="w-px-40 h-auto rounded-circle" />
+                                                <div className="avatar avatar-online custom-avt">
+                                                    <RiAdminFill />
+                                                    {/* <img src={admin.avatar} alt="" className="w-px-40 h-auto rounded-circle" /> */}
                                                 </div>
                                             </div>
                                             <div className="flex-grow-1">
-                                                <span className="fw-semibold d-block">John Doe</span>
-                                                <small className="text-muted">Admin</small>
+                                                <span className="fw-semibold d-block">{admin.name}</span>
+                                                <small className="text-muted">{admin.email}</small>
                                             </div>
                                         </div>
                                     </Link>
@@ -66,12 +120,12 @@ const HeaderAdmin = () => {
                                     <div className="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <Link className="dropdown-item" href="#">
+                                    <Link className="dropdown-item" to={`${admin_url}/account-settings/${admin.userId}`}>
                                         <i className="bx bx-user me-2"></i>
                                         <span className="align-middle">My Profile</span>
                                     </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link className="dropdown-item" href="#">
                                         <i className="bx bx-cog me-2"></i>
                                         <span className="align-middle">Settings</span>
@@ -85,7 +139,7 @@ const HeaderAdmin = () => {
                                             <span className="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
                                         </span>
                                     </Link>
-                                </li>
+                                </li> */}
                                 <li>
                                     <div className="dropdown-divider"></div>
                                 </li>

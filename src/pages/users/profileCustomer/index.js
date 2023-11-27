@@ -20,12 +20,12 @@ import {
     AiOutlineRocket,
 } from "react-icons/ai";
 import ImgReview1 from '../../../style/img/product/review-1.png';
-
+import Cookies from 'js-cookie';
 import SizeChart from '../../../assets/users/size-charts/giay-nam.png';
 import { Link } from "react-router-dom";
 import Banner from "../../users/theme/banner";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "context/AuthContext";
+import axios from 'axios';
 const ProfileCustomer = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -34,12 +34,30 @@ const ProfileCustomer = () => {
         i18n.changeLanguage(lng);
     };
     const navigate = useNavigate();
-    const { isLoggedIn } = useAuth();
-    const { setIsLoggedIn } = useAuth();
+    const auth = process.env.REACT_APP_API_URL_AUTH;
+    const [user, setUser] = useState([]);
     useEffect(() => {
-        if (isLoggedIn === false) {
+        const userToken = Cookies.get('userToken');
+        if (!userToken) {
             navigate('/login-user');
         }
+        const fetchMe = async () => {
+            try {
+                const response = await axios.get(auth + '/me', {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                setUser(response.data);
+            } catch (error) {
+                // Xử lý lỗi
+                console.error('Error fetching Brand:', error);
+            }
+        };
+
+        fetchMe();
     }, [navigate]);
 
 
@@ -48,8 +66,8 @@ const ProfileCustomer = () => {
         <div className="container">
             <div className="row  mt-5">
                 <div className="title-profile-customer d-flex">
-                    <h3 >{t('profile_title')} : Tam</h3>
-                    <p mt="sm" ml="sm">{t('profile_phone')}: 0123456789</p>
+                    <h3 >{t('profile_title')} : {user.name}</h3>
+                    {/* <p mt="sm" ml="sm">{t('profile_phone')}: 0123456789</p> */}
                     <Link to={"/profile-customer-edit"} className="button_edit_profile_customer btn btn-primary" mt="sm" ml="sm">
                         <AiOutlineEdit /> {t('profile_edit')}
                     </Link>

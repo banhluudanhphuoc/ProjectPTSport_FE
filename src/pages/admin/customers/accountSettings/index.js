@@ -1,13 +1,129 @@
-
-import { memo } from "react";
 import './style.scss';
 import { Link } from "react-router-dom";
 import { Modal, Button, Image } from 'react-bootstrap';
-
-
-
+import { memo, useEffect, useState } from "react";
+import Cookies from 'js-cookie'; // Import thư viện js-cookie
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { DateInput } from '@mantine/dates';
+import { format } from 'date-fns';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {
+    PasswordInput,
+    TextInput,
+    Text,
+    rem,
+    NativeSelect,
+} from '@mantine/core';
+import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
 const AccountSettings = () => {
+    const navigate = useNavigate();
+    const api = process.env.REACT_APP_API_URL_ADMIN;
+    const adminToken = Cookies.get('adminToken');
+    const { userID } = useParams();
+    const admin_url = process.env.REACT_APP_ADMIN_URL;
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
 
+    const [user, setUser] = useState({
+        userId: null,
+        name: '',
+        email: '',
+        birthdate: '',
+        avatar: '',
+    });
+    const [currentEmail, setCurrentEmail] = useState('');
+    const [newName, setNewName] = useState('');
+    const [currentName, setCurrentName] = useState('');
+    const [newBirthDate, setNewBirthDate] = useState('');
+    const [currentBirthDate, setCurrentBirthDate] = useState('');
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(`${api}/users/${userID}`, {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+                setCurrentBirthDate(response.data.birthdate);
+                setCurrentName(response.data.name);
+                setCurrentEmail(response.data.email);
+                setUser(response.data);
+            } catch (error) {
+                console.error('Error fetching admin:', error);
+            }
+        };
+
+        fetchUser();
+    }, [api, adminToken, userID]);
+
+
+
+
+    const handleSave = async (e) => {
+        e.preventDefault();  // Prevent the default form submission
+
+        try {
+            const formattedDateOfBirth = format(newBirthDate, 'dd/MM/yyyy');
+            const response = await axios.put(
+                `${api}/users/${userID}`,
+                {
+                    email: currentEmail,
+                    name: newName,
+                    birthdate: formattedDateOfBirth,
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
+            navigate(admin_url + '/customers_list');
+        } catch (error) {
+            console.error('Error updating user:', error);
+            // Handle the error condition
+        }
+    };
+
+    // const form = useForm({
+    //     initialValues: {
+    //         currentPasswordForm: '',
+    //         newPasswordForm: '',
+    //         newRePasswordForm: '',
+    //     },
+
+    //     validate: {
+    //         currentPasswordForm: (value) => (value.length < 1 ? 'Vui lòng nhập mật khẩu cũ .' : null),
+    //         newPasswordForm: (value) => (value.length < 8 ? 'Mật khẩu mới phải trên 8 kí tự' : null),
+    //         newRePasswordForm: (value, values) => value !== values.newPasswordForm ? 'Nhập lại mật khẩu không giống mật khẩu ở trên' : null,
+    //     },
+    // });
+    // const handlePasswordChange = async (e) => {
+    //     e.preventDefault();
+    //     form.validate();
+
+    //     try {
+    //         // Fetch the user with the current password to confirm it's correct
+    //         const passwordCheckResponse = await axios.put(
+    //             `${api}/users/${userID}`,
+    //             {
+    //                 password: form.values.currentPasswordForm,
+    //                 newPassword: form.values.newRePasswordForm,
+    //             },
+    //             {
+    //                 headers: {
+    //                     'Authorization': `Bearer ${adminToken}`,
+    //                     'Content-Type': 'application/json',
+    //                 },
+    //             }
+    //         );
+    //         navigate(admin_url + '/customers_list');
+    //     } catch (error) {
+    //         console.error('Error changing password:', error);
+    //     }
+    // };
 
     return (
 
@@ -15,18 +131,18 @@ const AccountSettings = () => {
             <div className="content-wrapper">
 
                 <div className="container-xxl flex-grow-1 container-p-y">
-                    <h4 className="fw-bold py-3 mb-4"><span className="text-muted fw-light">Account Settings /</span> Account</h4>
+                    <h4 className="fw-bold py-3 mb-4"><span className="text-muted fw-light">Cài đặt tài khoản /</span> {user.name}</h4>
 
                     <div className="row">
                         <div className="col-md-12">
                             <div className="card mb-4">
-                                <h5 className="card-header">Profile Details</h5>
+                                <h5 className="card-header">Thông tin chi tiết</h5>
 
-                                <div className="card-body">
+                                {/* <div className="card-body">
                                     <div className="d-flex align-items-start align-items-sm-center gap-4">
                                         <Image
-                                            src="../assets/img/avatars/1.png"
-                                            alt="user-avatar"
+                                            src={user.avatar}
+                                            alt="admin-avatar"
                                             className="d-block rounded"
                                             height="100"
                                             width="100"
@@ -52,110 +168,48 @@ const AccountSettings = () => {
                                             <p className="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                                 <hr className="my-0" />
                                 <div className="card-body">
-                                    <form id="formAccountSettings" method="POST" onsubmit="return false">
+                                    <form id="formAccountSettings" onSubmit={handleSave}>
                                         <div className="row">
                                             <div className="mb-3 col-md-6">
-                                                <label for="firstName" className="form-label">First Name</label>
-                                                <input
-                                                    className="form-control"
-                                                    type="text"
-                                                    id="firstName"
-                                                    name="firstName"
-                                                    value="John"
-                                                    autofocus
-                                                />
-                                            </div>
-                                            <div className="mb-3 col-md-6">
-                                                <label for="lastName" className="form-label">Last Name</label>
-                                                <input className="form-control" type="text" name="lastName" id="lastName" value="Doe" />
-                                            </div>
-                                            <div className="mb-3 col-md-6">
-                                                <label for="email" className="form-label">E-mail</label>
+                                                <label for="firstName" className="form-label">Email</label>
                                                 <input
                                                     className="form-control"
                                                     type="text"
                                                     id="email"
                                                     name="email"
-                                                    value="john.doe@example.com"
-                                                    placeholder="john.doe@example.com"
+                                                    value={user.email}
+                                                    autofocus
+                                                    readOnly
                                                 />
                                             </div>
                                             <div className="mb-3 col-md-6">
-                                                <label for="organization" className="form-label">Organization</label>
+                                                <label for="lastName" className="form-label">Tên</label>
                                                 <input
-                                                    type="text"
                                                     className="form-control"
-                                                    id="organization"
-                                                    name="organization"
-                                                    value="ThemeSelection"
+                                                    type="text"
+                                                    name="name"
+                                                    id="name"
+                                                    placeholder={currentName}
+                                                    value={newName}
+                                                    onChange={(e) => setNewName(e.target.value)}
                                                 />
                                             </div>
                                             <div className="mb-3 col-md-6">
-                                                <label className="form-label" for="phoneNumber">Phone Number</label>
-                                                <div className="input-group input-group-merge">
-                                                    <span className="input-group-text">US (+1)</span>
-                                                    <input
-                                                        type="text"
-                                                        id="phoneNumber"
-                                                        name="phoneNumber"
-                                                        className="form-control"
-                                                        placeholder="202 555 0111"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="mb-3 col-md-6">
-                                                <label for="address" className="form-label">Address</label>
-                                                <input type="text" className="form-control" id="address" name="address" placeholder="Address" />
-                                            </div>
-                                            <div className="mb-3 col-md-6">
-                                                <label for="state" className="form-label">State</label>
-                                                <input className="form-control" type="text" id="state" name="state" placeholder="California" />
-                                            </div>
-                                            <div className="mb-3 col-md-6">
-                                                <label for="zipCode" className="form-label">Zip Code</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="zipCode"
-                                                    name="zipCode"
-                                                    placeholder="231465"
-                                                    maxlength="6"
+                                                <DateInput
+                                                    valueFormat="DD/MM/YYYY"
+                                                    mt="md"
+                                                    label="Ngày Tháng Năm sinh"
+                                                    placeholder={currentBirthDate}
+                                                    value={newBirthDate || ''}
+                                                    onChange={(value) => setNewBirthDate(value)}
                                                 />
                                             </div>
-                                            <div className="mb-3 col-md-6">
-                                                <label className="form-label" for="country">Country</label>
-                                                <select id="country" className="select2 form-select">
-                                                    <option value="">Select</option>
-                                                    <option value="Australia">Australia</option>
-                                                    <option value="Bangladesh">Bangladesh</option>
-                                                    <option value="Belarus">Belarus</option>
-                                                    <option value="Brazil">Brazil</option>
-                                                    <option value="Canada">Canada</option>
-                                                    <option value="China">China</option>
-                                                    <option value="France">France</option>
-                                                    <option value="Germany">Germany</option>
-                                                    <option value="India">India</option>
-                                                    <option value="Indonesia">Indonesia</option>
-                                                    <option value="Israel">Israel</option>
-                                                    <option value="Italy">Italy</option>
-                                                    <option value="Japan">Japan</option>
-                                                    <option value="Korea">Korea, Republic of</option>
-                                                    <option value="Mexico">Mexico</option>
-                                                    <option value="Philippines">Philippines</option>
-                                                    <option value="Russia">Russian Federation</option>
-                                                    <option value="South Africa">South Africa</option>
-                                                    <option value="Thailand">Thailand</option>
-                                                    <option value="Turkey">Turkey</option>
-                                                    <option value="Ukraine">Ukraine</option>
-                                                    <option value="United Arab Emirates">United Arab Emirates</option>
-                                                    <option value="United Kingdom">United Kingdom</option>
-                                                    <option value="United States">United States</option>
-                                                </select>
-                                            </div>
-                                            <div className="mb-3 col-md-6">
+
+
+                                            {/* <div className="mb-3 col-md-6">
                                                 <label for="language" className="form-label">Language</label>
                                                 <select id="language" className="select2 form-select">
                                                     <option value="">Select Language</option>
@@ -163,30 +217,6 @@ const AccountSettings = () => {
                                                     <option value="fr">French</option>
                                                     <option value="de">German</option>
                                                     <option value="pt">Portuguese</option>
-                                                </select>
-                                            </div>
-                                            <div className="mb-3 col-md-6">
-                                                <label for="timeZones" className="form-label">Timezone</label>
-                                                <select id="timeZones" className="select2 form-select">
-                                                    <option value="">Select Timezone</option>
-                                                    <option value="-12">(GMT-12:00) International Date Line West</option>
-                                                    <option value="-11">(GMT-11:00) Midway Island, Samoa</option>
-                                                    <option value="-10">(GMT-10:00) Hawaii</option>
-                                                    <option value="-9">(GMT-09:00) Alaska</option>
-                                                    <option value="-8">(GMT-08:00) Pacific Time (US & Canada)</option>
-                                                    <option value="-8">(GMT-08:00) Tijuana, Baja California</option>
-                                                    <option value="-7">(GMT-07:00) Arizona</option>
-                                                    <option value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
-                                                    <option value="-7">(GMT-07:00) Mountain Time (US & Canada)</option>
-                                                    <option value="-6">(GMT-06:00) Central America</option>
-                                                    <option value="-6">(GMT-06:00) Central Time (US & Canada)</option>
-                                                    <option value="-6">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
-                                                    <option value="-6">(GMT-06:00) Saskatchewan</option>
-                                                    <option value="-5">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
-                                                    <option value="-5">(GMT-05:00) Eastern Time (US & Canada)</option>
-                                                    <option value="-5">(GMT-05:00) Indiana (East)</option>
-                                                    <option value="-4">(GMT-04:00) Atlantic Time (Canada)</option>
-                                                    <option value="-4">(GMT-04:00) Caracas, La Paz</option>
                                                 </select>
                                             </div>
                                             <div className="mb-3 col-md-6">
@@ -198,46 +228,72 @@ const AccountSettings = () => {
                                                     <option value="pound">Pound</option>
                                                     <option value="bitcoin">Bitcoin</option>
                                                 </select>
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className="mt-2">
-                                            <button type="submit" className="btn btn-primary me-2">Save changes</button>
-                                            <button type="reset" className="btn btn-outline-secondary">Cancel</button>
+                                            {/* <button
+                                                className="btn btn-secondary me-2"
+                                                onClick={() => setShowPasswordModal(true)}
+                                            >
+                                                Đổi mật khẩu
+                                            </button> */}
+                                            <button type="button" className="btn btn-primary me-2" onClick={handleSave}>
+                                                Lưu
+                                            </button>
+                                            <button type="button" className="btn btn-outline-secondary" onClick={() => navigate(admin_url + '/dashboard')}>
+                                                Hủy
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
 
                             </div>
-                            <div className="card">
-                                <h5 className="card-header">Delete Account</h5>
-                                <div className="card-body">
-                                    <div className="mb-3 col-12 mb-0">
-                                        <div className="alert alert-warning">
-                                            <h6 className="alert-heading fw-bold mb-1">Are you sure you want to delete your account?</h6>
-                                            <p className="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
-                                        </div>
-                                    </div>
-                                    <form id="formAccountDeactivation" onsubmit="return false">
-                                        <div className="form-check mb-3">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                name="accountActivation"
-                                                id="accountActivation"
-                                            />
-                                            <label className="form-check-label" for="accountActivation"
-                                            >I confirm my account deactivation</label
-                                            >
-                                        </div>
-                                        <button type="submit" className="btn btn-danger deactivate-account">Deactivate Account</button>
-                                    </form>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+            {/* Password Modal */}
+            {/* <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)}>
 
+                <Modal.Header>
+                    <Modal.Title>Đổi mật khẩu</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form className="row login_form" >
+                        <PasswordInput
+                            mt="md"
+                            label="Mật khẩu cũ"
+                            placeholder="Mật khẩu cũ"
+                            {...form.getInputProps('currentPasswordForm')}
+                            id="currentPassword"
+                        />
+                        <PasswordInput
+                            mt="md"
+                            label="Mật khẩu mới"
+                            placeholder="Mật khẩu mới"
+                            {...form.getInputProps('newPasswordForm')}
+                            id="newPassword"
+                        />
+                        <PasswordInput
+                            mt="md"
+                            label="Nhập lại mật khẩu mới"
+                            placeholder="Nhập lại mật khẩu mới"
+                            {...form.getInputProps('newRePasswordForm')}
+                            id="newRePassword"
+                        />
+                    </form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowPasswordModal(false)}>
+                        Đóng
+                    </Button>
+                    <Button variant="primary" onClick={handlePasswordChange}>
+                        Lưu mật khẩu
+                    </Button>
+
+                </Modal.Footer>
+            </Modal> */}
         </>
     );
 };

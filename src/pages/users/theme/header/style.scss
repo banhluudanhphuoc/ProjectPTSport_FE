@@ -4,7 +4,7 @@
 
 .custom_menu{
     display: block !important;
-    align-content: center !important;
+    
     font-size: xl-large !important;
     font-weight: 600 !important;
     text-decoration: none;
@@ -48,7 +48,7 @@ li.nav-item{
         position: absolute;
         top: 50%; /* Cách trên là 50% chiều cao của container */
         left: 15px;
-        transform: translateY(-50%);
+        transform: translateY(-100%);
       }
     .icon-cart{
         color: #000 ;
@@ -59,6 +59,33 @@ li.nav-item{
         .active-menu-item {
             color: #FFC000 !important;
         }
+    }
+    .icon-wish-list{
+        color: #000 ;
+        font-size: 25px;
+        &:hover{
+            color: #FFC000 !important;
+        }
+        .active-menu-item {
+            color: #FFC000 !important;
+        }
+    }
+    .star-count{
+        background-color: #FFC000;
+        color: white !important; /* Màu chữ */
+        border-radius: 50%; /* Để tạo hình tròn */
+        width: 20px; /* Chiều rộng */
+        height: 20px; /* Chiều cao */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px; 
+        font-weight: bold;
+        z-index: 999;
+        position: absolute;
+        top: 50%; /* Cách trên là 50% chiều cao của container */
+        left: 15px;
+        transform: translateY(-100%);
     }
 }
 
@@ -88,4 +115,30 @@ li.nav-item{
 	cursor: pointer;
 	padding: 0;
 }
+
+
+.search-results {
+    margin-top: 10px; /* Add spacing at the top */
+  }
+  
+  .scrollable-results {
+    max-height: 300px; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+  }
+  
+  .single-result-search-item {
+    padding: 10px; /* Add padding for better spacing */
+
+    &:hover{
+        background-color: white;
+    }
+  }
+  .single-result-search-item img {
+    margin-right: 10px; /* Add spacing between image and text */
+  }
+  
+  .product-details {
+    flex-grow: 1; /* Allow the product details to take up remaining space */
+  }
 

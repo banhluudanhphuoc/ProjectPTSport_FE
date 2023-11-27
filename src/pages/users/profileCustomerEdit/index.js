@@ -21,11 +21,12 @@ import {
     Avatar,
     Select,
 } from '@mantine/core';
-
+import Cookies from 'js-cookie';
 import Banner from "../../users/theme/banner";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
 import { Link } from "react-router-dom";
-import { useAuth } from "context/AuthContext";
+// import { useAuth } from "context/AuthContext";
+import { format } from 'date-fns';
 const ProfileCustomerEdit = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -33,6 +34,7 @@ const ProfileCustomerEdit = () => {
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
     };
+
     const form = useForm({
         initialValues: {
             password: '',
@@ -63,22 +65,73 @@ const ProfileCustomerEdit = () => {
             date_of_birth: isNotEmpty('Vui lòng nhập Ngày sinh'),
         },
     });
-
-
+    const [currentEmail, setCurrentEmail] = useState('');
+    const [newName, setNewName] = useState('');
+    const [currentName, setCurrentName] = useState('');
+    const [newBirthDate, setNewBirthDate] = useState('');
+    const [currentBirthDate, setCurrentBirthDate] = useState('');
+    const auth = process.env.REACT_APP_API_URL_AUTH;
+    const [user, setUser] = useState([]);
     const navigate = useNavigate();
-    const { isLoggedIn } = useAuth();
-    const { setIsLoggedIn } = useAuth();
+    const userToken = Cookies.get('userToken');
     useEffect(() => {
-        if (isLoggedIn === false) {
+        const userToken = Cookies.get('userToken');
+        if (!userToken) {
             navigate('/login-user');
         }
+        const fetchMe = async () => {
+            try {
+                const response = await axios.get(auth + '/me', {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+                setCurrentBirthDate(response.data.birthdate);
+                setCurrentName(response.data.name);
+                setCurrentEmail(response.data.email);
+                setUser(response.data);
+            } catch (error) {
+                // Xử lý lỗi
+                console.error('Error fetching Brand:', error);
+            }
+        };
+
+        fetchMe();
     }, [navigate]);
+
+
+    const handleSave = async (e) => {
+        e.preventDefault();  // Prevent the default form submission
+
+        try {
+            const formattedDateOfBirth = format(newBirthDate, 'dd/MM/yyyy');
+            const response = await axios.put(
+                `${auth}/users/${user.userId}`,
+                {
+                    email: currentEmail,
+                    name: newName,
+                    birthdate: formattedDateOfBirth,
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
+            navigate('/profile-customer');
+        } catch (error) {
+            console.error('Error updating user:', error);
+            // Handle the error condition
+        }
+    };
     return <>
         <Banner pageTitle={t('pageTitle_customer_profile_edit')} />
         <div className="container">
             <Card shadow="sm" padding="lg" withBorder>
                 <div className="title-profile-customer">
-                    <h3 >Xin chào Anh/Chị : Tam</h3>
+                    <h3 >{t('profile_title')} : {user.name}</h3>
                 </div>
                 <Grid>
                     <Grid.Col md="3.5" className="profile_customer_left" mt="sm">
@@ -102,63 +155,58 @@ const ProfileCustomerEdit = () => {
                                 <h1 >Cập nhật thông tin</h1>
                             </div>
                             <Box mx="auto">
-                                <form >
-                                    <Card shadow="sm" padding="lg" radius="md" withBorder>
-                                        <Grid>
 
-                                            <Grid.Col md={6}>
-                                                <TextInput
-                                                    label="Họ và tên"
-                                                    placeholder="Họ và tên"
-                                                    withAsterisk
-                                                    {...form.getInputProps('full_name')}
-                                                    id="full_name"
-                                                />
 
-                                                <TextInput
-                                                    label="Email"
-                                                    placeholder="Your email"
-                                                    withAsterisk
-                                                    mt="md"
-                                                    {...form.getInputProps('email')}
+                                <div className='container'>
+                                    <div className='row'>
+                                        <form >
+                                            <div className="mb-3 col-md-6">
+                                                <label for="firstName" className="form-label">Email</label>
+                                                <input
+                                                    className="form-control"
+                                                    type="text"
                                                     id="email"
+                                                    name="email"
+                                                    value={user.email}
+                                                    autofocus
+                                                    readOnly
                                                 />
-                                                <TextInput
-                                                    label="Số điện thoại"
-                                                    placeholder="Số điện thoại"
-                                                    withAsterisk
-                                                    mt="md"
-                                                    {...form.getInputProps('phone_number')}
-                                                    id="phone_number"
+                                            </div>
+                                            <div className="mb-3 col-md-6">
+                                                <label for="lastName" className="form-label">Tên</label>
+                                                <input
+                                                    className="form-control"
+                                                    type="text"
+                                                    name="name"
+                                                    id="name"
+                                                    placeholder={currentName}
+                                                    value={newName}
+                                                    onChange={(e) => setNewName(e.target.value)}
                                                 />
+                                            </div>
+                                            <div className="mb-3 col-md-6">
                                                 <DateInput
                                                     valueFormat="DD/MM/YYYY"
                                                     mt="md"
-                                                    label="Ngày sinh"
-                                                    placeholder="Ngày sinh"
-                                                    id="date_of_birth"
-                                                    {...form.getInputProps('date_of_birth')}
-                                                    withAsterisk
+                                                    label="Ngày Tháng Năm Sinh"
+                                                    placeholder={currentBirthDate}
+                                                    value={newBirthDate || ''}
+                                                    onChange={(value) => setNewBirthDate(value)}
                                                 />
-                                                <Select
-                                                    placeholder="Chọn giới tính"
-                                                    label="Giới tính"
-                                                    mt="md"
-                                                    data={['Nam', 'Nữ', 'Khác']}
-                                                    {...form.getInputProps('gender')}
-                                                    id="gender"
-                                                    withAsterisk
-                                                />
+                                            </div>
+                                        </form>
 
-                                            </Grid.Col>
-                                        </Grid>
-                                        <Group mt="md" className="save_button">
-                                            <Button type="submit" >
-                                                Lưu thông tin
-                                            </Button>
-                                        </Group>
-                                    </Card>
-                                </form>
+                                    </div>
+                                </div>
+
+
+                                <Group mt="md" className="save_button">
+                                    <Button type="submit" onClick={handleSave}>
+                                        Lưu thông tin
+                                    </Button>
+                                </Group>
+
+
                             </Box>
                         </Card>
                     </Grid.Col>

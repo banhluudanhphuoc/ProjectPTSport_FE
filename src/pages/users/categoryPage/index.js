@@ -2,6 +2,7 @@ import { memo, useState, useEffect } from "react";
 import './style.scss';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Modal, Button, Image } from 'react-bootstrap';
+import axios from 'axios';
 import Banner from "pages/users/theme/banner";
 import { useTranslation } from "react-i18next";
 import product1 from 'style/img/product/p6.jpg';
@@ -10,119 +11,188 @@ import RelatedProductArea from "pages/users/theme/relatedProductArea";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import ProductModal from "components/user/modal/ProductModal";
-import ProductItem from "components/user/items/ProductItem";
-
-const CategoryPage = ({ type }) => {
-    const { type: routeType } = useParams();
+import ProductItem from "components/user/items/ProductItem2";
+import { GrFormPrevious, GrFormNext } from "react-icons/gr";
+import { FaEllipsis } from "react-icons/fa6";
+import { useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
+const CategoryPage = () => {
+    const { addItem } = useCart();
     const { t, i18n } = useTranslation();
-    const [currentLanguage, setCurrentLanguage] = useState('VI');
-    const handleLanguageChange = (newLanguage, lng) => {
-        setCurrentLanguage(newLanguage)
-        i18n.changeLanguage(lng);
-    };
-    const { addItem, updateItemQuantity } = useCart();
     const [showModal, setShowModal] = useState(false);
-    const [quantity, setQuantity] = useState(1); // Khởi tạo số lượng ban đầu
-
     const navigate = useNavigate();
+
+    const [data, setData] = useState({
+        contents: [],
+        lastPage: false,
+        pageNumber: 0,
+        pageSize: 9,
+        totalElements: 0,
+        totalPages: 0,
+    });
+    const [productsFilter, setProductsFilter] = useState([]);
+
+    const api = process.env.REACT_APP_API_URL;
+    const location = useLocation();
+
+    const pathname = location.pathname;
+    const parts = pathname.split('/');
+    const type = parts[1];
+    const idFilter = parts[2];
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let response;
+                if (idFilter) {
+                    // Handle the case when both type and idFilter are defined
+                    if (type === 'brand-page') {
+                        response = await axios.get(api + `/filter-by-catalog/` + idFilter);
+                        setProductsFilter(response.data);
+
+                    } else if (type === 'category-page') {
+                        response = await axios.get(api + '/filter-by-category/' + idFilter);
+                        setProductsFilter(response.data);
+                    }
+                } else {
+                    // Handle the case when either type or idFilter is undefined
+                    response = await axios.get(api + '/products', { maxRedirects: 5 });
+                    setData(response.data);
+                }
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, [api, type, idFilter]);
+    const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get(api + '/categories');
+
+                // Xử lý phản hồi từ server (response.data)
+                setCategories(response.data);
+            } catch (error) {
+                // Xử lý lỗi
+                console.error('Error fetching categories:', error);
+            }
+        };
+        const fetchBrands = async () => {
+            try {
+                const response = await axios.get(api + '/catalogs');
+
+                // Xử lý phản hồi từ server (response.data)
+                setBrands(response.data);
+            } catch (error) {
+                // Xử lý lỗi
+                console.error('Error fetching categories:', error);
+            }
+        };
+        fetchBrands();
+        fetchCategories();
+    }, [api]);
+
+    const auth = process.env.REACT_APP_API_URL_AUTH;
+    const [user, setUser] = useState([]);
+    const [productsWishList, setProductsWishList] = useState([]);
+    useEffect(() => {
+        const userToken = Cookies.get('userToken');
+
+        const fetchMe = async () => {
+            try {
+                const response = await axios.get(auth + '/me', {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                setUser(response.data);
+
+                // Call fetchProducts after setUser
+                fetchProductsWishList(response.data.userId);
+            } catch (error) {
+                console.error('Error fetching Brand:', error);
+            }
+        };
+
+        const fetchProductsWishList = async (userId) => {
+            try {
+                const response = await axios.get(api + '/wish-list/' + userId, {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                setProductsWishList(response.data.productDtos);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchMe();
+    }, [api, auth]);
+    const isProductInWishlist = (wishlist, productId) => {
+        return wishlist.some(product => product.id === productId);
+    };
+
+
+    const renderPaginationLinks = () => {
+        const links = [];
+        if (data.pageNumber) {
+            for (let i = 1; i <= data.totalPages; i++) {
+                links.push(
+                    <Link key={i} className={i === data.pageNumber + 1 ? 'active' : ''}>
+                        {i}
+                    </Link>
+                );
+            }
+            return links;
+        }
+        return null;
+    };
+
+
+
+    const addToCart = (cartItem) => {
+        fetch(api + `/cart/${user.userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(cartItem),
+        })
+        addItem(cartItem);
+    };
+
     const handleAddToCart = (item) => {
+        const cartItem = {
+            id: item.id,
+            productID: item.id, // ID thực của sản phẩm
+            productName: item.name,
+            sizeID: 2,
+            colorID: 2,
+            image: item.listImage[0].path,
+            quantity: 1,
+            price: item.price,
+            totalPrice: item.price,
+        };
         // Xử lý thêm sản phẩm vào giỏ hàng ở đây
-        addItem(item);
+        addToCart(cartItem);
         // Hiển thị thông báo thành công
         NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
             navigate("/cart");
         });
     };
-    const product = [
-        {
-            id: "1",
-            product_id: 1,
-            status: 1,
-            description: 'ok1',
-            inventory: 1,
-            product_name: 'giay nike',
-            price: 10,
-            category_id: 1,
-            manufacturer_id: 1,
-            img_src: product1,
-        },
-        {
-            id: 2,
-            product_id: 2,
-            status: 2,
-            description: 'ok2',
-            inventory: 2,
-            product_name: 'giay nike 2',
-            price: 20,
-            category_id: 2,
-            manufacturer_id: 2,
-            img_src: product1,
-        },
-        {
-            id: 3,
-            product_id: 3,
-            status: 3,
-            description: 'ok3',
-            inventory: 3,
-            product_name: 'giay nike 3',
-            price: 103,
-            category_id: 3,
-            manufacturer_id: 3,
-            img_src: product1,
-        },
-
-    ];
-
-    const category = [
-        {
-            id: 1,
-            name: "feature",
-            tran: "menu_featured",
-        },
-        {
-            id: 2,
-            name: "clothes",
-            tran: "menu_clothes",
-        },
-        {
-            id: 3,
-            name: "shoes",
-            tran: "menu_shoes",
-        },
-        {
-            id: 4,
-            name: "accessories",
-            tran: "menu_accessories",
-        },
-    ];
-
-    const brand = [
-        {
-            id: 1,
-            name: "Nike",
-        },
-        {
-            id: 2,
-            name: "Adidas",
-        },
-        {
-            id: 3,
-            name: "Puma",
-        },
-        {
-            id: 4,
-            name: "Fila",
-        },
-        {
-            id: 5,
-            name: "Champion",
-        },
-    ];
-
-    const isHomePage = type === 'category' || type === 'brand' ? false : null;
 
     return (
         <>
+
             <NotificationContainer />
             {type === 'category' ?
                 <Banner pageTitle={t('pageTitle_category')} />
@@ -137,28 +207,29 @@ const CategoryPage = ({ type }) => {
                         <div className="sidebar-categories">
 
                             <div className="head">
-                                {type === 'category' ? t('menu_categries') : t('menu_brands')}
+                                {type === 'category-page' ? t('menu_categries') : t('menu_brands')}
                             </div>
-                            {type === 'category' ? (
+                            {type === 'category-page' ? (
                                 <ul className="main-categories">
-                                    {category.map((item) => (
+                                    {categories.map((category) => (
                                         <li className="main-nav-list">
-                                            <Link>
-
+                                            <Link to={`/category-page/` + category.categoryID}>
                                                 <span className="lnr lnr-arrow-right"></span>
-                                                {t(item.tran)}
-                                                <span className="number">(53)</span></Link>
+                                                {category.categoryName}
+                                                {/* <span className="number">()</span> */}
+                                            </Link>
                                         </li>
                                     ))}
                                 </ul>
                             ) : (
                                 <ul className="main-categories">
-                                    {brand.map((item) => (
+                                    {brands.map((brand) => (
                                         <li className="main-nav-list">
-                                            <Link>
+                                            <Link to={`/brand-page/` + brand.catalogId}>
                                                 <span className="lnr lnr-arrow-right"></span>
-                                                {item.name}
-                                                <span className="number">({item.id})</span></Link>
+                                                {brand.catalogName}
+                                                {/* <span className="number">()</span> */}
+                                            </Link>
                                         </li>
                                     ))}
                                 </ul>
@@ -179,29 +250,48 @@ const CategoryPage = ({ type }) => {
 
                             </div>
                             <div className="pagination">
-                                <Link href="#" className="prev-arrow"><i className="fa fa-long-arrow-left" aria-hidden="true"></i></Link>
-                                <Link href="#" className="active">1</Link>
-                                <Link href="#">2</Link>
-                                <Link href="#">3</Link>
-                                <Link href="#" className="dot-dot"><i className="fa fa-ellipsis-h" aria-hidden="true"></i></Link>
-                                <Link href="#">6</Link>
-                                <Link href="#" className="next-arrow"><i className="fa fa-long-arrow-right" aria-hidden="true"></i></Link>
+
+                                <Link href="#" className="prev-arrow" disabled={data.pageNumber === 0}>
+                                    <GrFormPrevious />
+                                </Link>
+                                {renderPaginationLinks()}
+                                <Link
+                                    href="#"
+                                    className="next-arrow"
+                                    disabled={data.pageNumber === data.totalPages - 1 || data.lastPage}
+                                >
+                                    <GrFormNext />
+                                </Link>
                             </div>
                         </div>
                         {/* <!-- End Filter Bar -->
                         <!-- Start Best Seller --> */}
                         <section className="lattest-product-area pb-40 category-list">
                             <div className="row">
-                                {product.map((item) => (
+                                {idFilter ? (productsFilter.map((item) => (
                                     <ProductItem
-                                        isHomePage={isHomePage}
                                         product={item}
                                         handleAddToCart={handleAddToCart}
                                         t={t}
-                                        setShowModal={setShowModal} // Truyền setShowModal xuống
-                                        key={item.product_id}
+                                        setShowModal={setShowModal}
+                                        key={item.id}
+                                        isInWishlist={isProductInWishlist(productsWishList, item.id)}
+                                        userId={user.userId}
                                     />
-                                ))}
+                                ))) : (
+                                    data.contents.map((item) => (
+                                        <ProductItem
+                                            product={item}
+                                            handleAddToCart={handleAddToCart}
+                                            t={t}
+                                            setShowModal={setShowModal}
+                                            key={item.id}
+                                            isInWishlist={isProductInWishlist(productsWishList, item.id)}
+                                            userId={user.userId}
+
+                                        />
+                                    ))
+                                )}
 
 
                             </div>
@@ -212,17 +302,28 @@ const CategoryPage = ({ type }) => {
                 </div>
                 < RelatedProductArea />
             </div>
-
-            {product.map((item) => (
+            {idFilter ? (productsFilter.map((item) => (
                 <ProductModal
                     product={item}
-                    showModal={showModal === item.product_id}
+                    showModal={showModal === item.id}
                     setShowModal={setShowModal}
                     handleAddToCart={handleAddToCart}
                     t={t}
-                    key={item.product_id}
+                    key={item.id}
                 />
-            ))}
+            ))) : (
+                data.contents.map((item) => (
+                    <ProductModal
+                        product={item}
+                        showModal={showModal === item.id}
+                        setShowModal={setShowModal}
+                        handleAddToCart={handleAddToCart}
+                        t={t}
+                        key={item.id}
+                    />
+                ))
+            )}
+
 
         </>
 

@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
 import "./style.scss";
 import axios from "axios";
 import Banner from "../../users/theme/banner";
@@ -7,6 +7,7 @@ import BlogImg1 from '../../../style/img/blog/main-blog/m-blog-1.jpg';
 import BlogImg2 from '../../../style/img/blog/main-blog/m-blog-2.jpg';
 import BlogDetailImg from '../../../style/img/blog/feature-img1.jpg';
 import { useTranslation } from "react-i18next";
+import { useParams } from 'react-router-dom';
 const BlogDetail = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -14,19 +15,36 @@ const BlogDetail = () => {
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
     };
+    const [news, setNews] = useState([]);
+    const api = process.env.REACT_APP_API_URL;
+    const { newID } = useParams();
+    useEffect(() => {
+        const fetchNews = async () => {
+            try {
+                const response = await axios.get(api + '/blogs/' + newID);
+
+                setNews(response.data);
+
+            } catch (error) {
+                console.error('Error fetching News:', error);
+            }
+        };
+
+        fetchNews();
+    }, []);
     return <>
-        <Banner pageTitle="name of blog detail" />
+        <Banner pageTitle={news.title} />
         <section className="blog_area single-post-area section_gap">
             <Container>
                 <Row>
                     <div className="col-lg-8 posts-list">
                         <div className="single-post row">
-                            <div className="col-lg-12">
+                            {/* <div className="col-lg-12">
                                 <div className="feature-img">
                                     <img className="img-fluid" src={BlogDetailImg} alt="" />
                                 </div>
-                            </div>
-                            <div className="col-lg-3  col-md-3">
+                            </div> */}
+                            {/* <div className="col-lg-3  col-md-3">
                                 <div className="blog_info text-right">
                                     <div className="post_tag">
                                         <a href="#">Food,</a>
@@ -47,30 +65,12 @@ const BlogDetail = () => {
                                         <li><a href="#"><i className="fa fa-behance"></i></a></li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="col-lg-9 col-md-9 blog_details">
-                                <h2>Astronomy Binoculars A Great Alternative</h2>
-                                <p className="excert">
-                                    MCSE boot camps have its supporters and its detractors. Some people do not understand
-                                    why you should have to spend money on boot camp when you can get the MCSE study
-                                    materials yourself at a fraction.
-                                </p>
-                                <p>
-                                    Boot camps have its supporters and its detractors. Some people do not understand why
-                                    you should have to spend money on boot camp when you can get the MCSE study materials
-                                    yourself at a fraction of the camp price. However, who has the willpower to actually
-                                    sit through a self-imposed MCSE training. who has the willpower to actually sit through
-                                    a self-imposed
-                                </p>
-                                <p>
-                                    Boot camps have its supporters and its detractors. Some people do not understand why
-                                    you should have to spend money on boot camp when you can get the MCSE study materials
-                                    yourself at a fraction of the camp price. However, who has the willpower to actually
-                                    sit through a self-imposed MCSE training. who has the willpower to actually sit through
-                                    a self-imposed
-                                </p>
+                                <h2>{news.title}</h2>
+                                <div dangerouslySetInnerHTML={{ __html: news.content }} ></div>
                             </div>
-                            <div className="col-lg-12">
+                            {/* <div className="col-lg-12">
                                 <div className="quotes">
                                     MCSE boot camps have its supporters and its detractors. Some people do not understand
                                     why you should have to spend money on boot camp when you can get the MCSE study
@@ -99,10 +99,10 @@ const BlogDetail = () => {
                                         </p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
-                        <div className="comments-area">
+                        {/* <div className="comments-area">
                             <h4>05 Comments</h4>
                             <div className="comment-list">
                                 <div className="single-comment justify-content-between d-flex">
@@ -199,8 +199,8 @@ const BlogDetail = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="comment-form">
+                        </div> */}
+                        {/* <div className="comment-form">
                             <h4>Leave a Reply</h4>
                             <form>
                                 <div className="form-group form-inline">
@@ -247,9 +247,9 @@ const BlogDetail = () => {
                                 </div>
                                 <a href="#" className="primary-btn submit_btn">Post Comment</a>
                             </form>
-                        </div>
+                        </div> */}
                     </div>
-                    <div className="col-lg-4">
+                    {/* <div className="col-lg-4">
                         <div className="blog_right_sidebar">
                             <aside className="single_sidebar_widget search_widget">
                                 <div className="input-group">
@@ -416,7 +416,7 @@ const BlogDetail = () => {
                                 </ul>
                             </aside>
                         </div>
-                    </div>
+                    </div> */}
                 </Row>
             </Container>
 

@@ -6,7 +6,7 @@ import RelatedProductArea from "../theme/relatedProductArea";
 import ProductImg from '../../../style/img/category/s-p1.jpg';
 import ProductImg1 from '../../../style/img/exclusive.jpg';
 import OwlCarousel from 'react-owl-carousel';
-import { Tab, Nav, Container, Row, Col } from 'react-bootstrap';
+import { Tab, Nav, Container, Row, Col, Image } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import ImgReview1 from '../../../style/img/product/review-1.png';
@@ -17,7 +17,10 @@ import { CartProvider, useCart } from "react-use-cart";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { useTranslation } from "react-i18next";
-
+import { useNavigate, useParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { FaRegHeart, FaHeart, FaEye } from "react-icons/fa";
 const ProductDetail = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -25,14 +28,150 @@ const ProductDetail = () => {
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
     };
-    const { addItem, updateItemQuantity } = useCart();
-    const handleAddToCart = (item) => {
-        // Xử lý thêm sản phẩm vào giỏ hàng ở đây
-        addItem(item);
-        // Hiển thị thông báo thành công
-        NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000);
-        // Cập nhật số lượng sản phẩm trong giỏ hàng hoặc thực hiện các công việc khác
+
+    const [mainImage, setMainImage] = useState();
+    const { productID } = useParams();
+    const [product, setProduct] = useState([]);
+    const api = process.env.REACT_APP_API_URL;
+    const auth = process.env.REACT_APP_API_URL_AUTH;
+    const [user, setUser] = useState([]);
+    const [productsWishList, setProductsWishList] = useState([]);
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const response = await axios.get(`${api}/products/${productID}`);
+                setProduct(response.data);
+                setMainImage(response.data.listImage[0].path);
+
+            } catch (error) {
+                console.error('Error fetching product:', error);
+            }
+        };
+
+        fetchProduct();
+
+    }, [api, productID]);
+    function formatCurrency(amount) {
+        // Sử dụng NumberFormat để định dạng số
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        });
+
+        // Áp dụng định dạng và trả về chuỗi đã định dạng
+        return formatter.format(amount);
+    }
+
+    useEffect(() => {
+        const userToken = Cookies.get('userToken');
+
+        const fetchMe = async () => {
+            try {
+                const response = await axios.get(auth + '/me', {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                setUser(response.data);
+
+                // Call fetchProducts after setUser
+                fetchProductsWishList(response.data.userId);
+            } catch (error) {
+                console.error('Error fetching Brand:', error);
+            }
+        };
+
+        const fetchProductsWishList = async (userId) => {
+            try {
+                const response = await axios.get(api + '/wish-list/' + userId, {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                setProductsWishList(response.data.productDtos);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchMe();
+    }, [api, auth]);
+    const addToWishlist = async () => {
+        try {
+            // Make an API request to add the product to the wishlist
+            const response = await fetch(api + '/wish-list/' + user.userId + '/' + product.id, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            // Handle the response as needed
+            if (response.ok) {
+                NotificationManager.success("Thêm vào danh sách Yêu thích thành công", "Thành Công");
+                setTimeout(function () {
+                    window.location.href = "/wish-list";
+                }, 500);
+            }
+        } catch (error) {
+            console.error('Error adding product to wishlist:', error);
+        }
     };
+
+
+    const isProductInWishlist = (wishlist, productId) => {
+        return wishlist.some(product => product.id === productId);
+    };
+
+
+
+    const [cart, setCart] = useState([]);
+    const addToCart = (cartItem) => {
+        fetch(api + `/cart/${user.userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(cartItem),
+        })
+
+            .then((response) => response.json())
+            .then((data) => {
+                setCart(data.itemList);
+            })
+            .catch((error) => {
+                console.error('Error adding to cart:', error);
+            });
+    };
+
+    const navigate = useNavigate();
+    const handleAddToCart = (item) => {
+        const cartItem = {
+            productID: item.id, // ID thực của sản phẩm
+            productName: item.name,
+            sizeID: 2,
+            colorID: 2,
+            image: item.listImage[0].path,
+            quantity: 1,
+            price: item.price,
+            totalPrice: item.price,
+        };
+        // Xử lý thêm sản phẩm vào giỏ hàng ở đây
+        addToCart(cartItem);
+        // Hiển thị thông báo thành công
+        NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
+            navigate("/cart");
+        });
+    };
+
+
+
+
+
     const stars = document.querySelectorAll('.star');
     stars.forEach((star, index) => {
         star.addEventListener('mouseover', () => {
@@ -60,40 +199,12 @@ const ProductDetail = () => {
             }
         });
     });
-    // const [product, setProduct] = useState(null);
-    // const { product: productId } = useParams();
 
-    // useEffect(() => {
-    //     // Simulate fetching product details from an API based on productId
-    //     // Replace this with actual data fetching logic
-    //     const fetchProductDetails = async () => {
-    //         try {
-    //             const response = await fetch(`/api/products/${productId}`);
-    //             if (response.ok) {
-    //                 const productData = await response.json();
-    //                 setProduct(productData);
-    //             } else {
-    //                 // Handle error response
-    //                 console.error("Failed to fetch product details");
-    //             }
-    //         } catch (error) {
-    //             console.error("Error while fetching product details:", error);
-    //         }
-    //     };
 
-    //     fetchProductDetails();
-    // }, [productId]);
-
-    // if (!product) {
-    //     // Product details are still being fetched, or an error occurred
-    //     return <div>Loading...</div>;
-    // }
-
-    const [mainImage, setMainImage] = useState(ProductImg);
     return (
         <>
             <NotificationContainer />
-            <Banner pageTitle="ten san pham" />
+            <Banner pageTitle={product.name} />
             <div class="product_image_area">
                 <div class="container">
                     <div class="row s_product_inner">
@@ -101,57 +212,58 @@ const ProductDetail = () => {
 
                             <div className="image-gallery-container">
                                 <div className="main-image-container">
-                                    <img src={mainImage} alt="Main Image" className="main-image" />
+                                    <Image
+                                        src={mainImage}
+                                        alt="Main Image"
+                                        className="main-image"
+                                    />
                                 </div>
-
                                 <OwlCarousel className="owl-theme" loop margin={10} nav>
-                                    <div className="thumbnail-item">
-                                        <img
-                                            className="thumbnail"
-                                            src={ProductImg1}
-                                            alt=""
-                                            onClick={() => setMainImage(ProductImg1)}
-                                        />
-                                    </div>
-                                    <div className="thumbnail-item">
-                                        <img
-                                            className="thumbnail"
-                                            src={ProductImg}
-                                            alt=""
-                                            onClick={() => setMainImage(ProductImg)}
-                                        />
-                                    </div>
-                                    <div className="thumbnail-item">
-                                        <img
-                                            className="thumbnail"
-                                            src={ProductImg}
-                                            alt=""
-                                            onClick={() => setMainImage(ProductImg)}
-                                        />
-                                    </div>
-
+                                    {product.listImage && (
+                                        product.listImage.map((image) => (
+                                            <div className="thumbnail-item">
+                                                <img
+                                                    className="thumbnail"
+                                                    src={image.path}
+                                                    alt=""
+                                                    onClick={() => setMainImage(image.path)}
+                                                />
+                                            </div>
+                                        ))
+                                    )}
                                 </OwlCarousel>
                             </div>
                         </div>
                         <div class="col-lg-5 offset-lg-1">
                             <div class="s_product_text">
-                                <h3>Faded SkyBlu Denim Jeans</h3>
+                                <h3>{product.name}</h3>
                                 <div class="price">
-                                    <h2>$149.99</h2>
-                                    <h5 class="l-through">$210.00</h5>
+                                    <h2>{formatCurrency(product.price)}</h2>
+                                    {/* <h5 class="l-through">$210.00</h5> */}
                                 </div>
 
                                 <ul class="list">
-                                    <li><Link class="active" href="#"><span>Category</span> : Household</Link></li>
-                                    <li><Link href="#" className="stock-product-detail"><span>Availibility</span> : In Stock</Link></li>
+                                    {/* <li><Link class="active" href="#"><span>Category</span> : Household</Link></li> */}
+                                    {product.totalQuantity > 0 ? (
+                                        <li><Link href="#" className="stock-product-detail"><span>Còn hàng</span></Link></li>
+
+                                    ) : (<li><Link href="#" className="stock-product-detail"><span>Hết hàng</span></Link></li>)}
+
                                 </ul>
-                                <p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
-                                    something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
-                                    during the winter.</p>
+                                <div dangerouslySetInnerHTML={{ __html: product.description }}></div>
 
                                 <div class="card_area d-flex align-items-center">
-                                    <Link class="primary-btn btn-product-detail" to="/cart" onClick={() => handleAddToCart()}>Add to Cart</Link>
-                                    <Link class="icon_btn btn-product-detail" href="#"><i class="lnr lnr lnr-heart"></i></Link>
+                                    {product.totalQuantity > 0 && (
+                                        <Link class="primary-btn btn-product-detail" to="/cart" onClick={() => handleAddToCart(product)}>Add to Cart</Link>
+                                    )}
+                                    {isProductInWishlist(productsWishList, product.id) ? (
+                                        <Link class="icon_btn btn-product-detail" to={'/wish-list'}><span><FaHeart /></span></Link>
+
+                                    ) : (
+                                        <Link class="icon_btn btn-product-detail" onClick={addToWishlist}><span><FaRegHeart /></span></Link>
+                                    )
+                                    }
+
                                 </div>
                             </div>
                         </div>
@@ -180,21 +292,7 @@ const ProductDetail = () => {
                         <Tab.Content>
                             <Tab.Pane eventKey="home">
                                 <div className="container mt-5 mb-5 ">
-                                    <p>Beryl Cook is one of Britain’s most talented and amusing artists .Beryl’s pictures feature women of all shapes
-                                        and sizes enjoying themselves .Born between the two world wars, Beryl Cook eventually left Kendrick School in
-                                        Reading at the age of 15, where she went to secretarial school and then into an insurance office. After moving to
-                                        London and then Hampton, she eventually married her next door neighbour from Reading, John Cook. He was an
-                                        officer in the Merchant Navy and after he left the sea in 1956, they bought a pub for a year before John took a
-                                        job in Southern Rhodesia with a motor company. Beryl bought their young son a box of watercolours, and when
-                                        showing him how to use it, she decided that she herself quite enjoyed painting. John subsequently bought her a
-                                        child’s painting set for her birthday and it was with this that she produced her first significant work, a
-                                        half-length portrait of a dark-skinned lady with a vacant expression and large drooping breasts. It was aptly
-                                        named ‘Hangover’ by Beryl’s husband and</p>
-                                    <p>It is often frustrating to attempt to plan meals that are designed for one. Despite this fact, we are seeing
-                                        more and more recipe books and Internet websites that are dedicated to the act of cooking for one. Divorce and
-                                        the death of spouses or grown children leaving for college are all reasons that someone accustomed to cooking for
-                                        more than one would suddenly need to learn how to adjust all the cooking practices utilized before into a
-                                        streamlined plan of cooking that is more efficient for one person creating less</p>
+                                    <div dangerouslySetInnerHTML={{ __html: product.detail }}></div>
                                 </div>
                             </Tab.Pane>
                             <Tab.Pane eventKey="size-chart">

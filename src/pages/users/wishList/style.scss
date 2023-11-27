@@ -1,0 +1,29 @@
+.wishlist-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.wishlist-item {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 10px;
+    padding: 20px;
+    width: 250px;
+}
+.wishlist-item h2 {
+    margin-bottom: 10px;
+}
+.wishlist-item button {
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 10px 0;
+}

@@ -1,243 +1,120 @@
-
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
 import './style.scss';
+import axios from 'axios';
 import { Link } from "react-router-dom";
 import { Icon } from '@iconify/react';
 import { Modal, Button, Image } from 'react-bootstrap';
-
-
+import Cookies from 'js-cookie';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 const CustomersListAdmin = () => {
+    const admin_url = process.env.REACT_APP_ADMIN_URL;
+    const [users, setUser] = useState([]);
+    const api = process.env.REACT_APP_API_URL_ADMIN;
+
+    useEffect(() => {
+        const adminToken = Cookies.get('adminToken');
+
+        const fetchUsers = async () => {
+            try {
+                const response = await axios.get(api + '/users', {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                // Xử lý phản hồi từ server (response.data)
+                setUser(response.data);
+
+            } catch (error) {
+                // Xử lý lỗi
+                console.error('Error fetching users:', error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
 
 
+    const handleDeleteUser = async (userId) => {
+        const adminToken = Cookies.get('adminToken');
+
+        try {
+            const response = await axios.delete(
+                `${api}/users/${userId}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
+            if (response.status === 200) {
+                if (Array.isArray(users.contents)) {
+                    const updatedUsers = {
+                        ...users,
+                        contents: users.contents.filter(user => user.userId !== userId),
+                    };
+                    setUser(updatedUsers);
+                    NotificationManager.success(response.data.message);
+                }
+            }
+        } catch (error) {
+            console.error('Error deleting user:', error);
+        }
+    };
     return (
         <>
+            <NotificationContainer />
             <div className="content-wrapper">
                 <div className="container-xxl flex-grow-1 container-p-y">
-                    <h4 className="fw-bold py-3 mb-4"><span className="text-muted fw-light">PT Sports /</span> Products List</h4>
+                    <h4 className="fw-bold py-3 mb-4"><span className="text-muted fw-light">PT Sports /</span> Danh sách khách hàng</h4>
 
                     <div className="card">
-                        <h5 className="card-header">Table Basic</h5>
-                        <div className="table-responsive text-nowrap">
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th>Project</th>
-                                        <th>Client</th>
-                                        <th>Users</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="table-border-bottom-0">
-                                    <tr>
-                                        <td><i className="fab fa-angular fa-lg text-danger me-3"></i> <strong>Angular Project</strong></td>
-                                        <td>Albert Cook</td>
-                                        <td>
-                                            <ul className="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                                <li
-                                                    data-bs-toggle="tooltip"
-                                                    data-popup="tooltip-custom"
-                                                    data-bs-placement="top"
-                                                    className="avatar avatar-xs pull-up"
-                                                    title="Lilian Fuller"
-                                                >
-                                                    <Image src="../assets/img/avatars/5.png" alt="Avatar" className="rounded-circle" />
-                                                </li>
-                                                <li
-                                                    data-bs-toggle="tooltip"
-                                                    data-popup="tooltip-custom"
-                                                    data-bs-placement="top"
-                                                    className="avatar avatar-xs pull-up"
-                                                    title="Sophia Wilkerson"
-                                                >
-                                                    <Image src="../assets/img/avatars/6.png" alt="Avatar" className="rounded-circle" />
-                                                </li>
-                                                <li
-                                                    data-bs-toggle="tooltip"
-                                                    data-popup="tooltip-custom"
-                                                    data-bs-placement="top"
-                                                    className="avatar avatar-xs pull-up"
-                                                    title="Christina Parker"
-                                                >
-                                                    <Image src="../assets/img/avatars/7.png" alt="Avatar" className="rounded-circle" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td><span className="badge bg-label-primary me-1">Active</span></td>
-                                        <td>
-                                            <div className="dropdown">
-                                                <button type="button" className="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                    <i className="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <div className="dropdown-menu">
-                                                    <a className="dropdown-item" href="javascript:void(0);"
-                                                    ><i className="bx bx-edit-alt me-1"></i> Edit</a
-                                                    >
-                                                    <a className="dropdown-item" href="javascript:void(0);"
-                                                    ><i className="bx bx-trash me-1"></i> Delete</a
-                                                    >
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><i className="fab fa-react fa-lg text-info me-3"></i> <strong>React Project</strong></td>
-                                        <td>Barry Hunter</td>
-                                        <td>
-                                            <ul className="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                                <li
-                                                    data-bs-toggle="tooltip"
-                                                    data-popup="tooltip-custom"
-                                                    data-bs-placement="top"
-                                                    className="avatar avatar-xs pull-up"
-                                                    title="Lilian Fuller"
-                                                >
-                                                    <Image src="../assets/img/avatars/5.png" alt="Avatar" className="rounded-circle" />
-                                                </li>
-                                                <li
-                                                    data-bs-toggle="tooltip"
-                                                    data-popup="tooltip-custom"
-                                                    data-bs-placement="top"
-                                                    className="avatar avatar-xs pull-up"
-                                                    title="Sophia Wilkerson"
-                                                >
-                                                    <Image src="../assets/img/avatars/6.png" alt="Avatar" className="rounded-circle" />
-                                                </li>
-                                                <li
-                                                    data-bs-toggle="tooltip"
-                                                    data-popup="tooltip-custom"
-                                                    data-bs-placement="top"
-                                                    className="avatar avatar-xs pull-up"
-                                                    title="Christina Parker"
-                                                >
-                                                    <Image src="../assets/img/avatars/7.png" alt="Avatar" className="rounded-circle" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td><span className="badge bg-label-success me-1">Completed</span></td>
-                                        <td>
-                                            <div className="dropdown">
-                                                <button type="button" className="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                    <i className="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <div className="dropdown-menu">
-                                                    <a className="dropdown-item" href="javascript:void(0);"
-                                                    ><i className="bx bx-edit-alt me-2"></i> Edit</a
-                                                    >
-                                                    <a className="dropdown-item" href="javascript:void(0);"
-                                                    ><i className="bx bx-trash me-2"></i> Delete</a
-                                                    >
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><i className="fab fa-vuejs fa-lg text-success me-3"></i> <strong>VueJs Project</strong></td>
-                                        <td>Trevor Baker</td>
-                                        <td>
-                                            <ul className="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                                <li
-                                                    data-bs-toggle="tooltip"
-                                                    data-popup="tooltip-custom"
-                                                    data-bs-placement="top"
-                                                    className="avatar avatar-xs pull-up"
-                                                    title="Lilian Fuller"
-                                                >
-                                                    <Image src="../assets/img/avatars/5.png" alt="Avatar" className="rounded-circle" />
-                                                </li>
-                                                <li
-                                                    data-bs-toggle="tooltip"
-                                                    data-popup="tooltip-custom"
-                                                    data-bs-placement="top"
-                                                    className="avatar avatar-xs pull-up"
-                                                    title="Sophia Wilkerson"
-                                                >
-                                                    <Image src="../assets/img/avatars/6.png" alt="Avatar" className="rounded-circle" />
-                                                </li>
-                                                <li
-                                                    data-bs-toggle="tooltip"
-                                                    data-popup="tooltip-custom"
-                                                    data-bs-placement="top"
-                                                    className="avatar avatar-xs pull-up"
-                                                    title="Christina Parker"
-                                                >
-                                                    <Image src="../assets/img/avatars/7.png" alt="Avatar" className="rounded-circle" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td><span className="badge bg-label-info me-1">Scheduled</span></td>
-                                        <td>
-                                            <div className="dropdown">
-                                                <button type="button" className="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                    <i className="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <div className="dropdown-menu">
-                                                    <a className="dropdown-item" href="javascript:void(0);"
-                                                    ><i className="bx bx-edit-alt me-2"></i> Edit</a
-                                                    >
-                                                    <a className="dropdown-item" href="javascript:void(0);"
-                                                    ><i className="bx bx-trash me-2"></i> Delete</a
-                                                    >
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <i className="fab fa-bootstrap fa-lg text-primary me-3"></i> <strong>Bootstrap Project</strong>
-                                        </td>
-                                        <td>Jerry Milton</td>
-                                        <td>
-                                            <ul className="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                                <li
-                                                    data-bs-toggle="tooltip"
-                                                    data-popup="tooltip-custom"
-                                                    data-bs-placement="top"
-                                                    className="avatar avatar-xs pull-up"
-                                                    title="Lilian Fuller"
-                                                >
-                                                    <Image src="../assets/img/avatars/5.png" alt="Avatar" className="rounded-circle" />
-                                                </li>
-                                                <li
-                                                    data-bs-toggle="tooltip"
-                                                    data-popup="tooltip-custom"
-                                                    data-bs-placement="top"
-                                                    className="avatar avatar-xs pull-up"
-                                                    title="Sophia Wilkerson"
-                                                >
-                                                    <Image src="../assets/img/avatars/6.png" alt="Avatar" className="rounded-circle" />
-                                                </li>
-                                                <li
-                                                    data-bs-toggle="tooltip"
-                                                    data-popup="tooltip-custom"
-                                                    data-bs-placement="top"
-                                                    className="avatar avatar-xs pull-up"
-                                                    title="Christina Parker"
-                                                >
-                                                    <Image src="../assets/img/avatars/7.png" alt="Avatar" className="rounded-circle" />
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td><span className="badge bg-label-warning me-1">Pending</span></td>
-                                        <td>
-                                            <div className="dropdown">
-                                                <button type="button" className="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                    <Icon icon="bx:dots-vertical-rounded" />
-                                                </button>
-                                                <div className="dropdown-menu">
-                                                    <a className="dropdown-item" href="javascript:void(0);"
-                                                    ><Icon icon="bx:edit-alt" /> Edit</a
-                                                    >
-                                                    <a className="dropdown-item" href="javascript:void(0);"
-                                                    ><Icon icon="bx:trash" /> Delete</a
-                                                    >
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 className="card-header">Danh sách khách hàng</h5>
+                        <div className=" text-nowrap">
+                            {Array.isArray(users.contents) && users.contents.length > 0 ? (
+                                <table className="table">
+                                    {/* Render table headers */}
+                                    <thead>
+                                        <tr>
+                                            <th>Email</th>
+                                            <th>Tên</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    {/* Render table body */}
+                                    <tbody className="table-border-bottom-0">
+                                        {users.contents.map(user => (
+                                            <tr key={user.userId}>
+                                                {/* Render user data */}
+                                                <td><i className="fab fa-angular fa-lg text-danger me-3"></i> <strong>{user.email}</strong></td>
+                                                <td>{user.name}</td>
+                                                <td><span className="badge bg-label-primary me-1">Active</span></td>
+                                                <td>
+                                                    <div className="dropdown">
+                                                        <button type="button" className="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                            <Icon icon="bx:dots-vertical-rounded" />
+                                                        </button>
+                                                        <div className="dropdown-menu">
+                                                            <Link className="dropdown-item" to={`${admin_url}/account-settings/${user.userId}`}>
+                                                                <i className="bx bx-edit-alt me-1"></i> Sửa
+                                                            </Link>
+                                                            <Link className="dropdown-item" onClick={() => handleDeleteUser(user.userId)}>
+                                                                <i className="bx bx-trash me-1"></i> Xóa
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <p>No users found.</p>
+                            )}
                         </div>
                     </div>
                 </div>

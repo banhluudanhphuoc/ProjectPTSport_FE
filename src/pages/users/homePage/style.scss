@@ -55,3 +55,26 @@
 #scrollToTopBtn:hover {
     background-color: #0056b3;
 }
+.owl-nav{
+  display: none;
+}
+
+
+.img-product-item{
+  height: 300px !important;
+}
+
+.product-item{
+  //background-color: #00000005;
+
+  &:hover{
+    background-color: #00000005;
+  }
+}
+
+.product-item-category{
+
+  &:hover{
+    background-color: #00000005;
+  }
+}

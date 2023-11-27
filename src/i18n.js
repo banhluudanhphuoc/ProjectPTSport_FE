@@ -226,6 +226,7 @@ const resources = {
             "pageTitle_customer_profile_edit": "Chỉnh sửa hồ sơ khách hàng",
             "pageTitle_register": "Đăng ký",
             "pageTitle_change_password": "Đổi mật khẩu",
+            "pageTitle_wish_list": "Yêu thích",
 
             "notification_add_product_to_cart_success": "Sản phẩm đã được thêm vào giỏ hàng thành công .Nhấn vào đây để đi tới giỏ hàng ",
             "notification_add_product_to_cart_success_title": "Thành công",
@@ -239,6 +240,13 @@ const resources = {
             "change_password_new_confirm": "Xác nhận mật khẩu mới",
             "change_password_ole": "Mật khẩu cũ",
             "change_password": "Đổi mật khẩu",
+
+            "message_fail_add_wish_list": "Vui lòng đăng nhập để thêm sản phẩm vào danh sách yêu thích",
+            "message_failed": "Không thành công",
+            "message_success_add_wish_list": "Thêm vào danh sách Yêu thích thành công",
+            "message_success": "Thành Công",
+            "message_success_delete_wish_list": "Xóa ra khỏi danh sách Yêu thích thành công",
+
         }
     },
     EN: {
@@ -462,6 +470,7 @@ const resources = {
             "pageTitle_customer_profile_edit": "Edit Customer Profile",
             "pageTitle_register": "Register",
             "pageTitle_change_password": "Change Password",
+            "pageTitle_wish_list": "Wishlist",
 
             "notification_add_product_to_cart_success": "The product has been successfully added to the cart.Click to go to Cart",
             "notification_add_product_to_cart_success_title": "Successfully",
@@ -474,6 +483,12 @@ const resources = {
             "change_password_new_confirm": "Confirm New Password",
             "change_password_ole": "Old Password",
             "change_password": "Change Password",
+
+            "message_fail_add_wish_list": "Please log in to add product to wishlist",
+            "message_failed": "Failed",
+            "message_success_add_wish_list": "Successfully added to Wish list",
+            "message_success": "Success",
+            "message_success_delete_wish_list": "Successfully removed from Wish list",
 
         }
     }

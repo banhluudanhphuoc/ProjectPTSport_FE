@@ -6,6 +6,7 @@ import { AiOutlineMail, AiOutlinePhone, AiTwotoneEnvironment, AiFillFacebook, Ai
 import { Image } from "react-bootstrap";
 import ExampImg from '../../../../style/img/i1.jpg';
 import { useTranslation } from "react-i18next";
+import { FaFacebook, FaYoutube, FaInstagram, FaTwitter, FaHeart } from "react-icons/fa";
 const Footer = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -55,23 +56,23 @@ const Footer = () => {
                         <div className="single-footer-widget">
                             <h6>{t('footer_follow_us')}</h6>
                             <div className="footer-social d-flex align-items-center">
-                                <Link to="#"><i className="fa fa-facebook"></i></Link>
-                                <Link to="#"><i className="fa fa-twitter"></i></Link>
-                                <Link to="#"><i className="fa fa-dribbble"></i></Link>
-                                <Link to="#"><i className="fa fa-behance"></i></Link>
+                                <Link to="#"><FaFacebook className="icon_social" /></Link>
+                                <Link to="#"><FaTwitter className="icon_social" /></Link>
+                                <Link to="#"><FaYoutube className="icon_social" /></Link>
+                                <Link to="#"><FaInstagram className="icon_social" /></Link>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div >
+                </div >
                 <div className="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
                     <p className="footer-text m-0">
 
-                        "{t('footer_silogant1')} <i className="fa fa-heart-o" aria-hidden="true"></i> <Link to=""
+                        "{t('footer_silogant1')} <FaHeart className="icon_social" /> <Link to=""
                             target="_blank">PT SPORTS</Link>, {t('footer_silogant2')}"
                     </p>
                 </div>
-            </div>
-        </footer>
+            </div >
+        </footer >
     );
 };
 

@@ -1,6 +1,6 @@
 import { memo, useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-
+import Cookies from 'js-cookie';
 import "./style.scss";
 import {
     PasswordInput,
@@ -12,7 +12,7 @@ import LoginImg from '../../../style/img/login.jpg';
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
-import { useAuth } from "context/AuthContext";
+// import { useAuth } from "context/AuthContext";
 const LoginUserPage = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -21,57 +21,53 @@ const LoginUserPage = () => {
         i18n.changeLanguage(lng);
     };
     const navigate = useNavigate();
-    const { isLoggedIn } = useAuth();
-    const { setIsLoggedIn } = useAuth();
 
+    const api = process.env.REACT_APP_API_URL_AUTH;
     useEffect(() => {
-        const confirm_token = localStorage.getItem("token_login");
-        if (confirm_token !== null) {
+        const userToken = Cookies.get('userToken');
+        if (userToken) {
             navigate('/profile-customer');
         }
-    }, [navigate]);
-
-    useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
         if (token) {
             sendTokenToServer(token);
         }
-    }, []);
+    }, [navigate]);
 
     const sendTokenToServer = async (token) => {
         if (token) {
             try {
-                // Create a data object with the token
-                const data = { token: token };
-                // Send a POST request to your server
-                await axios.post(api + "/user/verify-email", data);
-
+                // Assuming api is defined somewhere in your code
+                const response = await axios.get(api + "/verify-email", {
+                    params: { token: token }
+                });
+                NotificationManager.success(response.data);
             } catch (error) {
+                NotificationManager.error(error.response.data);
                 console.error('Error:', error.message);
             }
         }
     };
 
 
-    const api = process.env.REACT_APP_API_URL;
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
         try {
             // Sử dụng Axios
-            const response = await axios.post(api + "/user/login", { username, password });
-            if (response.data.status === 200) {
+            const response = await axios.post(api + "/login", { email, password });
+            if (response.status === 200) {
+
                 const token = response.data.token;
-                localStorage.setItem("token_login", token);
-                setIsLoggedIn(true);
-                navigate('/cart');
-            } else if (response.data.status === 201) {
+                Cookies.set('userToken', token)
+                window.location.reload();
+            } else if (response.status === 401) {
                 NotificationManager.error(
-                    response.data.message + " Click vào đây để xác thực qua email", "",
+                    response.data + " Click vào đây để xác thực qua email", "",
                     5000,
                     () => {
                         // Open a new tab or window with the Gmail URL
@@ -80,11 +76,10 @@ const LoginUserPage = () => {
                 );
             }
             else {
-                NotificationManager.error(response.data.message);
+                NotificationManager.error(response.data);
             }
         } catch (error) {
-            // Xử lý lỗi nếu có lỗi trong quá trình gửi yêu cầu
-            console.error("Lỗi khi gửi yêu cầu đăng nhập:", error);
+            NotificationManager.error(error.response.data);
         }
     };
 
@@ -111,10 +106,10 @@ const LoginUserPage = () => {
                             <form className="row login_form" action="" method="" id="contactForm" onSubmit={handleLogin}>
                                 <div className="col-md-12">
                                     <TextInput
-                                        label={t('login_username')}
-                                        placeholder={t('login_username')}
-                                        // withAsterisk {...form.getInputProps('name')}
-                                        id="username"
+                                        label="Email"
+                                        placeholder="Email"
+                                        type="email"
+                                        id="email"
                                     />
                                 </div>
                                 <div className="col-md-12">

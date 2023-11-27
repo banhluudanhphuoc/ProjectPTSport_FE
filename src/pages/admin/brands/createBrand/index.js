@@ -1,10 +1,37 @@
-
-import { memo, useState } from "react";
 import './style.scss';
 import { Link } from "react-router-dom";
 import { Icon } from '@iconify/react';
-
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { memo, useState } from "react";
 const CreateBrandAdmin = () => {
+    const admin_url = process.env.REACT_APP_ADMIN_URL;
+    const [newBrandName, setNewBrandName] = useState('');
+    const api = process.env.REACT_APP_API_URL_ADMIN;
+    const navigate = useNavigate();
+    const adminToken = Cookies.get('adminToken');
+    const handleAddBrand = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post(
+                api + `/catalogs`,
+                { catalogName: newBrandName },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
+
+            navigate(admin_url + '/brands_list');
+        } catch (error) {
+            console.error('Error adding Brand:', error);
+        }
+    };
 
     return <>
         <div className="content-wrapper">
@@ -16,7 +43,7 @@ const CreateBrandAdmin = () => {
                         <div className="card mb-4">
 
                             <div className="card-body">
-                                <form>
+                                <form onSubmit={handleAddBrand}>
                                     <div className="mb-3">
                                         <label className="form-label" for="basic-icon-default-product-name">Tên thương hiệu</label>
                                         <div className="input-group input-group-merge">
@@ -28,11 +55,13 @@ const CreateBrandAdmin = () => {
                                                 placeholder="Tên thương hiệu"
                                                 aria-label="Tên thương hiệu"
                                                 aria-describedby="basic-icon-default-product-name2"
+                                                value={newBrandName}
+                                                onChange={(e) => setNewBrandName(e.target.value)}
                                             />
                                         </div>
                                     </div>
 
-                                    <button type="" className="btn btn-primary">Thêm thương hiệu</button>
+                                    <button type="submit" className="btn btn-primary">Thêm thương hiệu</button>
 
                                 </form>
                             </div>

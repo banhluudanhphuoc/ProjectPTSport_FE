@@ -6,4 +6,12 @@
         color: white;
     }
     }
-    
+
+.icon_social{
+    text-decoration: none;
+    color: #FFC000;
+    font-size: 20px;
+    &:hover{
+        color:#3498DB;
+    }
+}

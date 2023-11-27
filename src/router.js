@@ -23,6 +23,7 @@ import BlogDetail from "pages/users/blogDetail";
 import OrderDetailCustomer from "pages/users/orderDetailCustomer";
 import ForgotPassword from "pages/users/forgotPassword";
 import ChangePassword from "pages/users/changePassword";
+import WishList from "pages/users/wishList";
 
 import MasterLayoutAdmin from "pages/admin/theme/masterLayoutAdmin";
 import NotFoundAdmin from "pages/admin/notFound";
@@ -60,25 +61,30 @@ import ListOrdersOrdered from "pages/admin/orders/listOrdersOrdered";
 import ListOrdersPay from "pages/admin/orders/listOrdersPay";
 import ListOrdersPending from "pages/admin/orders/listOrdersPending";
 
-const admin = "administrator-management";
+const admin_url = process.env.REACT_APP_ADMIN_URL;
 const RouterCustom = () => {
+    const location = useLocation();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
     return (
         <Routes>
             {/* User Routes */}
             <Route path="/*" element={<UserRoutes />} />
-            <Route path="/product-detail/:product" element={<MasterLayout><ProductDetail /></MasterLayout>} />
-            <Route path="/category-page/:category" element={<MasterLayout><CategoryPage /></MasterLayout>} />
-            <Route path="/brand-page/:brand" element={<MasterLayout><CategoryPage /></MasterLayout>} />
+            <Route path="/product-detail/:productID" element={<MasterLayout><ProductDetail /></MasterLayout>} />
+            <Route path="/category-page/:categoryID" element={<MasterLayout><CategoryPage /></MasterLayout>} />
+            <Route path="/brand-page/:brandID" element={<MasterLayout><CategoryPage /></MasterLayout>} />
+            <Route path="/news-detail/:newID" element={<MasterLayout><BlogDetail /></MasterLayout>} />
             {/* Admin Routes */}
-            <Route path={`/${admin}/*`} element={<AdminRoutes />} />
-            <Route path={`/${admin}/admin-login`} element={<LoginAdmin />} />
-            <Route path={`/${admin}/product_edit/:product`} element={<MasterLayoutAdmin><EditProductAdmin /></MasterLayoutAdmin>} />
-            <Route path={`/${admin}/category_edit/:category`} element={<MasterLayoutAdmin><EditCategoryAdmin /></MasterLayoutAdmin>} />
-            <Route path={`/${admin}/brand_edit/:category`} element={<MasterLayoutAdmin><EditBrandAdmin /></MasterLayoutAdmin>} />
-            <Route path={`/${admin}/customer_edit/:customer`} element={<MasterLayoutAdmin><EditCustomerAdmin /></MasterLayoutAdmin>} />
-            <Route path={`/${admin}/news_edit/:news`} element={<MasterLayoutAdmin><EditNewsAdmin /></MasterLayoutAdmin>} />
-            <Route path={`/${admin}/order_detail_admin/:order`} element={<MasterLayoutAdmin><OrderDetailAdmin /></MasterLayoutAdmin>} />
-
+            <Route path={`${admin_url}/*`} element={<AdminRoutes />} />
+            <Route path={`${admin_url}/admin-login`} element={<LoginAdmin />} />
+            <Route path={`${admin_url}/product_edit/:productID`} element={<MasterLayoutAdmin><EditProductAdmin /></MasterLayoutAdmin>} />
+            <Route path={`${admin_url}/category_edit/:categoryID`} element={<MasterLayoutAdmin><EditCategoryAdmin /></MasterLayoutAdmin>} />
+            <Route path={`${admin_url}/brand_edit/:brandID`} element={<MasterLayoutAdmin><EditBrandAdmin /></MasterLayoutAdmin>} />
+            <Route path={`${admin_url}/customer_edit/:customer`} element={<MasterLayoutAdmin><EditCustomerAdmin /></MasterLayoutAdmin>} />
+            <Route path={`${admin_url}/news_edit/:blogId`} element={<MasterLayoutAdmin><EditNewsAdmin /></MasterLayoutAdmin>} />
+            <Route path={`${admin_url}/order_detail_admin/:order`} element={<MasterLayoutAdmin><OrderDetailAdmin /></MasterLayoutAdmin>} />
+            <Route path={`${admin_url}/account-settings/:userID`} element={<MasterLayoutAdmin><AccountSettings /></MasterLayoutAdmin>} />
         </Routes>
     );
 };
@@ -96,7 +102,7 @@ const UserRoutes = () => {
                 <Route path={ROUTERS.USER.FORGOT_PASSWORD} element={<ForgotPassword />} />
                 <Route path={ROUTERS.USER.VERIFY_EMAIL} element={<LoginUserPage />} />
                 <Route path={ROUTERS.USER.ORDER_DETAIL_CUSTOMER} element={<OrderDetailCustomer />} />
-                <Route path={ROUTERS.USER.BLOG_DETAIL} element={<BlogDetail />} />
+                <Route path={ROUTERS.USER.WISHLIST} element={<WishList />} />
                 <Route path={ROUTERS.USER.BLOGS_PAGE} element={<BlogsPage />} />
                 <Route path={ROUTERS.USER.CONTACT_PAGE} element={<ContactPage />} />
                 <Route path={ROUTERS.USER.CONFIRMATION_PAGE} element={<Confirmation />} />
@@ -108,8 +114,8 @@ const UserRoutes = () => {
                 <Route path={ROUTERS.USER.PROFILE} element={<ProfilePage />} />
                 <Route path={ROUTERS.USER.PRODUCT_DETAIL} element={<ProductDetail />} />
                 <Route path={ROUTERS.USER.CART} element={<CartPage />} />
-                <Route path={ROUTERS.USER.CATEGORY_PAGE} element={<CategoryPage type="category" />} />
-                <Route path={ROUTERS.USER.BRAND_PAGE} element={<CategoryPage type="brand" />} />
+                <Route path={ROUTERS.USER.CATEGORY_PAGE} element={<CategoryPage />} />
+                <Route path={ROUTERS.USER.BRAND_PAGE} element={<CategoryPage />} />
                 <Route path={ROUTERS.USER.LOGIN_USER} element={<LoginUserPage />} />
                 <Route path={ROUTERS.USER.REGISTER} element={<RegisterPage />} />
                 <Route path={ROUTERS.USER.NOT_FOUND} element={<NotFound />} />
@@ -135,7 +141,7 @@ const AdminRoutes = () => {
                 <Route path={ROUTERS.ADMIN.CATEGORIES_LIST} element={<CategoriesListAdmin />} />
                 <Route path={ROUTERS.ADMIN.CUSTOMERS_LIST} element={<CustomersListAdmin />} />
                 <Route path={ROUTERS.ADMIN.CUSTOMER_CREATE} element={<CreateCustomerAdmin />} />
-                <Route path={ROUTERS.ADMIN.ACCOUNT_SETTINGS} element={<AccountSettings />} />
+
                 <Route path={ROUTERS.ADMIN.CATEGORY_CREATE} element={<CreateCategoryAdmin />} />
                 <Route path={ROUTERS.ADMIN.ORDERS_LIST} element={<OrdersListAdmin />} />
                 <Route path={ROUTERS.ADMIN.BRANDS_LIST} element={<BrandsListAdmin />} />

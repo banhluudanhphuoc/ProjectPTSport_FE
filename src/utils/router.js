@@ -22,6 +22,7 @@ export const ROUTERS = {
         FORGOT_PASSWORD: "forgot-password",
         NOT_FOUND: "*",
         CHANGE_PASSWORD: "change-password",
+        WISHLIST: "wish-list",
     },
     ADMIN: {
         NOT_FOUND_ADMIN: "*",

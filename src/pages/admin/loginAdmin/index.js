@@ -5,48 +5,48 @@ import "./style.scss";
 import logo from "./logo192.png";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { useNavigate } from 'react-router-dom';
-import { useAuthAdmin } from "context/AuthContextAdmin";
 const AdminLogin = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { isLoggedInAdmin, setIsLoggedInAdmin } = useAuthAdmin();
     const navigate = useNavigate();
 
     useEffect(() => {
         const adminToken = Cookies.get('adminToken');
+
         if (adminToken) {
-            navigate('/administrator-management/dashboard');
+            navigate(admin_url + '/dashboard');
+        } else {
+            navigate(admin_url + '/admin-login');
         }
     }, []);
+
+    const emailvippro = process.env.REACT_APP_ADMIN;
+    const api = process.env.REACT_APP_API_URL_AUTH;
+    const admin_url = process.env.REACT_APP_ADMIN_URL;
     const handleLogin = async (e) => {
         e.preventDefault();
-        const api = process.env.REACT_APP_API_URL;
         try {
-            const response = await axios.post(api + '/admin/login', {
-                username,
-                password,
-            });
-            if (response.data.status === 200) {
-                // Lấy thời gian hiện tại theo múi giờ UTC
-                var currentTimeUTC = new Date();
-                // Chuyển đổi sang múi giờ Ha Noi (UTC+7)
-                var currentTimeHaNoi = new Date(currentTimeUTC.getTime() + (7 * 60 * 60 * 1000));
-                // Thêm 1 giờ vào thời gian hiện tại để có thời gian hết hạn
-                var expirationTimeHaNoi = new Date(currentTimeHaNoi.getTime() + 60 * 60 * 1000);
-                // Set cookie với thời gian hết hạn ở múi giờ Ha Noi
-                Cookies.set('adminToken', response.data.token, { expires: expirationTimeHaNoi });
-                setIsLoggedInAdmin(true);
-                NotificationManager.success(response.data.message);
-                navigate('/administrator-management/dashboard');
+            if (email === emailvippro) {
+                // Make a POST request to the login endpoint
+                const response = await axios.post(api + '/login', {
+                    email,
+                    password,
+                });
+
+                if (response.status === 200) {
+                    Cookies.set('adminToken', response.data.token)
+
+                    // Navigate to the dashboard after successful login
+                    navigate(admin_url + '/dashboard');
+                }
             } else {
-                NotificationManager.error(response.data.message);
+                NotificationManager.error("Không phận sự miễn vào.");
             }
         } catch (error) {
-            // Xử lý lỗi nếu có lỗi kết nối tới server hoặc lỗi khác
-            console.error('Lỗi kết nối tới server:', error);
+            // Show an error notification if there's an exception (e.g., network error)
+            NotificationManager.error(error.response.data);
         }
     };
-
 
     return <>
         <NotificationContainer />
@@ -60,16 +60,16 @@ const AdminLogin = () => {
                     <h2>Admin Login</h2>
                     <form onSubmit={handleLogin} id="form-login">
                         <div className="mb-3">
-                            <label htmlFor="username" className="form-label">Username</label>
+                            <label htmlFor="email" className="form-label">email</label>
                             <input
                                 type="text"
                                 className="form-control"
-                                id="username"
-                                name="username"
-                                placeholder="Enter username"
+                                id="email"
+                                name="email"
+                                placeholder="Enter email"
                                 autoFocus
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
                         <div className="mb-3 form-password-toggle">

@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react';
+import React, { useState, memo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./style.scss";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
@@ -20,63 +20,78 @@ import { Modal, Button, Image } from 'react-bootstrap';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import RegistrationModal from 'components/user/modal/RegistrationModal';
 import ReactLoading from 'react-loading';
-
+import Cookies from 'js-cookie';
+import { format } from 'date-fns';
 const RegisterPage = () => {
+
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    const api = process.env.REACT_APP_API_URL_AUTH;
     const handleLanguageChange = (newLanguage, lng) => {
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
     };
 
+    useEffect(() => {
+        const userToken = Cookies.get('userToken');
+        if (userToken) {
+            navigate('/profile-customer');
+        }
+
+    }, [navigate]);
+
     const form = useForm({
         initialValues: {
-            username: '',
             password: '',
             confirmPassword: '',
             name: '',
             email: '',
-            phone_number: '',
             full_name: '',
             date_of_birth: '',
         },
 
         validate: {
-            password: (value) => (value.length < 8 ? 'Mật khẩu phải trên 8 kí tự' : null),
-            confirmPassword: (value, values) => value !== values.password ? 'Nhập lại mật khẩu không giống mật khẩu ở trên' : null,
-            username: (value) => {
-                // Sử dụng regex để kiểm tra tên
-                const regex = /^[a-zA-Z0-9]+$/; // Chấp nhận chữ cái và số
-                if (!regex.test(value)) {
-                    return "Tên không được chứa khoảng trắng hoặc ký tự đặc biệt";
+            password: (value) => {
+                const minLength = 10;
+                // Kiểm tra độ dài tối thiểu
+                if (value.length < minLength) {
+                    return 'Mật khẩu mới phải trên 10 kí tự';
                 }
-                return null; // Hợp lệ
+                // Kiểm tra ký tự đặc biệt
+                if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+                    return 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt';
+                }
+                // Kiểm tra chữ hoa và chữ thường
+                if (!/[A-Z]/.test(value) || !/[a-z]/.test(value)) {
+                    return 'Mật khẩu phải chứa ít nhất một chữ hoa và một chữ thường';
+                }
+                // Nếu mật khẩu qua tất cả các kiểm tra, trả về null
+                return null;
             },
+            confirmPassword: (value, values) => value !== values.password ? 'Mật khẩu nhập lại không đúng.' : null,
             email: isEmail('Email không hợp lệ !'),
-            phone_number: (value) => (value.length < 10 || value.length > 10 ? 'Số điện thoại gồm 10 số !' : null),
             full_name: isNotEmpty('Vui lòng nhập Họ và Tên '),
             date_of_birth: isNotEmpty('Vui lòng nhập Ngày sinh'),
         },
     });
 
-    const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(false);
-    const api = process.env.REACT_APP_API_URL;
+
     const handleRegisterClick = async () => {
         form.validate();
 
         if (form.isValid()) {
             try {
                 setIsLoading(true);
-                const response = await axios.post(api + '/user/registration', {
-                    username: form.values.username,
+                const formattedDateOfBirth = format(form.values.date_of_birth, 'dd/MM/yyyy');
+                const response = await axios.post(api + '/register', {
                     password: form.values.password,
                     name: form.values.full_name,
                     email: form.values.email,
-                    phoneNumber: form.values.phone_number,
-                    dateOfBirth: form.values.date_of_birth,
+                    birthdate: formattedDateOfBirth,
                 });
-                if (response.data.status === 200) {
+                if (response.status === 200) {
 
                     NotificationManager.success(
                         'Đăng ký thành công. Vui lòng kiểm tra email để xác thực. Bạn có thể nhấn vào đây để kiểm tra email.',
@@ -90,14 +105,10 @@ const RegisterPage = () => {
                     setTimeout(function () {
                         navigate('/login-user');
                     }, 5000);
-
-                } else if (response.data.status === 409) {
-                    // Xử lý trường hợp trùng username hoặc email
-                    NotificationManager.error(response.data.message);
-                    setIsLoading(false);
                 }
 
             } catch (error) {
+                NotificationManager.error(error.response.data.message);
                 console.error('Lỗi:', error);
                 setIsLoading(false);
             }
@@ -132,10 +143,11 @@ const RegisterPage = () => {
                             <form class="row login_form" id="contactForm" novalidate="novalidate">
                                 <Col md='6'>
                                     <TextInput
-                                        label={t('register_username')}
-                                        placeholder={t('register_username')}
-                                        withAsterisk {...form.getInputProps('username')}
-                                        id="username"
+                                        label={t('register_email')}
+                                        placeholder={t('register_email')}
+                                        withAsterisk
+                                        {...form.getInputProps('email')}
+                                        id="email"
                                     />
                                     <PasswordInput
                                         mt="md"
@@ -160,22 +172,15 @@ const RegisterPage = () => {
                                         {...form.getInputProps('full_name')}
                                         id="full_name"
                                     />
-                                    <TextInput
-                                        label={t('register_email')}
-                                        placeholder={t('register_email')}
-                                        withAsterisk
-                                        mt="md"
-                                        {...form.getInputProps('email')}
-                                        id="email"
-                                    />
-                                    <TextInput
+
+                                    {/* <TextInput
                                         label={t('register_phone_number')}
                                         placeholder={t('register_phone_number')}
                                         withAsterisk
                                         mt="md"
                                         {...form.getInputProps('phone_number')}
                                         id="phone_number"
-                                    />
+                                    /> */}
                                     <DateInput
                                         valueFormat="DD/MM/YYYY"
                                         mt="md"

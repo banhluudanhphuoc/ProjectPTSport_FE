@@ -2,13 +2,14 @@ import React, { useState, useEffect, memo } from 'react';
 import axios from 'axios';
 import { CartProvider, useCart } from "react-use-cart";
 import './style.scss';
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import Banner from "../../users/theme/banner";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import jsonData from '../../../data/address.json';
-
+import Cookies from 'js-cookie';
 import { useTranslation } from "react-i18next";
+import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
 const CheckoutPage = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -16,17 +17,8 @@ const CheckoutPage = () => {
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
     };
-    const {
-        isEmpty,
-        totalUniqueItems,
-        items,
-        updateItemQuantity,
-        removeItem,
-        cartTotal,
-        emptyCart,
-        clearCartMetadata
-    } = useCart();
 
+    const [user, setUser] = useState([]);
     const [cities, setCities] = useState([]);
     const [selectedCity, setSelectedCity] = useState('');
     const [districts, setDistricts] = useState([]);
@@ -77,21 +69,117 @@ const CheckoutPage = () => {
     };
 
 
-    // const form = useForm({
-    //     initialValues: {
-    //         name: '',
-    //         address: '',
-    //         email: '',
-    //         phonenumber: '',
-    //     },
+    const form = useForm({
+        initialValues: {
+            customerName: '',
+            customerAddress: '',
+            customerEmail: '',
+            customerPhone: '',
+        },
+        validate: {
+            customerName: hasLength({ min: 2 }, 'Nhập tên !!! (Ít nhất 2 kí tự))'),
+            customerAddress: isNotEmpty('Nhập địa chỉ giao hàng !!!'),
+            customerEmail: isEmail('Email không hợp lệ !!!'),
+            customerPhone: (value) => {
+                const isEmpty = isNotEmpty('Nhập số điện thoại nhận hàng !!!')(value);
+                if (isEmpty) {
+                    return isEmpty;
+                }
 
-    //     validate: {
-    //         name: hasLength({ min: 2, max: 10 }, 'Nhập tên !!! (Ít nhất 2 kí tự))'),
-    //         address: isNotEmpty('Nhập địa chỉ giao hàng !!!'),
-    //         email: isEmail('Email không hợp lệ !!!'),
-    //         phonenumber: isNotEmpty('Nhập số điện thoại nhận hàng !!!'),
-    //     },
-    // });
+                const isTenDigit = hasLength({ min: 10, max: 10 }, 'Số điện thoại phải có 10 số !!!')(value);
+                const startsWithZero = value.startsWith('0');
+
+                if (!isTenDigit) {
+                    return isTenDigit;
+                }
+                if (!startsWithZero) {
+                    return 'Số điện thoại phải bắt đầu bằng số 0 !!!';
+                }
+                return undefined; // No validation error
+            },
+        },
+    });
+
+
+
+    function formatCurrency(amount) {
+        // Sử dụng NumberFormat để định dạng số
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        });
+
+        // Áp dụng định dạng và trả về chuỗi đã định dạng
+        return formatter.format(amount);
+    }
+
+
+    const navigate = useNavigate();
+    const [totalItemOnCart, setTotalItemOnCart] = useState([]);
+    const [totalPriceCart, setTotalPriceCart] = useState([]);
+    const [productOnCart, setProductOnCart] = useState([]);
+    const api = process.env.REACT_APP_API_URL;
+    const auth = process.env.REACT_APP_API_URL_AUTH;
+    useEffect(() => {
+        const userToken = Cookies.get('userToken');
+        if (!userToken) {
+            navigate('/login-user');
+        }
+        const fetchMe = async () => {
+            try {
+                const response = await axios.get(auth + '/me', {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                setUser(response.data);
+                fetchCountItemCart(response.data.userId);
+                fetchTotalPriceCart(response.data.userId);
+                fetchItemCart(response.data.userId);
+            } catch (error) {
+                console.error('Error fetching Brand:', error);
+            }
+        };
+
+        const fetchCountItemCart = async (userId) => {
+            try {
+                const response = await axios.get(api + '/cart/count/' + userId);
+
+                setTotalItemOnCart(response.data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+        const fetchItemCart = async (userId) => {
+            try {
+                const response = await axios.get(api + '/cart/' + userId);
+
+                setProductOnCart(response.data.itemList);
+
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+        const fetchTotalPriceCart = async (userId) => {
+            try {
+                const response = await axios.get(api + '/cart/total-price/' + userId);
+
+                setTotalPriceCart(response.data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchMe();
+
+    }, [api, auth]);
+
+
+
+
+
     return <>
         <Banner pageTitle={t('pageTitle_checkout')} />
         <section className="checkout_area section_gap">
@@ -112,17 +200,38 @@ const CheckoutPage = () => {
 
                                 <div className="col-md-12 form-group p_star">
                                     {t('checkout_fullname')}
-                                    <input type="text" className="form-control" id="first" name="name" placeholder={t('checkout_fullname')} />
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="customerName"
+                                        name="customerName"
+                                        placeholder={t('checkout_fullname')}
+                                        value={user.name}
+                                    />
 
                                 </div>
                                 <div className="col-md-6 form-group p_star">
                                     {t('checkout_number_phone')}
-                                    <input type="text" className="form-control" id="number" name="number" placeholder={t('checkout_number_phone')} />
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="customerPhone"
+                                        name="customerPhone"
+                                        placeholder={t('checkout_number_phone')}
+
+                                    />
 
                                 </div>
                                 <div className="col-md-6 form-group p_star">
                                     {t('checkout_email')}
-                                    <input type="text" className="form-control" id="email" name="compemailany" placeholder={t('checkout_email')} />
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="customerEmail"
+                                        name="customerEmail"
+                                        placeholder={t('checkout_email')}
+                                        value={user.email}
+                                    />
                                 </div>
 
 
@@ -162,14 +271,26 @@ const CheckoutPage = () => {
 
                                 <div className="col-md-12 form-group p_star">
                                     {t('checkout_address')}
-                                    <input type="text" className="form-control" id="add1" name="add1" placeholder={t('checkout_address')} />
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="customerAddress"
+                                        name="customerAddress"
+                                        placeholder={t('checkout_address')} />
                                 </div>
 
 
-                                <div className="col-md-12 form-group">
+                                {/* <div className="col-md-12 form-group">
                                     {t('checkout_note')}
-                                    <textarea className="form-control" name="message" id="message" rows="1" placeholder={t('checkout_note')}></textarea>
-                                </div>
+                                    <textarea
+                                        className="form-control"
+                                        name="message"
+                                        id="message"
+                                        rows="1" placeholder={t('checkout_note')}
+                                    >
+
+                                    </textarea>
+                                </div> */}
 
                             </div>
                             <div className="col-lg-4">
@@ -177,17 +298,17 @@ const CheckoutPage = () => {
                                     <h2>{t('checkout_your_order')}</h2>
                                     <ul className="list">
                                         <li><Link href="#" className="the_a_checkout">{t('checkout_your_order_product')} <span>{t('checkout_your_order_total')}</span></Link></li>
-                                        {items.map((item) => (
+                                        {productOnCart.map((item) => (
                                             <li>
-                                                <Link href="#" className="the_a_checkout">{item.product_name}
+                                                <Link href="#" className="the_a_checkout">{item.productName}
                                                     <span className="middle">x {item.quantity}</span>
-                                                    <span className="last">${item.itemTotal}</span>
+                                                    <span className="last">{formatCurrency(item.totalPrice)}</span>
                                                 </Link>
                                             </li>
                                         ))}
                                     </ul>
                                     <ul className="list list_2">
-                                        <li><Link href="#" className="the_a_checkout">{t('checkout_your_order_subtotal')} <span>${cartTotal}</span></Link></li>
+                                        <li><Link href="#" className="the_a_checkout">{t('checkout_your_order_subtotal')} <span>{formatCurrency(totalPriceCart)}</span></Link></li>
                                         {/* <li><Link href="#" className="the_a_checkout">Shipping <span>Flat rate: $50.00</span></Link></li>
                                     <li><Link href="#" className="the_a_checkout">Total <span>$2210.00</span></Link></li> */}
                                     </ul>
@@ -212,7 +333,7 @@ const CheckoutPage = () => {
                                         <label for="f-option4">{t('checkout_your_order_license1')} </label>
                                         <Link href="#" className="the_a_checkout terms"><span>{t('checkout_your_order_license2')}</span></Link>
                                     </div>
-                                    <Link className="primary-btn the_a_checkout" href="#" >{t('checkout_proceed')}</Link>
+                                    <Link className="primary-btn the_a_checkout" >{t('checkout_proceed')}</Link>
                                 </div>
                             </div>
                         </div>

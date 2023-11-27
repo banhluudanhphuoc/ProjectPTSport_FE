@@ -1,5 +1,4 @@
 import { memo, useState, useEffect } from "react";
-import { CartProvider, useCart } from "react-use-cart";
 import './style.scss';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import Banner from "../../users/theme/banner";
@@ -7,6 +6,9 @@ import { Icon } from '@iconify/react';
 import { useTranslation } from "react-i18next";
 import { Modal, Button, Image } from 'react-bootstrap';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { CartProvider, useCart } from "react-use-cart";
 const CartPage = () => {
     const {
         isEmpty,
@@ -20,11 +22,7 @@ const CartPage = () => {
     } = useCart();
 
     const { t, i18n } = useTranslation();
-    const [currentLanguage, setCurrentLanguage] = useState('VI');
-    const handleLanguageChange = (newLanguage, lng) => {
-        setCurrentLanguage(newLanguage)
-        i18n.changeLanguage(lng);
-    };
+
 
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     const [itemToRemove, setItemToRemove] = useState(null);
@@ -34,6 +32,7 @@ const CartPage = () => {
         setShowConfirmationModal(true);
     };
     const navigate = useNavigate();
+
     const confirmDeleteProduct = () => {
         if (itemToRemove) {
             removeItem(itemToRemove.id);
@@ -45,13 +44,84 @@ const CartPage = () => {
                 2000
             );
         }
-
     };
+
+    const [user, setUser] = useState([]);
+    const [totalItemOnCart, setTotalItemOnCart] = useState([]);
+    const [totalPriceCart, setTotalPriceCart] = useState([]);
+    const [productOnCart, setProductOnCart] = useState([]);
+    const api = process.env.REACT_APP_API_URL;
+    const auth = process.env.REACT_APP_API_URL_AUTH;
     useEffect(() => {
-        if (totalUniqueItems === 0) {
+        const userToken = Cookies.get('userToken');
+
+        const fetchMe = async () => {
+            try {
+                const response = await axios.get(auth + '/me', {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                setUser(response.data);
+                fetchCountItemCart(response.data.userId);
+                fetchTotalPriceCart(response.data.userId);
+                fetchItemCart(response.data.userId);
+            } catch (error) {
+                console.error('Error fetching Brand:', error);
+            }
+        };
+
+        const fetchCountItemCart = async (userId) => {
+            try {
+                const response = await axios.get(api + '/cart/count/' + userId);
+
+                setTotalItemOnCart(response.data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+        const fetchItemCart = async (userId) => {
+            try {
+                const response = await axios.get(api + '/cart/' + userId);
+
+                setProductOnCart(response.data.itemList);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+        const fetchTotalPriceCart = async (userId) => {
+            try {
+                const response = await axios.get(api + '/cart/total-price/' + userId);
+
+                setTotalPriceCart(response.data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchMe();
+
+    }, [api, auth]);
+
+    useEffect(() => {
+        if (totalItemOnCart === 0) {
             navigate('/category-page');
         }
-    }, [totalUniqueItems]);
+    }, [totalItemOnCart]);
+
+
+    function formatCurrency(amount) {
+        // Sử dụng NumberFormat để định dạng số
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        });
+
+        // Áp dụng định dạng và trả về chuỗi đã định dạng
+        return formatter.format(amount);
+    }
     return <>
         <CartProvider>
             <NotificationContainer />
@@ -75,12 +145,12 @@ const CartPage = () => {
                                             <td>
                                                 <div className="media">
                                                     <div className="d-flex">
-                                                        <img src={item.img_src} alt="" width={100} />
+                                                        <img src={item.image} alt="" width={100} />
                                                     </div>
                                                     <div className="media-body media-body-custom">
-                                                        <p>{item.product_name}</p>
+                                                        <p>{item.productName}</p>
                                                         <span className="ml-5">
-                                                            <Link onClick={() => handleDeleteProduct(item)} to="#">
+                                                            <Link onClick={() => handleDeleteProduct(item)} >
                                                                 <Icon icon="ph:x" />
                                                             </Link>
                                                         </span>
@@ -88,7 +158,7 @@ const CartPage = () => {
                                                 </div>
                                             </td>
                                             <td>
-                                                <h5>${item.price}</h5>
+                                                <h5>{formatCurrency(item.price)}</h5>
                                             </td>
                                             <td>
                                                 <div class="product_count">
@@ -106,18 +176,19 @@ const CartPage = () => {
                                                 </div>
                                             </td>
                                             <td>
-                                                <h5>${item.itemTotal}</h5>
+                                                <h5>{formatCurrency(item.itemTotal)}</h5>
                                             </td>
                                         </tr>
                                     ))}
 
 
-                                    {/* <tr className="bottom_button">
+                                    <tr className="bottom_button out_button_area">
                                         <td>
-                                            <Link className="gray_btn btn-custom" href="#">Update Cart</Link>
+                                            {/* <Link className="gray_btn btn-custom" href="#">Update Cart</Link> */}
                                         </td>
                                         <td>
                                         </td>
+
                                         <td>
                                         </td>
                                         <td>
@@ -127,7 +198,7 @@ const CartPage = () => {
                                                 <Link className="gray_btn btn-custom" href="#">Close Coupon</Link>
                                             </div>
                                         </td>
-                                    </tr> */}
+                                    </tr>
                                     <tr>
                                         <td>
 
@@ -139,7 +210,7 @@ const CartPage = () => {
                                             <h4>{t('cart_subtotal')}</h4>
                                         </td>
                                         <td>
-                                            <h4>${cartTotal}</h4>
+                                            <h4>{formatCurrency(cartTotal)}</h4>
                                         </td>
                                     </tr>
                                     {/* <tr className="shipping_area">
@@ -187,7 +258,8 @@ const CartPage = () => {
 
                                         </td>
                                         <td>
-
+                                        </td>
+                                        <td>
                                         </td>
                                         <td>
                                             <div className="checkout_btn_inner">

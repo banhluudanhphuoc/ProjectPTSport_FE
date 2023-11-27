@@ -1,15 +1,27 @@
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, useRef } from "react";
 import './style.scss';
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import logo from './logo192.png';
 import { BiUserCircle } from "react-icons/bi";
 import { ROUTERS } from "utils/router";
-import { CartProvider, useCart } from "react-use-cart";
 import { Image } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "context/AuthContext";
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { IoHeartCircle } from "react-icons/io5";
+import { FaShoppingCart } from "react-icons/fa";
+import { CartProvider, useCart } from "react-use-cart";
 const Header = ({ isHome }) => {
+
+    const {
+        emptyCart,
+        isEmpty,
+        totalUniqueItems,
+        items,
+        updateItemQuantity,
+        removeItem,
+    } = useCart();
     const navigate = useNavigate();
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -17,14 +29,12 @@ const Header = ({ isHome }) => {
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
     };
+    const [isSearchVisible, setIsSearchVisible] = useState(false);
 
-    const {
-        isEmpty,
-        totalUniqueItems,
-        items,
-        updateItemQuantity,
-        removeItem,
-    } = useCart();
+    const toggleSearch = () => {
+        setIsSearchVisible(!isSearchVisible);
+    };
+
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -33,21 +43,156 @@ const Header = ({ isHome }) => {
     const handleMainMenuClick = (mainMenuId) => {
         setActiveMenuItem(mainMenuId);
     };
-    const { isLoggedIn } = useAuth();
-    const { setIsLoggedIn } = useAuth();
-    useEffect(() => {
-        const savedToken = localStorage.getItem('token_login');
-        if (savedToken) {
-            setIsLoggedIn(true);
+
+
+    const userToken = Cookies.get('userToken');
+    const auth = process.env.REACT_APP_API_URL_AUTH;
+    const api = process.env.REACT_APP_API_URL;
+    const handleLogout = async () => {
+
+        try {
+            const response2 = await axios.delete(api + "/cart/delete-cart/" + user.userId, {
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                },
+            });
+            // Gửi yêu cầu đến endpoint logout của API
+            const response = await axios.get(
+                auth + '/logout',
+                {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                    },
+                }
+            );
+            // Kiểm tra xem logout có thành công hay không
+            if (response.status === 200) {
+                Cookies.remove('userToken');
+                window.location.href = '/login-user';
+                emptyCart();
+            } else {
+                console.error('Logout failed:', response.data);
+            }
+        } catch (error) {
+            console.error('Error logging out:', error);
         }
-    }, []);
-    const handleLogout = () => {
-        // Xóa token khỏi local storage hoặc thực hiện các bước đăng xuất cần thiết
-        localStorage.removeItem('token_login');
-        // Đặt isLoggedIn thành false
-        setIsLoggedIn(false);
-        window.location.href = '/login-user';
     };
+    const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
+
+
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+
+    useEffect(() => {
+        console.log(userToken);
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(api + `/search/${searchTerm}`);
+                setSearchResults(response.data);
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+            }
+        };
+
+
+        if (searchTerm.trim() !== '') {
+            fetchData();
+        } else {
+            setSearchResults([]);
+        }
+    }, [searchTerm, api]);
+    function formatCurrency(amount) {
+        // Sử dụng NumberFormat để định dạng số
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        });
+
+        // Áp dụng định dạng và trả về chuỗi đã định dạng
+        return formatter.format(amount);
+    }
+
+    const [user, setUser] = useState([]);
+    const [productsWishListCount, setProductsWishListCount] = useState([]);
+    const [totalItemOnCart, setTotalItemOnCart] = useState([]);
+    useEffect(() => {
+        const userToken = Cookies.get('userToken');
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get(api + '/categories');
+
+                // Xử lý phản hồi từ server (response.data)
+                setCategories(response.data);
+            } catch (error) {
+                // Xử lý lỗi
+                console.error('Error fetching categories:', error);
+            }
+        };
+        const fetchBrands = async () => {
+            try {
+                const response = await axios.get(api + '/catalogs');
+
+                // Xử lý phản hồi từ server (response.data)
+                setBrands(response.data);
+            } catch (error) {
+                // Xử lý lỗi
+                console.error('Error fetching categories:', error);
+            }
+        };
+        fetchBrands();
+        fetchCategories();
+        const fetchMe = async () => {
+            try {
+                const response = await axios.get(auth + '/me', {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                setUser(response.data);
+
+                // Call fetchProducts after setUser
+                fetchProductsWishList(response.data.userId);
+                fetchCountItemCart(response.data.userId);
+            } catch (error) {
+                console.error('Error fetching Brand:', error);
+            }
+        };
+
+        const fetchProductsWishList = async (userId) => {
+            try {
+                const response = await axios.get(api + '/wish-list/' + userId, {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                setProductsWishListCount(response.data.productDtos.length);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        const fetchCountItemCart = async (userId) => {
+            try {
+                const response = await axios.get(api + '/cart/count/' + userId);
+
+                setTotalItemOnCart(response.data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchMe();
+    }, [api, auth]);
+
+
+
+
 
     return (
 
@@ -55,7 +200,7 @@ const Header = ({ isHome }) => {
             <div className="main_menu">
                 <nav className="navbar navbar-expand-lg navbar-light main_box">
                     <div className="container">
-                        <a className="navbar-brand logo_h" href='/' ><Image src={logo} width="80px" alt="" /></a>
+                        <a className="navbar-brand logo_h " href='/' ><Image src={logo} width="80px" alt="" /></a>
                         <button
                             id="navbarSupportedContentButton"
                             className="navbar-toggler"
@@ -73,7 +218,7 @@ const Header = ({ isHome }) => {
                         </button>
 
                         <div className={`collapse navbar-collapse offset ${isMenuOpen ? 'show' : ''}`} id="navbarSupportedContent">
-                            <ul className="nav navbar-nav menu_nav ml-auto ">
+                            <ul className="nav navbar-nav menu_nav ml-auto">
                                 <li className="nav-item">
                                     <a
                                         className={`nav-link custom_menu ${isHome ? "active-menu-item" : ""}`}
@@ -97,10 +242,11 @@ const Header = ({ isHome }) => {
                                         {t('menu_categries')}
                                     </Link>
                                     <ul className="dropdown-menu">
-                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">{t('menu_featured')}</Link></li>
-                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">{t('menu_clothes')}</Link></li>
-                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">{t('menu_shoes')}</Link></li>
-                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">{t('menu_accessories')}</Link></li>
+                                        {categories.map(category => (
+                                            <li className="nav-item"><Link className="nav-link custom_menu_sub" to={`/category-page/` + category.categoryID}>{category.categoryName}</Link></li>
+                                        ))}
+
+
                                     </ul>
                                 </li>
                                 <li className="nav-item submenu dropdown" >
@@ -116,11 +262,9 @@ const Header = ({ isHome }) => {
                                         {t('menu_brands')}
                                     </Link>
                                     <ul className="dropdown-menu">
-                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">nike</Link></li>
-                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">adidas</Link></li>
-                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">puma</Link></li>
-                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">fila</Link></li>
-                                        <li className="nav-item"><Link className="nav-link custom_menu_sub" to="">Champion</Link></li>
+                                        {brands.map(brand => (
+                                            <li className="nav-item"><Link className="nav-link custom_menu_sub" to={`/brand-page/` + brand.catalogId}>{brand.catalogName}</Link></li>
+                                        ))}
                                     </ul>
                                 </li>
                                 <li className="nav-item">
@@ -142,7 +286,7 @@ const Header = ({ isHome }) => {
                                 </li>
 
                                 <li className="nav-item submenu dropdown">
-                                    {isLoggedIn ? (
+                                    {userToken ? (
                                         // If the user is logged in, render the dropdown menu
                                         <>
                                             <Link
@@ -196,6 +340,19 @@ const Header = ({ isHome }) => {
                                     )}
                                 </li>
 
+                                <li className="nav-item">
+                                    {productsWishListCount > 0 &&
+                                        <Link
+                                            className={`nav-link  custom_menu ${activeMenuItem === "wish-list" ? "active-menu-item" : ""}`}
+                                            onClick={() => handleMainMenuClick("wish-list")}
+                                            to="/wish-list">
+                                            <span className={`icon-wish-list ${activeMenuItem === "wish-list" ? "active-menu-item" : ""}`}><IoHeartCircle /></span>
+                                            <span className="star-count">{productsWishListCount}</span>
+                                        </Link>
+                                    }
+                                </li>
+
+
                                 <li className="nav-item submenu dropdown">
                                     {totalUniqueItems > 0 &&
                                         <Link
@@ -203,13 +360,13 @@ const Header = ({ isHome }) => {
                                             to="/cart"
                                             onClick={() => handleMainMenuClick("cart")}
                                         >
-                                            <span className={`ti-bag icon-cart ${activeMenuItem === "cart" ? "active-menu-item" : ""}`}></span>
+                                            <span className={`icon-cart ${activeMenuItem === "cart" ? "active-menu-item" : ""}`}><FaShoppingCart /></span>
                                             <span className="cart-count">{totalUniqueItems}</span>
                                         </Link>
                                     }
                                 </li>
                                 <li className="nav-item">
-                                    <button className="search"><span className="lnr lnr-magnifier custom_menu" id="search"></span></button>
+                                    <button className="search" onClick={toggleSearch}><span className="lnr lnr-magnifier custom_menu" id="search"></span></button>
                                 </li>
                                 <li className="nav-item">
                                     <button
@@ -235,15 +392,56 @@ const Header = ({ isHome }) => {
                     </div>
                 </nav>
             </div >
-            <div className="search_input" id="search_input_box">
-                <div className="container">
-                    <form className="d-flex justify-content-between" >
-                        <input type="text" className="form-control" id="search_input" placeholder={t('search_here')} />
-                        <button type="submit" className="btn"></button>
-                        <span className="lnr lnr-cross" id="close_search" title="Close Search" ></span>
-                    </form>
+            {isSearchVisible && (
+                <div className="search_input" id="search_input_box">
+                    <div className="container">
+                        <form className="d-flex justify-content-between">
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="search_input"
+                                placeholder={t('search_here')}
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <span
+                                className="lnr lnr-cross"
+                                id="close_search"
+                                title="Close Search"
+                                onClick={toggleSearch}
+                            ></span>
+                        </form>
+
+
+                        {searchResults.length > 0 && (
+                            <div className="search-results">
+                                <div className="scrollable-results">
+                                    <div className="row">
+                                        {searchResults.map((result) => (
+                                            <div className="col-lg-4 col-md-4 col-sm-6" key={result.id}>
+                                                <div className="single-related-product d-flex single-result-search-item">
+                                                    <Link to={'/product-detail/' + result.id} onClick={toggleSearch}><img src={result.listImage[0].path} alt="" width={"100px"} /></Link>
+                                                    <div className="desc">
+                                                        <Link className="title" to={'/product-detail/' + result.id}>
+                                                            {result.name}
+                                                        </Link>
+                                                        <div className="price">
+                                                            <h6>{formatCurrency(result.price)}</h6>
+                                                            {/* <h6 className="l-through">$210.00</h6> */}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
+
         </header >
 
     );

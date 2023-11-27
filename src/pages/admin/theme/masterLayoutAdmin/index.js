@@ -18,30 +18,31 @@ import '../../../../assets/admin/vendor/libs/perfect-scrollbar/perfect-scrollbar
 import '../../../../assets/admin/vendor/js/menu.js';
 import '../../../../assets/admin/vendor/libs/apex-charts/apexcharts.js';
 //import '../../../../assets/admin/js/main.js';
-import { useAuthAdmin } from "context/AuthContextAdmin";
+// import { useAuthAdmin } from "context/AuthContextAdmin";
 import { Route, Navigate } from 'react-router-dom';
 
 const MasterLayoutAdmin = ({ children, ...props }) => {
-    const CookieAdmin = Cookies.get('adminToken'); // Kiểm tra cookie 'adminToken'
+    const admin_url = process.env.REACT_APP_ADMIN_URL;
+    const adminToken = Cookies.get('adminToken');
 
-    if (CookieAdmin) {
-        return (
-            <div {...props}>
-                <div className="layout-wrapper layout-content-navbar">
-                    <div className="layout-container">
-                        <MenuAdmin />
-                        <div className="layout-page">
-                            <HeaderAdmin />
-                            {children}
-                        </div>
+    if (!adminToken) {
+        // Nếu không có adminToken, chuyển hướng đến trang đăng nhập
+        return <Navigate to={`${admin_url}/admin-login`} />;
+    }
+
+    return (
+        <div {...props}>
+            <div className="layout-wrapper layout-content-navbar">
+                <div className="layout-container">
+                    <MenuAdmin />
+                    <div className="layout-page">
+                        <HeaderAdmin />
+                        {children}
                     </div>
                 </div>
             </div>
-        );
-    }
-    else {
-        return <Navigate to="/administrator-management/admin-login" />;
-    }
+        </div>
+    );
 };
 
 export default memo(MasterLayoutAdmin);
