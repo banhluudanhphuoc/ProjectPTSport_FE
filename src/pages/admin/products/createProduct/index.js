@@ -143,7 +143,7 @@ const CreateProductAdmin = () => {
                     formDataToSend.append('files', file);
                 });
             }
-            console.log(formDataToSend);
+
             setIsLoading(true);
             const response = await axios.post(`${api}/products`, formDataToSend, {
                 headers: {

@@ -40,6 +40,8 @@
       color: #ffba00 !important; }
 .the_a_checkout{
     text-decoration: none;
+    width: 100%;
+    border: none;
 }
 .terms{
     font-size: 12px;
@@ -69,3 +71,6 @@
   font-size: 16px; /* Kích thước chữ */
 }
 
+.radio_payment{
+  display: flex;
+}

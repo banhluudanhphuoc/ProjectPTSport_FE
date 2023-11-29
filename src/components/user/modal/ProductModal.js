@@ -24,18 +24,14 @@ const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) 
         const fetchCategories = async () => {
             try {
                 const response = await axios.get(api + '/categories');
-
-                // Xử lý phản hồi từ server (response.data)
                 setCategories(response.data);
             } catch (error) {
-                // Xử lý lỗi
                 console.error('Error fetching categories:', error);
             }
         };
         const fetchBrands = async () => {
             try {
                 const response = await axios.get(api + '/catalogs');
-
                 // Xử lý phản hồi từ server (response.data)
                 setBrands(response.data);
             } catch (error) {
@@ -45,7 +41,7 @@ const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) 
         };
         fetchBrands();
         fetchCategories();
-    }, []);
+    }, [api]);
     return (
         <>
             <Modal show={showModal} onHide={() => setShowModal(false)} key={product.id}>
@@ -56,7 +52,7 @@ const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) 
                             <div className="row align-items-center">
                                 <div className="col-lg-6">
                                     <div className="quick-view-carousel">
-                                        <img src={product1} alt="" className="item" width={200} />
+                                        <img src={product.listImage[0].path} alt="" className="item" width={200} />
                                     </div>
                                 </div>
                                 <div className="col-lg-6">

@@ -48,14 +48,20 @@ const Header = ({ isHome }) => {
     const userToken = Cookies.get('userToken');
     const auth = process.env.REACT_APP_API_URL_AUTH;
     const api = process.env.REACT_APP_API_URL;
+
+
     const handleLogout = async () => {
 
         try {
-            const response2 = await axios.delete(api + "/cart/delete-cart/" + user.userId, {
-                headers: {
-                    'Authorization': `Bearer ${userToken}`,
-                },
-            });
+            if (totalItemOnCart) {
+                const response2 = await axios.delete(api + "/cart/delete-cart/" + user.userId, {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                    },
+                });
+            }
+
+
             // Gửi yêu cầu đến endpoint logout của API
             const response = await axios.get(
                 auth + '/logout',
@@ -86,7 +92,7 @@ const Header = ({ isHome }) => {
     const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
-        console.log(userToken);
+
         const fetchData = async () => {
             try {
                 const response = await axios.get(api + `/search/${searchTerm}`);

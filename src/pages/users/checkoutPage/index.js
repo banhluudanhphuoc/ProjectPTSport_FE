@@ -10,14 +10,39 @@ import jsonData from '../../../data/address.json';
 import Cookies from 'js-cookie';
 import { useTranslation } from "react-i18next";
 import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import {
+    PasswordInput,
+    TextInput,
+    Text,
+    rem,
+    Select,
+    Radio,
+} from '@mantine/core';
 const CheckoutPage = () => {
+    const userToken = Cookies.get('userToken');
+    const {
+        isEmpty,
+        totalUniqueItems,
+        items,
+        updateItemQuantity,
+        removeItem,
+        cartTotal,
+        emptyCart,
+        clearCartMetadata
+    } = useCart();
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
     const handleLanguageChange = (newLanguage, lng) => {
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
     };
-
+    const navigate = useNavigate();
+    const [totalItemOnCart, setTotalItemOnCart] = useState([]);
+    const [totalPriceCart, setTotalPriceCart] = useState([]);
+    const [productOnCart, setProductOnCart] = useState([]);
+    const api = process.env.REACT_APP_API_URL;
+    const auth = process.env.REACT_APP_API_URL_AUTH;
     const [user, setUser] = useState([]);
     const [cities, setCities] = useState([]);
     const [selectedCity, setSelectedCity] = useState('');
@@ -25,6 +50,17 @@ const CheckoutPage = () => {
     const [selectedDistrict, setSelectedDistrict] = useState('');
     const [wards, setWards] = useState([]);
     const [selectedWard, setSelectedWard] = useState('');
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(''); // Initialize with an empty string
+
+    const [selectedWardName, setSelectedWardName] = useState('');
+    const [selectedCityName, setSelectedCityName] = useState('');
+    const [selectedDistrictName, setSelectedDistrictName] = useState('');
+
+    useEffect(() => {
+        if (totalUniqueItems === 0) {
+            navigate('/category-page');
+        }
+    }, [totalUniqueItems]);
 
     useEffect(() => {
         try {
@@ -45,12 +81,14 @@ const CheckoutPage = () => {
         const city = cities.find((city) => city.Id === selectedCityId);
         if (city) {
             setDistricts(city.Districts);
+            setSelectedCityName(city.Name);
         } else {
             setDistricts([]);
         }
     };
 
     const handleDistrictChange = (event) => {
+
         const selectedDistrictId = event.target.value;
         setSelectedDistrict(selectedDistrictId);
         setSelectedWard('');
@@ -59,15 +97,18 @@ const CheckoutPage = () => {
         const district = districts.find((district) => district.Id === selectedDistrictId);
         if (district) {
             setWards(district.Wards);
+            setSelectedDistrictName(district.Name);
         } else {
             setWards([]);
         }
     };
 
     const handleWardChange = (event) => {
-        setSelectedWard(event.target.value);
+        const selectedWardId = event.target.value;
+        setSelectedWard(selectedWardId);
+        const selectedWardName = event.target.options[event.target.selectedIndex].dataset.population;
+        setSelectedWardName(selectedWardName);
     };
-
 
     const form = useForm({
         initialValues: {
@@ -77,51 +118,69 @@ const CheckoutPage = () => {
             customerPhone: '',
         },
         validate: {
-            customerName: hasLength({ min: 2 }, 'Nhập tên !!! (Ít nhất 2 kí tự))'),
-            customerAddress: isNotEmpty('Nhập địa chỉ giao hàng !!!'),
-            customerEmail: isEmail('Email không hợp lệ !!!'),
+            customerName: hasLength({ min: 2 }, t('checkout_validation_name')),
+            customerAddress: isNotEmpty(t('checkout_validation_address')),
             customerPhone: (value) => {
-                const isEmpty = isNotEmpty('Nhập số điện thoại nhận hàng !!!')(value);
+                const isEmpty = isNotEmpty(t('checkout_validation_phone_empty'))(value);
                 if (isEmpty) {
                     return isEmpty;
                 }
 
-                const isTenDigit = hasLength({ min: 10, max: 10 }, 'Số điện thoại phải có 10 số !!!')(value);
+                const isTenDigit = value.length === 10; // Fix the condition here
                 const startsWithZero = value.startsWith('0');
 
                 if (!isTenDigit) {
-                    return isTenDigit;
+                    return t('checkout_validation_phone_number_length_10'); // Return the error message directly
                 }
                 if (!startsWithZero) {
-                    return 'Số điện thoại phải bắt đầu bằng số 0 !!!';
+                    return t('checkout_validation_phone_start_0');
                 }
+
                 return undefined; // No validation error
             },
         },
     });
 
+    const { values, isValid, errors, isSubmitting } = form;
+    const handleChange = (event) => {
+        form.setFieldValue(event.target.name, event.target.value);
+    };
 
+    const handleOrderSubmit = (e) => {
+        e.preventDefault();
+        form.validate();
+        if (!selectedCity) {
+            NotificationManager.error(t('checkout_validation_city'));
+            return;
+        }
+        if (!selectedDistrict) {
+            NotificationManager.error(t('checkout_validation_district'));
+            return;
+        }
+        if (!selectedWard) {
+            NotificationManager.error(t('checkout_validation_ward'));
+            return;
+        }
+        if (!selectedPaymentMethod) {
+            NotificationManager.error(t('checkout_validation_method_payment'));
+            return;
+        }
+        if (form.isValid()) {
+            handleSubmit();
+        }
+    };
 
     function formatCurrency(amount) {
-        // Sử dụng NumberFormat để định dạng số
         const formatter = new Intl.NumberFormat('vi-VN', {
             style: 'currency',
             currency: 'VND',
         });
-
-        // Áp dụng định dạng và trả về chuỗi đã định dạng
         return formatter.format(amount);
     }
 
 
-    const navigate = useNavigate();
-    const [totalItemOnCart, setTotalItemOnCart] = useState([]);
-    const [totalPriceCart, setTotalPriceCart] = useState([]);
-    const [productOnCart, setProductOnCart] = useState([]);
-    const api = process.env.REACT_APP_API_URL;
-    const auth = process.env.REACT_APP_API_URL_AUTH;
+
     useEffect(() => {
-        const userToken = Cookies.get('userToken');
         if (!userToken) {
             navigate('/login-user');
         }
@@ -174,13 +233,57 @@ const CheckoutPage = () => {
 
         fetchMe();
 
-    }, [api, auth]);
+    }, [api, auth, userToken]);
 
 
+    const handleSubmit = async () => {
 
+        if (selectedPaymentMethod === '1') {
+            try {
+                const response = await axios.post(api + '/payment/submit-order', {
+                    orderDto: {
+                        "userID": user.userId,
+                        "orderStatusID": 1,
+                        "paymentMethodID": selectedPaymentMethod,
+                        customerName: values.customerName,
+                        customerAddress: `${values.customerAddress}, ${selectedWardName}, ${selectedDistrictName}, ${selectedCityName}`,
+                        customerEmail: user.email,
+                        customerPhone: values.customerPhone,
+                    },
+                    string: 'vnp_OrderInfo=ORDER-123&vnp_ResponseCode=00&...',
+                },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+
+                //Cookies.set('userToken', token)
+
+
+                // const response2 = await axios.delete(api + "/cart/delete-cart/" + user.userId, {
+                //     headers: {
+                //         'Authorization': `Bearer ${userToken}`,
+                //     },
+                // });
+
+                emptyCart();
+                navigate('/confirmation');
+            } catch (error) {
+                // Handle errors (display error message, log, etc.)
+                console.error('Error submitting order:', error);
+            }
+        } else {
+            NotificationManager.error("Hệ thống đang bảo trì");
+        }
+
+    };
 
 
     return <>
+        <NotificationContainer />
         <Banner pageTitle={t('pageTitle_checkout')} />
         <section className="checkout_area section_gap">
             <div className="container">
@@ -192,55 +295,58 @@ const CheckoutPage = () => {
                     <input type="text" placeholder="Enter coupon code" />
                     <Link className="tp_btn the_a_checkout" href="#" >Apply Coupon</Link>
                 </div> */}
-                <form className="row contact_form" action="#" method="post" novalidate="novalidate">
+                <form className="row" onSubmit={handleOrderSubmit} noValidate>
                     <div className="billing_details">
                         <div className="row">
-                            <div className="col-lg-8">
+                            <div className="col-lg-7">
                                 <h3> {t('checkout_billing_detail')}</h3>
 
                                 <div className="col-md-12 form-group p_star">
                                     {t('checkout_fullname')}
-                                    <input
+                                    <TextInput
                                         type="text"
-                                        className="form-control"
                                         id="customerName"
                                         name="customerName"
-                                        placeholder={t('checkout_fullname')}
-                                        value={user.name}
+                                        placeholder={t('checkout_fullname') || user.name}
+                                        value={values.customerName}
+                                        onChange={handleChange}
+                                        {...form.getInputProps('customerName')}
                                     />
-
+                                    {errors.customerName && <div className="invalid-feedback">{errors.customerName}</div>}
                                 </div>
-                                <div className="col-md-6 form-group p_star">
+                                <div className="col-md-12 form-group p_star">
                                     {t('checkout_number_phone')}
-                                    <input
+                                    <TextInput
                                         type="text"
-                                        className="form-control"
                                         id="customerPhone"
                                         name="customerPhone"
                                         placeholder={t('checkout_number_phone')}
-
+                                        value={values.customerPhone}
+                                        onChange={handleChange}
+                                        withAsterisk
+                                        {...form.getInputProps('customerPhone')}
                                     />
 
                                 </div>
-                                <div className="col-md-6 form-group p_star">
+                                <div className="col-md-12  p_star">
                                     {t('checkout_email')}
-                                    <input
+                                    <TextInput
                                         type="text"
-                                        className="form-control"
                                         id="customerEmail"
                                         name="customerEmail"
                                         placeholder={t('checkout_email')}
                                         value={user.email}
+                                        readOnly
                                     />
                                 </div>
 
 
-                                <div className="col-md-12 form-group p_star">
+                                <div className="col-md-12 form-group p_star mt-3">
                                     <label htmlFor="city"> {t('checkout_city')}</label>
-                                    <select id="city" value={selectedCity} onChange={handleCityChange} className="country_select ">
+                                    <select id="city" value={selectedCity} onChange={handleCityChange} className="country_select " required>
                                         <option value="" disabled> {t('checkout_city_select')}</option>
                                         {cities.map((city) => (
-                                            <option key={city.Id} value={city.Id}>
+                                            <option key={city.Id} value={city.Id} data-population={city.Name}>
                                                 {city.Name}
                                             </option>
                                         ))}
@@ -248,10 +354,10 @@ const CheckoutPage = () => {
                                 </div>
                                 <div className="col-md-12 form-group p_star">
                                     <label htmlFor="district"> {t('checkout_district')}</label>
-                                    <select id="district" value={selectedDistrict} onChange={handleDistrictChange} className="country_select ">
+                                    <select id="district" value={selectedDistrict} onChange={handleDistrictChange} className="country_select " aria-required>
                                         <option value="" disabled> {t('checkout_district_select')}</option>
                                         {districts.map((district) => (
-                                            <option key={district.Id} value={district.Id}>
+                                            <option key={district.Id} value={district.Id} data-population={district.Name}>
                                                 {district.Name}
                                             </option>
                                         ))}
@@ -259,10 +365,10 @@ const CheckoutPage = () => {
                                 </div>
                                 <div className="col-md-12 form-group p_star">
                                     <label htmlFor="ward"> {t('checkout_ward')}</label>
-                                    <select id="ward" value={selectedWard} onChange={handleWardChange} className="country_select">
-                                        <option value="" disabled> {t('checkout_ward_select')}</option>
+                                    <select id="ward" value={selectedWard} onChange={handleWardChange} className="country_select" required>
+                                        <option value="" disabled>{t('checkout_ward_select')}</option>
                                         {wards.map((ward) => (
-                                            <option key={ward.Id} value={ward.Id}>
+                                            <option key={ward.Id} value={ward.Id} data-population={ward.Name}>
                                                 {ward.Name}
                                             </option>
                                         ))}
@@ -271,12 +377,16 @@ const CheckoutPage = () => {
 
                                 <div className="col-md-12 form-group p_star">
                                     {t('checkout_address')}
-                                    <input
+                                    <TextInput
                                         type="text"
-                                        className="form-control"
                                         id="customerAddress"
                                         name="customerAddress"
-                                        placeholder={t('checkout_address')} />
+                                        placeholder={t('checkout_address')}
+                                        value={values.customerAddress}
+                                        onChange={handleChange}
+                                        withAsterisk
+                                        {...form.getInputProps('customerAddress')}
+                                    />
                                 </div>
 
 
@@ -293,54 +403,93 @@ const CheckoutPage = () => {
                                 </div> */}
 
                             </div>
-                            <div className="col-lg-4">
+                            <div className="col-lg-5">
                                 <div className="order_box">
                                     <h2>{t('checkout_your_order')}</h2>
-                                    <ul className="list">
-                                        <li><Link href="#" className="the_a_checkout">{t('checkout_your_order_product')} <span>{t('checkout_your_order_total')}</span></Link></li>
-                                        {productOnCart.map((item) => (
-                                            <li>
-                                                <Link href="#" className="the_a_checkout">{item.productName}
-                                                    <span className="middle">x {item.quantity}</span>
-                                                    <span className="last">{formatCurrency(item.totalPrice)}</span>
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
+                                    <table className="cart-table" width={"100%"}>
+                                        <thead>
+                                            <tr>
+                                                <th>{t('checkout_your_order_product')}</th>
+                                                <th>{t('checkout_your_order_quantity')}</th>
+                                                <th>{t('checkout_your_order_total')}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {productOnCart.map((item) => (
+                                                <tr key={item.productId}>
+                                                    <td>
+                                                        {item.productName}
+                                                    </td>
+                                                    <td>
+                                                        {item.quantity}
+                                                    </td>
+                                                    <td>
+                                                        {formatCurrency(item.totalPrice)}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+
                                     <ul className="list list_2">
-                                        <li><Link href="#" className="the_a_checkout">{t('checkout_your_order_subtotal')} <span>{formatCurrency(totalPriceCart)}</span></Link></li>
+                                        <li>
+                                            <Link className="the_a_checkout">{t('checkout_your_order_subtotal')}
+                                                <span>
+                                                    {formatCurrency(totalPriceCart)}
+                                                </span>
+                                            </Link>
+                                        </li>
                                         {/* <li><Link href="#" className="the_a_checkout">Shipping <span>Flat rate: $50.00</span></Link></li>
                                     <li><Link href="#" className="the_a_checkout">Total <span>$2210.00</span></Link></li> */}
                                     </ul>
-                                    <div className="payment_item">
-                                        <div className="radion_btn">
-                                            <input type="radio" id="ship_cod" name="selector" />
-                                            <label for="ship_cod">{t('checkout_your_order_cod')}</label>
-                                            <div className="check"></div>
+                                    <div className="payment_item" >
+                                        <div className='radio_payment'>
+                                            <label htmlFor="ship_cod" className='mr-1'>{t('checkout_your_order_cod')}</label>
+                                            <Radio
+                                                type="radio"
+                                                id="ship_cod"
+                                                name="selector"
+                                                value="1" // Set a value for the COD payment method
+                                                checked={selectedPaymentMethod === '1'} // Check if it's selected
+                                                onChange={() => setSelectedPaymentMethod('1')} // Update the state when selected
+                                            />
+
                                         </div>
+                                        <div className="check mt-2"></div>
                                         <p>{t('checkout_your_order_cod_des')}</p>
                                     </div>
-                                    <div className="payment_item active">
-                                        <div className="radion_btn">
-                                            <input type="radio" id="vnpay" name="selector" />
-                                            <label for="vnpay">VNPay </label>
-                                            <div className="check"></div>
+                                    <div className="payment_item">
+                                        <div className='radio_payment'>
+                                            <label htmlFor="vnpay" className='mr-1'>VNPay </label>
+                                            <Radio
+                                                type="radio"
+                                                id="vnpay"
+                                                name="selector"
+                                                value="2" // Set a value for the VNPay payment method
+                                                checked={selectedPaymentMethod === '2'} // Check if it's selected
+                                                onChange={() => setSelectedPaymentMethod('2')} // Update the state when selected
+                                            />
                                         </div>
+                                        <div className="check mt-2"></div>
                                         <p>{t('checkout_your_order_vnpay_des')}</p>
                                     </div>
-                                    <div className="create_account">
+
+                                    {/* <div className="create_account">
                                         <input type="checkbox" id="f-option4" name="selector" />
                                         <label for="f-option4">{t('checkout_your_order_license1')} </label>
                                         <Link href="#" className="the_a_checkout terms"><span>{t('checkout_your_order_license2')}</span></Link>
-                                    </div>
-                                    <Link className="primary-btn the_a_checkout" >{t('checkout_proceed')}</Link>
+                                    </div> */}
+                                    <button type="submit" className={`primary-btn the_a_checkout ${!isValid ? 'disabled' : ''}`}>
+                                        {t('checkout_proceed')}
+
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
-        </section>
+        </section >
     </>
 };
 

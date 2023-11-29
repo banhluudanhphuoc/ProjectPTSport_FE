@@ -3,7 +3,8 @@ import { CartProvider, useCart } from "react-use-cart";
 import './style.scss';
 import { Link } from "react-router-dom";
 import Banner from "../../users/theme/banner";
-
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { useTranslation } from "react-i18next";
 const Confirmation = () => {
     const { t, i18n } = useTranslation();
@@ -12,17 +13,14 @@ const Confirmation = () => {
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
     };
-    const {
-        isEmpty,
-        totalUniqueItems,
-        items,
-        updateItemQuantity,
-        removeItem,
-        cartTotal,
-        emptyCart,
-        clearCartMetadata
-    } = useCart();
+    const navigate = useNavigate();
+    useEffect(() => {
+        const userToken = Cookies.get('userToken');
+        if (!userToken) {
+            navigate('/login-user');
+        }
 
+    }, [navigate]);
 
 
     return <>
@@ -30,8 +28,16 @@ const Confirmation = () => {
         <Banner pageTitle={t('pageTitle_confirmation')} />
         <section class="order_details section_gap">
             <div class="container">
-                <h3 class="title_confirmation">{t('confirmation_thank')}</h3>
-                <div class="row order_d_inner">
+
+                <div className="row">
+                    <h3 class="title_confirmation">{t('confirmation_thank')}</h3>
+                    <div className="col-md-12 custom_button_see_status_order">
+                        <Link to={'/profile-customer'} className="btn btn-primary">
+                            {t('confirmation_see_status_order')}
+                        </Link>
+                    </div>
+                </div>
+                {/* <div class="row order_d_inner">
                     <div class="col-lg-6">
                         <div class="details_item">
                             <h4>{t('confirmation_order_info')}</h4>
@@ -47,12 +53,7 @@ const Confirmation = () => {
                     <div class="col-lg-6">
                         <div class="details_item">
                             <h4>{t('confirmation_shipping_address')}</h4>
-                            <ul class="list">
-                                <li><Link href="#" className="custom_the_a"><span>{t('confirmation_address')}</span> : 56/8</Link></li>
-                                <li><Link href="#" className="custom_the_a"><span>{t('confirmation_city')}</span> : Los Angeles</Link></li>
-                                <li><Link href="#" className="custom_the_a"><span>{t('confirmation_district')}</span> : United States</Link></li>
-                                <li><Link href="#" className="custom_the_a"><span>{t('confirmation_ward')} </span> : 36952</Link></li >
-                            </ul >
+                            <span>{t('confirmation_address')}</span> :
                         </div >
                     </div >
                 </div >
@@ -115,7 +116,7 @@ const Confirmation = () => {
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div> */}
             </div >
         </section >
 

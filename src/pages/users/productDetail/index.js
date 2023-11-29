@@ -20,8 +20,12 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { FaRegHeart, FaHeart, FaEye } from "react-icons/fa";
+import { FaRegHeart, FaHeart, FaEye, FaRegStar, FaStar } from "react-icons/fa";
+import Rating from "react-rating";
+import CommentSection from "components/user/facebook/comment";
+
 const ProductDetail = () => {
+    const postUrl = process.env.REACT_APP_URL;
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
     const handleLanguageChange = (newLanguage, lng) => {
@@ -175,27 +179,27 @@ const ProductDetail = () => {
     const stars = document.querySelectorAll('.star');
     stars.forEach((star, index) => {
         star.addEventListener('mouseover', () => {
-            // Thay đổi class của biểu tượng Font Awesome khi hover
-            star.querySelector('i').classList.remove('fa-star-o');
-            star.querySelector('i').classList.add('fa-star');
+            // Thay đổi className của biểu tượng Font Awesome khi hover
+            star.querySelector('i').classNameList.remove('fa-star-o');
+            star.querySelector('i').classNameList.add('fa-star');
         });
 
         star.addEventListener('mouseout', () => {
-            // Đảm bảo rằng class đã chuyển đổi được đổi trở lại sau khi hover
-            if (!star.classList.contains('active')) {
-                star.querySelector('i').classList.remove('fa-star');
-                star.querySelector('i').classList.add('fa-star-o');
+            // Đảm bảo rằng className đã chuyển đổi được đổi trở lại sau khi hover
+            if (!star.classNameList.contains('active')) {
+                star.querySelector('i').classNameList.remove('fa-star');
+                star.querySelector('i').classNameList.add('fa-star-o');
             }
         });
 
         star.addEventListener('click', () => {
             // Xóa lớp 'active' khỏi tất cả các ngôi sao
             stars.forEach((s, i) => {
-                s.classList.remove('active');
+                s.classNameList.remove('active');
             });
             // Thêm lớp 'active' cho các ngôi sao từ vị trí 0 đến vị trí được click
             for (let i = 0; i <= index; i++) {
-                stars[i].classList.add('active');
+                stars[i].classNameList.add('active');
             }
         });
     });
@@ -203,12 +207,14 @@ const ProductDetail = () => {
 
     return (
         <>
+
+
             <NotificationContainer />
             <Banner pageTitle={product.name} />
-            <div class="product_image_area">
-                <div class="container">
-                    <div class="row s_product_inner">
-                        <div class="col-lg-6">
+            <div className="product_image_area">
+                <div className="container">
+                    <div className="row s_product_inner">
+                        <div className="col-lg-6">
 
                             <div className="image-gallery-container">
                                 <div className="main-image-container">
@@ -218,7 +224,7 @@ const ProductDetail = () => {
                                         className="main-image"
                                     />
                                 </div>
-                                <OwlCarousel className="owl-theme" loop margin={10} nav>
+                                <OwlCarousel className="owl-theme" margin={10} >
                                     {product.listImage && (
                                         product.listImage.map((image) => (
                                             <div className="thumbnail-item">
@@ -234,16 +240,16 @@ const ProductDetail = () => {
                                 </OwlCarousel>
                             </div>
                         </div>
-                        <div class="col-lg-5 offset-lg-1">
-                            <div class="s_product_text">
+                        <div className="col-lg-5 offset-lg-1">
+                            <div className="s_product_text">
                                 <h3>{product.name}</h3>
-                                <div class="price">
+                                <div className="price">
                                     <h2>{formatCurrency(product.price)}</h2>
-                                    {/* <h5 class="l-through">$210.00</h5> */}
+                                    {/* <h5 className="l-through">$210.00</h5> */}
                                 </div>
 
-                                <ul class="list">
-                                    {/* <li><Link class="active" href="#"><span>Category</span> : Household</Link></li> */}
+                                <ul className="list">
+                                    {/* <li><Link className="active" href="#"><span>Category</span> : Household</Link></li> */}
                                     {product.totalQuantity > 0 ? (
                                         <li><Link href="#" className="stock-product-detail"><span>Còn hàng</span></Link></li>
 
@@ -252,15 +258,15 @@ const ProductDetail = () => {
                                 </ul>
                                 <div dangerouslySetInnerHTML={{ __html: product.description }}></div>
 
-                                <div class="card_area d-flex align-items-center">
+                                <div className="card_area d-flex align-items-center">
                                     {product.totalQuantity > 0 && (
-                                        <Link class="primary-btn btn-product-detail" to="/cart" onClick={() => handleAddToCart(product)}>Add to Cart</Link>
+                                        <Link className="primary-btn btn-product-detail" to="/cart" onClick={() => handleAddToCart(product)}>Add to Cart</Link>
                                     )}
                                     {isProductInWishlist(productsWishList, product.id) ? (
-                                        <Link class="icon_btn btn-product-detail" to={'/wish-list'}><span><FaHeart /></span></Link>
+                                        <Link className="icon_btn btn-product-detail" to={'/wish-list'}><span><FaHeart /></span></Link>
 
                                     ) : (
-                                        <Link class="icon_btn btn-product-detail" onClick={addToWishlist}><span><FaRegHeart /></span></Link>
+                                        <Link className="icon_btn btn-product-detail" onClick={addToWishlist}><span><FaRegHeart /></span></Link>
                                     )
                                     }
 
@@ -297,7 +303,7 @@ const ProductDetail = () => {
                             </Tab.Pane>
                             <Tab.Pane eventKey="size-chart">
                                 <div className="container mt-5 mb-5 ">
-                                    <div class="table-responsive">
+                                    <div className="table-responsive">
                                         <img src={SizeChart} alt="" />
                                     </div>
                                 </div>
@@ -308,88 +314,40 @@ const ProductDetail = () => {
                                     <Col md='6'>
                                         <Row>
                                             <Col>
-                                                <div class="review_item">
-                                                    <div class="media">
-                                                        <div class="d-flex">
-                                                            <img src={ImgReview1} alt="" />
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h4>Blake Ruiz</h4>
-                                                            <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                                            <Link class="reply_btn" href="#">Reply</Link>
-                                                        </div>
-                                                    </div>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                        commodo</p>
+                                                <div className="review_item">
+                                                    <CommentSection url={postUrl} />
                                                 </div>
                                             </Col>
                                         </Row>
-                                        <Row>
-                                            <Col >
-                                                <div class="review_item mt-2">
-                                                    <div class="media">
-                                                        <div class="d-flex">
-                                                            <img src={ImgReview3} alt="" />
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h4>Blake Ruiz</h4>
-                                                            <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                                            <Link class="reply_btn" href="#">Reply</Link>
-                                                        </div>
-                                                    </div>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                        commodo</p>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col >
-                                                <div class="review_item mt-2">
-                                                    <div class="media">
-                                                        <div class="d-flex">
-                                                            <img src={ImgReview2} alt="" />
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h4>Blake Ruiz</h4>
-                                                            <h5>12th Feb, 2018 at 05:56 pm</h5>
-                                                            <Link class="reply_btn" href="#">Reply</Link>
-                                                        </div>
-                                                    </div>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                        commodo</p>
-                                                </div>
-                                            </Col>
-                                        </Row>
+
+
                                     </Col>
                                     <Col md='6'>
-                                        <div class="review_box">
+                                        <div className="review_box">
                                             <h4>{t('product_detail_post_comment')}</h4>
-                                            <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control" id="name" name="name" placeholder={t('product_detail_post_comment_name')} />
+                                            <form className="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                                                <div className="col-md-12">
+                                                    <div className="form-group">
+                                                        <input type="text" className="form-control" id="name" name="name" placeholder={t('product_detail_post_comment_name')} />
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <input type="email" class="form-control" id="email" name="email" placeholder={t('product_detail_post_comment_email')} />
+                                                <div className="col-md-12">
+                                                    <div className="form-group">
+                                                        <input type="email" className="form-control" id="email" name="email" placeholder={t('product_detail_post_comment_email')} />
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control" id="number" name="number" placeholder={t('product_detail_post_comment_number')} />
+                                                <div className="col-md-12">
+                                                    <div className="form-group">
+                                                        <input type="text" className="form-control" id="number" name="number" placeholder={t('product_detail_post_comment_number')} />
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <textarea class="form-control" name="message" id="message" rows="1" placeholder={t('product_detail_post_comment_message')}></textarea>
+                                                <div className="col-md-12">
+                                                    <div className="form-group">
+                                                        <textarea className="form-control" name="message" id="message" rows="1" placeholder={t('product_detail_post_comment_message')}></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12 text-right">
-                                                    <button type="submit" value="submit" class="btn primary-btn">{t('product_detail_post_comment_submit')}</button>
+                                                <div className="col-md-12 text-right">
+                                                    <button type="submit" value="submit" className="btn primary-btn">{t('product_detail_post_comment_submit')}</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -399,149 +357,62 @@ const ProductDetail = () => {
                             </Tab.Pane>
                             <Tab.Pane eventKey="review">
                                 <Container className="mt-3 mb-3">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="row total_rate">
-                                                <div class="col-6">
-                                                    <div class="box_total_product mt-3">
+                                    <div className="row">
+                                        <div className="col-lg-6">
+                                            <div className="row total_rate">
+                                                {/* <div className="col-6">
+                                                    <div className="box_total_product mt-3">
                                                         <h5>Overall</h5>
                                                         <h4>4.0</h4>
                                                         <h6>(03 Reviews)</h6>
                                                     </div>
                                                 </div>
-                                                <div class="col-6">
-                                                    <div class="rating_list mt-3">
+                                                <div className="col-6">
+                                                    <div className="rating_list mt-3">
                                                         <h4>Based on 3 Reviews</h4>
-                                                        <ul class="list">
-                                                            <li>
-                                                                <Link href="#" className="link-star">5 Star
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    01
-                                                                </Link>
-                                                            </li>
-                                                            <li>
-                                                                <Link href="#" className="link-star">4 Star
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star-o"></i>
-                                                                    01
-                                                                </Link>
-                                                            </li>
-                                                            <li>
-                                                                <Link href="#" className="link-star">3 Star
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star-o"></i>
-                                                                    <i class="fa fa-star-o"></i>
-                                                                    01
-                                                                </Link>
-                                                            </li>
-                                                            <li>
-                                                                <Link href="#" className="link-star">2 Star
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star-o"></i>
-                                                                    <i class="fa fa-star-o"></i>
-                                                                    <i class="fa fa-star-o"></i>
-                                                                    01
-                                                                </Link>
-                                                            </li>
-                                                            <li>
-                                                                <Link href="#" className="link-star">1 Star
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star-o"></i>
-                                                                    <i class="fa fa-star-o"></i>
-                                                                    <i class="fa fa-star-o"></i>
-                                                                    <i class="fa fa-star-o"></i>
-                                                                    01
-                                                                </Link>
-                                                            </li>
-                                                        </ul>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
-                                            <div class="review_list">
-                                                <div class="review_item">
-                                                    <div class="media">
-                                                        <div class="d-flex">
-                                                            <img src={ImgReview1} alt="" />
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h4>Blake Ruiz</h4>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                        </div>
-                                                    </div>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                        commodo</p>
-                                                </div>
-                                                <div class="review_item">
-                                                    <div class="media">
-                                                        <div class="d-flex">
-                                                            <img src={ImgReview2} alt="" />
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h4>Blake Ruiz</h4>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                        </div>
-                                                    </div>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                        commodo</p>
-                                                </div>
-                                                <div class="review_item">
-                                                    <div class="media">
-                                                        <div class="d-flex">
+                                            <div className="review_list">
+
+                                                {/* <div className="review_item">
+                                                    <div className="media">
+                                                        <div className="d-flex">
                                                             <img src={ImgReview3} alt="" />
                                                         </div>
-                                                        <div class="media-body">
+                                                        <div className="media-body">
                                                             <h4>Blake Ruiz</h4>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
+                                                            <i className="fa fa-star"></i>
+                                                            <i className="fa fa-star"></i>
+                                                            <i className="fa fa-star"></i>
+                                                            <i className="fa fa-star"></i>
+                                                            <i className="fa fa-star"></i>
                                                         </div>
                                                     </div>
                                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                                                         dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
                                                         commodo</p>
-                                                </div>
+                                                </div> */}
+
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="review_box mt-3">
+                                        <div className="col-lg-6">
+                                            <div className="review_box mt-3">
                                                 <h4>{t('product_detail_post_review_add')}</h4>
                                                 <p>{t('product_detail_post_review_rate')}:</p>
-                                                <ul class="star-rating list">
-                                                    <li class="star"><i class="fa fa-star-o"></i></li>
-                                                    <li class="star"><i class="fa fa-star-o"></i></li>
-                                                    <li class="star"><i class="fa fa-star-o"></i></li>
-                                                    <li class="star"><i class="fa fa-star-o"></i></li>
-                                                    <li class="star"><i class="fa fa-star-o"></i></li>
+                                                <ul className="star-rating list">
+                                                    <Rating
+                                                        emptySymbol={<FaRegStar />}
+                                                        fullSymbol={<FaStar />}
+                                                    />
                                                 </ul>
 
-                                                <form class="row contact_form" action="" method="post" id="contactForm" novalidate="novalidate">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
+                                                <form className="row contact_form" action="" method="post" id="contactForm" novalidate="novalidate">
+                                                    <div className="col-md-12">
+                                                        <div className="form-group">
                                                             <input
                                                                 type="text"
-                                                                class="form-control"
+                                                                className="form-control"
                                                                 id="name"
                                                                 name="name"
                                                                 placeholder={t('product_detail_post_comment_name')}
@@ -550,11 +421,11 @@ const ProductDetail = () => {
                                                             />
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
+                                                    <div className="col-md-12">
+                                                        <div className="form-group">
                                                             <input
                                                                 type="email"
-                                                                class="form-control"
+                                                                className="form-control"
                                                                 id="email"
                                                                 name="email"
                                                                 placeholder={t('product_detail_post_comment_email')}
@@ -563,11 +434,11 @@ const ProductDetail = () => {
                                                             />
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
+                                                    <div className="col-md-12">
+                                                        <div className="form-group">
                                                             <input
                                                                 type="text"
-                                                                class="form-control"
+                                                                className="form-control"
                                                                 id="number"
                                                                 name="number"
                                                                 placeholder={t('product_detail_post_comment_number')}
@@ -576,10 +447,10 @@ const ProductDetail = () => {
                                                             />
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
+                                                    <div className="col-md-12">
+                                                        <div className="form-group">
                                                             <textarea
-                                                                class="form-control"
+                                                                className="form-control"
                                                                 name="message"
                                                                 id="message"
                                                                 rows="1"
@@ -590,8 +461,8 @@ const ProductDetail = () => {
                                                             </textarea>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12 text-right">
-                                                        <button type="submit" value="submit" class="primary-btn">{t('product_detail_post_comment_submit')}</button>
+                                                    <div className="col-md-12 text-right">
+                                                        <button type="submit" value="submit" className="primary-btn">{t('product_detail_post_comment_submit')}</button>
                                                     </div>
                                                 </form>
                                             </div>

@@ -32,6 +32,13 @@ const CategoryPage = () => {
     });
     const [productsFilter, setProductsFilter] = useState([]);
 
+    const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
+    const auth = process.env.REACT_APP_API_URL_AUTH;
+    const [user, setUser] = useState([]);
+    const [productsWishList, setProductsWishList] = useState([]);
+    const userToken = Cookies.get('userToken');
+
     const api = process.env.REACT_APP_API_URL;
     const location = useLocation();
 
@@ -39,6 +46,7 @@ const CategoryPage = () => {
     const parts = pathname.split('/');
     const type = parts[1];
     const idFilter = parts[2];
+    const [cart, setCart] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -67,8 +75,6 @@ const CategoryPage = () => {
 
         fetchData();
     }, [api, type, idFilter]);
-    const [categories, setCategories] = useState([]);
-    const [brands, setBrands] = useState([]);
     useEffect(() => {
         const fetchCategories = async () => {
             try {
@@ -96,11 +102,8 @@ const CategoryPage = () => {
         fetchCategories();
     }, [api]);
 
-    const auth = process.env.REACT_APP_API_URL_AUTH;
-    const [user, setUser] = useState([]);
-    const [productsWishList, setProductsWishList] = useState([]);
+
     useEffect(() => {
-        const userToken = Cookies.get('userToken');
 
         const fetchMe = async () => {
             try {
@@ -159,7 +162,7 @@ const CategoryPage = () => {
 
 
 
-    const addToCart = (cartItem) => {
+    const addToCart = (cartItem, cartItem2) => {
         fetch(api + `/cart/${user.userId}`, {
             method: 'PUT',
             headers: {
@@ -167,27 +170,48 @@ const CategoryPage = () => {
             },
             body: JSON.stringify(cartItem),
         })
-        addItem(cartItem);
+            .then((response) => response.json())
+            .then((data) => {
+                setCart(data.itemList);
+            })
+            .catch((error) => {
+                console.error('Error adding to cart:', error);
+            });
+        addItem(cartItem2);
     };
 
+
     const handleAddToCart = (item) => {
-        const cartItem = {
-            id: item.id,
-            productID: item.id, // ID thực của sản phẩm
-            productName: item.name,
-            sizeID: 2,
-            colorID: 2,
-            image: item.listImage[0].path,
-            quantity: 1,
-            price: item.price,
-            totalPrice: item.price,
-        };
-        // Xử lý thêm sản phẩm vào giỏ hàng ở đây
-        addToCart(cartItem);
-        // Hiển thị thông báo thành công
-        NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
-            navigate("/cart");
-        });
+        if (!userToken) {
+            NotificationManager.error(t('message_fail_add_to_cart'), t('message_failed'));
+        } else {
+            const cartItem2 = {
+                id: item.id,
+                productName: item.name,
+                sizeID: 2,
+                colorID: 2,
+                image: item.listImage[0].path,
+                quantity: 1,
+                price: item.price,
+                totalPrice: item.price,
+            };
+            const cartItem = {
+                productID: item.id, // ID thực của sản phẩm
+                productName: item.name,
+                sizeID: 2,
+                colorID: 2,
+                image: item.listImage[0].path,
+                quantity: 1,
+                price: item.price,
+                totalPrice: item.price,
+            };
+            addToCart(cartItem, cartItem2);
+
+            // Hiển thị thông báo thành công
+            NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
+                navigate("/cart");
+            });
+        }
     };
 
     return (

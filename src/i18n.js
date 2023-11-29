@@ -120,8 +120,9 @@ const resources = {
             "checkout_your_order_license1": "Tôi đã đọc và chấp nhận",
             "checkout_your_order_license2": "điều khoản và điều kiện*",
             "checkout_proceed": "Thanh toán",
+            "checkout_your_order_quantity": "Số lượng",
 
-            "confirmation_thank": "Cảm ơn bạn. Đơn hàng của bạn đã được nhận.",
+            "confirmation_thank": "Cảm ơn bạn. Đơn hàng của bạn đang được xác nhận.",
             "confirmation_order_info": "Thông tin đơn hàng",
             "confirmation_order_number": "Mã đơn hàng",
             "confirmation_date": "Ngày",
@@ -136,6 +137,8 @@ const resources = {
             "confirmation_product": "Sản phẩm",
             "confirmation_quantity": "Số lượng",
             "confirmation_subtotal": "Tổng thanh toán ",
+            "confirmation_see_status_order": "Xem trạng thái đơn hàng",
+
 
             "login_ques": "Mới vào trang web của chúng tôi",
             "login_plese": "Hãy nhanh tay đăng ký để nhận được nhiều ưu đãi nhất",
@@ -246,6 +249,28 @@ const resources = {
             "message_success_add_wish_list": "Thêm vào danh sách Yêu thích thành công",
             "message_success": "Thành Công",
             "message_success_delete_wish_list": "Xóa ra khỏi danh sách Yêu thích thành công",
+            "message_fail_add_to_cart": "Cần đăng nhập để mua hàng",
+            "message_success_delete_to_cart": "Sản phẩm đã được xóa khỏi giỏ hàng",
+
+            "modal_delete_wishlist_title": "Xác nhận xóa sản phẩm",
+            "modal_delete_wishlist": "Bạn có chắc chắn muốn xóa sản phẩm này khỏi danh sách Yêu thích?",
+            "modal_delete_wishlist_yes": "Xác nhận",
+            "modal_delete_wishlist_no": "Hủy",
+
+            "modal_delete_cart_title": "Xác nhận xóa sản phẩm",
+            "modal_delete_cart": "Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?",
+            "modal_delete_cart_yes": "Xác nhận",
+            "modal_delete_cart_no": "Hủy",
+
+            "checkout_validation_name": "Nhập tên !!! (Ít nhất 2 kí tự)",
+            "checkout_validation_address": "Nhập địa chỉ giao hàng !!!",
+            "checkout_validation_phone_empty": "Nhập số điện thoại nhận hàng !!!",
+            "checkout_validation_phone_number_length_10": "Số điện thoại phải có 10 số !!!",
+            "checkout_validation_phone_start_0": "Số điện thoại phải bắt đầu bằng số 0 !!!",
+            "checkout_validation_city": "Vui lòng chọn Tỉnh/Thành Phố",
+            "checkout_validation_district": "Vui lòng chọn Quận/Huyện",
+            "checkout_validation_ward": "Vui lòng chọn Phường/Thị Trấn",
+            "checkout_validation_method_payment": "Vui lòng chọn phương thức thanh toán",
 
         }
     },
@@ -363,6 +388,7 @@ const resources = {
             "checkout_your_order_license1": "I’ve read and accept the",
             "checkout_your_order_license2": "terms & conditions*",
             "checkout_proceed": "Proceed",
+            "checkout_your_order_quantity": "Quantity",
 
             "confirmation_thank": "Thank you. Your order has been received.",
             "confirmation_order_info": "Order Info",
@@ -379,6 +405,7 @@ const resources = {
             "confirmation_product": "Product",
             "confirmation_quantity": "Quantity",
             "confirmation_subtotal": "Total",
+            "confirmation_see_status_order": "See order status",
 
             "login_ques": "New to our website",
             "login_plese": "Please register quickly to receive the most incentives",
@@ -489,6 +516,28 @@ const resources = {
             "message_success_add_wish_list": "Successfully added to Wish list",
             "message_success": "Success",
             "message_success_delete_wish_list": "Successfully removed from Wish list",
+            "message_fail_add_to_cart": "Need to log in to purchase",
+            "message_success_delete_to_cart": "The product has been removed from the cart",
+
+            "modal_delete_wishlist_title": "Confirm product deletion",
+            "modal_delete_wishlist": "Are you sure you want to remove this product from your Wishlist?",
+            "modal_delete_wishlist_yes": "Confirm",
+            "modal_delete_wishlist_no": "Cancel",
+
+            "modal_delete_cart_title": "Confirm product deletion",
+            "modal_delete_cart": "Are you sure you want to delete this product from the cart?",
+            "modal_delete_cart_yes": "Confirm",
+            "modal_delete_cart_no": "Cancel",
+
+            "checkout_validation_name": "Enter name !!! (At least 2 characters)",
+            "checkout_validation_address": "Enter shipping address !!!",
+            "checkout_validation_phone_empty": "Enter delivery phone number!!!",
+            "checkout_validation_phone_number_length_10": "Phone number must have 10 digits !!!",
+            "checkout_validation_phone_start_0": "Phone number must start with 0 !!!",
+            "checkout_validation_city": "Please select Province/City",
+            "checkout_validation_district": "Please select a District",
+            "checkout_validation_ward": "Please select Ward/Town",
+            "checkout_validation_method_payment": "Please select a payment method",
 
         }
     }

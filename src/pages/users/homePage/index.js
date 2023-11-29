@@ -42,6 +42,9 @@ import { useTranslation } from "react-i18next";
 import PropTypes from 'prop-types';
 import { CartProvider, useCart } from "react-use-cart";
 
+import MyChatComponent from 'components/user/facebook/chat';
+// import MyChatComponent from 'components/user/chat';
+
 const HomePage = () => {
 
     const { addItem } = useCart();
@@ -54,18 +57,22 @@ const HomePage = () => {
     };
 
     const [showModal, setShowModal] = useState(false);
-
-
+    const [products, setProducts] = useState([]);
+    const api = process.env.REACT_APP_API_URL;
+    const navigate = useNavigate();
     const nike = process.env.REACT_APP_BRAND_NIKE;
     const puma = process.env.REACT_APP_BRAND_PUMA;
     const adidas = process.env.REACT_APP_BRAND_ADIDAS;
     const fila = process.env.REACT_APP_BRAND_FILA;
     const champion = process.env.REACT_APP_BRAND_CHAMPION;
+    const clothes = process.env.REACT_APP_CATEGORY_CLOTHES;
+    const shoes = process.env.REACT_APP_CATEGORY_SHOES;
+    const equiment = process.env.REACT_APP_CATEGORY_EQUIMENT;
 
     const auth = process.env.REACT_APP_API_URL_AUTH;
 
     const [cart, setCart] = useState([]);
-    const addToCart = (cartItem) => {
+    const addToCart = (cartItem, cartItem2) => {
         fetch(api + `/cart/${user.userId}`, {
             method: 'PUT',
             headers: {
@@ -80,17 +87,25 @@ const HomePage = () => {
             .catch((error) => {
                 console.error('Error adding to cart:', error);
             });
-        addItem(cartItem);
+        addItem(cartItem2);
     };
 
-    const navigate = useNavigate();
+
     const handleAddToCart = (item) => {
         if (!userToken) {
-            NotificationManager.error("Cần đăng nhập để mua hàng", "Không thành công");
+            NotificationManager.error(t('message_fail_add_to_cart'), t('message_failed'));
         } else {
-
-            const cartItem = {
+            const cartItem2 = {
                 id: item.id,
+                productName: item.name,
+                sizeID: 2,
+                colorID: 2,
+                image: item.listImage[0].path,
+                quantity: 1,
+                price: item.price,
+                totalPrice: item.price,
+            };
+            const cartItem = {
                 productID: item.id, // ID thực của sản phẩm
                 productName: item.name,
                 sizeID: 2,
@@ -100,7 +115,7 @@ const HomePage = () => {
                 price: item.price,
                 totalPrice: item.price,
             };
-            addToCart(cartItem);
+            addToCart(cartItem, cartItem2);
 
             // Hiển thị thông báo thành công
             NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
@@ -109,8 +124,7 @@ const HomePage = () => {
         }
     };
 
-    const [products, setProducts] = useState([]);
-    const api = process.env.REACT_APP_API_URL;
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -151,6 +165,7 @@ const HomePage = () => {
 
                 // Call fetchProducts after setUser
                 fetchProductsWishList(response.data.userId);
+
             } catch (error) {
                 console.error('Error fetching Brand:', error);
             }
@@ -173,7 +188,21 @@ const HomePage = () => {
 
         fetchMe();
     }, [api, auth]);
+
+    // const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
+    // const FACEBOOK_PAGE_ID = process.env.FACEBOOK_PAGE_ID;
+    // const FACEBOOK_REF_STRING = process.env.FACEBOOK_REF_STRING;
+
     return (<>
+
+
+        {/* <MyChatComponent
+            pageId={FACEBOOK_PAGE_ID}
+            appId={FACEBOOK_APP_ID}
+            htmlRef={FACEBOOK_REF_STRING}
+        /> */}
+
+        <MyChatComponent />
 
         <NotificationContainer />
         <section className="banner-area d-block">
@@ -274,7 +303,7 @@ const HomePage = () => {
                                 <div className="single-deal">
                                     <div className="overlay"></div>
                                     <img className="img-fluid w-100" src={category2} alt="" />
-                                    <Link className="img-pop-up" target="_blank" to={"/category-page/2"}>
+                                    <Link className="img-pop-up" target="_blank" to={"/category-page/" + clothes}>
                                         <div className="deal-details">
                                             <h6 className="deal-title">{t('category_clothes')}</h6>
                                         </div>
@@ -285,7 +314,7 @@ const HomePage = () => {
                                 <div className="single-deal">
                                     <div className="overlay"></div>
                                     <img className="img-fluid w-100" src={category3} alt="" />
-                                    <Link className="img-pop-up" target="_blank" to={"/category-page/10"}>
+                                    <Link className="img-pop-up" target="_blank" to={"/category-page/" + equiment}>
                                         <div className="deal-details">
                                             <h6 className="deal-title">{t('category_accessories')}</h6>
                                         </div>
@@ -296,7 +325,7 @@ const HomePage = () => {
                                 <div className="single-deal">
                                     <div className="overlay"></div>
                                     <img className="img-fluid w-100" src={category4} alt="" />
-                                    <Link className="img-pop-up" target="_blank" to={"/category-page/3"}>
+                                    <Link className="img-pop-up" target="_blank" to={"/category-page/" + shoes}>
                                         <div className="deal-details">
                                             <h6 className="deal-title">{t('category_shoes')}</h6>
                                         </div>

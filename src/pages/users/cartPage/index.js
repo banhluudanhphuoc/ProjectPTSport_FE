@@ -22,38 +22,26 @@ const CartPage = () => {
     } = useCart();
 
     const { t, i18n } = useTranslation();
-
-
-    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-    const [itemToRemove, setItemToRemove] = useState(null);
-
-    const handleDeleteProduct = (item) => {
-        setItemToRemove(item);
-        setShowConfirmationModal(true);
-    };
-    const navigate = useNavigate();
-
-    const confirmDeleteProduct = () => {
-        if (itemToRemove) {
-            removeItem(itemToRemove.id);
-            setItemToRemove(null);
-            setShowConfirmationModal(false);
-            NotificationManager.success(
-                'Sản phẩm đã được xóa khỏi giỏ hàng',
-                'Xóa sản phẩm',
-                2000
-            );
-        }
-    };
-
+    const userToken = Cookies.get('userToken');
     const [user, setUser] = useState([]);
     const [totalItemOnCart, setTotalItemOnCart] = useState([]);
     const [totalPriceCart, setTotalPriceCart] = useState([]);
     const [productOnCart, setProductOnCart] = useState([]);
     const api = process.env.REACT_APP_API_URL;
     const auth = process.env.REACT_APP_API_URL_AUTH;
+
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const [itemToRemove, setItemToRemove] = useState(null);
+    const [idCartItem, setIdCartItem] = useState(null);
+    const navigate = useNavigate();
+
+
+
+
+
+
     useEffect(() => {
-        const userToken = Cookies.get('userToken');
+
 
         const fetchMe = async () => {
             try {
@@ -86,7 +74,8 @@ const CartPage = () => {
             try {
                 const response = await axios.get(api + '/cart/' + userId);
 
-                setProductOnCart(response.data.itemList);
+                setProductOnCart(response.data.itemList); // .itemList
+                //console.log(response);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
@@ -103,13 +92,140 @@ const CartPage = () => {
 
         fetchMe();
 
-    }, [api, auth]);
+    }, [api, auth, userToken]);
 
-    useEffect(() => {
-        if (totalItemOnCart === 0) {
-            navigate('/category-page');
+    // useEffect(() => {
+    //     if (totalUniqueItems === 0) {
+    //         navigate('/category-page');
+    //     }
+    // }, [totalUniqueItems]);
+
+
+    const handleDeleteProduct = (event, item) => {
+        event.preventDefault();
+        const idCartItem = getIdFromItemList(item, productOnCart);
+        if (idCartItem !== null) {
+            setIdCartItem(idCartItem);
+            setItemToRemove(item);
+            setShowConfirmationModal(true);
+        } else {
+            console.error('idCartItem is null or undefined.');
         }
-    }, [totalItemOnCart]);
+    };
+
+    function getIdFromItemList(items, productOnCart) {
+        if (Array.isArray(productOnCart)) {
+            const foundItem = productOnCart.find(item => item.productID === items.id);
+            return foundItem ? foundItem.id : null;
+        } else {
+            console.error('productOnCart is not an array or is undefined.');
+            return null;
+        }
+    }
+    function getIdFromItemList1(items, productOnCart) {
+        if (Array.isArray(productOnCart)) {
+            const foundItem = productOnCart.find(item => item.productID === items.id);
+            return foundItem ? foundItem.productID : null;
+        } else {
+            console.error('productOnCart is not an array or is undefined.');
+            return null;
+        }
+    }
+
+
+    const handleReduceProduct = async (event, item) => {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        const idItem = getIdFromItemList1(item, productOnCart);
+        const idCartItem = getIdFromItemList(item, productOnCart);
+
+        if (idCartItem !== null) {
+            try {
+                await axios.put(
+                    `${api}/cart/update/${user.userId}/${idCartItem}`,
+                    {
+                        "productID": idItem,
+                        "sizeID": 2,
+                        "colorID": 2,
+                        "quantity": item.quantity - 1
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                );
+
+                updateItemQuantity(item.id, item.quantity - 1);
+            } catch (error) {
+                // Handle the error if the request fails
+                console.error('Error updating product quantity on the server:', error);
+            }
+
+        } else {
+            console.error('idCartItem is null or undefined.');
+        }
+    };
+    const handleIncreaseProduct = async (event, item) => {
+        event.preventDefault();
+
+        const idItem = getIdFromItemList1(item, productOnCart);
+        const idCartItem = getIdFromItemList(item, productOnCart);
+
+        if (idCartItem !== null) {
+            try {
+                await axios.put(
+                    `${api}/cart/update/${user.userId}/${idCartItem}`,
+                    {
+                        "productID": idItem,
+                        "sizeID": 2,
+                        "colorID": 2,
+                        "quantity": item.quantity + 1
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                );
+
+                updateItemQuantity(item.id, item.quantity + 1);
+            } catch (error) {
+                // Handle the error if the request fails
+                console.error('Error updating product quantity on the server:', error);
+            }
+        } else {
+            console.error('idCartItem is null or undefined.');
+        }
+    };
+
+
+    const confirmDeleteProduct = async () => {
+        if (itemToRemove && idCartItem !== null) {
+            try {
+                await axios.put(api + '/cart/delete/?id=' + idCartItem, {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                removeItem(itemToRemove.id);
+                setItemToRemove(null);
+                setShowConfirmationModal(false);
+                NotificationManager.success(t('message_success_delete_to_cart'),
+                    t('message_success'),
+                    2000
+                );
+            } catch (error) {
+                console.error('Error deleting product:', error);
+            }
+        } else {
+            console.error('itemToRemove is null or undefined, or idCartItem is null.');
+        }
+    };
 
 
     function formatCurrency(amount) {
@@ -150,7 +266,7 @@ const CartPage = () => {
                                                     <div className="media-body media-body-custom">
                                                         <p>{item.productName}</p>
                                                         <span className="ml-5">
-                                                            <Link onClick={() => handleDeleteProduct(item)} >
+                                                            <Link onClick={(event) => handleDeleteProduct(event, item)}>
                                                                 <Icon icon="ph:x" />
                                                             </Link>
                                                         </span>
@@ -161,19 +277,37 @@ const CartPage = () => {
                                                 <h5>{formatCurrency(item.price)}</h5>
                                             </td>
                                             <td>
-                                                <div class="product_count">
-                                                    <input type="text" name="qty" id="sst" maxLength="12" value={item.quantity} title="Quantity:"
-                                                        class="input-text qty" />
-                                                    <div class="arrow-btn d-inline-flex flex-column">
-                                                        <button class="increase items-count" type="button" title="Increase Quantity" onClick={() => updateItemQuantity(item.id, item.quantity + 1)}>
+                                                <div className="product_count">
+                                                    <input
+                                                        type="text"
+                                                        name="qty"
+                                                        id="sst"
+                                                        maxLength="12"
+                                                        value={item.quantity}
+                                                        title="Quantity:"
+                                                        className="input-text qty"
+                                                    />
+                                                    <div className="arrow-btn d-inline-flex flex-column">
+                                                        <button
+                                                            className="increase items-count"
+                                                            type="button"
+                                                            title="Increase Quantity"
+                                                            onClick={(event) => handleIncreaseProduct(event, item)}
+                                                        >
                                                             <Icon icon="teenyicons:up-outline" />
                                                         </button>
-                                                        <button className="reduced items-count" type="button" title="Decrease Quantity" onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
-                                                            style={{ display: item.quantity === 1 ? 'none' : 'block' }}>
+                                                        <button
+                                                            className="reduced items-count"
+                                                            type="button"
+                                                            title="Decrease Quantity"
+                                                            onClick={(event) => handleReduceProduct(event, item)}
+                                                            style={{ display: item.quantity === 1 ? 'none' : 'block' }}
+                                                        >
                                                             <Icon icon="teenyicons:down-outline" />
                                                         </button>
                                                     </div>
                                                 </div>
+
                                             </td>
                                             <td>
                                                 <h5>{formatCurrency(item.itemTotal)}</h5>
@@ -276,17 +410,17 @@ const CartPage = () => {
             {showConfirmationModal && (
                 <Modal show={showConfirmationModal} onHide={() => setShowConfirmationModal(false)}>
                     <Modal.Header>
-                        <Modal.Title>Xác nhận xóa sản phẩm</Modal.Title>
+                        <Modal.Title>{t('modal_delete_cart_title')}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</p>
+                        <p>{t('modal_delete_cart')}</p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => setShowConfirmationModal(false)}>
-                            Hủy
+                            {t('modal_delete_cart_no')}
                         </Button>
                         <Button variant="primary" onClick={confirmDeleteProduct}>
-                            Xác nhận
+                            {t('modal_delete_cart_yes')}
                         </Button>
                     </Modal.Footer>
                 </Modal>
