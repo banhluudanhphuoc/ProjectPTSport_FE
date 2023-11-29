@@ -19,6 +19,7 @@ import {
     Select,
     Radio,
 } from '@mantine/core';
+import ReactLoading from 'react-loading';
 const CheckoutPage = () => {
     const userToken = Cookies.get('userToken');
     const {
@@ -37,6 +38,7 @@ const CheckoutPage = () => {
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
     };
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const [totalItemOnCart, setTotalItemOnCart] = useState([]);
     const [totalPriceCart, setTotalPriceCart] = useState([]);
@@ -234,7 +236,9 @@ const CheckoutPage = () => {
         fetchMe();
 
     }, [api, auth, userToken]);
-
+    function generateRandomTxnRef() {
+        return Math.floor(Math.random() * 1000000000); // Adjust the range as needed
+    }
 
     const handleSubmit = async () => {
 
@@ -250,7 +254,7 @@ const CheckoutPage = () => {
                         customerEmail: user.email,
                         customerPhone: values.customerPhone,
                     },
-                    string: 'vnp_OrderInfo=ORDER-123&vnp_ResponseCode=00&...',
+                    string: '',
                 },
                     {
                         headers: {
@@ -276,13 +280,35 @@ const CheckoutPage = () => {
                 console.error('Error submitting order:', error);
             }
         } else {
-            NotificationManager.error("Hệ thống đang bảo trì");
+            setIsLoading(true);
+            try {
+                const response = await axios.post(
+                    api + '/payment/pay',
+                    {
+                        userID: user.userId,
+                        vnp_TxnRef: generateRandomTxnRef(),
+                        vnp_OrderInfo: '2',
+                        vnp_OrderType: '200000',
+                        vnp_Amount: totalPriceCart,
+
+                    }
+                );
+                window.open(response.data, '_blank');
+            } catch (error) {
+                setIsLoading(false);
+                console.error('Error submitting order for alternative payment method:', error);
+            }
         }
 
     };
 
 
     return <>
+        {isLoading && (
+            <div className="loading-overlay">
+                <ReactLoading type="spinningBubbles" color="#FD8400" height={100} width={100} />
+            </div>
+        )}
         <NotificationContainer />
         <Banner pageTitle={t('pageTitle_checkout')} />
         <section className="checkout_area section_gap">

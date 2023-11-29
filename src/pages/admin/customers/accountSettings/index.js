@@ -240,7 +240,7 @@ const AccountSettings = () => {
                                             <button type="button" className="btn btn-primary me-2" onClick={handleSave}>
                                                 Lưu
                                             </button>
-                                            <button type="button" className="btn btn-outline-secondary" onClick={() => navigate(admin_url + '/dashboard')}>
+                                            <button type="button" className="btn btn-outline-secondary" onClick={() => navigate(admin_url + '/customers_list')}>
                                                 Hủy
                                             </button>
                                         </div>

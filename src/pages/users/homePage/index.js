@@ -288,10 +288,10 @@ const HomePage = () => {
                 <Row className='justify-content-center'>
                     <div className='col-lg-8 col-md-12' >
                         <Row>
-                            <div className='col-lg-8 col-md-8'>
+                            <div className='col-lg-8 col-md-8 '>
                                 <div className="single-deal">
                                     <div className="overlay"></div>
-                                    <img className="img-fluid w-100" src={category1} alt="" />
+                                    <img className="img-fluid w-100 category_home_custom" src={category1} alt="" />
                                     <Link className="img-pop-up" target="_blank" to={"/category-page"}>
                                         <div className="deal-details">
                                             <h6 className="deal-title">{t('category_featured')}</h6>
@@ -299,13 +299,13 @@ const HomePage = () => {
                                     </Link>
                                 </div>
                             </div>
-                            <div className='col-lg-4 col-md-4'>
+                            <div className='col-lg-4 col-md-4 '>
                                 <div className="single-deal">
                                     <div className="overlay"></div>
-                                    <img className="img-fluid w-100" src={category2} alt="" />
-                                    <Link className="img-pop-up" target="_blank" to={"/category-page/" + clothes}>
+                                    <img className="img-fluid w-100 category_home_custom" src={category3} alt="" />
+                                    <Link className="img-pop-up" target="_blank" to={"/category-page/" + shoes}>
                                         <div className="deal-details">
-                                            <h6 className="deal-title">{t('category_clothes')}</h6>
+                                            <h6 className="deal-title">{t('category_shoes')}</h6>
                                         </div>
                                     </Link>
                                 </div>
@@ -313,7 +313,7 @@ const HomePage = () => {
                             <div className='col-lg-4 col-md-4'>
                                 <div className="single-deal">
                                     <div className="overlay"></div>
-                                    <img className="img-fluid w-100" src={category3} alt="" />
+                                    <img className="img-fluid w-100 category_home_custom" src={category4} alt="" />
                                     <Link className="img-pop-up" target="_blank" to={"/category-page/" + equiment}>
                                         <div className="deal-details">
                                             <h6 className="deal-title">{t('category_accessories')}</h6>
@@ -324,10 +324,10 @@ const HomePage = () => {
                             <div className='col-lg-8 col-md-8'>
                                 <div className="single-deal">
                                     <div className="overlay"></div>
-                                    <img className="img-fluid w-100" src={category4} alt="" />
-                                    <Link className="img-pop-up" target="_blank" to={"/category-page/" + shoes}>
+                                    <img className="img-fluid w-100 category_home_custom" src={category2} alt="" />
+                                    <Link className="img-pop-up" target="_blank" to={"/category-page/" + clothes}>
                                         <div className="deal-details">
-                                            <h6 className="deal-title">{t('category_shoes')}</h6>
+                                            <h6 className="deal-title">{t('category_clothes')}</h6>
                                         </div>
                                     </Link>
                                 </div>
@@ -337,7 +337,7 @@ const HomePage = () => {
                     <div className='col-lg-4 col-md-6'>
                         <div className="single-deal">
                             <div className="overlay"></div>
-                            <img className="img-fluid w-100" src={category5} alt="" />
+                            <img className="img-fluid w-100 category_home_custom_1" src={category5} alt="" />
                             <Link className="img-pop-up" target="_blank" to={"#"}>
                                 <div className="deal-details">
                                     <h6 className="deal-title">{t('category_sale')}</h6>

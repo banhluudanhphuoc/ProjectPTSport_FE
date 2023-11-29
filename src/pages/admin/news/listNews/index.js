@@ -65,7 +65,7 @@ const NewsListAdmin = () => {
                                 <tr>
                                     <th>ID</th>
                                     <th>Tiêu đề</th>
-                                    <th>Trạng thái</th>
+                                    {/* <th>Trạng thái</th> */}
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -74,11 +74,11 @@ const NewsListAdmin = () => {
                                     <tr key={item.blogId}>
                                         <td>{item.blogId}</td>
                                         <td>{item.title}</td>
-                                        <td>
+                                        {/* <td>
                                             <span className={`badge ${item.isActive ? 'bg-label-primary' : 'bg-label-danger'} me-1`}>
                                                 {item.isActive ? 'Active' : 'Inactive'}
                                             </span>
-                                        </td>
+                                        </td> */}
                                         <td>
                                             <div className="dropdown">
                                                 <button type="button" className="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

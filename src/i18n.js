@@ -64,6 +64,7 @@ const resources = {
             "deals_of_the_week": "Ưu đãi trong tuần",
 
             "add_to_bag": "Mua",
+            "out_of_stock": "Hết Hàng",
             "wishlist": "Yêu thích",
             "quick_view": "Xem nhanh",
             "view_more": "Xem chi tiết",
@@ -251,6 +252,7 @@ const resources = {
             "message_success_delete_wish_list": "Xóa ra khỏi danh sách Yêu thích thành công",
             "message_fail_add_to_cart": "Cần đăng nhập để mua hàng",
             "message_success_delete_to_cart": "Sản phẩm đã được xóa khỏi giỏ hàng",
+            "message_total_quantity": "Vượt quá số lượng trong kho",
 
             "modal_delete_wishlist_title": "Xác nhận xóa sản phẩm",
             "modal_delete_wishlist": "Bạn có chắc chắn muốn xóa sản phẩm này khỏi danh sách Yêu thích?",
@@ -332,6 +334,7 @@ const resources = {
             "deals_of_the_week": "Deals of the Week",
 
             "add_to_bag": "Add to bag",
+            "out_of_stock": "Out of stock",
             "wishlist": "Wishlist",
             "quick_view": "Quick view",
             "view_more": "View more",
@@ -518,6 +521,7 @@ const resources = {
             "message_success_delete_wish_list": "Successfully removed from Wish list",
             "message_fail_add_to_cart": "Need to log in to purchase",
             "message_success_delete_to_cart": "The product has been removed from the cart",
+            "message_total_quantity": "Exceeded quantity in stock",
 
             "modal_delete_wishlist_title": "Confirm product deletion",
             "modal_delete_wishlist": "Are you sure you want to remove this product from your Wishlist?",

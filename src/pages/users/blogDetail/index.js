@@ -1,13 +1,10 @@
-import { memo, useState, useEffect } from "react";
-import "./style.scss";
 import axios from "axios";
-import Banner from "../../users/theme/banner";
+import { memo, useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
-import BlogImg1 from '../../../style/img/blog/main-blog/m-blog-1.jpg';
-import BlogImg2 from '../../../style/img/blog/main-blog/m-blog-2.jpg';
-import BlogDetailImg from '../../../style/img/blog/feature-img1.jpg';
 import { useTranslation } from "react-i18next";
 import { useParams } from 'react-router-dom';
+import Banner from "../../users/theme/banner";
+import "./style.scss";
 const BlogDetail = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');

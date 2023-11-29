@@ -5,7 +5,6 @@ import { Modal, Button, Image } from 'react-bootstrap';
 import axios from 'axios';
 import Banner from "pages/users/theme/banner";
 import { useTranslation } from "react-i18next";
-import product1 from 'style/img/product/p6.jpg';
 import { CartProvider, useCart } from "react-use-cart";
 import RelatedProductArea from "pages/users/theme/relatedProductArea";
 import { NotificationContainer, NotificationManager } from 'react-notifications';

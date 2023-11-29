@@ -1,12 +1,13 @@
 import { memo, useState, useEffect } from "react";
 import React from 'react';
 import { Link } from 'react-router-dom';
-import product1 from '../../../style/img/product/p6.jpg';
+
 import { FaRegHeart, FaHeart, FaEye } from "react-icons/fa";
 import { IoBagAdd } from "react-icons/io5";
 import { LuMoveDiagonal } from "react-icons/lu";
 import { NotificationManager } from 'react-notifications';
 import { Modal, Button, Image } from 'react-bootstrap';
+import { AiOutlineClose } from "react-icons/ai";
 const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, userId }) => {
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     function formatCurrency(amount) {
@@ -60,10 +61,15 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
                             {/* <h6 className="l-through">${product.price}</h6> */}
                         </div>
                         <div className="prd-bottom">
-                            {product.totalQuantity > 0 && (
+                            {product.totalQuantity > 0 ? (
                                 <Link className="social-info" onClick={() => handleAddToCart(product)} >
                                     <span><IoBagAdd /></span>
                                     <p className="hover-text">{t('add_to_bag')}</p>
+                                </Link>
+                            ) : (
+                                <Link className="social-info">
+                                    <span><AiOutlineClose /></span>
+                                    <p className="hover-text">{t('out_of_stock')}</p>
                                 </Link>
                             )}
                             <Link to={'/wish-list'} className="social-info" onClick={() => deleteToWishlist(product)} >

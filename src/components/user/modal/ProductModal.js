@@ -4,7 +4,7 @@ import axios from 'axios';
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import product1 from '../../../style/img/product/p6.jpg';
+
 const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) => {
     function formatCurrency(amount) {
         // Sử dụng NumberFormat để định dạng số

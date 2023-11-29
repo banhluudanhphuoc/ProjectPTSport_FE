@@ -34,15 +34,23 @@ const CustomersListAdmin = () => {
         };
 
         fetchUsers();
-    }, []);
+    }, [api]);
 
 
-    const handleDeleteUser = async (userId) => {
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const [userToDelete, setUserToDelete] = useState(null);
+
+    const handleDeleteUser = (userId) => {
+        setUserToDelete(userId);
+        setShowConfirmationModal(true);
+    };
+
+    const confirmDeleteUser = async () => {
         const adminToken = Cookies.get('adminToken');
 
         try {
             const response = await axios.delete(
-                `${api}/users/${userId}`,
+                `${api}/users/${userToDelete}`,
                 {
                     headers: {
                         'Authorization': `Bearer ${adminToken}`,
@@ -54,7 +62,7 @@ const CustomersListAdmin = () => {
                 if (Array.isArray(users.contents)) {
                     const updatedUsers = {
                         ...users,
-                        contents: users.contents.filter(user => user.userId !== userId),
+                        contents: users.contents.filter(user => user.userId !== userToDelete),
                     };
                     setUser(updatedUsers);
                     NotificationManager.success(response.data.message);
@@ -63,6 +71,15 @@ const CustomersListAdmin = () => {
         } catch (error) {
             console.error('Error deleting user:', error);
         }
+
+        // Reset state after deletion
+        setShowConfirmationModal(false);
+        setUserToDelete(null);
+    };
+
+    const closeConfirmationModal = () => {
+        setShowConfirmationModal(false);
+        setUserToDelete(null);
     };
     return (
         <>
@@ -81,7 +98,7 @@ const CustomersListAdmin = () => {
                                         <tr>
                                             <th>Email</th>
                                             <th>Tên</th>
-                                            <th>Status</th>
+                                            {/* <th>Status</th> */}
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -92,7 +109,7 @@ const CustomersListAdmin = () => {
                                                 {/* Render user data */}
                                                 <td><i className="fab fa-angular fa-lg text-danger me-3"></i> <strong>{user.email}</strong></td>
                                                 <td>{user.name}</td>
-                                                <td><span className="badge bg-label-primary me-1">Active</span></td>
+                                                {/* <td><span className="badge bg-label-primary me-1">Active</span></td> */}
                                                 <td>
                                                     <div className="dropdown">
                                                         <button type="button" className="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -119,6 +136,22 @@ const CustomersListAdmin = () => {
                     </div>
                 </div>
             </div>
+            <Modal show={showConfirmationModal} onHide={closeConfirmationModal}>
+                <Modal.Header>
+                    <Modal.Title>Xác nhận xóa</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Bạn có chắc là xóa User này không?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={closeConfirmationModal}>
+                        Hủy
+                    </Button>
+                    <Button variant="danger" onClick={confirmDeleteUser}>
+                        Xóa
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 };

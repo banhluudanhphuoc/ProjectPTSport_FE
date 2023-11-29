@@ -1591,7 +1591,7 @@ h1, h2, h3, h4, h5, h6 {
   background: #f9f9ff; }
   .exclusive-deal-area .exclusive-left {
     position: realtive;
-    background: url(../img/exclusive.jpg) center no-repeat;
+    /* background: url(../img/exclusive.jpg) center no-repeat; */
     background-size: cover;
     text-align: center;
     padding: 275px 0; }
@@ -1904,12 +1904,12 @@ h1, h2, h3, h4, h5, h6 {
       background-size: cover;
       margin-left: 10px; }
       .quick-view-carousel-details .owl-controls .owl-dots .owl-dot:nth-child(1) {
-        background: url(../img/ob1.jpg);
+        /* background: url(../img/ob1.jpg); */
         margin-left: 0; }
-      .quick-view-carousel-details .owl-controls .owl-dots .owl-dot:nth-child(2) {
+      /* .quick-view-carousel-details .owl-controls .owl-dots .owl-dot:nth-child(2) {
         background: url(../img/ob2.jpg); }
       .quick-view-carousel-details .owl-controls .owl-dots .owl-dot:nth-child(3) {
-        background: url(../img/ob3.jpg); }
+        background: url(../img/ob3.jpg); } */
       .quick-view-carousel-details .owl-controls .owl-dots .owl-dot.active {
         box-shadow: 2.828px 2.828px 15px 0px rgba(0, 0, 0, 0.1);
         position: relative; }

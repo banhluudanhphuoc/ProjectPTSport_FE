@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import './style.scss';
 import { Link } from "react-router-dom";
-import ImgAvt from '../../../../assets/admin/img/avatars/1.png';
+
 import { Modal, Button, Image } from 'react-bootstrap';
 import Cookies from 'js-cookie'; // Import thư viện js-cookie
 import { useNavigate } from 'react-router-dom';

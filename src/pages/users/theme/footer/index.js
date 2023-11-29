@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import logo from '../header/logo192.png';
 import { AiOutlineMail, AiOutlinePhone, AiTwotoneEnvironment, AiFillFacebook, AiFillInstagram, AiFillYoutube } from "react-icons/ai";
 import { Image } from "react-bootstrap";
-import ExampImg from '../../../../style/img/i1.jpg';
+
 import { useTranslation } from "react-i18next";
 import { FaFacebook, FaYoutube, FaInstagram, FaTwitter, FaHeart } from "react-icons/fa";
 const Footer = () => {

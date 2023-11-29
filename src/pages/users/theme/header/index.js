@@ -53,13 +53,13 @@ const Header = ({ isHome }) => {
     const handleLogout = async () => {
 
         try {
-            if (totalItemOnCart) {
-                const response2 = await axios.delete(api + "/cart/delete-cart/" + user.userId, {
-                    headers: {
-                        'Authorization': `Bearer ${userToken}`,
-                    },
-                });
-            }
+            // if (totalItemOnCart) {
+            //     const response2 = await axios.delete(api + "/cart/delete-cart/" + user.userId, {
+            //         headers: {
+            //             'Authorization': `Bearer ${userToken}`,
+            //         },
+            //     });
+            // }
 
 
             // Gửi yêu cầu đến endpoint logout của API
@@ -71,11 +71,11 @@ const Header = ({ isHome }) => {
                     },
                 }
             );
-            // Kiểm tra xem logout có thành công hay không
+
             if (response.status === 200) {
                 Cookies.remove('userToken');
                 window.location.href = '/login-user';
-                emptyCart();
+                //  emptyCart();
             } else {
                 console.error('Logout failed:', response.data);
             }
@@ -347,7 +347,7 @@ const Header = ({ isHome }) => {
                                 </li>
 
                                 <li className="nav-item">
-                                    {productsWishListCount > 0 &&
+                                    {userToken && productsWishListCount > 0 &&
                                         <Link
                                             className={`nav-link  custom_menu ${activeMenuItem === "wish-list" ? "active-menu-item" : ""}`}
                                             onClick={() => handleMainMenuClick("wish-list")}
@@ -360,7 +360,7 @@ const Header = ({ isHome }) => {
 
 
                                 <li className="nav-item submenu dropdown">
-                                    {totalUniqueItems > 0 &&
+                                    {userToken && totalUniqueItems > 0 &&
                                         <Link
                                             className="cart custom_menu"
                                             to="/cart"

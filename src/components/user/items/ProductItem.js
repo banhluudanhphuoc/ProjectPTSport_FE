@@ -6,7 +6,7 @@ import { IoBagAdd } from "react-icons/io5";
 import { LuMoveDiagonal } from "react-icons/lu";
 import { NotificationManager } from 'react-notifications';
 import Cookies from 'js-cookie';
-
+import { AiOutlineClose } from "react-icons/ai";
 
 const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, userId }) => {
     function formatCurrency(amount) {
@@ -64,10 +64,15 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
                         {/* <h6 className="l-through">${product.price}</h6> */}
                     </div>
                     <div className="prd-bottom">
-                        {product.totalQuantity > 0 && (
+                        {product.totalQuantity > 0 ? (
                             <Link className="social-info" onClick={() => handleAddToCart(product)} >
                                 <span><IoBagAdd /></span>
                                 <p className="hover-text">{t('add_to_bag')}</p>
+                            </Link>
+                        ) : (
+                            <Link className="social-info">
+                                <span><AiOutlineClose /></span>
+                                <p className="hover-text">{t('out_of_stock')}</p>
                             </Link>
                         )}
                         {isInWishlist ? (

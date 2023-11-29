@@ -175,29 +175,38 @@ const CartPage = () => {
 
         if (idCartItem !== null) {
             try {
-                await axios.put(
-                    `${api}/cart/update/${user.userId}/${idCartItem}`,
-                    {
-                        "productID": idItem,
-                        "sizeID": 2,
-                        "colorID": 2,
-                        "quantity": item.quantity + 1
-                    },
-                    {
-                        headers: {
-                            'Authorization': `Bearer ${userToken}`,
-                            'Content-Type': 'application/json',
-                        }
-                    }
-                );
+                const response = await axios.get(api + "/products/" + idItem);
+                const totalQuantity = response.data.totalQuantity;
 
-                updateItemQuantity(item.id, item.quantity + 1);
+                // Check if increasing the quantity exceeds totalQuantity
+                if (item.quantity + 1 > totalQuantity) {
+                    NotificationManager.error(t('message_total_quantity'));
+                    return;
+                } else {
+                    await axios.put(
+                        `${api}/cart/update/${user.userId}/${idCartItem}`,
+                        {
+                            "productID": idItem,
+                            "sizeID": 2,
+                            "colorID": 2,
+                            "quantity": item.quantity + 1
+                        },
+                        {
+                            headers: {
+                                'Authorization': `Bearer ${userToken}`,
+                                'Content-Type': 'application/json',
+                            }
+                        }
+                    );
+
+                    updateItemQuantity(item.id, item.quantity + 1);
+                }
             } catch (error) {
-                // Handle the error if the request fails
-                console.error('Error updating product quantity on the server:', error);
+                // Xử lý lỗi nếu yêu cầu thất bại
+                console.error('Lỗi khi cập nhật số lượng sản phẩm trên máy chủ:', error);
             }
         } else {
-            console.error('idCartItem is null or undefined.');
+            console.error('idCartItem là null hoặc không xác định.');
         }
     };
 

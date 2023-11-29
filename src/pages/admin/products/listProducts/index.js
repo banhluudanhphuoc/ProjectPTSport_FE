@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { Icon } from '@iconify/react';
 import Cookies from 'js-cookie';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
-import Img from '../../../../style/img/l5.jpg';
 import { Modal, Button } from 'react-bootstrap';
 import ReactLoading from 'react-loading';
 const ListProductsAdmin = () => {
