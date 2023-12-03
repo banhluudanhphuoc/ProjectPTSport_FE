@@ -1,55 +1,100 @@
+import { memo, useEffect, useState } from "react";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import CommentSection from "components/user/facebook/comment";
 import Cookies from 'js-cookie';
-import { memo, useEffect, useState } from "react";
+
 import { Col, Container, Image, Nav, Row, Tab } from 'react-bootstrap';
 import { useTranslation } from "react-i18next";
 import { FaHeart, FaRegHeart, FaRegStar, FaStar } from "react-icons/fa";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-import OwlCarousel from 'react-owl-carousel';
+
 import Rating from "react-rating";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import SizeChart from '../../../assets/users/size-charts/giay-nam.png';
 import Banner from "../../users/theme/banner";
 import RelatedProductArea from "../theme/relatedProductArea";
 import './style.scss';
-
+import { CartProvider, useCart } from "react-use-cart";
+import ReactImageMagnify from 'react-image-magnify';
+import OwlCarousel from 'react-owl-carousel';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
+import 'owl.carousel/dist/owl.carousel.min.js';
+import 'owl.carousel/dist/owl.carousel.min';
 const ProductDetail = () => {
     const postUrl = process.env.REACT_APP_URL;
     const { t, i18n } = useTranslation();
-    const [currentLanguage, setCurrentLanguage] = useState('VI');
-    const handleLanguageChange = (newLanguage, lng) => {
-        setCurrentLanguage(newLanguage)
-        i18n.changeLanguage(lng);
-    };
-
+    const userToken = Cookies.get('userToken');
     const [mainImage, setMainImage] = useState();
     const { productID } = useParams();
     const [product, setProduct] = useState([]);
+    const [productListImage, setProductListImage] = useState([]);
     const api = process.env.REACT_APP_API_URL;
     const auth = process.env.REACT_APP_API_URL_AUTH;
     const [user, setUser] = useState([]);
     const [productsWishList, setProductsWishList] = useState([]);
+    const { addItem, items } = useCart();
+
     useEffect(() => {
         const fetchProduct = async () => {
             try {
                 const response = await axios.get(`${api}/products/${productID}`);
                 setProduct(response.data);
                 setMainImage(response.data.listImage[0].path);
-
+                setProductListImage(response.data.listImage);
             } catch (error) {
                 console.error('Error fetching product:', error);
             }
+
         };
-
         fetchProduct();
+    }, [api, auth, userToken, productID]);
 
-    }, [api, productID]);
+
+
+    useEffect(() => {
+        if (userToken) {
+            const fetchMe = async () => {
+                try {
+                    const response = await axios.get(auth + '/me', {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                            'Content-Type': 'application/json',
+                        }
+                    });
+                    setUser(response.data);
+                    // Call fetchProducts after setUser
+                    fetchProductsWishList(response.data.userId);
+                } catch (error) {
+                    console.error('Error fetching Brand:', error);
+                }
+            };
+
+            const fetchProductsWishList = async (userId) => {
+                try {
+                    const response = await axios.get(api + '/wish-list/' + userId, {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                            'Content-Type': 'application/json',
+                        }
+                    });
+
+                    setProductsWishList(response.data.productDtos);
+                } catch (error) {
+                    console.error('Error fetching products:', error);
+                }
+            };
+
+            fetchMe();
+        }
+
+
+    }, [api, auth, userToken, productID]);
+
     function formatCurrency(amount) {
-        // Sử dụng NumberFormat để định dạng số
         const formatter = new Intl.NumberFormat('vi-VN', {
             style: 'currency',
             currency: 'VND',
@@ -58,46 +103,10 @@ const ProductDetail = () => {
         // Áp dụng định dạng và trả về chuỗi đã định dạng
         return formatter.format(amount);
     }
-
-    useEffect(() => {
-        const userToken = Cookies.get('userToken');
-
-        const fetchMe = async () => {
-            try {
-                const response = await axios.get(auth + '/me', {
-                    headers: {
-                        'Authorization': `Bearer ${userToken}`,
-                        'Content-Type': 'application/json',
-                    }
-                });
-
-                setUser(response.data);
-
-                // Call fetchProducts after setUser
-                fetchProductsWishList(response.data.userId);
-            } catch (error) {
-                console.error('Error fetching Brand:', error);
-            }
-        };
-
-        const fetchProductsWishList = async (userId) => {
-            try {
-                const response = await axios.get(api + '/wish-list/' + userId, {
-                    headers: {
-                        'Authorization': `Bearer ${userToken}`,
-                        'Content-Type': 'application/json',
-                    }
-                });
-
-                setProductsWishList(response.data.productDtos);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
-
-        fetchMe();
-    }, [api, auth]);
     const addToWishlist = async () => {
+        if (!userToken) {
+            NotificationManager.error(t('message_fail_add_wish_list'), t('message_failed'));
+        }
         try {
             // Make an API request to add the product to the wishlist
             const response = await fetch(api + '/wish-list/' + user.userId + '/' + product.id, {
@@ -109,7 +118,7 @@ const ProductDetail = () => {
 
             // Handle the response as needed
             if (response.ok) {
-                NotificationManager.success("Thêm vào danh sách Yêu thích thành công", "Thành Công");
+                NotificationManager.success(t('message_success_add_wish_list'), t('message_success'));
                 setTimeout(function () {
                     window.location.href = "/wish-list";
                 }, 500);
@@ -125,9 +134,8 @@ const ProductDetail = () => {
     };
 
 
-
     const [cart, setCart] = useState([]);
-    const addToCart = (cartItem) => {
+    const addToCart = (cartItem, cartItem2) => {
         fetch(api + `/cart/${user.userId}`, {
             method: 'PUT',
             headers: {
@@ -143,64 +151,92 @@ const ProductDetail = () => {
             .catch((error) => {
                 console.error('Error adding to cart:', error);
             });
+        addItem(cartItem2);
     };
 
     const navigate = useNavigate();
     const handleAddToCart = (item) => {
-        const cartItem = {
-            productID: item.id, // ID thực của sản phẩm
-            productName: item.name,
-            sizeID: 2,
-            colorID: 2,
-            image: item.listImage[0].path,
-            quantity: 1,
-            price: item.price,
-            totalPrice: item.price,
-        };
-        // Xử lý thêm sản phẩm vào giỏ hàng ở đây
-        addToCart(cartItem);
-        // Hiển thị thông báo thành công
-        NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
-            navigate("/cart");
-        });
+        if (!userToken) {
+            NotificationManager.error(t('message_fail_add_to_cart'), t('message_failed'));
+        } else {
+            const productInCart = items.find(cartItem => cartItem.id === item.id);
+            if (productInCart) {
+                if (productInCart.quantity + 1 > item.totalQuantity) {
+                    NotificationManager.error(t('message_total_quantity'));
+                } else {
+                    const cartItem2 = {
+                        id: item.id,
+                        productName: item.name,
+                        sizeID: 2,
+                        colorID: 2,
+                        image: item.listImage[0].path,
+                        quantity: 1,
+                        price: item.discountedPrice,
+                        totalPrice: item.discountedPrice,
+                        //discountedPrice: item.discountedPrice,
+                    };
+                    const cartItem = {
+                        productID: item.id, // ID thực của sản phẩm
+                        productName: item.name,
+                        sizeID: 2,
+                        colorID: 2,
+                        //image: item.listImage[0].path,
+                        quantity: 1,
+                        //price: item.price,
+                        //totalPrice: item.price,
+                        //discountedPrice: item.discountedPrice,
+                    };
+                    addToCart(cartItem, cartItem2);
+
+                    // Hiển thị thông báo thành công
+                    NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
+                        navigate("/cart");
+                    });
+                }
+            } else {
+                const cartItem2 = {
+                    id: item.id,
+                    productName: item.name,
+                    sizeID: 2,
+                    colorID: 2,
+                    image: item.listImage[0].path,
+                    quantity: 1,
+                    price: item.discountedPrice,
+                    totalPrice: item.discountedPrice,
+                    //discountedPrice: item.discountedPrice,
+                };
+                const cartItem = {
+                    productID: item.id, // ID thực của sản phẩm
+                    productName: item.name,
+                    sizeID: 2,
+                    colorID: 2,
+                    //image: item.listImage[0].path,
+                    quantity: 1,
+                    //price: item.price,
+                    //totalPrice: item.price,
+                    //discountedPrice: item.discountedPrice,
+                };
+                addToCart(cartItem, cartItem2);
+
+                // Hiển thị thông báo thành công
+                NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
+                    navigate("/cart");
+                });
+            }
+
+
+        }
     };
 
 
 
 
 
-    const stars = document.querySelectorAll('.star');
-    stars.forEach((star, index) => {
-        star.addEventListener('mouseover', () => {
-            // Thay đổi className của biểu tượng Font Awesome khi hover
-            star.querySelector('i').classNameList.remove('fa-star-o');
-            star.querySelector('i').classNameList.add('fa-star');
-        });
 
-        star.addEventListener('mouseout', () => {
-            // Đảm bảo rằng className đã chuyển đổi được đổi trở lại sau khi hover
-            if (!star.classNameList.contains('active')) {
-                star.querySelector('i').classNameList.remove('fa-star');
-                star.querySelector('i').classNameList.add('fa-star-o');
-            }
-        });
-
-        star.addEventListener('click', () => {
-            // Xóa lớp 'active' khỏi tất cả các ngôi sao
-            stars.forEach((s, i) => {
-                s.classNameList.remove('active');
-            });
-            // Thêm lớp 'active' cho các ngôi sao từ vị trí 0 đến vị trí được click
-            for (let i = 0; i <= index; i++) {
-                stars[i].classNameList.add('active');
-            }
-        });
-    });
 
 
     return (
         <>
-
 
             <NotificationContainer />
             <Banner pageTitle={product.name} />
@@ -211,25 +247,38 @@ const ProductDetail = () => {
 
                             <div className="image-gallery-container">
                                 <div className="main-image-container">
-                                    <Image
+                                    <ReactImageMagnify {...{
+                                        smallImage: {
+                                            alt: '',
+                                            isFluidWidth: true,
+                                            src: mainImage,
+                                        },
+                                        largeImage: {
+                                            src: mainImage,
+                                            width: 1200,
+                                            height: 1800,
+                                        }
+                                    }}
+                                        enlargedImageContainerStyle={{ zIndex: 9 }}
+                                    />
+                                    {/* <Image
                                         src={mainImage}
                                         alt="Main Image"
                                         className="main-image"
-                                    />
+                                    /> */}
                                 </div>
-                                <OwlCarousel className="owl-theme" margin={10} >
-                                    {product.listImage && (
-                                        product.listImage.map((image) => (
-                                            <div className="thumbnail-item">
-                                                <img
-                                                    className="thumbnail"
-                                                    src={image.path}
-                                                    alt=""
-                                                    onClick={() => setMainImage(image.path)}
-                                                />
-                                            </div>
-                                        ))
-                                    )}
+
+                                <OwlCarousel className="owl-theme" margin={10} nav >
+                                    {productListImage?.map((image) => (
+                                        <div className="item" key={image?.id}>
+                                            <img
+
+                                                src={image?.path}
+                                                alt=""
+                                                onClick={() => setMainImage(image?.path)}
+                                            />
+                                        </div>
+                                    ))}
                                 </OwlCarousel>
                             </div>
                         </div>
@@ -237,8 +286,18 @@ const ProductDetail = () => {
                             <div className="s_product_text">
                                 <h3>{product.name}</h3>
                                 <div className="price">
-                                    <h2>{formatCurrency(product.price)}</h2>
-                                    {/* <h5 className="l-through">$210.00</h5> */}
+                                    {product.price !== product.discountedPrice ? (
+                                        <>
+                                            <h2>{formatCurrency(product.discountedPrice)}</h2>
+                                            <h5 className="l-through">{formatCurrency(product.price)}</h5>
+                                        </>
+                                    ) : (
+                                        <h2>{formatCurrency(product.price)}</h2>
+                                    )
+
+                                    }
+
+
                                 </div>
 
                                 <ul className="list">
@@ -253,7 +312,7 @@ const ProductDetail = () => {
 
                                 <div className="card_area d-flex align-items-center">
                                     {product.totalQuantity > 0 && (
-                                        <Link className="primary-btn btn-product-detail" to="/cart" onClick={() => handleAddToCart(product)}>Add to Cart</Link>
+                                        <Link className="primary-btn btn-product-detail" onClick={() => handleAddToCart(product)}>{t("add_to_bag")}</Link>
                                     )}
                                     {isProductInWishlist(productsWishList, product.id) ? (
                                         <Link className="icon_btn btn-product-detail" to={'/wish-list'}><span><FaHeart /></span></Link>

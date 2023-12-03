@@ -79,6 +79,35 @@ const MenuAdmin = () => {
                             <div data-i18n="Dashboard">Dashboard</div>
                         </Link>
                     </li>
+
+
+
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Khuyến mãi</span>
+                    </li>
+                    <li className={`menu-item ${activeMainMenu === "Discount" ? "open active" : ""}`}>
+                        <Link
+                            to="javascript:void(0);"
+                            className={`menu-link menu-toggle`}
+                            onClick={() => handleMainMenuClick("Discount")}
+                        >
+                            <Icon icon="mdi:discount-outline" className="menu-icon tf-icons" />
+                            <div data-i18n="Discount">Khuyến mãi</div>
+                        </Link>
+                        <ul className="menu-sub">
+                            <li className={`menu-item ${location.pathname === `${admin_url}/discounts_list` ? 'active' : ''}`}>
+                                {/* <li className={`menu-item ${activeSubMenu === "list-product" ? "active" : ""}`}> */}
+                                <Link to={`${admin_url}/discounts_list`} className="menu-link" onClick={() => handleSubMenuClick("list-discount")}>
+                                    <div data-i18n="Without menu">Các mức khuyến mãi</div>
+                                </Link>
+                            </li>
+                            <li className={`menu-item ${activeSubMenu === "create-discount" ? "active" : ""}`}>
+                                <Link to={`${admin_url}/discount_create`} className="menu-link" onClick={() => handleSubMenuClick("create-discount")}>
+                                    <div data-i18n="Without menu">Thêm mức khuyến mãi mới</div>
+                                </Link>
+                            </li>
+                        </ul>
+                    </li>
                     {/*product*/}
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Sản phẩm & Đơn hàng</span>
@@ -107,6 +136,10 @@ const MenuAdmin = () => {
                         </ul>
                     </li>
 
+
+
+
+
                     <li className={`menu-item ${activeMainMenu === "order" ? "open active" : ""}`}>
                         <Link
                             to="javascript:void(0);"
@@ -122,7 +155,7 @@ const MenuAdmin = () => {
                                     <div data-i18n="Without menu">Tất cả đơn hàng</div>
                                 </Link>
                             </li>
-                            <li className={`menu-item ${activeSubMenu === "ordered" ? "active" : ""}`}>
+                            {/* <li className={`menu-item ${activeSubMenu === "ordered" ? "active" : ""}`}>
                                 <Link to={`${admin_url}/orders_list_admin_ordered`} className="menu-link" onClick={() => handleSubMenuClick("ordered")}>
                                     <div data-i18n="Without menu">Đơn hàng đã đặt hàng</div>
                                 </Link>
@@ -151,7 +184,7 @@ const MenuAdmin = () => {
                                 <Link to={`${admin_url}/orders_list_admin_cancelled`} className="menu-link" onClick={() => handleSubMenuClick("order-cancelled")}>
                                     <div data-i18n="Without menu">Đơn hàng bị hủy</div>
                                 </Link>
-                            </li>
+                            </li> */}
 
                         </ul>
                     </li>

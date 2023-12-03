@@ -241,20 +241,17 @@ const CheckoutPage = () => {
     }
 
     const handleSubmit = async () => {
-
+        console.log(user.userId);
         if (selectedPaymentMethod === '1') {
             try {
-                const response = await axios.post(api + '/payment/submit-order', {
-                    orderDto: {
-                        "userID": user.userId,
-                        "orderStatusID": 1,
-                        "paymentMethodID": selectedPaymentMethod,
-                        customerName: values.customerName,
-                        customerAddress: `${values.customerAddress}, ${selectedWardName}, ${selectedDistrictName}, ${selectedCityName}`,
-                        customerEmail: user.email,
-                        customerPhone: values.customerPhone,
-                    },
-                    string: '',
+                const response = await axios.post(api + '/payment/money', {
+                    "userID": user.userId,
+                    "orderStatusID": 1,
+                    "paymentMethodID": selectedPaymentMethod,
+                    customerName: values.customerName,
+                    customerAddress: `${values.customerAddress}, ${selectedWardName}, ${selectedDistrictName}, ${selectedCityName}`,
+                    customerEmail: user.email,
+                    customerPhone: values.customerPhone,
                 },
                     {
                         headers: {

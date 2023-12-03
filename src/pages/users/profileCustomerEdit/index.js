@@ -74,6 +74,7 @@ const ProfileCustomerEdit = () => {
     const [user, setUser] = useState([]);
     const navigate = useNavigate();
     const userToken = Cookies.get('userToken');
+    const api = process.env.REACT_APP_API_URL;
     useEffect(() => {
         const userToken = Cookies.get('userToken');
         if (!userToken) {
@@ -107,7 +108,7 @@ const ProfileCustomerEdit = () => {
         try {
             const formattedDateOfBirth = format(newBirthDate, 'dd/MM/yyyy');
             const response = await axios.put(
-                `${auth}/users/${user.userId}`,
+                `${api}/users/${user.userId}`,
                 {
                     email: currentEmail,
                     name: newName,
@@ -135,7 +136,7 @@ const ProfileCustomerEdit = () => {
                 </div>
                 <Grid>
                     <Grid.Col md="3.5" className="profile_customer_left" mt="sm">
-                        <div className="profile_customer_left_top">
+                        {/* <div className="profile_customer_left_top">
                             <div >
                                 <Avatar variant="transparent" radius="xl" size="xl" color="cyan" src="" />
                             </div>
@@ -144,7 +145,7 @@ const ProfileCustomerEdit = () => {
 
                             </div>
 
-                        </div>
+                        </div> */}
                         <div className="profile_customer_left_down">
 
                         </div>

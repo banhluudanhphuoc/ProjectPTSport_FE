@@ -77,6 +77,23 @@ const CreateProductAdmin = () => {
     };
 
 
+    const areAllFieldsFilled = () => {
+
+
+        // Kiểm tra xem tất cả các trường có giá trị không
+        return (
+            formData.productName &&
+            formData.quantity &&
+            formData.price &&
+            formData.category &&
+            formData.brand &&
+            description &&
+            details &&
+            formData.files.length > 0
+        );
+    };
+
+
     const MAX_FILE_SIZE_MB = 5;
     const MAX_WIDTH = 1600;
     const MAX_HEIGHT = 1600;
@@ -120,9 +137,15 @@ const CreateProductAdmin = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (!isValidImages) {
             NotificationManager.error('Có ít nhất 1 ảnh không hợp lệ. Vui lòng kiểm tra lại', 'Lỗi');
+            return;
+        }
+        if (!areAllFieldsFilled()) {
+            NotificationManager.error(
+                'Vui lòng nhập đầy đủ thông tin của sản phẩm',
+                'Lỗi'
+            );
             return;
         }
         try {
@@ -139,6 +162,9 @@ const CreateProductAdmin = () => {
             formDataToSend.append('lengthIDX', 1);
 
             if (Array.isArray(formData.files) && formData.files.length > 0) {
+                // Sắp xếp lại mảng files theo thứ tự
+                formData.files.sort((a, b) => a.lastModified - b.lastModified);
+
                 formData.files.forEach((file, index) => {
                     formDataToSend.append('files', file);
                 });
@@ -159,6 +185,8 @@ const CreateProductAdmin = () => {
             NotificationManager.error('Lỗi xảy ra khi thêm sản phẩm . Vui lòng nhập đầy đủ thông tin của sản phẩm', 'Lỗi');
             console.error('Error adding product:', error);
         }
+
+
     };
 
     return (
@@ -282,7 +310,7 @@ const CreateProductAdmin = () => {
                                             </div>
                                         </div>
                                         <div className="mb-3">
-                                            <label htmlFor="product-image" className="form-label">Thêm ảnh sản phẩm (jpg, png)</label>
+                                            <label htmlFor="product-image" className="form-label">Thêm ảnh sản phẩm (jpg, png) - Chọn ảnh hiển thị chính đầu tiên</label>
                                             <div className="input-group input-group-merge">
                                                 <span id="product-image-icon" className="input-group-text"><Icon icon="ph:image-light" /></span>
                                                 <input
@@ -293,6 +321,7 @@ const CreateProductAdmin = () => {
                                                     aria-describedby="product-image-icon"
                                                     onChange={handleFileChange}
                                                     accept=".jpg, .jpeg, .png"
+                                                    capture="user"
                                                 />
                                             </div>
                                         </div>

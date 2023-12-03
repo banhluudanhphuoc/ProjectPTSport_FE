@@ -24,6 +24,7 @@ import OrderDetailCustomer from "pages/users/orderDetailCustomer";
 import ForgotPassword from "pages/users/forgotPassword";
 import ChangePassword from "pages/users/changePassword";
 import WishList from "pages/users/wishList";
+import EnterNewPassword from "pages/users/enterNewPassword";
 
 import MasterLayoutAdmin from "pages/admin/theme/masterLayoutAdmin";
 import NotFoundAdmin from "pages/admin/notFound";
@@ -61,6 +62,10 @@ import ListOrdersOrdered from "pages/admin/orders/listOrdersOrdered";
 import ListOrdersPay from "pages/admin/orders/listOrdersPay";
 import ListOrdersPending from "pages/admin/orders/listOrdersPending";
 
+import CreateDiscountAdmin from "pages/admin/discount/createDiscount";
+import DiscountListAdmin from "pages/admin/discount/listDiscount";
+
+
 const admin_url = process.env.REACT_APP_ADMIN_URL;
 const RouterCustom = () => {
     const location = useLocation();
@@ -75,6 +80,7 @@ const RouterCustom = () => {
             <Route path="/category-page/:categoryID" element={<MasterLayout><CategoryPage /></MasterLayout>} />
             <Route path="/brand-page/:brandID" element={<MasterLayout><CategoryPage /></MasterLayout>} />
             <Route path="/news-detail/:newID" element={<MasterLayout><BlogDetail /></MasterLayout>} />
+            <Route path="/order-detail-customer/:orderID" element={<MasterLayout><OrderDetailCustomer /></MasterLayout>} />
             {/* Admin Routes */}
             <Route path={`${admin_url}/*`} element={<AdminRoutes />} />
             <Route path={`${admin_url}/admin-login`} element={<LoginAdmin />} />
@@ -83,7 +89,7 @@ const RouterCustom = () => {
             <Route path={`${admin_url}/brand_edit/:brandID`} element={<MasterLayoutAdmin><EditBrandAdmin /></MasterLayoutAdmin>} />
             <Route path={`${admin_url}/customer_edit/:customer`} element={<MasterLayoutAdmin><EditCustomerAdmin /></MasterLayoutAdmin>} />
             <Route path={`${admin_url}/news_edit/:blogId`} element={<MasterLayoutAdmin><EditNewsAdmin /></MasterLayoutAdmin>} />
-            <Route path={`${admin_url}/order_detail_admin/:order`} element={<MasterLayoutAdmin><OrderDetailAdmin /></MasterLayoutAdmin>} />
+            <Route path={`${admin_url}/order_detail_admin/:orderID`} element={<MasterLayoutAdmin><OrderDetailAdmin /></MasterLayoutAdmin>} />
             <Route path={`${admin_url}/account-settings/:userID`} element={<MasterLayoutAdmin><AccountSettings /></MasterLayoutAdmin>} />
         </Routes>
     );
@@ -101,7 +107,8 @@ const UserRoutes = () => {
                 <Route path={ROUTERS.USER.CHANGE_PASSWORD} element={<ChangePassword />} />
                 <Route path={ROUTERS.USER.FORGOT_PASSWORD} element={<ForgotPassword />} />
                 <Route path={ROUTERS.USER.VERIFY_EMAIL} element={<LoginUserPage />} />
-                <Route path={ROUTERS.USER.ORDER_DETAIL_CUSTOMER} element={<OrderDetailCustomer />} />
+                <Route path={ROUTERS.USER.ENTER_NEW_PASSWORD} element={<EnterNewPassword />} />
+                <Route path={ROUTERS.USER.RESET_PASSWORD} element={<EnterNewPassword />} />
                 <Route path={ROUTERS.USER.WISHLIST} element={<WishList />} />
                 <Route path={ROUTERS.USER.BLOGS_PAGE} element={<BlogsPage />} />
                 <Route path={ROUTERS.USER.CONTACT_PAGE} element={<ContactPage />} />
@@ -132,6 +139,9 @@ const AdminRoutes = () => {
     return (
         <MasterLayoutAdmin>
             <Routes>
+                <Route path={ROUTERS.ADMIN.DISCOUNT_LIST} element={<DiscountListAdmin />} />
+                <Route path={ROUTERS.ADMIN.DISCOUNT_CREATE} element={<CreateDiscountAdmin />} />
+
                 <Route path={ROUTERS.ADMIN.NOT_FOUND_ADMIN} element={<NotFoundAdmin />} />
                 <Route path={ROUTERS.ADMIN.DASHBOARD} element={<DashBoard />} />
                 <Route path={ROUTERS.ADMIN.NEWS_LIST} element={<ListNewsAdmin />} />

@@ -36,16 +36,47 @@
         width: 100%;
         justify-content: space-between;
 
-	&.success{
-		padding: 10px 10px 10px 10px;
-		background-color: rgba(0, 128, 0, 0.5);
-		color: rgb(255, 255, 255);
-	}
-
-
-
-
-
+		&.await-confirm {
+			padding: 10px;
+			background-color: #2ecc71; // Màu xanh lá cây
+			color: #ffffff;
+		}
+		
+		&.has-pay {
+			padding: 10px;
+			background-color: #3498db; // Màu xanh dương
+			color: #ffffff;
+		}
+		
+		&.confirm {
+			padding: 10px;
+			background-color: #27ae60; // Màu xanh biển
+			color: #ffffff;
+		}
+		
+		&.prepare {
+			padding: 10px;
+			background-color: #ff00bf; // Màu cam
+			color: #ffffff;
+		}
+		
+		&.delivering {
+			padding: 10px;
+			background-color: #a33c31; // Màu đỏ
+			color: #ffffff;
+		}
+		
+		&.done {
+			padding: 10px;
+			background-color: #2ecc71; // Màu xanh lá cây
+			color: #ffffff;
+		}
+		
+		&.cancel {
+			padding: 10px;
+			background-color: #e74c3c; // Màu đỏ
+			color: #ffffff;
+		}
 
         .profile_customer_right_orders_status{
             text-align: end;
@@ -56,13 +87,14 @@
 
     }
     .profile_customer_right_orders_mid{
-        display: flex;
+
         align-items: center;
         border-top: #FFC000 1px solid;
 		border-bottom: #FFC000 1px solid;
 		padding: 5px 5px 5px 5px;
         .profile_customer_right_orders_mid_info{
             margin-left: 10px;
+			margin-bottom: 15px;
         }
         .profile_customer_right_orders_image{
             height: 100% !important;

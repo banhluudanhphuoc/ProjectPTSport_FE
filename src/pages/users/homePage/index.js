@@ -1,18 +1,16 @@
-import { Modal, Button, Image } from 'react-bootstrap';
-import { memo } from "react";
-import './style.scss';
-import React, { useState, useEffect } from 'react';
+import { memo, useEffect, useState } from "react";
 import RelatedProductArea from "../theme/relatedProductArea";
+import './style.scss';
 
-import { Container, Col, Row } from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
-import ProductModal from "components/user/modal/ProductModal";
 import ProductItem from "components/user/items/ProductItem";
+import ProductModal from "components/user/modal/ProductModal";
+import { Container, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-import bannerImg3 from '../../../style/img/banner/banner3.png';
 import bannerImg2 from '../../../style/img/banner/banner2.png';
+import bannerImg3 from '../../../style/img/banner/banner3.png';
 import bannerImg4 from '../../../style/img/banner/banner4.png';
 
 import FreeDeliveryImg from '../../../style/img/features/f-icon1.png';
@@ -26,8 +24,8 @@ import category3 from '../../../style/img/category/c3.jpg';
 import category4 from '../../../style/img/category/c4.jpg';
 import category5 from '../../../style/img/category/c5.jpg';
 
-import Cookies from 'js-cookie';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import brand1 from '../../../style/img/brand/1.png';
 import brand2 from '../../../style/img/brand/2.png';
 import brand3 from '../../../style/img/brand/3.png';
@@ -37,17 +35,16 @@ import brand5 from '../../../style/img/brand/5.png';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { useNavigate } from 'react-router-dom';
 
-import 'react-notifications/lib/notifications.css';
 import { useTranslation } from "react-i18next";
-import PropTypes from 'prop-types';
-import { CartProvider, useCart } from "react-use-cart";
+import 'react-notifications/lib/notifications.css';
+import { useCart } from "react-use-cart";
 
 import MyChatComponent from 'components/user/facebook/chat';
 // import MyChatComponent from 'components/user/chat';
 
 const HomePage = () => {
 
-    const { addItem } = useCart();
+    const { addItem, items } = useCart();
     const userToken = Cookies.get('userToken');
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -95,32 +92,72 @@ const HomePage = () => {
         if (!userToken) {
             NotificationManager.error(t('message_fail_add_to_cart'), t('message_failed'));
         } else {
-            const cartItem2 = {
-                id: item.id,
-                productName: item.name,
-                sizeID: 2,
-                colorID: 2,
-                image: item.listImage[0].path,
-                quantity: 1,
-                price: item.price,
-                totalPrice: item.price,
-            };
-            const cartItem = {
-                productID: item.id, // ID thực của sản phẩm
-                productName: item.name,
-                sizeID: 2,
-                colorID: 2,
-                image: item.listImage[0].path,
-                quantity: 1,
-                price: item.price,
-                totalPrice: item.price,
-            };
-            addToCart(cartItem, cartItem2);
+            const productInCart = items.find(cartItem => cartItem.id === item.id);
+            if (productInCart) {
+                if (productInCart.quantity + 1 > item.totalQuantity) {
+                    NotificationManager.error(t('message_total_quantity'));
+                } else {
+                    const cartItem2 = {
+                        id: item.id,
+                        productName: item.name,
+                        sizeID: 2,
+                        colorID: 2,
+                        image: item.listImage[0].path,
+                        quantity: 1,
+                        price: item.discountedPrice,
+                        totalPrice: item.discountedPrice,
+                        //discountedPrice: item.discountedPrice,
+                    };
+                    const cartItem = {
+                        productID: item.id, // ID thực của sản phẩm
+                        productName: item.name,
+                        sizeID: 2,
+                        colorID: 2,
+                        //image: item.listImage[0].path,
+                        quantity: 1,
+                        //price: item.price,
+                        //totalPrice: item.price,
+                        //discountedPrice: item.discountedPrice,
+                    };
+                    addToCart(cartItem, cartItem2);
 
-            // Hiển thị thông báo thành công
-            NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
-                navigate("/cart");
-            });
+                    // Hiển thị thông báo thành công
+                    NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
+                        navigate("/cart");
+                    });
+                }
+            } else {
+                const cartItem2 = {
+                    id: item.id,
+                    productName: item.name,
+                    sizeID: 2,
+                    colorID: 2,
+                    image: item.listImage[0].path,
+                    quantity: 1,
+                    price: item.discountedPrice,
+                    totalPrice: item.discountedPrice,
+                    //discountedPrice: item.discountedPrice,
+                };
+                const cartItem = {
+                    productID: item.id, // ID thực của sản phẩm
+                    productName: item.name,
+                    sizeID: 2,
+                    colorID: 2,
+                    //image: item.listImage[0].path,
+                    quantity: 1,
+                    //price: item.price,
+                    //totalPrice: item.price,
+                    //discountedPrice: item.discountedPrice,
+                };
+                addToCart(cartItem, cartItem2);
+
+                // Hiển thị thông báo thành công
+                NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
+                    navigate("/cart");
+                });
+            }
+
+
         }
     };
 
@@ -134,6 +171,7 @@ const HomePage = () => {
                 const first8Products = response.data.contents.slice(0, 8);
 
                 setProducts(first8Products);
+
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
@@ -292,7 +330,7 @@ const HomePage = () => {
                                 <div className="single-deal">
                                     <div className="overlay"></div>
                                     <img className="img-fluid w-100 category_home_custom" src={category1} alt="" />
-                                    <Link className="img-pop-up" target="_blank" to={"/category-page"}>
+                                    <Link className="img-pop-up" to={"/category-page"}>
                                         <div className="deal-details">
                                             <h6 className="deal-title">{t('category_featured')}</h6>
                                         </div>
@@ -303,7 +341,7 @@ const HomePage = () => {
                                 <div className="single-deal">
                                     <div className="overlay"></div>
                                     <img className="img-fluid w-100 category_home_custom" src={category3} alt="" />
-                                    <Link className="img-pop-up" target="_blank" to={"/category-page/" + shoes}>
+                                    <Link className="img-pop-up" to={"/category-page/" + shoes}>
                                         <div className="deal-details">
                                             <h6 className="deal-title">{t('category_shoes')}</h6>
                                         </div>
@@ -314,7 +352,7 @@ const HomePage = () => {
                                 <div className="single-deal">
                                     <div className="overlay"></div>
                                     <img className="img-fluid w-100 category_home_custom" src={category4} alt="" />
-                                    <Link className="img-pop-up" target="_blank" to={"/category-page/" + equiment}>
+                                    <Link className="img-pop-up" to={"/category-page/" + equiment}>
                                         <div className="deal-details">
                                             <h6 className="deal-title">{t('category_accessories')}</h6>
                                         </div>
@@ -325,7 +363,7 @@ const HomePage = () => {
                                 <div className="single-deal">
                                     <div className="overlay"></div>
                                     <img className="img-fluid w-100 category_home_custom" src={category2} alt="" />
-                                    <Link className="img-pop-up" target="_blank" to={"/category-page/" + clothes}>
+                                    <Link className="img-pop-up" to={"/category-page/" + clothes}>
                                         <div className="deal-details">
                                             <h6 className="deal-title">{t('category_clothes')}</h6>
                                         </div>
@@ -338,7 +376,7 @@ const HomePage = () => {
                         <div className="single-deal">
                             <div className="overlay"></div>
                             <img className="img-fluid w-100 category_home_custom_1" src={category5} alt="" />
-                            <Link className="img-pop-up" target="_blank" to={"#"}>
+                            <Link className="img-pop-up" to={"#"}>
                                 <div className="deal-details">
                                     <h6 className="deal-title">{t('category_sale')}</h6>
                                 </div>

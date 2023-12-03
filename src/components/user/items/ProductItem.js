@@ -51,55 +51,65 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
     };
 
     return (
-        <div
-            className="col-lg-3 col-md-6 col-sm-6 product-item mt-2 card"
-            key={product.id}
-        >
-            <div className="single-product">
-                <img className="img-fluid img-product-item" src={product.listImage[0].path} alt="" />
-                <div className="product-details">
-                    <h6>{product.name}</h6>
-                    <div className="price">
-                        <h6>{formatCurrency(product.price)} </h6>
-                        {/* <h6 className="l-through">${product.price}</h6> */}
-                    </div>
-                    <div className="prd-bottom">
-                        {product.totalQuantity > 0 ? (
-                            <Link className="social-info" onClick={() => handleAddToCart(product)} >
-                                <span><IoBagAdd /></span>
-                                <p className="hover-text">{t('add_to_bag')}</p>
-                            </Link>
-                        ) : (
-                            <Link className="social-info">
-                                <span><AiOutlineClose /></span>
-                                <p className="hover-text">{t('out_of_stock')}</p>
-                            </Link>
-                        )}
-                        {isInWishlist ? (
-                            <Link to={'/wish-list'} className="social-info">
-                                <span><FaHeart /></span>
-                                <p className="hover-text">{t('wishlist')}</p>
-                            </Link>
-                        ) : (
-                            <Link className="social-info" onClick={addToWishlist}>
-                                <span><FaRegHeart /></span>
-                                <p className="hover-text">{t('wishlist')}</p>
-                            </Link>
-                        )}
+        <>
+            <div
+                className="col-lg-3 col-md-6 col-sm-6 product-item mt-2 card"
+                key={product.id}
+            >
+                <div className="single-product">
+                    <img className="img-fluid img-product-item" src={product.listImage[0].path} alt="" />
+                    <div className="product-details">
+                        <h6>{product.name}</h6>
+                        <div className="price">
+                            {product.price !== product.discountedPrice ? (
+                                <>
+                                    <h6>{formatCurrency(product.discountedPrice)}</h6>
+                                    <h6 className="l-through">{formatCurrency(product.price)}</h6>
+                                </>
+                            ) : (
+                                <h6>{formatCurrency(product.price)}</h6>
+                            )}
+
+                        </div>
+                        <div className="prd-bottom">
+                            {product.totalQuantity > 0 ? (
+                                <Link className="social-info" onClick={() => handleAddToCart(product)} >
+                                    <span><IoBagAdd /></span>
+                                    <p className="hover-text">{t('add_to_bag')}</p>
+                                </Link>
+                            ) : (
+                                <Link className="social-info">
+                                    <span><AiOutlineClose /></span>
+                                    <p className="hover-text">{t('out_of_stock')}</p>
+                                </Link>
+                            )}
+                            {isInWishlist ? (
+                                <Link to={'/wish-list'} className="social-info">
+                                    <span><FaHeart /></span>
+                                    <p className="hover-text">{t('wishlist')}</p>
+                                </Link>
+                            ) : (
+                                <Link className="social-info" onClick={addToWishlist}>
+                                    <span><FaRegHeart /></span>
+                                    <p className="hover-text">{t('wishlist')}</p>
+                                </Link>
+                            )}
 
 
-                        <Link to={''} className="social-info" onClick={() => setShowModal(product.id)}>
-                            <span><FaEye /></span>
-                            <p className="hover-text" >{t('quick_view')}</p>
-                        </Link>
-                        <Link to={'/product-detail/' + product.id} className="social-info">
-                            <span><LuMoveDiagonal /></span>
-                            <p className="hover-text">{t('view_more')}</p>
-                        </Link>
+                            <Link to={''} className="social-info" onClick={() => setShowModal(product.id)}>
+                                <span><FaEye /></span>
+                                <p className="hover-text" >{t('quick_view')}</p>
+                            </Link>
+                            <Link to={'/product-detail/' + product.id} className="social-info">
+                                <span><LuMoveDiagonal /></span>
+                                <p className="hover-text">{t('view_more')}</p>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
+
     );
 };
 

@@ -22,7 +22,7 @@ const LoginUserPage = () => {
     };
     const navigate = useNavigate();
 
-    const api = process.env.REACT_APP_API_URL_AUTH;
+    const auth = process.env.REACT_APP_API_URL_AUTH;
     useEffect(() => {
         const userToken = Cookies.get('userToken');
         if (userToken) {
@@ -39,7 +39,7 @@ const LoginUserPage = () => {
         if (token) {
             try {
                 // Assuming api is defined somewhere in your code
-                const response = await axios.get(api + "/verify-email", {
+                const response = await axios.get(auth + "/verify-email", {
                     params: { token: token }
                 });
                 NotificationManager.success(response.data);
@@ -59,7 +59,7 @@ const LoginUserPage = () => {
 
         try {
             // Sử dụng Axios
-            const response = await axios.post(api + "/login", { email, password });
+            const response = await axios.post(auth + "/login", { email, password });
             if (response.status === 200) {
 
                 const token = response.data.token;

@@ -27,6 +27,7 @@ const EditProductAdmin = () => {
     const [images, setImages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isValidImages, setIsValidImages] = useState(true);
+
     const [formData, setFormData] = useState({
         productName: '',
         quantity: '',
@@ -35,7 +36,30 @@ const EditProductAdmin = () => {
         brand: '',
         files: []
     });
+    const [discounts, setDiscounts] = useState([]);
+    const [discount, setDiscount] = useState([]);
+    useEffect(() => {
+        const adminToken = Cookies.get('adminToken');
 
+        const fetchDiscount = async () => {
+            try {
+                const response = await axios.get(api + '/discounts', {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                // Xử lý phản hồi từ server (response.data)
+                setDiscounts(response.data);
+            } catch (error) {
+                // Xử lý lỗi
+                console.error('Error fetching discounts:', error);
+            }
+        };
+
+        fetchDiscount();
+    }, []);
     // Fetch product data for editing
     useEffect(() => {
         const fetchProduct = async () => {
@@ -54,7 +78,7 @@ const EditProductAdmin = () => {
                 setQuantity(response.data.totalQuantity);
                 setDescription(response.data.description);
                 setDetails(response.data.detail);
-
+                setDiscount(response.data.discountID);
             } catch (error) {
                 console.error('Error fetching product:', error);
             }
@@ -146,38 +170,100 @@ const EditProductAdmin = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const formDataToSend = new FormData();
-            formDataToSend.append('name', productName);
-            formDataToSend.append('totalQuantity', quantity);
-            formDataToSend.append('price', price);
-            formDataToSend.append('categoryID', category);
-            formDataToSend.append('catalogID', brand);
-            formDataToSend.append('description', description);
-            formDataToSend.append('detail', details);
-            formDataToSend.append('sizesID', 2);
-            formDataToSend.append('colorsID', 2);
-            formDataToSend.append('lengthIDX', 1);
 
-            if (Array.isArray(formData.files) && formData.files.length > 0) {
-                formData.files.forEach((file, index) => {
-                    formDataToSend.append('files', file);
-                });
-            }
-            setIsLoading(true);
-            const response = await axios.put(`${api}/products/update/${productID}`, formDataToSend, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${adminToken}`
+        if (discount !== "") {
+            try {
+                const formDataToSend = new FormData();
+                formDataToSend.append('name', productName);
+                formDataToSend.append('totalQuantity', quantity);
+                formDataToSend.append('price', price);
+                formDataToSend.append('categoryID', category);
+                formDataToSend.append('catalogID', brand);
+                formDataToSend.append('description', description);
+                formDataToSend.append('detail', details);
+                formDataToSend.append('sizesID', 2);
+                formDataToSend.append('colorsID', 2);
+                formDataToSend.append('lengthIDX', 1);
+
+                if (Array.isArray(formData.files) && formData.files.length > 0) {
+                    // Sắp xếp lại mảng files theo thứ tự
+                    formData.files.sort((a, b) => a.lastModified - b.lastModified);
+
+                    formData.files.forEach((file, index) => {
+                        formDataToSend.append('files', file);
+                    });
                 }
-            });
-            setIsLoading(false);
-            navigate(admin_url + '/products_list');
-        } catch (error) {
-            setIsLoading(false);
-            NotificationManager.error('Lỗi xảy ra khi sửa sản phẩm. Vui lòng nhập đầy đủ thông tin của sản phẩm', 'Lỗi');
-            console.error('Error editing product:', error);
+                setIsLoading(true);
+                const response = await axios.put(`${api}/products/update/${productID}`, formDataToSend, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${adminToken}`
+                    }
+                });
+                await axios.post(
+                    `${api}/products/${productID}/assignDiscount/${discount}`,
+                    {},
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${adminToken}`
+                        }
+                    }
+                );
+                setIsLoading(false);
+                navigate(admin_url + '/products_list');
+            } catch (error) {
+                setIsLoading(false);
+                NotificationManager.error('Lỗi xảy ra khi sửa sản phẩm. Vui lòng nhập đầy đủ thông tin của sản phẩm', 'Lỗi');
+                console.error('Error editing product:', error);
+            }
+
+        } else {
+            try {
+                const formDataToSend = new FormData();
+                formDataToSend.append('name', productName);
+                formDataToSend.append('totalQuantity', quantity);
+                formDataToSend.append('price', price);
+                formDataToSend.append('categoryID', category);
+                formDataToSend.append('catalogID', brand);
+                formDataToSend.append('description', description);
+                formDataToSend.append('detail', details);
+                formDataToSend.append('sizesID', 2);
+                formDataToSend.append('colorsID', 2);
+                formDataToSend.append('lengthIDX', 1);
+
+                if (Array.isArray(formData.files) && formData.files.length > 0) {
+                    // Sắp xếp lại mảng files theo thứ tự
+                    formData.files.sort((a, b) => a.lastModified - b.lastModified);
+
+                    formData.files.forEach((file, index) => {
+                        formDataToSend.append('files', file);
+                    });
+                }
+                setIsLoading(true);
+                const response = await axios.put(`${api}/products/update/${productID}`, formDataToSend, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${adminToken}`
+                    }
+                });
+                await axios.post(
+                    `${api}/products/${productID}/assignDiscount/0`,
+                    {},
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${adminToken}`
+                        }
+                    }
+                );
+                setIsLoading(false);
+                navigate(admin_url + '/products_list');
+            } catch (error) {
+                setIsLoading(false);
+                NotificationManager.error('Lỗi xảy ra khi sửa sản phẩm. Vui lòng nhập đầy đủ thông tin của sản phẩm', 'Lỗi');
+                console.error('Error editing product null:', error);
+            }
         }
+
     };
 
 
@@ -235,6 +321,7 @@ const EditProductAdmin = () => {
                                                 />
                                             </div>
                                         </div>
+
                                         <div className="mb-3">
                                             <label className="form-label" htmlFor="product-quantity">Số lượng</label>
                                             <div className="input-group input-group-merge">
@@ -269,6 +356,29 @@ const EditProductAdmin = () => {
                                                 />
                                             </div>
                                         </div>
+
+                                        <div className="mb-3">
+                                            <label className="form-label" htmlFor="product-discount">Khuyến Mãi</label>
+                                            <div className="input-group input-group-merge">
+                                                <span id="product-discount-icon" className="input-group-text"><Icon icon="mdi:discount-outline" /></span>
+                                                <select
+                                                    className="form-select"
+                                                    id="product-discount"
+                                                    aria-describedby="product-discount-icon"
+                                                    onChange={(e) => setDiscount(e.target.value)}
+                                                    name="discount"
+                                                    value={discount}
+                                                >
+                                                    <option value="">Choose...</option>
+                                                    {discounts.map(discount => (
+                                                        <option key={discount.id} value={discount.id}>{discount.percentage} %</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+
                                         <div className="mb-3">
                                             <label className="form-label" htmlFor="product-category">Danh mục</label>
                                             <div className="input-group input-group-merge">
@@ -308,7 +418,7 @@ const EditProductAdmin = () => {
                                             </div>
                                         </div>
                                         <div className="mb-3">
-                                            <label htmlFor="product-image" className="form-label">Thêm ảnh sản phẩm (jpg, png)</label>
+                                            <label htmlFor="product-image" className="form-label">Thêm ảnh sản phẩm (jpg, png) - Chọn ảnh hiển thị chính đầu tiên</label>
                                             <div className="input-group input-group-merge">
                                                 <span id="product-image-icon" className="input-group-text"><Icon icon="ph:image-light" /></span>
                                                 <input
@@ -319,6 +429,7 @@ const EditProductAdmin = () => {
                                                     aria-describedby="product-image-icon"
                                                     onChange={handleFileChange}
                                                     accept=".jpg, .jpeg, .png"
+                                                    capture="user"
                                                 />
                                             </div>
                                         </div>

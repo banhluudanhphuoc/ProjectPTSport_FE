@@ -57,8 +57,14 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
                     <div className="product-details">
                         <h6>{product.name}</h6>
                         <div className="price">
-                            <h6>{formatCurrency(product.price)} </h6>
-                            {/* <h6 className="l-through">${product.price}</h6> */}
+                            {product.price !== product.discountedPrice ? (
+                                <>
+                                    <h6>{formatCurrency(product.discountedPrice)}</h6>
+                                    <h6 className="l-through">{formatCurrency(product.price)}</h6>
+                                </>
+                            ) : (
+                                <h6>{formatCurrency(product.price)}</h6>
+                            )}
                         </div>
                         <div className="prd-bottom">
                             {product.totalQuantity > 0 ? (

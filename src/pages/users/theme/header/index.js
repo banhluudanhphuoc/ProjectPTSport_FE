@@ -149,51 +149,54 @@ const Header = ({ isHome }) => {
         };
         fetchBrands();
         fetchCategories();
-        const fetchMe = async () => {
-            try {
-                const response = await axios.get(auth + '/me', {
-                    headers: {
-                        'Authorization': `Bearer ${userToken}`,
-                        'Content-Type': 'application/json',
-                    }
-                });
+        if (userToken) {
+            const fetchMe = async () => {
+                try {
+                    const response = await axios.get(auth + '/me', {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                            'Content-Type': 'application/json',
+                        }
+                    });
 
-                setUser(response.data);
+                    setUser(response.data);
 
-                // Call fetchProducts after setUser
-                fetchProductsWishList(response.data.userId);
-                fetchCountItemCart(response.data.userId);
-            } catch (error) {
-                console.error('Error fetching Brand:', error);
-            }
-        };
+                    // Call fetchProducts after setUser
+                    fetchProductsWishList(response.data.userId);
+                    fetchCountItemCart(response.data.userId);
+                } catch (error) {
+                    console.error('Error fetching Brand:', error);
+                }
+            };
 
-        const fetchProductsWishList = async (userId) => {
-            try {
-                const response = await axios.get(api + '/wish-list/' + userId, {
-                    headers: {
-                        'Authorization': `Bearer ${userToken}`,
-                        'Content-Type': 'application/json',
-                    }
-                });
+            const fetchProductsWishList = async (userId) => {
+                try {
+                    const response = await axios.get(api + '/wish-list/' + userId, {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                            'Content-Type': 'application/json',
+                        }
+                    });
 
-                setProductsWishListCount(response.data.productDtos.length);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
+                    setProductsWishListCount(response.data.productDtos.length);
+                } catch (error) {
+                    console.error('Error fetching products:', error);
+                }
+            };
 
-        const fetchCountItemCart = async (userId) => {
-            try {
-                const response = await axios.get(api + '/cart/count/' + userId);
+            const fetchCountItemCart = async (userId) => {
+                try {
+                    const response = await axios.get(api + '/cart/count/' + userId);
 
-                setTotalItemOnCart(response.data);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
+                    setTotalItemOnCart(response.data);
+                } catch (error) {
+                    console.error('Error fetching products:', error);
+                }
+            };
 
-        fetchMe();
+            fetchMe();
+        }
+
     }, [api, auth]);
 
 
@@ -419,7 +422,7 @@ const Header = ({ isHome }) => {
                         </form>
 
 
-                        {searchResults.length > 0 && (
+                        {searchResults.length > 0 ? (
                             <div className="search-results">
                                 <div className="scrollable-results">
                                     <div className="row">
@@ -443,6 +446,8 @@ const Header = ({ isHome }) => {
                                     </div>
                                 </div>
                             </div>
+                        ) : (
+                            <div className="search-results">{t('search_result_found')}</div>
                         )}
                     </div>
                 </div>

@@ -174,7 +174,7 @@ const resources = {
             "contact_send_message": "Gửi tin nhắn",
 
 
-            "profile_title": "Xin chào ông/bà",
+            "profile_title": "Xin chào Anh/Chị",
             "profile_phone": "Số điện thoại",
             "profile_edit": "Chỉnh sửa thông tin",
             "profile_my_order": "Đơn hàng của tôi",
@@ -200,6 +200,7 @@ const resources = {
             "order_detail_date": "Ngày",
             "order_detail_status": "Trạng thái",
             "order_detail_button_back": "Quay lại",
+            "order_detail_button_cancel_order": "Hủy đơn hàng",
             "order_detail_product": "Sản phẩm",
             "order_detail_product_name": "Tên sản phẩm",
             "order_detail_product_price": "Giá",
@@ -231,6 +232,7 @@ const resources = {
             "pageTitle_register": "Đăng ký",
             "pageTitle_change_password": "Đổi mật khẩu",
             "pageTitle_wish_list": "Yêu thích",
+            "pageTitle_enter_new_password": "Nhập mật khẩu mới",
 
             "notification_add_product_to_cart_success": "Sản phẩm đã được thêm vào giỏ hàng thành công .Nhấn vào đây để đi tới giỏ hàng ",
             "notification_add_product_to_cart_success_title": "Thành công",
@@ -238,6 +240,10 @@ const resources = {
             "forgot_pass_title": "Quên mật khẩu",
             "forgot_pass_email": "Nhập Email",
             "forgot_pass_button": "Gửi mật khẩu mới",
+
+            "enter_new_pass_title": "Nhập mật khẩu mới",
+            "enter_new_pass_re_password": "Nhập lại mật khẩu mới",
+            "enter_new_pass_button": "Xác nhận thay đổi mật khẩu mới",
 
 
             "change_password_new": "Mật khẩu mới",
@@ -253,6 +259,8 @@ const resources = {
             "message_fail_add_to_cart": "Cần đăng nhập để mua hàng",
             "message_success_delete_to_cart": "Sản phẩm đã được xóa khỏi giỏ hàng",
             "message_total_quantity": "Vượt quá số lượng trong kho",
+            "message_success_cancel_order": "Hủy đơn hàng thành công",
+
 
             "modal_delete_wishlist_title": "Xác nhận xóa sản phẩm",
             "modal_delete_wishlist": "Bạn có chắc chắn muốn xóa sản phẩm này khỏi danh sách Yêu thích?",
@@ -274,6 +282,12 @@ const resources = {
             "checkout_validation_ward": "Vui lòng chọn Phường/Thị Trấn",
             "checkout_validation_method_payment": "Vui lòng chọn phương thức thanh toán",
 
+            "search_result_found": "Không tìm thấy sản phẩm",
+
+            "confirmation_modal_title": "Hủy đơn hàng",
+            "confirmation_modal_message": "Bạn có chắc là muốn hủy đơn hàng này không ?",
+            "confirmation_modal_button_cancel": "Quay lại",
+            "confirmation_modal_button_confirm": "Hủy đơn hàng",
         }
     },
     EN: {
@@ -470,6 +484,7 @@ const resources = {
             "order_detail_date": "Date",
             "order_detail_status": "Status",
             "order_detail_button_back": "Back",
+            "order_detail_button_cancel_order": "Cancel order",
             "order_detail_product": "Products",
             "order_detail_product_name": "Product name",
             "order_detail_product_price": "Price",
@@ -501,6 +516,7 @@ const resources = {
             "pageTitle_register": "Register",
             "pageTitle_change_password": "Change Password",
             "pageTitle_wish_list": "Wishlist",
+            "pageTitle_enter_new_password": "Enter new password",
 
             "notification_add_product_to_cart_success": "The product has been successfully added to the cart.Click to go to Cart",
             "notification_add_product_to_cart_success_title": "Successfully",
@@ -508,6 +524,10 @@ const resources = {
             "forgot_pass_title": "Forgot Password",
             "forgot_pass_email": "Enter Email",
             "forgot_pass_button": "Send new password",
+
+            "enter_new_pass_title": "Enter new password",
+            "enter_new_pass_re_password": "Re-enter new password",
+            "enter_new_pass_button": "Confirm new password change",
 
             "change_password_new": "New Password",
             "change_password_new_confirm": "Confirm New Password",
@@ -522,6 +542,7 @@ const resources = {
             "message_fail_add_to_cart": "Need to log in to purchase",
             "message_success_delete_to_cart": "The product has been removed from the cart",
             "message_total_quantity": "Exceeded quantity in stock",
+            "message_success_cancel_order": "Order canceled successfully",
 
             "modal_delete_wishlist_title": "Confirm product deletion",
             "modal_delete_wishlist": "Are you sure you want to remove this product from your Wishlist?",
@@ -542,6 +563,13 @@ const resources = {
             "checkout_validation_district": "Please select a District",
             "checkout_validation_ward": "Please select Ward/Town",
             "checkout_validation_method_payment": "Please select a payment method",
+
+            "search_result_found": "Product not found",
+
+            "confirmation_modal_title": "Cancel order",
+            "confirmation_modal_message": "Are you sure you want to cancel this order?",
+            "confirmation_modal_button_cancel": "Back",
+            "confirmation_modal_button_confirm": "Cancel order",
 
         }
     }

@@ -18,7 +18,7 @@ const CartPage = () => {
         removeItem,
         cartTotal,
         emptyCart,
-        clearCartMetadata
+        clearCartMetadata,
     } = useCart();
 
     const { t, i18n } = useTranslation();
@@ -41,7 +41,7 @@ const CartPage = () => {
 
 
     useEffect(() => {
-
+        //console.log(items);
 
         const fetchMe = async () => {
             try {
@@ -93,6 +93,16 @@ const CartPage = () => {
         fetchMe();
 
     }, [api, auth, userToken]);
+
+
+
+
+    // useEffect(() => {
+    //     // Update 'items' whenever 'productOnCart' changes
+    //     if (productOnCart.length > 0) {
+    //         setItems(productOnCart);
+    //     }
+    // }, [productOnCart]);
 
     // useEffect(() => {
     //     if (totalUniqueItems === 0) {
@@ -245,8 +255,10 @@ const CartPage = () => {
         });
 
         // Áp dụng định dạng và trả về chuỗi đã định dạng
-        return formatter.format(amount);
+        const price = amount;
+        return formatter.format(price);
     }
+
     return <>
         <CartProvider>
             <NotificationContainer />

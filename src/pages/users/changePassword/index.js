@@ -21,13 +21,34 @@ const ChangePassword = () => {
         i18n.changeLanguage(lng);
     };
     const navigate = useNavigate();
+    const auth = process.env.REACT_APP_API_URL_AUTH;
+    const [user, setUser] = useState([]);
+    const userToken = Cookies.get('userToken');
     useEffect(() => {
-        const userToken = Cookies.get('userToken');
+
         if (!userToken) {
             navigate('/login-user');
         }
+        const fetchMe = async () => {
+            try {
+                const response = await axios.get(auth + '/me', {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
 
-    }, [navigate]);
+                setUser(response.data);
+            } catch (error) {
+                // Xử lý lỗi
+                console.error('Error fetching Brand:', error);
+            }
+        };
+
+
+
+        fetchMe();
+    }, [navigate, auth, userToken]);
 
 
     const form = useForm({
@@ -64,32 +85,34 @@ const ChangePassword = () => {
         e.preventDefault();
         form.validate();
         const oldPassword = document.getElementById("oldPassword").value;
-        const newPassword = document.getElementById("password").value;
-        const userToken = Cookies.get('userToken');
+        const password = document.getElementById("password").value;
+
+        const userId = user.userId;
         try {
             // Sử dụng Axios
-            const response = await axios.put(api + "/user/password", { oldPassword, newPassword }, {
+            const response = await axios.put(api + "/user/password", { userId, oldPassword, password }, {
                 headers: {
                     'Authorization': `Bearer ${userToken}`
                 }
 
             });
+            console.log(response);
             if (response.status === 200) {
-                NotificationManager.success(response.data);
+                NotificationManager.success(response.data.message);
                 if (userToken) {
                     Cookies.remove('userToken');
                 }
                 setTimeout(() => {
                     navigate('/login-user');
-                }, 3000);
+                }, 2000);
             } else {
                 NotificationManager.error(response.data);
             }
         } catch (error) {
             if (error.response) {
                 // Nếu có phản hồi từ máy chủ, bạn có thể trích xuất thông điệp lỗi từ đó
-                const errorMessage = error.response.data;
-                console.log('Lỗi từ máy chủ:', errorMessage);
+                const errorMessage = error.response.data.message;
+                //console.log('Lỗi từ máy chủ:', errorMessage);
                 NotificationManager.error(errorMessage);
             } else {
                 // Xử lý lỗi nếu không có phản hồi từ máy chủ

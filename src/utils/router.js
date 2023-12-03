@@ -23,6 +23,8 @@ export const ROUTERS = {
         NOT_FOUND: "*",
         CHANGE_PASSWORD: "change-password",
         WISHLIST: "wish-list",
+        ENTER_NEW_PASSWORD: "enter-new-password",
+        RESET_PASSWORD: "reset-password",
     },
     ADMIN: {
         NOT_FOUND_ADMIN: "*",
@@ -58,6 +60,10 @@ export const ROUTERS = {
         ORDERS_LIST_DELIVERING: "orders_list_admin_delivering",
         ORDERS_LIST_PAY: "orders_list_admin_pay",
         ORDERS_LIST_ORDERED: "orders_list_admin_ordered",
+
+        DISCOUNT_LIST: "discounts_list",
+        DISCOUNT_CREATE: "discount_create",
+
 
     }
 

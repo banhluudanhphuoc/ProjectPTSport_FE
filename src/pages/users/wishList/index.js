@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { CartProvider, useCart } from "react-use-cart";
 const WishList = () => {
 
-    const { addItem } = useCart();
+    const { addItem, items } = useCart();
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
     const handleLanguageChange = (newLanguage, lng) => {
@@ -92,32 +92,72 @@ const WishList = () => {
         if (!userToken) {
             NotificationManager.error(t('message_fail_add_to_cart'), t('message_failed'));
         } else {
-            const cartItem2 = {
-                id: item.id,
-                productName: item.name,
-                sizeID: 2,
-                colorID: 2,
-                image: item.listImage[0].path,
-                quantity: 1,
-                price: item.price,
-                totalPrice: item.price,
-            };
-            const cartItem = {
-                productID: item.id, // ID thực của sản phẩm
-                productName: item.name,
-                sizeID: 2,
-                colorID: 2,
-                image: item.listImage[0].path,
-                quantity: 1,
-                price: item.price,
-                totalPrice: item.price,
-            };
-            addToCart(cartItem, cartItem2);
+            const productInCart = items.find(cartItem => cartItem.id === item.id);
+            if (productInCart) {
+                if (productInCart.quantity + 1 > item.totalQuantity) {
+                    NotificationManager.error(t('message_total_quantity'));
+                } else {
+                    const cartItem2 = {
+                        id: item.id,
+                        productName: item.name,
+                        sizeID: 2,
+                        colorID: 2,
+                        image: item.listImage[0].path,
+                        quantity: 1,
+                        price: item.discountedPrice,
+                        totalPrice: item.discountedPrice,
+                        //discountedPrice: item.discountedPrice,
+                    };
+                    const cartItem = {
+                        productID: item.id, // ID thực của sản phẩm
+                        productName: item.name,
+                        sizeID: 2,
+                        colorID: 2,
+                        //image: item.listImage[0].path,
+                        quantity: 1,
+                        //price: item.price,
+                        //totalPrice: item.price,
+                        //discountedPrice: item.discountedPrice,
+                    };
+                    addToCart(cartItem, cartItem2);
 
-            // Hiển thị thông báo thành công
-            NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
-                navigate("/cart");
-            });
+                    // Hiển thị thông báo thành công
+                    NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
+                        navigate("/cart");
+                    });
+                }
+            } else {
+                const cartItem2 = {
+                    id: item.id,
+                    productName: item.name,
+                    sizeID: 2,
+                    colorID: 2,
+                    image: item.listImage[0].path,
+                    quantity: 1,
+                    price: item.discountedPrice,
+                    totalPrice: item.discountedPrice,
+                    //discountedPrice: item.discountedPrice,
+                };
+                const cartItem = {
+                    productID: item.id, // ID thực của sản phẩm
+                    productName: item.name,
+                    sizeID: 2,
+                    colorID: 2,
+                    //image: item.listImage[0].path,
+                    quantity: 1,
+                    //price: item.price,
+                    //totalPrice: item.price,
+                    //discountedPrice: item.discountedPrice,
+                };
+                addToCart(cartItem, cartItem2);
+
+                // Hiển thị thông báo thành công
+                NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
+                    navigate("/cart");
+                });
+            }
+
+
         }
     };
 

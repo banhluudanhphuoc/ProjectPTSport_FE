@@ -28,7 +28,7 @@ const RegisterPage = () => {
     const [currentLanguage, setCurrentLanguage] = useState('VI');
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const api = process.env.REACT_APP_API_URL_AUTH;
+    const auth = process.env.REACT_APP_API_URL_AUTH;
     const handleLanguageChange = (newLanguage, lng) => {
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
@@ -85,7 +85,7 @@ const RegisterPage = () => {
             try {
                 setIsLoading(true);
                 const formattedDateOfBirth = format(form.values.date_of_birth, 'dd/MM/yyyy');
-                const response = await axios.post(api + '/register', {
+                const response = await axios.post(auth + '/register', {
                     password: form.values.password,
                     name: form.values.full_name,
                     email: form.values.email,
