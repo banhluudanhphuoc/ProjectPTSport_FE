@@ -278,6 +278,7 @@ const CheckoutPage = () => {
             }
         } else {
             setIsLoading(true);
+
             try {
                 const response = await axios.post(
                     api + '/payment/pay',
@@ -290,7 +291,18 @@ const CheckoutPage = () => {
 
                     }
                 );
-                window.open(response.data, '_blank');
+                Cookies.set('userID', user.userId);
+                Cookies.set('customerName', values.customerName);
+                Cookies.set('customerAddress', `${values.customerAddress}, ${selectedWardName}, ${selectedDistrictName}, ${selectedCityName}`);
+                Cookies.set('customerEmail', user.email);
+                Cookies.set('customerPhone', values.customerPhone);
+
+
+                window.open(response.data);
+                // setTimeout(function () {
+                //     window.location.href = "/";
+                // }, 2000);
+
             } catch (error) {
                 setIsLoading(false);
                 console.error('Error submitting order for alternative payment method:', error);
@@ -299,6 +311,15 @@ const CheckoutPage = () => {
 
     };
 
+    useEffect(() => {
+        window.addEventListener('message', (event) => {
+            if (event.data === 'paymentConfirmed') {
+                window.close();
+                window.self.close();
+            }
+        });
+
+    }, []);
 
     return <>
         {isLoading && (

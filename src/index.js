@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.Fragment>
     <BrowserRouter>
-      <FacebookProvider appId={process.env.FACEBOOK_APP_ID}>
+      <FacebookProvider appId={process.env.REACT_APP_FACEBOOK_APP_ID}>
         <CartProvider>
           <RouterCustom />
         </CartProvider>
