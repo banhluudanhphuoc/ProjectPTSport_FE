@@ -24,7 +24,7 @@ const ListProductsAdmin = () => {
                 setProducts(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                console.error('Error fetching categories:', error);
+                //console.error('Error fetching categories:', error);
             }
         };
 
@@ -69,7 +69,7 @@ const ListProductsAdmin = () => {
             NotificationManager.success("Xóa sản phẩm thành công");
         } catch (error) {
             setIsLoading(false);
-            console.error('Error deleting category:', error);
+            //console.error('Error deleting category:', error);
         }
     };
 

@@ -68,7 +68,7 @@ const CategoryPage = () => {
                 }
 
             } catch (error) {
-                console.error('Error fetching data:', error);
+                //console.error('Error fetching data:', error);
             }
         };
 
@@ -83,7 +83,7 @@ const CategoryPage = () => {
                 setCategories(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                console.error('Error fetching categories:', error);
+                //console.error('Error fetching categories:', error);
             }
         };
         const fetchBrands = async () => {
@@ -94,7 +94,7 @@ const CategoryPage = () => {
                 setBrands(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                console.error('Error fetching categories:', error);
+                //console.error('Error fetching categories:', error);
             }
         };
         fetchBrands();
@@ -118,7 +118,7 @@ const CategoryPage = () => {
                 // Call fetchProducts after setUser
                 fetchProductsWishList(response.data.userId);
             } catch (error) {
-                console.error('Error fetching Brand:', error);
+                //console.error('Error fetching Brand:', error);
             }
         };
 
@@ -133,7 +133,7 @@ const CategoryPage = () => {
 
                 setProductsWishList(response.data.productDtos);
             } catch (error) {
-                console.error('Error fetching products:', error);
+                //console.error('Error fetching products:', error);
             }
         };
 
@@ -174,7 +174,7 @@ const CategoryPage = () => {
                 setCart(data.itemList);
             })
             .catch((error) => {
-                console.error('Error adding to cart:', error);
+                //console.error('Error adding to cart:', error);
             });
         addItem(cartItem2);
     };

@@ -51,7 +51,7 @@ const AccountSettings = () => {
                 setCurrentEmail(response.data.email);
                 setUser(response.data);
             } catch (error) {
-                console.error('Error fetching admin:', error);
+                //console.error('Error fetching admin:', error);
             }
         };
 
@@ -89,7 +89,7 @@ const AccountSettings = () => {
             );
             navigate(admin_url + '/customers_list');
         } catch (error) {
-            console.error('Error updating user:', error);
+            //console.error('Error updating user:', error);
             // Handle the error condition
         }
     };
@@ -128,7 +128,7 @@ const AccountSettings = () => {
     //         );
     //         navigate(admin_url + '/customers_list');
     //     } catch (error) {
-    //         console.error('Error changing password:', error);
+    //         //console.error('Error changing password:', error);
     //     }
     // };
 

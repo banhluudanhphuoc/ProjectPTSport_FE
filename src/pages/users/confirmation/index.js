@@ -92,7 +92,7 @@ const Confirmation = () => {
                 Cookies.remove('customerPhone');
 
             } catch (error) {
-                console.error('Error fetching data:', error);
+                //console.error('Error fetching data:', error);
                 // Handle errors as needed
             }
         };

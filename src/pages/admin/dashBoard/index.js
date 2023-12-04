@@ -170,7 +170,7 @@ const DashBoard = () => {
                 }
 
             } catch (error) {
-                console.error('Error fetching orders:', error);
+                //console.error('Error fetching orders:', error);
                 // Hiển thị thông báo lỗi hoặc ghi log ở đây
             }
         };
@@ -184,7 +184,7 @@ const DashBoard = () => {
 
 
             } catch (error) {
-                console.error('Error fetching products:', error);
+                //console.error('Error fetching products:', error);
             }
         };
 

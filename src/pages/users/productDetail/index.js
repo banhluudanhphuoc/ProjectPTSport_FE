@@ -46,7 +46,7 @@ const ProductDetail = () => {
                 setMainImage(response.data.listImage[0].path);
                 setProductListImage(response.data.listImage);
             } catch (error) {
-                console.error('Error fetching product:', error);
+                //console.error('Error fetching product:', error);
             }
 
         };
@@ -69,7 +69,7 @@ const ProductDetail = () => {
                     // Call fetchProducts after setUser
                     fetchProductsWishList(response.data.userId);
                 } catch (error) {
-                    console.error('Error fetching Brand:', error);
+                    //console.error('Error fetching Brand:', error);
                 }
             };
 
@@ -84,7 +84,7 @@ const ProductDetail = () => {
 
                     setProductsWishList(response.data.productDtos);
                 } catch (error) {
-                    console.error('Error fetching products:', error);
+                    //console.error('Error fetching products:', error);
                 }
             };
 
@@ -124,7 +124,7 @@ const ProductDetail = () => {
                 }, 500);
             }
         } catch (error) {
-            console.error('Error adding product to wishlist:', error);
+            //console.error('Error adding product to wishlist:', error);
         }
     };
 
@@ -149,7 +149,7 @@ const ProductDetail = () => {
                 setCart(data.itemList);
             })
             .catch((error) => {
-                console.error('Error adding to cart:', error);
+                //console.error('Error adding to cart:', error);
             });
         addItem(cartItem2);
     };
@@ -229,7 +229,9 @@ const ProductDetail = () => {
     };
 
 
-
+    const handleAddToCartNull = () => {
+        NotificationManager.error(t('message_total_quantity'));
+    };
 
 
 
@@ -311,8 +313,10 @@ const ProductDetail = () => {
                                 <div dangerouslySetInnerHTML={{ __html: product.description }}></div>
 
                                 <div className="card_area d-flex align-items-center">
-                                    {product.totalQuantity > 0 && (
+                                    {product.totalQuantity > 0 ? (
                                         <Link className="primary-btn btn-product-detail" onClick={() => handleAddToCart(product)}>{t("add_to_bag")}</Link>
+                                    ) : (
+                                        <Link className="primary-btn btn-product-detail" onClick={() => handleAddToCartNull}>{t("add_to_bag")}</Link>
                                     )}
                                     {isProductInWishlist(productsWishList, product.id) ? (
                                         <Link className="icon_btn btn-product-detail" to={'/wish-list'}><span><FaHeart /></span></Link>
@@ -363,7 +367,7 @@ const ProductDetail = () => {
                             </Tab.Pane>
                             <Tab.Pane eventKey="contact">
                                 <Container className="mt-3 mb-3 d-flex">
-                                    <Col md='6'>
+                                    <Col md='12'>
                                         <Row>
                                             <Col>
                                                 <div className="review_item">
@@ -374,7 +378,7 @@ const ProductDetail = () => {
 
 
                                     </Col>
-                                    <Col md='6'>
+                                    {/* <Col md='6'>
                                         <div className="review_box">
                                             <h4>{t('product_detail_post_comment')}</h4>
                                             <form className="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
@@ -403,7 +407,7 @@ const ProductDetail = () => {
                                                 </div>
                                             </form>
                                         </div>
-                                    </Col>
+                                    </Col> */}
                                 </Container>
 
                             </Tab.Pane>

@@ -23,7 +23,7 @@ const BlogDetail = () => {
                 setNews(response.data);
 
             } catch (error) {
-                console.error('Error fetching News:', error);
+                //console.error('Error fetching News:', error);
             }
         };
 

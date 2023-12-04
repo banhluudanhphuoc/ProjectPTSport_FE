@@ -26,7 +26,7 @@ const DiscountListAdmin = () => {
                 //console.log(response);
             } catch (error) {
                 // Xử lý lỗi
-                //console.error('Error fetching discounts:', error);
+                ////console.error('Error fetching discounts:', error);
             }
         };
 
@@ -49,7 +49,7 @@ const DiscountListAdmin = () => {
             setDiscounts(discounts.filter(discount => discount.id !== discountID));
             NotificationManager.success("Xóa mức giảm giá thành công");
         } catch (error) {
-            console.error('Error deleting discounts:', error);
+            //console.error('Error deleting discounts:', error);
         }
     };
 

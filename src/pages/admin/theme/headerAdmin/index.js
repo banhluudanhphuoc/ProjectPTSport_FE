@@ -30,7 +30,7 @@ const HeaderAdmin = () => {
                 setAdmin(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                console.error('Error fetching admin:', error);
+                //console.error('Error fetching admin:', error);
             }
         };
 
@@ -55,10 +55,10 @@ const HeaderAdmin = () => {
                 Cookies.remove('adminToken')
                 navigate(admin_url + '/admin-login');
             } else {
-                console.error('Logout failed:', response.data);
+                //console.error('Logout failed:', response.data);
             }
         } catch (error) {
-            console.error('Error logging out:', error);
+            //console.error('Error logging out:', error);
         }
     };
 

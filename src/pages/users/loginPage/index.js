@@ -45,7 +45,7 @@ const LoginUserPage = () => {
                 NotificationManager.success(response.data);
             } catch (error) {
                 NotificationManager.error(error.response.data);
-                console.error('Error:', error.message);
+                //console.error('Error:', error.message);
             }
         }
     };

@@ -76,7 +76,7 @@ const EnterNewPassword = () => {
 
             } catch (error) {
                 NotificationManager.error(error.response.data.message);
-                console.error('Error:', error.message);
+                //console.error('Error:', error.message);
             }
         }
     };

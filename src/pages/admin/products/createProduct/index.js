@@ -31,7 +31,7 @@ const CreateProductAdmin = () => {
                 });
                 setCategories(response.data);
             } catch (error) {
-                console.error('Error fetching categories:', error);
+                //console.error('Error fetching categories:', error);
             }
         };
 
@@ -50,7 +50,7 @@ const CreateProductAdmin = () => {
                 });
                 setBrands(response.data);
             } catch (error) {
-                console.error('Error fetching brands:', error);
+                //console.error('Error fetching brands:', error);
             }
         };
 
@@ -130,7 +130,7 @@ const CreateProductAdmin = () => {
                 files: Array.from(files),
             }));
         } catch (error) {
-            console.error('Lỗi kiểm tra kích thước hình ảnh:', error);
+            //console.error('Lỗi kiểm tra kích thước hình ảnh:', error);
         }
     };
 
@@ -183,7 +183,7 @@ const CreateProductAdmin = () => {
         } catch (error) {
             setIsLoading(false);
             NotificationManager.error('Lỗi xảy ra khi thêm sản phẩm . Vui lòng nhập đầy đủ thông tin của sản phẩm', 'Lỗi');
-            console.error('Error adding product:', error);
+            //console.error('Error adding product:', error);
         }
 
 
@@ -254,6 +254,7 @@ const CreateProductAdmin = () => {
                                                     aria-describedby="product-quantity-icon"
                                                     onChange={handleInputChange}
                                                     name="quantity"
+                                                    min={'0'}
                                                 />
                                             </div>
                                         </div>
@@ -270,6 +271,7 @@ const CreateProductAdmin = () => {
                                                     aria-describedby="product-price-icon"
                                                     onChange={handleInputChange}
                                                     name="price"
+                                                    min={'0'}
                                                 />
                                             </div>
                                         </div>

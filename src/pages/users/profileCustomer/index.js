@@ -64,7 +64,7 @@ const ProfileCustomer = () => {
                 fetchOrder(response.data.userId);
             } catch (error) {
                 // Xử lý lỗi
-                console.error('Error fetching Brand:', error);
+                //console.error('Error fetching Brand:', error);
             }
         };
 
@@ -81,7 +81,7 @@ const ProfileCustomer = () => {
 
             } catch (error) {
                 // Xử lý lỗi
-                console.error('Error fetching Brand:', error);
+                //console.error('Error fetching Brand:', error);
             }
         };
 
@@ -109,7 +109,7 @@ const ProfileCustomer = () => {
 
                 setProducts(response.data.contents);
             } catch (error) {
-                console.error('Error fetching products:', error);
+                //console.error('Error fetching products:', error);
             }
         };
         fetchProducts();

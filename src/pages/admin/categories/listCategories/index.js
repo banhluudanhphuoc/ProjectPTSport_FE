@@ -24,7 +24,7 @@ const CategoriesListAdmin = () => {
                 setCategories(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                console.error('Error fetching categories:', error);
+                //console.error('Error fetching categories:', error);
             }
         };
 
@@ -47,7 +47,7 @@ const CategoriesListAdmin = () => {
             setCategories(categories.filter(category => category.categoryID !== categoryID));
             NotificationManager.success("Xóa danh mục thành công");
         } catch (error) {
-            console.error('Error deleting category:', error);
+            //console.error('Error deleting category:', error);
         }
     };
 

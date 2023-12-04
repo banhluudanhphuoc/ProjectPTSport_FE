@@ -57,7 +57,7 @@ const CartPage = () => {
                 fetchTotalPriceCart(response.data.userId);
                 fetchItemCart(response.data.userId);
             } catch (error) {
-                console.error('Error fetching Brand:', error);
+                //console.error('Error fetching Brand:', error);
             }
         };
 
@@ -67,7 +67,7 @@ const CartPage = () => {
 
                 setTotalItemOnCart(response.data);
             } catch (error) {
-                console.error('Error fetching products:', error);
+                //console.error('Error fetching products:', error);
             }
         };
         const fetchItemCart = async (userId) => {
@@ -77,7 +77,7 @@ const CartPage = () => {
                 setProductOnCart(response.data.itemList); // .itemList
                 //console.log(response);
             } catch (error) {
-                console.error('Error fetching products:', error);
+                //console.error('Error fetching products:', error);
             }
         };
         const fetchTotalPriceCart = async (userId) => {
@@ -86,7 +86,7 @@ const CartPage = () => {
 
                 setTotalPriceCart(response.data);
             } catch (error) {
-                console.error('Error fetching products:', error);
+                //console.error('Error fetching products:', error);
             }
         };
 
@@ -119,7 +119,7 @@ const CartPage = () => {
             setItemToRemove(item);
             setShowConfirmationModal(true);
         } else {
-            console.error('idCartItem is null or undefined.');
+            //console.error('idCartItem is null or undefined.');
         }
     };
 
@@ -128,7 +128,7 @@ const CartPage = () => {
             const foundItem = productOnCart.find(item => item.productID === items.id);
             return foundItem ? foundItem.id : null;
         } else {
-            console.error('productOnCart is not an array or is undefined.');
+            //console.error('productOnCart is not an array or is undefined.');
             return null;
         }
     }
@@ -137,7 +137,7 @@ const CartPage = () => {
             const foundItem = productOnCart.find(item => item.productID === items.id);
             return foundItem ? foundItem.productID : null;
         } else {
-            console.error('productOnCart is not an array or is undefined.');
+            //console.error('productOnCart is not an array or is undefined.');
             return null;
         }
     }
@@ -170,11 +170,11 @@ const CartPage = () => {
                 updateItemQuantity(item.id, item.quantity - 1);
             } catch (error) {
                 // Handle the error if the request fails
-                console.error('Error updating product quantity on the server:', error);
+                //console.error('Error updating product quantity on the server:', error);
             }
 
         } else {
-            console.error('idCartItem is null or undefined.');
+            //console.error('idCartItem is null or undefined.');
         }
     };
     const handleIncreaseProduct = async (event, item) => {
@@ -213,10 +213,10 @@ const CartPage = () => {
                 }
             } catch (error) {
                 // Xử lý lỗi nếu yêu cầu thất bại
-                console.error('Lỗi khi cập nhật số lượng sản phẩm trên máy chủ:', error);
+                //console.error('Lỗi khi cập nhật số lượng sản phẩm trên máy chủ:', error);
             }
         } else {
-            console.error('idCartItem là null hoặc không xác định.');
+            //console.error('idCartItem là null hoặc không xác định.');
         }
     };
 
@@ -239,10 +239,10 @@ const CartPage = () => {
                     2000
                 );
             } catch (error) {
-                console.error('Error deleting product:', error);
+                //console.error('Error deleting product:', error);
             }
         } else {
-            console.error('itemToRemove is null or undefined, or idCartItem is null.');
+            //console.error('itemToRemove is null or undefined, or idCartItem is null.');
         }
     };
 

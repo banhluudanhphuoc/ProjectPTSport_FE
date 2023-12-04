@@ -43,7 +43,7 @@ const ContactPage = () => {
                         </div>
                     </div>
                     <div className="col-lg-9">
-                        <form className="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                        <form className="row contact_form" id="contactForm" novalidate="novalidate">
                             <div className="col-md-6">
                                 <div className="form-group">
                                     <input
@@ -95,7 +95,7 @@ const ContactPage = () => {
                                 </div>
                             </div>
                             <div className="col-md-12 text-right">
-                                <button type="submit" value="submit" className="primary-btn">{t('contact_send_message')}</button>
+                                <button value="submit" className="primary-btn">{t('contact_send_message')}</button>
                             </div>
                         </form>
                     </div>

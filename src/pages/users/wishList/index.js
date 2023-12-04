@@ -46,7 +46,7 @@ const WishList = () => {
                 setUser(response.data);
                 fetchProductsWishList(response.data.userId);
             } catch (error) {
-                console.error('Error fetching Brand:', error);
+                //console.error('Error fetching Brand:', error);
             }
         };
 
@@ -61,7 +61,7 @@ const WishList = () => {
 
                 setProductsWishList(response.data.productDtos);
             } catch (error) {
-                console.error('Error fetching products:', error);
+                //console.error('Error fetching products:', error);
             }
         };
 
@@ -82,7 +82,7 @@ const WishList = () => {
                 setCart(data.itemList);
             })
             .catch((error) => {
-                console.error('Error adding to cart:', error);
+                //console.error('Error adding to cart:', error);
             });
         addItem(cartItem2);
     };

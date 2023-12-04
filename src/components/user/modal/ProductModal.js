@@ -4,7 +4,7 @@ import axios from 'axios';
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-
+import { NotificationManager } from 'react-notifications';
 const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) => {
     function formatCurrency(amount) {
         // Sử dụng NumberFormat để định dạng số
@@ -26,7 +26,7 @@ const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) 
                 const response = await axios.get(api + '/categories');
                 setCategories(response.data);
             } catch (error) {
-                //console.error('Error fetching categories:', error);
+                ////console.error('Error fetching categories:', error);
             }
         };
         const fetchBrands = async () => {
@@ -36,12 +36,17 @@ const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) 
                 setBrands(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                //console.error('Error fetching categories:', error);
+                ////console.error('Error fetching categories:', error);
             }
         };
         fetchBrands();
         fetchCategories();
     }, [api]);
+
+
+    const handleAddToCartNull = () => {
+        NotificationManager.error(t('message_total_quantity'));
+    };
     return (
         <>
             <Modal show={showModal} onHide={() => setShowModal(false)} key={product.id}>
@@ -86,9 +91,21 @@ const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) 
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn_add_to_card" onClick={() => handleAddToCart(product)}>
-                        {t('add_to_bag')}
-                    </Button>
+
+                    {product.totalQuantity > 0 ? (
+                        <Button className="btn_add_to_card" onClick={() => handleAddToCart(product)}>
+                            {t('add_to_bag')}
+                        </Button>
+
+                    ) : (
+                        <Button className="btn_add_to_card" onClick={() => handleAddToCartNull()}>
+                            {t('add_to_bag')}
+                        </Button>
+                    )}
+
+
+
+
                     <Button variant="secondary" onClick={() => setShowModal(false)}>
                         {t('close')}
                     </Button>

@@ -38,6 +38,30 @@ const EditProductAdmin = () => {
     });
     const [discounts, setDiscounts] = useState([]);
     const [discount, setDiscount] = useState([]);
+    const [discountPrice, setDiscountPrice] = useState([]);
+
+    const calculatePercentageReduction = () => {
+        const originalPrice = parseFloat(price);
+        const discountedPrice = parseFloat(discountPrice);
+
+        if (originalPrice && discountedPrice) {
+            const reductionPercentage = ((originalPrice - discountedPrice) / originalPrice) * 100;
+            return reductionPercentage.toFixed(2); // You can adjust the number of decimal places as needed
+        }
+
+        return 0; // Default to 0 if prices are not valid numbers
+    };
+
+    const calculatedPercentage = calculatePercentageReduction();
+
+    const matchingDiscount = discounts.find((discount) => {
+        return parseFloat(discount.percentage) === parseFloat(calculatedPercentage);
+    });
+
+    // The ID of the matching discount can be accessed using matchingDiscount.id
+    const matchingDiscountId = matchingDiscount ? matchingDiscount.id : null;
+
+
     useEffect(() => {
         const adminToken = Cookies.get('adminToken');
 
@@ -54,7 +78,7 @@ const EditProductAdmin = () => {
                 setDiscounts(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                console.error('Error fetching discounts:', error);
+                //console.error('Error fetching discounts:', error);
             }
         };
 
@@ -79,8 +103,9 @@ const EditProductAdmin = () => {
                 setDescription(response.data.description);
                 setDetails(response.data.detail);
                 setDiscount(response.data.discountID);
+                setDiscountPrice(response.data.discountedPrice);
             } catch (error) {
-                console.error('Error fetching product:', error);
+                //console.error('Error fetching product:', error);
             }
         };
 
@@ -100,7 +125,7 @@ const EditProductAdmin = () => {
                 });
                 setCategories(response.data);
             } catch (error) {
-                console.error('Error fetching categories:', error);
+                //console.error('Error fetching categories:', error);
             }
         };
 
@@ -119,7 +144,7 @@ const EditProductAdmin = () => {
                 });
                 setBrands(response.data);
             } catch (error) {
-                console.error('Error fetching brands:', error);
+                //console.error('Error fetching brands:', error);
             }
         };
 
@@ -163,7 +188,7 @@ const EditProductAdmin = () => {
                 files: Array.from(files),
             }));
         } catch (error) {
-            console.error('Lỗi kiểm tra kích thước hình ảnh:', error);
+            //console.error('Lỗi kiểm tra kích thước hình ảnh:', error);
         }
     };
 
@@ -214,7 +239,7 @@ const EditProductAdmin = () => {
             } catch (error) {
                 setIsLoading(false);
                 NotificationManager.error('Lỗi xảy ra khi sửa sản phẩm. Vui lòng nhập đầy đủ thông tin của sản phẩm', 'Lỗi');
-                console.error('Error editing product:', error);
+                //console.error('Error editing product:', error);
             }
 
         } else {
@@ -260,7 +285,7 @@ const EditProductAdmin = () => {
             } catch (error) {
                 setIsLoading(false);
                 NotificationManager.error('Lỗi xảy ra khi sửa sản phẩm. Vui lòng nhập đầy đủ thông tin của sản phẩm', 'Lỗi');
-                console.error('Error editing product null:', error);
+                //console.error('Error editing product null:', error);
             }
         }
 
@@ -336,6 +361,7 @@ const EditProductAdmin = () => {
                                                     onChange={(e) => setQuantity(e.target.value)}
                                                     name="quantity"
                                                     value={quantity}
+                                                    min={"0"}
                                                 />
                                             </div>
                                         </div>
@@ -353,6 +379,7 @@ const EditProductAdmin = () => {
                                                     onChange={(e) => setPrice(e.target.value)}
                                                     name="price"
                                                     value={price}
+                                                    min={"0"}
                                                 />
                                             </div>
                                         </div>
@@ -367,11 +394,15 @@ const EditProductAdmin = () => {
                                                     aria-describedby="product-discount-icon"
                                                     onChange={(e) => setDiscount(e.target.value)}
                                                     name="discount"
-                                                    value={discount}
+                                                    value={discount || matchingDiscountId}
                                                 >
+
+
                                                     <option value="">Choose...</option>
-                                                    {discounts.map(discount => (
-                                                        <option key={discount.id} value={discount.id}>{discount.percentage} %</option>
+                                                    {discounts && discounts.map((discount) => (
+                                                        <option key={discount.id} value={discount.id}>
+                                                            {discount.percentage} %
+                                                        </option>
                                                     ))}
                                                 </select>
                                             </div>
@@ -473,7 +504,7 @@ const EditProductAdmin = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 };

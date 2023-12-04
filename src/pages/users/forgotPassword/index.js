@@ -42,7 +42,7 @@ const FotgotPassword = () => {
             );
         } catch (error) {
             setIsLoading(false);
-            console.error('Error sending forgot password request:', error);
+            //console.error('Error sending forgot password request:', error);
             NotificationManager.error(error.response.data.message);
         }
     };
