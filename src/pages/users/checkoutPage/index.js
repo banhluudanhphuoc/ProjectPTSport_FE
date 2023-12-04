@@ -241,7 +241,7 @@ const CheckoutPage = () => {
     }
 
     const handleSubmit = async () => {
-        console.log(user.userId);
+        //console.log(user.userId);
         if (selectedPaymentMethod === '1') {
             try {
                 const response = await axios.post(api + '/payment/money', {

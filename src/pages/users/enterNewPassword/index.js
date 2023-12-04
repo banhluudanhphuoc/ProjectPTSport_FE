@@ -72,7 +72,7 @@ const EnterNewPassword = () => {
 
                 setTimeout(() => {
                     navigate("/login-user");
-                }, 2000);
+                }, 1000);
 
             } catch (error) {
                 NotificationManager.error(error.response.data.message);

@@ -29,7 +29,7 @@ const CreateDiscountAdmin = () => {
 
             navigate(admin_url + '/discounts_list');
         } catch (error) {
-            console.error('Error adding Discount:', error);
+            //console.error('Error adding Discount:', error);
         }
     };
 

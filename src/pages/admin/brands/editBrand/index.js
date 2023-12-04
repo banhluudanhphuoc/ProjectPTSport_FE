@@ -30,7 +30,7 @@ const EditBrandAdmin = () => {
                 setCurrentBrandName(response.data.catalogName);
             } catch (error) {
 
-                console.error('Error fetching brand details:', error);
+                //console.error('Error fetching brand details:', error);
             }
         };
 
@@ -56,7 +56,7 @@ const EditBrandAdmin = () => {
 
             navigate(admin_url + '/brands_list');
         } catch (error) {
-            console.error('Error editing brand:', error);
+            //console.error('Error editing brand:', error);
         }
     };
 

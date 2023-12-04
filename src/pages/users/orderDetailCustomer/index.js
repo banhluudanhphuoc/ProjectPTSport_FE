@@ -102,7 +102,7 @@ const OrderDetailCustomer = () => {
             NotificationManager.success(t('message_success_cancel_order'), t('message_success'));
             setTimeout(() => {
                 navigate('/profile-customer');
-            }, 2000);
+            }, 1000);
 
 
         } catch (error) {

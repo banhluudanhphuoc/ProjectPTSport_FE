@@ -88,37 +88,40 @@ const ChangePassword = () => {
         const password = document.getElementById("password").value;
 
         const userId = user.userId;
-        try {
-            // Sử dụng Axios
-            const response = await axios.put(api + "/user/password", { userId, oldPassword, password }, {
-                headers: {
-                    'Authorization': `Bearer ${userToken}`
-                }
+        if (form.isValid()) {
+            try {
+                // Sử dụng Axios
+                const response = await axios.put(api + "/user/password", { userId, oldPassword, password }, {
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`
+                    }
 
-            });
-            console.log(response);
-            if (response.status === 200) {
-                NotificationManager.success(response.data.message);
-                if (userToken) {
-                    Cookies.remove('userToken');
+                });
+                console.log(response);
+                if (response.status === 200) {
+                    NotificationManager.success(response.data.message);
+                    if (userToken) {
+                        Cookies.remove('userToken');
+                    }
+                    setTimeout(() => {
+                        navigate('/login-user');
+                    }, 1000);
+                } else {
+                    NotificationManager.error(response.data);
                 }
-                setTimeout(() => {
-                    navigate('/login-user');
-                }, 2000);
-            } else {
-                NotificationManager.error(response.data);
-            }
-        } catch (error) {
-            if (error.response) {
-                // Nếu có phản hồi từ máy chủ, bạn có thể trích xuất thông điệp lỗi từ đó
-                const errorMessage = error.response.data.message;
-                //console.log('Lỗi từ máy chủ:', errorMessage);
-                NotificationManager.error(errorMessage);
-            } else {
-                // Xử lý lỗi nếu không có phản hồi từ máy chủ
-                console.error("Lỗi khi gửi yêu cầu đăng nhập:", error);
+            } catch (error) {
+                if (error.response) {
+                    // Nếu có phản hồi từ máy chủ, bạn có thể trích xuất thông điệp lỗi từ đó
+                    const errorMessage = error.response.data.message;
+                    //console.log('Lỗi từ máy chủ:', errorMessage);
+                    NotificationManager.error(errorMessage);
+                } else {
+                    // Xử lý lỗi nếu không có phản hồi từ máy chủ
+                    console.error("Lỗi khi gửi yêu cầu đăng nhập:", error);
+                }
             }
         }
+
     };
 
 

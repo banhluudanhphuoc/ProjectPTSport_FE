@@ -26,7 +26,7 @@ const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) 
                 const response = await axios.get(api + '/categories');
                 setCategories(response.data);
             } catch (error) {
-                console.error('Error fetching categories:', error);
+                //console.error('Error fetching categories:', error);
             }
         };
         const fetchBrands = async () => {
@@ -36,7 +36,7 @@ const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) 
                 setBrands(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                console.error('Error fetching categories:', error);
+                //console.error('Error fetching categories:', error);
             }
         };
         fetchBrands();

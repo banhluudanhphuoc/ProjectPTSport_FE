@@ -24,7 +24,7 @@ const BrandListAdmin = () => {
                 setBrand(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                console.error('Error fetching Brand:', error);
+                //console.error('Error fetching Brand:', error);
             }
         };
 
@@ -47,7 +47,7 @@ const BrandListAdmin = () => {
             setBrand(brand.filter(brand => brand.catalogId !== catalogId));
             NotificationManager.success("Xóa thương hiệu thành công");
         } catch (error) {
-            console.error('Error deleting Brand:', error);
+            //console.error('Error deleting Brand:', error);
         }
     };
 

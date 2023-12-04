@@ -42,7 +42,7 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
                     }, 500);
                 }
             } catch (error) {
-                console.error('Error adding product to wishlist:', error);
+                //console.error('Error adding product to wishlist:', error);
             }
         }
 

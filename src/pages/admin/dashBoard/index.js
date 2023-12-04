@@ -1,11 +1,26 @@
-
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
 import './style.scss';
 import { Link } from "react-router-dom";
 import Chart from 'react-apexcharts'
 import ReactApexChart from 'react-apexcharts';
 import { Modal, Button, Image } from 'react-bootstrap';
+import Cookies from 'js-cookie';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import axios from 'axios';
 const DashBoard = () => {
+    const awaitConfirmOrder = process.env.REACT_APP_ID_AWAIT_CONFIRM_ORDER;
+    const hasPayOrder = process.env.REACT_APP_ID_HAS_PAY_ORDER;
+    const confirmOrder = process.env.REACT_APP_ID_CONFIRM_ORDER;
+    const prepareOrder = process.env.REACT_APP_ID_PREPARE_ORDER;
+    const deliveringOrder = process.env.REACT_APP_ID_DELIVERING_ORDER;
+    const doneOrder = process.env.REACT_APP_ID_DONE_ORDER;
+    const cancelOrder = process.env.REACT_APP_ID_CANCEL_ORDER;
+    const api_admin = process.env.REACT_APP_API_URL_ADMIN;
+    const admin_url = process.env.REACT_APP_ADMIN_URL;
+    const api = process.env.REACT_APP_API_URL;
+    const [orders, setOrders] = useState([]);
+    const [newOrders, setNewOrders] = useState([]);
+    const [products, setProducts] = useState([]);
     const [state, setState] = useState({
         series: [67],
         options: {
@@ -136,9 +151,51 @@ const DashBoard = () => {
         },
     });
 
+
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const response = await axios.get(`${api}/orders`);
+                const sortedOrders = response.data.sort((a, b) => a.orderStatusID - b.orderStatusID);
+                setOrders(sortedOrders);
+
+                const newOrders = sortedOrders.filter(order =>
+                    order.orderStatusID === parseInt(awaitConfirmOrder) || order.orderStatusID === parseInt(hasPayOrder)
+                );
+                setNewOrders(newOrders);
+
+                if (newOrders.length > 0) {
+                    NotificationManager.info(`Có ${newOrders.length} đơn hàng mới!`);
+                }
+
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+                // Hiển thị thông báo lỗi hoặc ghi log ở đây
+            }
+        };
+
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get(api + '/products');
+                setProducts(response.data);
+
+
+
+
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchOrders();
+        fetchProducts();
+    }, [api, doneOrder]);
+
+
     return (
         <>
-
+            <NotificationContainer />
             {/* <!-- Content wrapper --> */}
             <div className="content-wrapper">
                 {/* <!-- Content --> */}

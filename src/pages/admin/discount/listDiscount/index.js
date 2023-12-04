@@ -23,10 +23,10 @@ const DiscountListAdmin = () => {
 
                 // Xử lý phản hồi từ server (response.data)
                 setDiscounts(response.data);
-                console.log(response);
+                //console.log(response);
             } catch (error) {
                 // Xử lý lỗi
-                console.error('Error fetching discounts:', error);
+                //console.error('Error fetching discounts:', error);
             }
         };
 

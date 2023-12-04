@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { DateInput } from '@mantine/dates';
-import { format } from 'date-fns';
+import { parse, isValid, format } from 'date-fns';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
     PasswordInput,
@@ -65,7 +65,14 @@ const AccountSettings = () => {
         e.preventDefault();  // Prevent the default form submission
 
         try {
-            const formattedDateOfBirth = format(newBirthDate, 'dd/MM/yyyy');
+            const parsedDate = new Date(newBirthDate);
+
+
+            const formattedDateOfBirth = isValid(parsedDate)
+                ? format(parsedDate, 'dd/MM/yyyy')
+                : '';
+
+            ;
             const response = await axios.put(
                 `${api}/users/${userID}`,
                 {
