@@ -64,14 +64,23 @@ const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) 
                                     <div className="quick-view-content">
                                         <div className="top">
                                             <h3 className="head">{product.name}</h3>
-                                            <div className="price d-flex align-items-center">
-                                                <span className="lnr lnr-tag"></span>
-                                                <span className="ml-10">{formatCurrency(product.price)} </span>
-                                            </div>
-                                            {/* <div className="price d-flex align-items-center">
-                                            <span className="lnr lnr-tag"></span>
-                                            <span className="ml-10 l-through">${product.price}</span>
-                                        </div> */}
+
+                                            {product.price !== product.discountedPrice ? (
+                                                <>
+                                                    <div className="price d-flex align-items-center">
+                                                        <span className="lnr lnr-tag mr-2">{formatCurrency(product.discountedPrice)}</span>
+                                                        <span className="ml-10 l-through">{formatCurrency(product.price)}</span>
+                                                    </div>
+                                                    {/* <h6>{formatCurrency(product.discountedPrice)}</h6>
+                                                    <h6 className="l-through">{formatCurrency(product.price)}</h6> */}
+                                                </>
+                                            ) : (
+                                                <div className="price d-flex align-items-center">
+                                                    <span className="lnr lnr-tag"></span>
+                                                    <span className="ml-10">{formatCurrency(product.price)} </span>
+                                                </div>
+                                            )}
+
                                             {/* <div className="category">{t('modal_category')}: <span>{product.categoryID}</span></div> */}
                                             {product.totalQuantity > 0 ? (
                                                 <div className="available">

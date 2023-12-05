@@ -76,8 +76,21 @@ const ProfileCustomer = () => {
                         'Content-Type': 'application/json',
                     }
                 });
-                const sortedOrders = response.data.sort((a, b) => a.orderStatusID - b.orderStatusID);
+                const sortedOrders = response.data.sort((a, b) => {
+                    // Sort by orderStatusID in ascending order
+                    const orderStatusComparison = a.orderStatusID - b.orderStatusID;
+
+                    // If orderStatusID is the same, sort by a timestamp property (e.g., createdAt)
+                    if (orderStatusComparison === 0) {
+                        // Assuming orders have a property like 'createdAt' for timestamp
+                        return new Date(b.id) - new Date(a.id);
+                    }
+
+                    return orderStatusComparison;
+                });
+
                 setOrder(sortedOrders);
+
 
             } catch (error) {
                 // Xử lý lỗi

@@ -43,37 +43,6 @@ const ProfileCustomerEdit = () => {
         avatar: '',
     });
 
-
-    // const form = useForm({
-    //     initialValues: {
-    //         password: '',
-    //         confirmPassword: '',
-    //         name: '',
-    //         email: '',
-    //         phone_number: '',
-    //         full_name: '',
-    //         date_of_birth: '',
-    //         gender: '',
-    //     },
-
-    //     validate: {
-    //         password: (value) => (value.length < 8 ? 'Mật khẩu phải trên 8 kí tự' : null),
-    //         confirmPassword: (value, values) => value !== values.password ? 'Nhập lại mật khẩu không giống mật khẩu ở trên' : null,
-    //         name: (value) => {
-    //             // Sử dụng regex để kiểm tra tên
-    //             const regex = /^[a-zA-Z0-9]+$/; // Chấp nhận chữ cái và số
-    //             if (!regex.test(value)) {
-    //                 return "Tên không được chứa khoảng trắng hoặc ký tự đặc biệt";
-    //             }
-    //             return null; // Hợp lệ
-    //         },
-    //         email: isEmail('Email không hợp lệ !'),
-    //         phone_number: (value) => (value.length < 10 || value.length > 10 ? 'Số điện thoại gồm 10 số !' : null),
-    //         full_name: isNotEmpty('Vui lòng nhập Họ và Tên '),
-    //         gender: isNotEmpty('Vui lòng chọn giới tính'),
-    //         date_of_birth: isNotEmpty('Vui lòng nhập Ngày sinh'),
-    //     },
-    // });
     const [currentEmail, setCurrentEmail] = useState('');
     const [newName, setNewName] = useState('');
     const [currentName, setCurrentName] = useState('');
@@ -117,15 +86,16 @@ const ProfileCustomerEdit = () => {
 
         try {
 
-
             // Use the Date constructor directly
             const parsedDate = new Date(newBirthDate);
-
-
+            const parsedDateCurrent = new Date(currentBirthDate);
             const formattedDateOfBirth = isValid(parsedDate)
                 ? format(parsedDate, 'dd/MM/yyyy')
                 : '';
-
+            ;
+            const formattedDateOfBirthCurrent = isValid(parsedDateCurrent)
+                ? format(parsedDateCurrent, 'dd/MM/yyyy')
+                : '';
             ;
 
             const response = await axios.put(
@@ -133,7 +103,7 @@ const ProfileCustomerEdit = () => {
                 {
                     email: currentEmail,
                     name: newName || currentName,
-                    birthdate: formattedDateOfBirth || currentBirthDate,
+                    birthdate: formattedDateOfBirth || formattedDateOfBirthCurrent,
                 },
                 {
                     headers: {

@@ -48,7 +48,9 @@ const Confirmation = () => {
         const customerEmail = Cookies.get('customerEmail');
         const customerPhone = Cookies.get('customerPhone');
         const fetchData = async () => {
-            console.log(queryString);
+            //console.log(queryString);
+
+            console.log(userID);
             try {
                 const userToken = Cookies.get('userToken');
                 if (!userToken) {
@@ -92,7 +94,7 @@ const Confirmation = () => {
                 Cookies.remove('customerPhone');
 
             } catch (error) {
-                //console.error('Error fetching data:', error);
+                console.error('Error fetching data:', error);
                 // Handle errors as needed
             }
         };
@@ -106,7 +108,7 @@ const Confirmation = () => {
         if (dataFetched) {
             setDataFetched(false);
             setTimeout(function () {
-                window.location.reload();
+                window.location.href = "/confirmation";
             }, 500);
         }
 
