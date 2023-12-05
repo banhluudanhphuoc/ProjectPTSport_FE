@@ -316,7 +316,7 @@ const ProductDetail = () => {
                                     {product.totalQuantity > 0 ? (
                                         <Link className="primary-btn btn-product-detail" onClick={() => handleAddToCart(product)}>{t("add_to_bag")}</Link>
                                     ) : (
-                                        <Link className="primary-btn btn-product-detail" onClick={() => handleAddToCartNull}>{t("add_to_bag")}</Link>
+                                        <Link className="primary-btn btn-product-detail" onClick={handleAddToCartNull}>{t("add_to_bag")}</Link>
                                     )}
                                     {isProductInWishlist(productsWishList, product.id) ? (
                                         <Link className="icon_btn btn-product-detail" to={'/wish-list'}><span><FaHeart /></span></Link>
