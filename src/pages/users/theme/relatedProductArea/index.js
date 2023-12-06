@@ -17,6 +17,7 @@ const Footer = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
     const handleLanguageChange = (newLanguage, lng) => {
+
         setCurrentLanguage(newLanguage)
         i18n.changeLanguage(lng);
     };
@@ -32,13 +33,13 @@ const Footer = () => {
         return formatter.format(amount);
     }
     const [products, setProducts] = useState([]);
+    const [discountedProducts, setDiscountedProducts] = useState([]);
     const api = process.env.REACT_APP_API_URL;
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(api + '/products', { maxRedirects: 5 });
-                console.log(response);
-                console.log(response.status);
+
                 setProducts(response.data.contents);
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -47,7 +48,14 @@ const Footer = () => {
         fetchProducts();
         console.log(products);
     }, [api, products]);
-    const discountedProducts = products.filter(product => product.price !== product.discountedPrice);
+    useEffect(() => {
+        if (products) {
+            const filteredProducts = products.filter(product => product.price !== product.discountedPrice);
+            setDiscountedProducts(filteredProducts);
+        }
+
+    }, [products])
+
     return (
         <section className="related-product-area section_gap_bottom">
             <div className="container">

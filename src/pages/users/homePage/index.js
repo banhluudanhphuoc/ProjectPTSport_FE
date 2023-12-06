@@ -166,12 +166,19 @@ const HomePage = () => {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(api + '/products', { maxRedirects: 5 });
-                console.log(response);
-                console.log(response.status);
+                // console.log(response);
+                // console.log(response.status);
                 // Lấy 8 sản phẩm đầu tiên từ mảng contents
-                const first8Products = response.data.contents.slice(0, 8);
+                const contents = response.data.contents;
 
-                setProducts(first8Products);
+                // Check if contents is defined and not empty
+                if (contents && contents.length > 0) {
+                    const first8Products = contents.slice(0, 8);
+                    setProducts(first8Products);
+                } else {
+                    // Handle the case where contents is undefined or empty
+                    console.error('No products available in the respons');
+                }
 
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -203,7 +210,6 @@ const HomePage = () => {
 
                 setUser(response.data);
 
-                // Call fetchProducts after setUser
                 fetchProductsWishList(response.data.userId);
 
             } catch (error) {
