@@ -31,7 +31,7 @@ const EditNewsAdmin = () => {
                 setCurrentTitle(response.data.title);
                 setCurrentContent(response.data.content);
             } catch (error) {
-                //console.error('Error fetching news details:', error);
+                console.error('Error fetching news details:', error);
             }
         };
 
@@ -57,7 +57,7 @@ const EditNewsAdmin = () => {
 
             navigate(admin_url + '/news_list');
         } catch (error) {
-            //console.error('Error editing news:', error);
+            console.error('Error editing news:', error);
         }
     };
 

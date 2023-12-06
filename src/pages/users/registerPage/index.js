@@ -109,7 +109,7 @@ const RegisterPage = () => {
 
             } catch (error) {
                 NotificationManager.error(error.response.data.message);
-                //console.error('Lỗi:', error);
+                console.error('Lỗi:', error);
                 setIsLoading(false);
             }
         }

@@ -44,7 +44,7 @@
 //                 setCategories(response.data);
 //             } catch (error) {
 //                 // Xử lý lỗi
-//                 //console.error('Error fetching categories:', error);
+//                 console.error('Error fetching categories:', error);
 //             }
 //         };
 //         const fetchBrands = async () => {
@@ -55,7 +55,7 @@
 //                 setBrands(response.data);
 //             } catch (error) {
 //                 // Xử lý lỗi
-//                 //console.error('Error fetching categories:', error);
+//                 console.error('Error fetching categories:', error);
 //             }
 //         };
 //         fetchBrands();

@@ -29,7 +29,7 @@ const CustomersListAdmin = () => {
 
             } catch (error) {
                 // Xử lý lỗi
-                ////console.error('Error fetching users:', error);
+                console.error('Error fetching users:', error);
             }
         };
 
@@ -69,7 +69,7 @@ const CustomersListAdmin = () => {
                 }
             }
         } catch (error) {
-            ////console.error('Error deleting user:', error);
+            console.error('Error deleting user:', error);
         }
 
         // Reset state after deletion

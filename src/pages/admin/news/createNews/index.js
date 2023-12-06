@@ -34,7 +34,7 @@ const CreateNewsAdmin = () => {
 
             navigate(admin_url + '/news_list');
         } catch (error) {
-            //console.error('Error adding News:', error);
+            console.error('Error adding News:', error);
             // Handle error, display a notification, or perform any necessary actions
         }
     };

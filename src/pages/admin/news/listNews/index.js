@@ -24,7 +24,7 @@ const NewsListAdmin = () => {
 
                 setNews(response.data);
             } catch (error) {
-                //console.error('Error fetching News:', error);
+                console.error('Error fetching News:', error);
             }
         };
 
@@ -47,7 +47,7 @@ const NewsListAdmin = () => {
             setNews(news.filter(item => item.blogId !== blogId));
             NotificationManager.success("Xóa tin tức thành công");
         } catch (error) {
-            //console.error('Error deleting News:', error);
+            console.error('Error deleting News:', error);
         }
     };
 

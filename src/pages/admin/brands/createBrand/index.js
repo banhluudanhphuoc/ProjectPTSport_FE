@@ -29,7 +29,7 @@ const CreateBrandAdmin = () => {
 
             navigate(admin_url + '/brands_list');
         } catch (error) {
-            ////console.error('Error adding Brand:', error);
+            console.error('Error adding Brand:', error);
         }
     };
 

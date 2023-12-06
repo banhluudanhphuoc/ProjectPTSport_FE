@@ -39,7 +39,7 @@ const OrderDetailAdmin = () => {
 
             } catch (error) {
                 // Handle errors
-                //console.error('Error fetching data:', error);
+                console.error('Error fetching data:', error);
                 // You might want to set an error state or display an error message
             }
         };
@@ -79,7 +79,7 @@ const OrderDetailAdmin = () => {
 
             navigate(admin_url + '/orders_list_admin');
         } catch (error) {
-            //console.error('Error updating order status:', error);
+            console.error('Error updating order status:', error);
             NotificationManager.error('Cập nhật trạng thái đơn hàng không thành công', 'Lỗi');
         }
     };

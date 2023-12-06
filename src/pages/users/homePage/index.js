@@ -82,7 +82,7 @@ const HomePage = () => {
                 setCart(data.itemList);
             })
             .catch((error) => {
-                ////console.error('Error adding to cart:', error);
+                console.error('Error adding to cart:', error);
             });
         addItem(cartItem2);
     };
@@ -174,7 +174,7 @@ const HomePage = () => {
                 setProducts(first8Products);
 
             } catch (error) {
-                ////console.error('Error fetching products:', error);
+                console.error('Error fetching products:', error);
             }
         };
         fetchProducts();
@@ -207,7 +207,7 @@ const HomePage = () => {
                 fetchProductsWishList(response.data.userId);
 
             } catch (error) {
-                ////console.error('Error fetching Brand:', error);
+                console.error('Error fetching Brand:', error);
             }
         };
 
@@ -222,7 +222,7 @@ const HomePage = () => {
 
                 setProductsWishList(response.data.productDtos);
             } catch (error) {
-                ////console.error('Error fetching products:', error);
+                console.error('Error fetching products:', error);
             }
         };
 

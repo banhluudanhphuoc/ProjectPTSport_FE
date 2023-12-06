@@ -41,7 +41,7 @@ const Footer = () => {
                 console.log(response.status);
                 setProducts(response.data.contents);
             } catch (error) {
-                //console.error('Error fetching products:', error);
+                console.error('Error fetching products:', error);
             }
         };
         fetchProducts();

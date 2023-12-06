@@ -29,7 +29,7 @@ const CreateCategoryAdmin = () => {
 
             navigate(admin_url + '/categories_list');
         } catch (error) {
-            //console.error('Error adding category:', error);
+            console.error('Error adding category:', error);
         }
     };
 

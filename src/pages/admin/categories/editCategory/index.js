@@ -28,7 +28,7 @@ const EditCategoryAdmin = () => {
                 setCurrentCategoryName(response.data.categoryName);
             } catch (error) {
 
-                ////console.error('Error fetching category details:', error);
+                console.error('Error fetching category details:', error);
             }
         };
 
@@ -54,7 +54,7 @@ const EditCategoryAdmin = () => {
             navigate(admin_url + '/categories_list');
 
         } catch (error) {
-            ////console.error('Error editing category:', error);
+            console.error('Error editing category:', error);
         }
     };
 

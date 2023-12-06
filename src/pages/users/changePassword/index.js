@@ -41,7 +41,7 @@ const ChangePassword = () => {
                 setUser(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                //console.error('Error fetching Brand:', error);
+                console.error('Error fetching Brand:', error);
             }
         };
 
@@ -117,7 +117,7 @@ const ChangePassword = () => {
                     NotificationManager.error(errorMessage);
                 } else {
                     // Xử lý lỗi nếu không có phản hồi từ máy chủ
-                    //console.error("Lỗi khi gửi yêu cầu đăng nhập:", error);
+                    console.error("Lỗi khi gửi yêu cầu đăng nhập:", error);
                 }
             }
         }

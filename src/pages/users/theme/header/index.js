@@ -77,10 +77,10 @@ const Header = ({ isHome }) => {
                 window.location.href = '/login-user';
                 //  emptyCart();
             } else {
-                ////console.error('Logout failed:', response.data);
+                console.error('Logout failed:', response.data);
             }
         } catch (error) {
-            ////console.error('Error logging out:', error);
+            console.error('Error logging out:', error);
         }
     };
     const [categories, setCategories] = useState([]);
@@ -98,7 +98,7 @@ const Header = ({ isHome }) => {
                 const response = await axios.get(api + `/search/${searchTerm}`);
                 setSearchResults(response.data);
             } catch (error) {
-                ////console.error('Error fetching search results:', error);
+                console.error('Error fetching search results:', error);
             }
         };
 
@@ -133,7 +133,7 @@ const Header = ({ isHome }) => {
                 setCategories(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                ////console.error('Error fetching categories:', error);
+                console.error('Error fetching categories:', error);
             }
         };
         const fetchBrands = async () => {
@@ -144,7 +144,7 @@ const Header = ({ isHome }) => {
                 setBrands(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                ////console.error('Error fetching categories:', error);
+                console.error('Error fetching categories:', error);
             }
         };
         fetchBrands();
@@ -165,7 +165,7 @@ const Header = ({ isHome }) => {
                     fetchProductsWishList(response.data.userId);
                     fetchCountItemCart(response.data.userId);
                 } catch (error) {
-                    ////console.error('Error fetching Brand:', error);
+                    console.error('Error fetching Brand:', error);
                 }
             };
 
@@ -180,7 +180,7 @@ const Header = ({ isHome }) => {
 
                     setProductsWishListCount(response.data.productDtos.length);
                 } catch (error) {
-                    //console.error('Error fetching products:', error);
+                    console.error('Error fetching products:', error);
                 }
             };
 
@@ -190,7 +190,7 @@ const Header = ({ isHome }) => {
 
                     setTotalItemOnCart(response.data);
                 } catch (error) {
-                    //console.error('Error fetching products:', error);
+                    console.error('Error fetching products:', error);
                 }
             };
 

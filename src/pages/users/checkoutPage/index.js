@@ -68,7 +68,7 @@ const CheckoutPage = () => {
         try {
             setCities(jsonData);
         } catch (error) {
-            //console.error('Error fetching data:', error);
+            console.error('Error fetching data:', error);
         }
 
     }, []);
@@ -200,7 +200,7 @@ const CheckoutPage = () => {
                 fetchTotalPriceCart(response.data.userId);
                 fetchItemCart(response.data.userId);
             } catch (error) {
-                //console.error('Error fetching Brand:', error);
+                console.error('Error fetching Brand:', error);
             }
         };
 
@@ -210,7 +210,7 @@ const CheckoutPage = () => {
 
                 setTotalItemOnCart(response.data);
             } catch (error) {
-                //console.error('Error fetching products:', error);
+                console.error('Error fetching products:', error);
             }
         };
         const fetchItemCart = async (userId) => {
@@ -220,7 +220,7 @@ const CheckoutPage = () => {
                 setProductOnCart(response.data.itemList);
 
             } catch (error) {
-                //console.error('Error fetching products:', error);
+                console.error('Error fetching products:', error);
             }
         };
         const fetchTotalPriceCart = async (userId) => {
@@ -229,7 +229,7 @@ const CheckoutPage = () => {
 
                 setTotalPriceCart(response.data);
             } catch (error) {
-                //console.error('Error fetching products:', error);
+                console.error('Error fetching products:', error);
             }
         };
 
@@ -274,7 +274,7 @@ const CheckoutPage = () => {
                 navigate('/confirmation');
             } catch (error) {
                 // Handle errors (display error message, log, etc.)
-                //console.error('Error submitting order:', error);
+                console.error('Error submitting order:', error);
             }
         } else {
             setIsLoading(true);
@@ -305,7 +305,7 @@ const CheckoutPage = () => {
 
             } catch (error) {
                 setIsLoading(false);
-                //console.error('Error submitting order for alternative payment method:', error);
+                console.error('Error submitting order for alternative payment method:', error);
             }
         }
 

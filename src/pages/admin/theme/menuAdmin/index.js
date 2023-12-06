@@ -41,7 +41,7 @@ const MenuAdmin = () => {
                 setUser(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                //console.error('Error fetching admin:', error);
+                console.error('Error fetching admin:', error);
             }
         };
 

@@ -78,7 +78,7 @@ const EditProductAdmin = () => {
                 setDiscounts(response.data);
             } catch (error) {
                 // Xử lý lỗi
-                //console.error('Error fetching discounts:', error);
+                console.error('Error fetching discounts:', error);
             }
         };
 
@@ -105,7 +105,7 @@ const EditProductAdmin = () => {
                 setDiscount(response.data.discountID);
                 setDiscountPrice(response.data.discountedPrice);
             } catch (error) {
-                //console.error('Error fetching product:', error);
+                console.error('Error fetching product:', error);
             }
         };
 
@@ -125,7 +125,7 @@ const EditProductAdmin = () => {
                 });
                 setCategories(response.data);
             } catch (error) {
-                //console.error('Error fetching categories:', error);
+                console.error('Error fetching categories:', error);
             }
         };
 
@@ -144,7 +144,7 @@ const EditProductAdmin = () => {
                 });
                 setBrands(response.data);
             } catch (error) {
-                //console.error('Error fetching brands:', error);
+                console.error('Error fetching brands:', error);
             }
         };
 
@@ -188,7 +188,7 @@ const EditProductAdmin = () => {
                 files: Array.from(files),
             }));
         } catch (error) {
-            //console.error('Lỗi kiểm tra kích thước hình ảnh:', error);
+            console.error('Lỗi kiểm tra kích thước hình ảnh:', error);
         }
     };
 
@@ -239,7 +239,7 @@ const EditProductAdmin = () => {
             } catch (error) {
                 setIsLoading(false);
                 NotificationManager.error('Lỗi xảy ra khi sửa sản phẩm. Vui lòng nhập đầy đủ thông tin của sản phẩm', 'Lỗi');
-                //console.error('Error editing product:', error);
+                console.error('Error editing product:', error);
             }
 
         } else {
@@ -285,7 +285,7 @@ const EditProductAdmin = () => {
             } catch (error) {
                 setIsLoading(false);
                 NotificationManager.error('Lỗi xảy ra khi sửa sản phẩm. Vui lòng nhập đầy đủ thông tin của sản phẩm', 'Lỗi');
-                //console.error('Error editing product null:', error);
+                console.error('Error editing product null:', error);
             }
         }
 

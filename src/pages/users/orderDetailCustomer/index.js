@@ -58,7 +58,7 @@ const OrderDetailCustomer = () => {
                 setOrder(orderResponse.data);
             } catch (error) {
                 // Handle errors
-                //console.error('Error fetching data:', error);
+                console.error('Error fetching data:', error);
                 // You might want to set an error state or display an error message
             }
         };
@@ -106,7 +106,7 @@ const OrderDetailCustomer = () => {
 
 
         } catch (error) {
-            //console.error('Error cancelling order:', error);
+            console.error('Error cancelling order:', error);
             handleCloseCancelModal();
         }
     };

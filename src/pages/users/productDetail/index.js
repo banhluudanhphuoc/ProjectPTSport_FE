@@ -46,7 +46,7 @@ const ProductDetail = () => {
                 setMainImage(response.data.listImage[0].path);
                 setProductListImage(response.data.listImage);
             } catch (error) {
-                //console.error('Error fetching product:', error);
+                console.error('Error fetching product:', error);
             }
 
         };
@@ -69,7 +69,7 @@ const ProductDetail = () => {
                     // Call fetchProducts after setUser
                     fetchProductsWishList(response.data.userId);
                 } catch (error) {
-                    //console.error('Error fetching Brand:', error);
+                    console.error('Error fetching Brand:', error);
                 }
             };
 
@@ -84,7 +84,7 @@ const ProductDetail = () => {
 
                     setProductsWishList(response.data.productDtos);
                 } catch (error) {
-                    //console.error('Error fetching products:', error);
+                    console.error('Error fetching products:', error);
                 }
             };
 
@@ -124,7 +124,7 @@ const ProductDetail = () => {
                 }, 500);
             }
         } catch (error) {
-            //console.error('Error adding product to wishlist:', error);
+            console.error('Error adding product to wishlist:', error);
         }
     };
 
@@ -149,7 +149,7 @@ const ProductDetail = () => {
                 setCart(data.itemList);
             })
             .catch((error) => {
-                //console.error('Error adding to cart:', error);
+                console.error('Error adding to cart:', error);
             });
         addItem(cartItem2);
     };
