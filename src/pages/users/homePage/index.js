@@ -180,8 +180,6 @@ const HomePage = () => {
                     // Handle the case where contents is undefined or empty
                     console.error('No products available in the response.');
                 }
-
-
             } catch (error) {
                 console.error('Error fetching products:', error);
             }

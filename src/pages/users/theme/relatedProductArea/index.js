@@ -45,11 +45,14 @@ const Footer = () => {
             }
         };
         fetchProducts();
-        console.log(products);
+
     }, [api, products]);
     useEffect(() => {
-        const filteredProducts = products.filter(product => product.price !== product.discountedPrice);
-        setDiscountedProducts(filteredProducts);
+        if (products) {
+            const filteredProducts = products.filter(product => product.price !== product.discountedPrice);
+            setDiscountedProducts(filteredProducts);
+        }
+
     }, [products]);
     return (
         <section className="related-product-area section_gap_bottom">
