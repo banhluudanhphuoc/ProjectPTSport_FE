@@ -35,6 +35,7 @@ const Footer = () => {
     const [products, setProducts] = useState([]);
     const [discountedProducts, setDiscountedProducts] = useState([]);
     const api = process.env.REACT_APP_API_URL;
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -46,7 +47,7 @@ const Footer = () => {
             }
         };
         fetchProducts();
-        console.log(products);
+
     }, [api, products]);
     useEffect(() => {
         if (products) {
@@ -55,6 +56,7 @@ const Footer = () => {
         }
 
     }, [products])
+
 
     return (
         <section className="related-product-area section_gap_bottom">
@@ -70,20 +72,21 @@ const Footer = () => {
                 <div className="row">
                     <div className="col-lg-9">
                         <div className="row">
-                            {discountedProducts.map((product) => (
-                                <div className="col-lg-4 col-md-4 col-sm-6 mb-20" key={product.id}>
-                                    <div className="single-related-product d-flex">
-                                        <Link to={'/product-detail/' + product.id}><img src={product.listImage[0].path} alt={product.name} width={"40px"} /></Link>
-                                        <div className="desc">
-                                            <Link className="title" to={'/product-detail/' + product.id}>{product.name}</Link>
-                                            <div className="price">
-                                                <h6>{formatCurrency(product.discountedPrice)}</h6>
-                                                <h6 className="l-through">{formatCurrency(product.price)}</h6>
+                            {discountedProducts.length > 0 &&
+                                discountedProducts.map((product) => (
+                                    <div className="col-lg-4 col-md-4 col-sm-6 mb-20" key={product.id}>
+                                        <div className="single-related-product d-flex">
+                                            <Link to={'/product-detail/' + product.id}><img src={product.listImage[0].path} alt={product.name} width={"40px"} /></Link>
+                                            <div className="desc">
+                                                <Link className="title" to={'/product-detail/' + product.id}>{product.name}</Link>
+                                                <div className="price">
+                                                    <h6>{formatCurrency(product.discountedPrice)}</h6>
+                                                    <h6 className="l-through">{formatCurrency(product.price)}</h6>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
 
 
 

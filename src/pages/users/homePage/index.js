@@ -169,7 +169,10 @@ const HomePage = () => {
                 // console.log(response);
                 // console.log(response.status);
                 // Lấy 8 sản phẩm đầu tiên từ mảng contents
+
+
                 const contents = response.data.contents;
+
 
                 // Check if contents is defined and not empty
                 if (contents && contents.length > 0) {
@@ -179,13 +182,12 @@ const HomePage = () => {
                     // Handle the case where contents is undefined or empty
                     console.error('No products available in the respons');
                 }
-
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
         };
         fetchProducts();
-        console.log(products);
+
     }, [api, products]);
 
     const [user, setUser] = useState([]);
