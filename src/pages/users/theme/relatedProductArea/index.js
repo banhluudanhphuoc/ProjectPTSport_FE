@@ -37,17 +37,16 @@ const Footer = () => {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(api + '/products', { maxRedirects: 5 });
-
-
-
+                console.log(response);
+                console.log(response.status);
                 setProducts(response.data.contents);
             } catch (error) {
                 //console.error('Error fetching products:', error);
             }
         };
         fetchProducts();
-
-    }, [api]);
+        console.log(products);
+    }, [api, products]);
     const discountedProducts = products.filter(product => product.price !== product.discountedPrice);
     return (
         <section className="related-product-area section_gap_bottom">

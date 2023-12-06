@@ -166,7 +166,8 @@ const HomePage = () => {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(api + '/products', { maxRedirects: 5 });
-
+                console.log(response);
+                console.log(response.status);
                 // Lấy 8 sản phẩm đầu tiên từ mảng contents
                 const first8Products = response.data.contents.slice(0, 8);
 
@@ -177,7 +178,8 @@ const HomePage = () => {
             }
         };
         fetchProducts();
-    }, [api]);
+        console.log(products);
+    }, [api, products]);
 
     const [user, setUser] = useState([]);
     const [productsWishList, setProductsWishList] = useState([]);
