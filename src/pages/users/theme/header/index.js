@@ -422,7 +422,7 @@ const Header = ({ isHome }) => {
                         </form>
 
 
-                        {searchResults.length > 0 ? (
+                        {searchResults && searchResults.length > 0 ? (
                             <div className="search-results">
                                 <div className="scrollable-results">
                                     <div className="row">

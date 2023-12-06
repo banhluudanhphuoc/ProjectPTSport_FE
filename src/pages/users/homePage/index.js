@@ -165,23 +165,12 @@ const HomePage = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get(api + '/products', { maxRedirects: 5 });
+                const response = await axios.get(api + '/products/latest', { maxRedirects: 5 });
                 // console.log(response);
                 // console.log(response.status);
                 // Lấy 8 sản phẩm đầu tiên từ mảng contents
+                setProducts(response.data);
 
-
-                const contents = response.data.contents;
-
-
-                // Check if contents is defined and not empty
-                if (contents && contents.length > 0) {
-                    const first8Products = contents.slice(0, 8);
-                    setProducts(first8Products);
-                } else {
-                    // Handle the case where contents is undefined or empty
-                    console.error('No products available in the respons');
-                }
             } catch (error) {
                 console.error('Error fetching products:', error);
             }

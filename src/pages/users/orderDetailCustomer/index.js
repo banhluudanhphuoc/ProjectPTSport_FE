@@ -56,6 +56,7 @@ const OrderDetailCustomer = () => {
                     },
                 });
                 setOrder(orderResponse.data);
+                console.log(orderResponse);
             } catch (error) {
                 // Handle errors
                 console.error('Error fetching data:', error);

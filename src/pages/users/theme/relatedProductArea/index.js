@@ -33,15 +33,13 @@ const Footer = () => {
         return formatter.format(amount);
     }
     const [products, setProducts] = useState([]);
-    const [discountedProducts, setDiscountedProducts] = useState([]);
     const api = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get(api + '/products', { maxRedirects: 5 });
-
-                setProducts(response.data.contents);
+                const response = await axios.get(api + '/products/discounts', { maxRedirects: 5 });
+                setProducts(response.data);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
@@ -49,13 +47,7 @@ const Footer = () => {
         fetchProducts();
 
     }, [api, products]);
-    useEffect(() => {
-        if (products) {
-            const filteredProducts = products.filter(product => product.price !== product.discountedPrice);
-            setDiscountedProducts(filteredProducts);
-        }
 
-    }, [products])
 
 
     return (
@@ -72,11 +64,11 @@ const Footer = () => {
                 <div className="row">
                     <div className="col-lg-9">
                         <div className="row">
-                            {discountedProducts.length > 0 &&
-                                discountedProducts.map((product) => (
+                            {products.length > 0 &&
+                                products.map((product) => (
                                     <div className="col-lg-4 col-md-4 col-sm-6 mb-20" key={product.id}>
                                         <div className="single-related-product d-flex">
-                                            <Link to={'/product-detail/' + product.id}><img src={product.listImage[0].path} alt={product.name} width={"40px"} /></Link>
+                                            <Link to={'/product-detail/' + product.id}><img src={product.listImage[0].path} alt={product.name} width={"100px"} /></Link>
                                             <div className="desc">
                                                 <Link className="title" to={'/product-detail/' + product.id}>{product.name}</Link>
                                                 <div className="price">
