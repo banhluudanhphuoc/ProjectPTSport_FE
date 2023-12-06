@@ -6,9 +6,9 @@ const MyChatComponent = () => {
     const FACEBOOK_PAGE_ID = process.env.REACT_APP_FACEBOOK_PAGE_ID;
 
     return (
-        <FacebookProvider appId={FACEBOOK_APP_ID}>
-            <CustomChat pageId={FACEBOOK_PAGE_ID} minimized={true} />
-        </FacebookProvider>
+
+        <CustomChat pageId={FACEBOOK_PAGE_ID} minimized={true} />
+
     );
 };
 
