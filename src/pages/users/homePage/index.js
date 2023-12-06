@@ -178,7 +178,7 @@ const HomePage = () => {
                     setProducts(first8Products);
                 } else {
                     // Handle the case where contents is undefined or empty
-                    console.error('No products available in the response.');
+                    console.error('No products available in the respons');
                 }
             } catch (error) {
                 console.error('Error fetching products:', error);
