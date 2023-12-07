@@ -254,28 +254,28 @@ const HomePage = () => {
                             </div>
                             {/* <!-- single-slide --> */}
                             <div className="row single-slide align-items-center d-flex">
-                                <div className="col-lg-5 col-md-5 col-5 col-sm-5">
+                                <div className="col-lg-5 col-md-5 col-12 col-sm-12">
                                     <div className="banner-content">
                                         <h1>{t('banner_title2')}</h1>
                                         <p> {t('banner_content2')}</p>
 
                                     </div>
                                 </div>
-                                <div className="col-lg-7 col-md-7 col-7 col-sm-7">
+                                <div className="col-lg-7 col-md-7 col-12 col-sm-12">
                                     <div className="banner-img">
                                         <img className="img-fluid" src={bannerImg3} alt='' />
                                     </div>
                                 </div>
                             </div>
                             <div className="row single-slide align-items-center d-flex">
-                                <div className="col-lg-5 col-md-5 col-5 col-sm-5">
+                                <div className="col-lg-5 col-md-5 col-12 col-sm-12">
                                     <div className="banner-content">
                                         <h1>{t('banner_title3')}</h1>
-                                        <p> {t('banner_content3')}</p>
+                                        <p > {t('banner_content3')}</p>
 
                                     </div>
                                 </div>
-                                <div className="col-lg-7 col-md-7 col-7 col-sm-7">
+                                <div className="col-lg-7 col-md-7 col-12 col-sm-12">
                                     <div className="banner-img">
                                         <img className="img-fluid" src={bannerImg4} alt='hello' />
                                     </div>

@@ -285,7 +285,7 @@ const CheckoutPage = () => {
                     {
                         userID: user.userId,
                         vnp_TxnRef: generateRandomTxnRef(),
-                        vnp_OrderInfo: '2',
+                        vnp_OrderInfo: 'Thanh toán qua VNPay bởi PTSports',
                         vnp_OrderType: '200000',
                         vnp_Amount: totalPriceCart,
 

@@ -78,7 +78,7 @@ const ProfileCustomerEdit = () => {
 
         fetchMe();
         //console.log(user);
-    }, [navigate]);
+    }, [navigate, auth]);
 
 
     const handleSave = async (e) => {
