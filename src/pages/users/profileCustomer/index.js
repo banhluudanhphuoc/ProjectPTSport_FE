@@ -19,6 +19,7 @@ import {
     AiFillCreditCard,
     AiOutlineRocket,
 } from "react-icons/ai";
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 import ImgReview1 from '../../../style/img/product/review-1.png';
 import Cookies from 'js-cookie';
 import SizeChart from '../../../assets/users/size-charts/giay-nam.png';
@@ -38,6 +39,7 @@ const ProfileCustomer = () => {
     const auth = process.env.REACT_APP_API_URL_AUTH;
     const [user, setUser] = useState([]);
     const [order, setOrder] = useState([]);
+    const [notification, setNotification] = useState([]);
     const userToken = Cookies.get('userToken');
     const [products, setProducts] = useState([]);
     const awaitConfirmOrder = process.env.REACT_APP_ID_AWAIT_CONFIRM_ORDER;
@@ -62,6 +64,7 @@ const ProfileCustomer = () => {
 
                 setUser(response.data);
                 fetchOrder(response.data.userId);
+                fetchNotification(response.data.userId);
             } catch (error) {
                 // Xử lý lỗi
                 console.error('Error fetching Brand:', error);
@@ -97,10 +100,19 @@ const ProfileCustomer = () => {
                 console.error('Error fetching Brand:', error);
             }
         };
+        const fetchNotification = async (userId) => {
+            try {
+                const response = await axios.get(api + '/notifications/user/' + userId);
+                setNotification(response.data);
+
+            } catch (error) {
+                // Xử lý lỗi
+                console.error('Error fetching Brand:', error);
+            }
+        };
 
 
         fetchMe();
-
     }, [api, auth, userToken]);
     function formatCurrency(amount) {
         // Sử dụng NumberFormat để định dạng số
@@ -129,7 +141,24 @@ const ProfileCustomer = () => {
 
     }, [api]);
 
+    useEffect(() => {
+        if (notification && notification.length > 0) {
+            NotificationManager.info(t('message_have_a_done_order'),
+                "", 2000
+            );
+        }
 
+    }, [notification, t]);
+
+
+    const handleSeeDetail = async (notificationId) => {
+        try {
+            await axios.delete(api + `/notifications/delete?id=${notificationId}`);
+        } catch (error) {
+
+        }
+
+    };
 
 
     const getOrderStatusClass = (orderStatusID) => {
@@ -153,6 +182,7 @@ const ProfileCustomer = () => {
         }
     };
     return <>
+        <NotificationContainer />
         <Banner pageTitle={t('pageTitle_customer_profile')} />
         <div className="container">
             <div className="row  mt-5">
@@ -239,10 +269,31 @@ const ProfileCustomer = () => {
                             </div>
                         </Tab.Pane>
                         <Tab.Pane eventKey="my_notice">
-                            <div className="container mt-5 mb-5 ">
-                                <div class="table-responsive">
-                                    {/* <img src={SizeChart} alt="" /> */}
+                            <div className="container mt-3 mb-3 ">
+
+                                <div class="section-top-border">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            {notification && notification.length > 0 ? (
+
+
+                                                notification.map((item, index) => (
+                                                    <blockquote className="generic-blockquote">
+                                                        <span key={index}>
+                                                            {item.description} - <Link to={'/order-detail-customer/' + item.orderId} onClick={() => handleSeeDetail(item.notificationId)}>{t('see_detail_notification')}</Link>
+                                                        </span>
+                                                    </blockquote>
+                                                ))
+                                            ) : (
+                                                <span>{t('no_notifications')}</span>
+
+
+                                            )}
+
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
 
                         </Tab.Pane>

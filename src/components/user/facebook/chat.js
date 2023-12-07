@@ -7,8 +7,9 @@ const MyChatComponent = () => {
 
     return (
 
-        <CustomChat pageId={FACEBOOK_PAGE_ID} minimized={true} />
-
+        <FacebookProvider appId={FACEBOOK_APP_ID} chatSupport>
+            <CustomChat pageId={FACEBOOK_PAGE_ID} minimized={true} />
+        </FacebookProvider>
     );
 };
 

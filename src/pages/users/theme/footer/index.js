@@ -46,7 +46,7 @@ const Footer = () => {
                             <h6 className="mb-20">{t('footer_support')}</h6>
                             <ul className="custom_footer">
                                 <li><Link>{t('footer_support_help')}</Link></li>
-                                <li><Link>{t('footer_support_size')}</Link></li>
+                                <li><Link to={'/news'}>{t('footer_support_size')}</Link></li>
                                 <li><Link>{t('footer_support_payments')}</Link></li>
                                 <li><Link>{t('footer_support_return')}</Link></li>
                             </ul>

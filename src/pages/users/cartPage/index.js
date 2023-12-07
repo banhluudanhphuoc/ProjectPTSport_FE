@@ -41,7 +41,6 @@ const CartPage = () => {
 
 
     useEffect(() => {
-        //console.log(items);
 
         const fetchMe = async () => {
             try {

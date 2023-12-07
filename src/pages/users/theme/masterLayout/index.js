@@ -38,6 +38,8 @@ const MasterLayout = ({ children, ...props }) => {
     const location = useLocation();
     const isHome = location.pathname === '/';
 
+    // const FACEBOOK_APP_ID = process.env.REACT_APP_FACEBOOK_APP_ID;
+    // const FACEBOOK_PAGE_ID = process.env.REACT_APP_FACEBOOK_PAGE_ID;
 
 
     return (

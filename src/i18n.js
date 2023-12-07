@@ -289,6 +289,10 @@ const resources = {
             "confirmation_modal_message": "Bạn có chắc là muốn hủy đơn hàng này không ?",
             "confirmation_modal_button_cancel": "Quay lại",
             "confirmation_modal_button_confirm": "Hủy đơn hàng",
+
+            "see_detail_notification": "Xem chi tiết đơn hàng",
+            "no_notifications": "Không có thông báo nào mới",
+            "message_have_a_done_order": "Bạn có thông báo mới",
         }
     },
     EN: {
@@ -572,6 +576,12 @@ const resources = {
             "confirmation_modal_message": "Are you sure you want to cancel this order?",
             "confirmation_modal_button_cancel": "Back",
             "confirmation_modal_button_confirm": "Cancel order",
+
+            "see_detail_notification": "See order details",
+            "no_notifications": "Không có thông báo nào mới",
+
+            "message_have_a_done_order": "You have a new notification",
+
 
         }
     }

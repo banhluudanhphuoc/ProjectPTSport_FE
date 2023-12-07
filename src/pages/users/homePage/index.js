@@ -41,7 +41,7 @@ import { useCart } from "react-use-cart";
 
 import MyChatComponent from 'components/user/facebook/chat';
 // import MyChatComponent from 'components/user/chat';
-
+import MessengerCustomerChat from 'react-messenger-customer-chat';
 const HomePage = () => {
 
     const { addItem, items } = useCart();
@@ -224,22 +224,13 @@ const HomePage = () => {
         };
 
         fetchMe();
-    }, [api, auth]);
+    }, [api, auth, userToken]);
 
-    // const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
-    // const FACEBOOK_PAGE_ID = process.env.FACEBOOK_PAGE_ID;
-    // const FACEBOOK_REF_STRING = process.env.FACEBOOK_REF_STRING;
+
 
     return (<>
 
 
-        {/* <MyChatComponent
-            pageId={FACEBOOK_PAGE_ID}
-            appId={FACEBOOK_APP_ID}
-            htmlRef={FACEBOOK_REF_STRING}
-        /> */}
-
-        <MyChatComponent />
 
         <NotificationContainer />
         <section className="banner-area d-block">
@@ -249,13 +240,13 @@ const HomePage = () => {
                         <div className="active-banner-slider owl-carousel mt-5">
                             {/* <!-- single-slide --> */}
                             <div className="row single-slide align-items-center d-flex">
-                                <div className="col-lg-5 col-md-5 col-xs-5">
+                                <div className="col-lg-5 col-md-5 col-5 col-sm-5">
                                     <div className="banner-content">
                                         <h1>{t('banner_title1')}</h1>
                                         <p> {t('banner_content1')}</p>
                                     </div>
                                 </div>
-                                <div className="col-lg-7 col-md-7 col-xs-7">
+                                <div className="col-lg-7 col-md-7 col-7 col-sm-7">
                                     <div className="banner-img">
                                         <img className="img-fluid" src={bannerImg2} alt='' />
                                     </div>
@@ -263,28 +254,28 @@ const HomePage = () => {
                             </div>
                             {/* <!-- single-slide --> */}
                             <div className="row single-slide align-items-center d-flex">
-                                <div className="col-lg-5 col-md-5 col-xs-5">
+                                <div className="col-lg-5 col-md-5 col-5 col-sm-5">
                                     <div className="banner-content">
                                         <h1>{t('banner_title2')}</h1>
                                         <p> {t('banner_content2')}</p>
 
                                     </div>
                                 </div>
-                                <div className="col-lg-7 col-md-7 col-xs-7">
+                                <div className="col-lg-7 col-md-7 col-7 col-sm-7">
                                     <div className="banner-img">
                                         <img className="img-fluid" src={bannerImg3} alt='' />
                                     </div>
                                 </div>
                             </div>
                             <div className="row single-slide align-items-center d-flex">
-                                <div className="col-lg-5 col-md-5 col-xs-5">
+                                <div className="col-lg-5 col-md-5 col-5 col-sm-5">
                                     <div className="banner-content">
                                         <h1>{t('banner_title3')}</h1>
                                         <p> {t('banner_content3')}</p>
 
                                     </div>
                                 </div>
-                                <div className="col-lg-7 col-md-7 col-xs-7">
+                                <div className="col-lg-7 col-md-7 col-7 col-sm-7">
                                     <div className="banner-img">
                                         <img className="img-fluid" src={bannerImg4} alt='hello' />
                                     </div>

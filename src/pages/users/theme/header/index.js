@@ -31,7 +31,8 @@ const Header = ({ isHome }) => {
     };
     const [isSearchVisible, setIsSearchVisible] = useState(false);
 
-    const toggleSearch = () => {
+    const toggleSearch = (event) => {
+        event.stopPropagation(); // Ngừng sự kiện click lan rộng để không kích hoạt cả sự kiện click bên ngoài
         setIsSearchVisible(!isSearchVisible);
     };
 
@@ -91,12 +92,33 @@ const Header = ({ isHome }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
+
+    const searchInputRef = useRef(null);
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            // Kiểm tra xem người dùng đã nhấp vào ô tìm kiếm hay không
+            if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
+                // Nếu không, đóng ô tìm kiếm
+                setIsSearchVisible(false);
+            }
+        };
+
+        // Thêm sự kiện lắng nghe click cho toàn bộ document
+        document.addEventListener("click", handleOutsideClick);
+
+        // Làm sạch sự kiện khi component unmount
+        return () => {
+            document.removeEventListener("click", handleOutsideClick);
+        };
+    }, [setIsSearchVisible]);
     useEffect(() => {
 
         const fetchData = async () => {
             try {
                 const response = await axios.get(api + `/search/${searchTerm}`);
                 setSearchResults(response.data);
+
             } catch (error) {
                 console.error('Error fetching search results:', error);
             }
@@ -108,7 +130,7 @@ const Header = ({ isHome }) => {
         } else {
             setSearchResults([]);
         }
-    }, []);
+    }, [api, searchTerm]);
     function formatCurrency(amount) {
         // Sử dụng NumberFormat để định dạng số
         const formatter = new Intl.NumberFormat('vi-VN', {
@@ -394,7 +416,7 @@ const Header = ({ isHome }) => {
                 </nav>
             </div >
             {isSearchVisible && (
-                <div className="search_input" id="search_input_box">
+                <div className="search_input" id="search_input_box" ref={searchInputRef}>
                     <div className="container">
                         <form className="d-flex justify-content-between">
                             <input
@@ -414,7 +436,7 @@ const Header = ({ isHome }) => {
                         </form>
 
 
-                        {searchResults && searchResults.length > 0 ? (
+                        {searchResults.length > 0 ? (
                             <div className="search-results">
                                 <div className="scrollable-results">
                                     <div className="row">

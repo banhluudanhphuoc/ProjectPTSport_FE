@@ -51,7 +51,7 @@ const Footer = () => {
 
 
     return (
-        <section className="related-product-area section_gap_bottom">
+        <section className="related-product-area section_gap_bottom mt-5">
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-lg-6 text-center">
@@ -68,7 +68,7 @@ const Footer = () => {
                                 products.map((product) => (
                                     <div className="col-lg-4 col-md-4 col-sm-6 mb-20" key={product.id}>
                                         <div className="single-related-product d-flex">
-                                            <Link to={'/product-detail/' + product.id}><img src={product.listImage[0].path} alt={product.name} width={"100px"} /></Link>
+                                            <Link to={'/product-detail/' + product.id}><img src={product.listImage[0].path} alt={product.name} width={"50px"} /></Link>
                                             <div className="desc">
                                                 <Link className="title" to={'/product-detail/' + product.id}>{product.name}</Link>
                                                 <div className="price">
