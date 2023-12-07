@@ -26,7 +26,18 @@ const OrdersListAdmin = () => {
         const fetchOrder = async () => {
             try {
                 const response = await axios.get(api + '/orders');
-                const sortedOrders = response.data.sort((a, b) => a.orderStatusID - b.orderStatusID);
+                const sortedOrders = response.data.sort((a, b) => {
+                    // Sort by orderStatusID in ascending order
+                    const orderStatusComparison = a.orderStatusID - b.orderStatusID;
+
+                    // If orderStatusID is the same, sort by a timestamp property (e.g., createdAt)
+                    if (orderStatusComparison === 0) {
+                        // Assuming orders have a property like 'createdAt' for timestamp
+                        return new Date(b.id) - new Date(a.id);
+                    }
+
+                    return orderStatusComparison;
+                });
                 setOrders(sortedOrders);
             } catch (error) {
                 // Xử lý lỗi
@@ -34,7 +45,7 @@ const OrdersListAdmin = () => {
             }
         };
         fetchOrder();
-    }, []);
+    }, [api]);
 
     const getStatusBadgeClass = (orderStatusID) => {
         switch (orderStatusID) {

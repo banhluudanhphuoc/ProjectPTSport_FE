@@ -297,11 +297,10 @@ const CheckoutPage = () => {
                 Cookies.set('customerEmail', user.email);
                 Cookies.set('customerPhone', values.customerPhone);
 
+                setTimeout(function () {
+                    window.open(response.data);
+                }, 1000);
 
-                window.open(response.data);
-                // setTimeout(function () {
-                //     window.location.href = "/";
-                // }, 2000);
 
             } catch (error) {
                 setIsLoading(false);

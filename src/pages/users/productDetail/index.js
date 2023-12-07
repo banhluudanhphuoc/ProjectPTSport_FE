@@ -274,7 +274,7 @@ const ProductDetail = () => {
                                     {productListImage?.map((image) => (
                                         <div className="item" key={image?.id}>
                                             <img
-
+                                                className="custom-img-product-detail"
                                                 src={image?.path}
                                                 alt=""
                                                 onClick={() => setMainImage(image?.path)}

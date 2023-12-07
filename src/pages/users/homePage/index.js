@@ -177,7 +177,7 @@ const HomePage = () => {
         };
         fetchProducts();
 
-    }, [api, products]);
+    }, [api]);
 
     const [user, setUser] = useState([]);
     const [productsWishList, setProductsWishList] = useState([]);
@@ -188,7 +188,7 @@ const HomePage = () => {
 
 
     useEffect(() => {
-        const userToken = Cookies.get('userToken');
+
 
         const fetchMe = async () => {
             try {
@@ -245,11 +245,11 @@ const HomePage = () => {
         <section className="banner-area d-block">
             <div className="container d-block ">
                 <div className="row fullscreen align-items-center justify-content-start">
-                    <div className="col-lg-12">
+                    <div className="col-lg-12 col-md-12 col-xs-12">
                         <div className="active-banner-slider owl-carousel mt-5">
                             {/* <!-- single-slide --> */}
                             <div className="row single-slide align-items-center d-flex">
-                                <div className="col-lg-5 col-md-5">
+                                <div className="col-lg-5 col-md-5 col-xs-5">
                                     <div className="banner-content">
                                         <h1>{t('banner_title1')}</h1>
                                         <p> {t('banner_content1')}</p>
@@ -263,28 +263,28 @@ const HomePage = () => {
                             </div>
                             {/* <!-- single-slide --> */}
                             <div className="row single-slide align-items-center d-flex">
-                                <div className="col-lg-5 col-md-5">
+                                <div className="col-lg-5 col-md-5 col-xs-5">
                                     <div className="banner-content">
                                         <h1>{t('banner_title2')}</h1>
                                         <p> {t('banner_content2')}</p>
 
                                     </div>
                                 </div>
-                                <div className="col-lg-7 col-md-7">
+                                <div className="col-lg-7 col-md-7 col-xs-7">
                                     <div className="banner-img">
                                         <img className="img-fluid" src={bannerImg3} alt='' />
                                     </div>
                                 </div>
                             </div>
                             <div className="row single-slide align-items-center d-flex">
-                                <div className="col-lg-5 col-md-5">
+                                <div className="col-lg-5 col-md-5 col-xs-5">
                                     <div className="banner-content">
                                         <h1>{t('banner_title3')}</h1>
                                         <p> {t('banner_content3')}</p>
 
                                     </div>
                                 </div>
-                                <div className="col-lg-7 col-md-7">
+                                <div className="col-lg-7 col-md-7 col-xs-7">
                                     <div className="banner-img">
                                         <img className="img-fluid" src={bannerImg4} alt='hello' />
                                     </div>

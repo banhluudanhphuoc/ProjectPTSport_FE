@@ -46,7 +46,7 @@ const Footer = () => {
         };
         fetchProducts();
 
-    }, [api, products]);
+    }, [api]);
 
 
 

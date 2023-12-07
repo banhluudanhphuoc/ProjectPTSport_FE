@@ -53,7 +53,9 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
                 key={product.id}
             >
                 <div className="single-product">
-                    <img className="img-fluid img-product-item" src={product.listImage[0].path} alt="" />
+                    <Link to={'/product-detail/' + product.id}>
+                        <img className="img-fluid img-product-item" src={product.listImage[0].path} alt="" />
+                    </Link>
                     <div className="product-details">
                         <h6>{product.name}</h6>
                         <div className="price">

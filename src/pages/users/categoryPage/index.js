@@ -65,6 +65,8 @@ const CategoryPage = () => {
                     // Handle the case when either type or idFilter is undefined
                     response = await axios.get(api + '/products', { maxRedirects: 5 });
                     setData(response.data);
+                    console.log(response.data);
+
                 }
 
             } catch (error) {
@@ -138,7 +140,7 @@ const CategoryPage = () => {
         };
 
         fetchMe();
-    }, [api, auth]);
+    }, [api, auth, userToken]);
     const isProductInWishlist = (wishlist, productId) => {
         return wishlist.some(product => product.id === productId);
     };

@@ -260,6 +260,7 @@ const resources = {
             "message_success_delete_to_cart": "Sản phẩm đã được xóa khỏi giỏ hàng",
             "message_total_quantity": "Vượt quá số lượng trong kho",
             "message_success_cancel_order": "Hủy đơn hàng thành công",
+            "message_apply_coupon": "Hệ thống đang được nâng cấp",
 
 
             "modal_delete_wishlist_title": "Xác nhận xóa sản phẩm",
@@ -543,6 +544,7 @@ const resources = {
             "message_success_delete_to_cart": "The product has been removed from the cart",
             "message_total_quantity": "Exceeded quantity in stock",
             "message_success_cancel_order": "Order canceled successfully",
+            "message_apply_coupon": "Hệ thống đang được nâng cấp",
 
             "modal_delete_wishlist_title": "Confirm product deletion",
             "modal_delete_wishlist": "Are you sure you want to remove this product from your Wishlist?",

@@ -108,7 +108,7 @@ const Header = ({ isHome }) => {
         } else {
             setSearchResults([]);
         }
-    }, [searchTerm, api]);
+    }, []);
     function formatCurrency(amount) {
         // Sử dụng NumberFormat để định dạng số
         const formatter = new Intl.NumberFormat('vi-VN', {
@@ -149,6 +149,7 @@ const Header = ({ isHome }) => {
         };
         fetchBrands();
         fetchCategories();
+
         if (userToken) {
             const fetchMe = async () => {
                 try {
@@ -163,7 +164,6 @@ const Header = ({ isHome }) => {
 
                     // Call fetchProducts after setUser
                     fetchProductsWishList(response.data.userId);
-                    fetchCountItemCart(response.data.userId);
                 } catch (error) {
                     console.error('Error fetching Brand:', error);
                 }
@@ -184,15 +184,7 @@ const Header = ({ isHome }) => {
                 }
             };
 
-            const fetchCountItemCart = async (userId) => {
-                try {
-                    const response = await axios.get(api + '/cart/count/' + userId);
 
-                    setTotalItemOnCart(response.data);
-                } catch (error) {
-                    console.error('Error fetching products:', error);
-                }
-            };
 
             fetchMe();
         }

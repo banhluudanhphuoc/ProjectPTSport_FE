@@ -246,6 +246,12 @@ const CartPage = () => {
         }
     };
 
+    const handleApplyCoupon = () => {
+        NotificationManager.info(t('message_apply_coupon'),
+            t('message_failed'),
+            2000
+        );
+    }
 
     function formatCurrency(amount) {
         // Sử dụng NumberFormat để định dạng số
@@ -349,7 +355,7 @@ const CartPage = () => {
                                         <td>
                                             <div className="cupon_text d-flex align-items-center ">
                                                 <input type="text" placeholder="Coupon Code" />
-                                                <Link className="primary-btn btn-custom" href="#">Apply</Link>
+                                                <Link className="primary-btn btn-custom" onClick={handleApplyCoupon}>Apply</Link>
                                                 <Link className="gray_btn btn-custom" href="#">Close Coupon</Link>
                                             </div>
                                         </td>
