@@ -66,7 +66,7 @@ const WishList = () => {
         };
 
         fetchMe();
-    }, [api, auth]);
+    }, [api, auth, userToken]);
 
     const navigate = useNavigate();
     const addToCart = (cartItem, cartItem2) => {

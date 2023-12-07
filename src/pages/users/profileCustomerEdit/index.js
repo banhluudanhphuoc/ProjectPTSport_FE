@@ -54,7 +54,7 @@ const ProfileCustomerEdit = () => {
     const userToken = Cookies.get('userToken');
     const api = process.env.REACT_APP_API_URL;
     useEffect(() => {
-        const userToken = Cookies.get('userToken');
+
         if (!userToken) {
             navigate('/login-user');
         }
@@ -78,7 +78,7 @@ const ProfileCustomerEdit = () => {
 
         fetchMe();
         //console.log(user);
-    }, [navigate, auth]);
+    }, [navigate, auth, userToken]);
 
 
     const handleSave = async (e) => {

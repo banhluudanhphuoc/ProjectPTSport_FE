@@ -146,7 +146,7 @@ const Header = ({ isHome }) => {
     const [productsWishListCount, setProductsWishListCount] = useState([]);
     const [totalItemOnCart, setTotalItemOnCart] = useState([]);
     useEffect(() => {
-        const userToken = Cookies.get('userToken');
+
         const fetchCategories = async () => {
             try {
                 const response = await axios.get(api + '/categories');
@@ -211,7 +211,7 @@ const Header = ({ isHome }) => {
             fetchMe();
         }
 
-    }, [api, auth]);
+    }, [api, auth, userToken]);
 
 
 

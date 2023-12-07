@@ -50,7 +50,6 @@ const MasterLayout = ({ children, ...props }) => {
                 color="#FD8400"
                 viewBox="0 0 24 24"
                 svgPath="M12 19V6M5 12l7-7 7 7"
-
             />
             {children}
             <MyChatComponent />

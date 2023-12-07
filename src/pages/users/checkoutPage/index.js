@@ -286,7 +286,7 @@ const CheckoutPage = () => {
                         userID: user.userId,
                         vnp_TxnRef: generateRandomTxnRef(),
                         vnp_OrderInfo: 'Thanh toán qua VNPay bởi PTSports',
-                        vnp_OrderType: '200000',
+                        vnp_OrderType: '100',
                         vnp_Amount: totalPriceCart,
 
                     }
@@ -487,7 +487,7 @@ const CheckoutPage = () => {
                                     </ul>
                                     <div className="payment_item" >
                                         <div className='radio_payment'>
-                                            <label htmlFor="ship_cod" className='mr-1'>{t('checkout_your_order_cod')}</label>
+                                            <label htmlFor="ship_cod" className='mr-1'><b>{t('checkout_your_order_cod')}</b></label>
                                             <Radio
                                                 type="radio"
                                                 id="ship_cod"
@@ -503,7 +503,7 @@ const CheckoutPage = () => {
                                     </div>
                                     <div className="payment_item">
                                         <div className='radio_payment'>
-                                            <label htmlFor="vnpay" className='mr-1'>VNPay </label>
+                                            <label htmlFor="vnpay" className='mr-1'><b>VNPay</b> </label>
                                             <Radio
                                                 type="radio"
                                                 id="vnpay"

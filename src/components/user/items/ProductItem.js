@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import { AiOutlineClose } from "react-icons/ai";
 
 const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, userId }) => {
+    const userToken = Cookies.get('userToken');
     function formatCurrency(amount) {
         // Sử dụng NumberFormat để định dạng số
         const formatter = new Intl.NumberFormat('vi-VN', {
@@ -22,7 +23,7 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
 
     const api = process.env.REACT_APP_API_URL;
     const addToWishlist = async () => {
-        const userToken = Cookies.get('userToken');
+
         if (!userToken) {
             NotificationManager.error(t('message_fail_add_wish_list'), t('message_failed'));
         }

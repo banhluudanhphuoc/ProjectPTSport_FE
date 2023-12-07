@@ -52,7 +52,7 @@ const Confirmation = () => {
 
             console.log(userID);
             try {
-                const userToken = Cookies.get('userToken');
+
                 if (!userToken) {
                     navigate('/login-user');
                 }
@@ -112,7 +112,7 @@ const Confirmation = () => {
             }, 500);
         }
 
-    }, [api, navigate, emptyCart, vnp_ResponseCode, dataFetched, queryString, vnp_Amount, vnp_OrderInfo, url]);
+    }, [api, navigate, emptyCart, vnp_ResponseCode, dataFetched, queryString, vnp_Amount, vnp_OrderInfo, url, userToken]);
 
 
 
