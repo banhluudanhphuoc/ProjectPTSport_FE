@@ -202,7 +202,8 @@ const resources = {
 
             "order_detail": "Chi tiết đơn hàng",
             "order_detail_number": "Mã đơn hàng",
-            "order_detail_date": "Ngày",
+            "order_detail_date": "Ngày đặt hàng",
+            "order_detail_date_done": "Ngày hoàn thành đơn hàng",
             "order_detail_status": "Trạng thái",
             "order_detail_button_back": "Quay lại",
             "order_detail_button_cancel_order": "Hủy đơn hàng",
@@ -497,7 +498,8 @@ const resources = {
 
             "order_detail": "Order Details",
             "order_detail_number": "Order Number",
-            "order_detail_date": "Date",
+            "order_detail_date": "Order date",
+            "order_detail_date_done": "Order completion date",
             "order_detail_status": "Status",
             "order_detail_button_back": "Back",
             "order_detail_button_cancel_order": "Cancel order",

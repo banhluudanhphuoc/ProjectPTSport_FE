@@ -24,6 +24,8 @@ const OrderDetailAdmin = () => {
     const doneOrder = process.env.REACT_APP_ID_DONE_ORDER;
     const cancelOrder = process.env.REACT_APP_ID_CANCEL_ORDER;
     const navigate = useNavigate();
+    const [date, setDate] = useState();
+    const [dateDone, setDateDone] = useState();
     useEffect(() => {
 
 
@@ -36,7 +38,32 @@ const OrderDetailAdmin = () => {
                 // Fetch order
                 const orderResponse = await axios.get(api + '/orders/order/' + orderID);
                 setOrder(orderResponse.data);
+                const updatedAtDate = new Date(orderResponse.data.updatedAt);
+                const options1 = {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    timeZone: 'UTC',
+                };
+                const formattedDateDone = updatedAtDate.toLocaleString('en-US', options1);
 
+
+                const createdAtDate = new Date(orderResponse.data.createdAt);
+                const options = {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    timeZone: 'UTC',
+                };
+                const formattedDate = createdAtDate.toLocaleString('en-US', options);
+                setDate(formattedDate);
+                setDateDone(formattedDateDone);
             } catch (error) {
                 // Handle errors
                 console.error('Error fetching data:', error);
@@ -91,7 +118,10 @@ const OrderDetailAdmin = () => {
                 <div className="col-md-9">
                     <h2>Chi tiết đơn hàng</h2>
                     <p><strong>Mã đơn hàng:</strong> {order.code}</p>
-                    {/* <p><strong>Ngày đặt:</strong> date </p> */}
+                    <p><strong>Ngày đặt hàng:</strong>{date}</p>
+                    {order.orderStatusID === parseInt(doneOrder) &&
+                        <p><strong>Ngày giao hàng thành công:</strong>{dateDone}</p>
+                    }
                     <p><strong>Trạng thái:</strong><span className="badge bg-label-primary me-1">{order?.orderStatus?.name}</span> </p>
                 </div>
                 <div className="col-md-3 align-right">

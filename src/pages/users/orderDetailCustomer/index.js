@@ -38,6 +38,7 @@ const OrderDetailCustomer = () => {
     const hasPayOrder = process.env.REACT_APP_ID_HAS_PAY_ORDER;
     const [sizes, setSizes] = useState();
     const [date, setDate] = useState();
+    const [dateDone, setDateDone] = useState();
     useEffect(() => {
         const fetchSizes = async () => {
             try {
@@ -70,7 +71,19 @@ const OrderDetailCustomer = () => {
                     },
                 });
                 setOrder(orderResponse.data);
-                console.log(orderResponse);
+                //console.log(orderResponse);
+
+                const updatedAtDate = new Date(orderResponse.data.updatedAt);
+                const options1 = {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    timeZone: 'UTC',
+                };
+                const formattedDateDone = updatedAtDate.toLocaleString('en-US', options1);
 
 
                 const createdAtDate = new Date(orderResponse.data.createdAt);
@@ -85,6 +98,7 @@ const OrderDetailCustomer = () => {
                 };
                 const formattedDate = createdAtDate.toLocaleString('en-US', options);
                 setDate(formattedDate);
+                setDateDone(formattedDateDone);
             } catch (error) {
                 // Handle errors
                 console.error('Error fetching data:', error);
@@ -154,6 +168,11 @@ const OrderDetailCustomer = () => {
                     <h2>{t('order_detail')}</h2>
                     <p><strong>{t('order_detail_number')}:</strong> {order.code}</p>
                     <p><strong>{t('order_detail_date')}:</strong>{date}</p>
+                    {order.orderStatusID === parseInt(doneOrder) &&
+                        <p><strong>{t('order_detail_date_done')}:</strong>{dateDone}</p>
+                    }
+
+
                     <p><strong>{t('order_detail_status')}:</strong> <span className="badge bg-label-primary me-1">{order?.orderStatus?.name}</span></p>
                 </div>
                 <div className="col-md-4 align-right d-flex">

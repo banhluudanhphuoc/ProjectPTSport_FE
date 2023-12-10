@@ -12,25 +12,25 @@ import { Link } from 'react-router-dom';
 import bannerImg2 from '../../../style/img/banner/banner2.png';
 import bannerImg3 from '../../../style/img/banner/banner3.png';
 import bannerImg4 from '../../../style/img/banner/banner4.png';
-
 import FreeDeliveryImg from '../../../style/img/features/f-icon1.png';
 import ReturnPolicyImg from '../../../style/img/features/f-icon2.png';
 import SupportImg from '../../../style/img/features/f-icon3.png';
 import SecurePaymentImg from '../../../style/img/features/f-icon4.png';
-
 import category1 from '../../../style/img/category/c1.jpg';
 import category2 from '../../../style/img/category/c2.jpg';
 import category3 from '../../../style/img/category/c3.jpg';
 import category4 from '../../../style/img/category/c4.jpg';
 import category5 from '../../../style/img/category/c5.jpg';
-
-import axios from 'axios';
-import Cookies from 'js-cookie';
 import brand1 from '../../../style/img/brand/1.png';
 import brand2 from '../../../style/img/brand/2.png';
 import brand3 from '../../../style/img/brand/3.png';
 import brand4 from '../../../style/img/brand/4.png';
 import brand5 from '../../../style/img/brand/5.png';
+
+
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
 
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { useNavigate } from 'react-router-dom';
