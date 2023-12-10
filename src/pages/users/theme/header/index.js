@@ -1,17 +1,15 @@
-import { memo, useState, useEffect, useRef } from "react";
-import './style.scss';
-import { useNavigate } from 'react-router-dom';
-import { Link } from "react-router-dom";
-import logo from './logo192.png';
-import { BiUserCircle } from "react-icons/bi";
-import { ROUTERS } from "utils/router";
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { memo, useEffect, useRef, useState } from "react";
 import { Image } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import Cookies from 'js-cookie';
-import axios from 'axios';
-import { IoHeartCircle } from "react-icons/io5";
+import { BiUserCircle } from "react-icons/bi";
 import { FaShoppingCart } from "react-icons/fa";
-import { CartProvider, useCart } from "react-use-cart";
+import { IoHeartCircle } from "react-icons/io5";
+import { Link, useNavigate } from 'react-router-dom';
+import { useCart } from "react-use-cart";
+import logo from './logo192.png';
+import './style.scss';
 const Header = ({ isHome }) => {
 
     const {

@@ -1,12 +1,10 @@
-import { memo, useState } from "react";
-import { withRouter } from 'react-router-dom';
-import "./style.scss";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import Banner from "../../users/theme/banner";
-import { Container, Col, Row } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
 import GoogleMap from "components/ggMap/googleMap";
+import { memo, useState } from "react";
+import { Container } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import Banner from "../../users/theme/banner";
+import "./style.scss";
 const ContactPage = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');

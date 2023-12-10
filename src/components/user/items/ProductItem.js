@@ -54,14 +54,16 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
     return (
         <>
             <div
-                className="col-lg-3 col-md-6 col-sm-6 product-item mt-2 card"
+                className="col-lg-3 col-md-6 col-sm-6 product-item mt-2 "
                 key={product.id}
             >
                 <div className="single-product">
                     <Link to={'/product-detail/' + product.id}>
                         <img className="img-fluid img-product-item" src={product.listImage[0].path} alt="" />
                     </Link>
-
+                    {product.totalQuantity === 0 && (
+                        <div className='out_stock_product'>{t('out_stock')}</div>
+                    )}
                     <div className="product-details">
                         <h6>{product.name}</h6>
                         <div className="price">
@@ -76,7 +78,7 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
 
                         </div>
                         <div className="prd-bottom">
-                            {product.totalQuantity > 0 ? (
+                            {/* {product.totalQuantity > 0 ? (
                                 <Link className="social-info" onClick={() => handleAddToCart(product)} >
                                     <span><IoBagAdd /></span>
                                     <p className="hover-text">{t('add_to_bag')}</p>
@@ -86,7 +88,7 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
                                     <span><AiOutlineClose /></span>
                                     <p className="hover-text">{t('out_of_stock')}</p>
                                 </Link>
-                            )}
+                            )} */}
                             {isInWishlist ? (
                                 <Link to={'/wish-list'} className="social-info">
                                     <span><FaHeart /></span>

@@ -1,11 +1,11 @@
-import React, { useState, useEffect, memo } from 'react';
-import { CartProvider, useCart } from "react-use-cart";
-import './style.scss';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
-import Banner from "../../users/theme/banner";
-import Cookies from 'js-cookie';
-import { useTranslation } from "react-i18next";
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { memo, useEffect, useState } from 'react';
+import { useTranslation } from "react-i18next";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useCart } from "react-use-cart";
+import Banner from "../../users/theme/banner";
+import './style.scss';
 const Confirmation = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -50,7 +50,7 @@ const Confirmation = () => {
         const fetchData = async () => {
             //console.log(queryString);
 
-            console.log(userID);
+            //console.log(userID);
             try {
 
                 if (!userToken) {
@@ -98,11 +98,19 @@ const Confirmation = () => {
                 // Handle errors as needed
             }
         };
+        const url_web = process.env.REACT_APP_URL;
         if (vnp_ResponseCode === '00') {
             fetchData();
-            window.opener.postMessage('paymentConfirmed', '*');
+            if (window.opener && window.opener.postMessage) {
+                window.opener.postMessage('paymentConfirmed', url_web);
+            }
 
         } else if (vnp_ResponseCode === '07' || vnp_ResponseCode === '09' || vnp_ResponseCode === '10' || vnp_ResponseCode === '11' || vnp_ResponseCode === '12' || vnp_ResponseCode === '13' || vnp_ResponseCode === '24' || vnp_ResponseCode === '51' || vnp_ResponseCode === '65' || vnp_ResponseCode === '75' || vnp_ResponseCode === '79' || vnp_ResponseCode === '99') {
+            Cookies.remove('userID');
+            Cookies.remove('customerName');
+            Cookies.remove('customerAddress');
+            Cookies.remove('customerEmail');
+            Cookies.remove('customerPhone');
             window.location.href = "/";
         }
         if (dataFetched) {
@@ -111,9 +119,7 @@ const Confirmation = () => {
                 window.location.href = "/confirmation";
             }, 500);
         }
-
     }, [api, navigate, emptyCart, vnp_ResponseCode, dataFetched, queryString, vnp_Amount, vnp_OrderInfo, url, userToken]);
-
 
 
 

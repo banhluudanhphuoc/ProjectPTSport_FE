@@ -1,19 +1,11 @@
-import { memo, useState, useEffect } from "react";
-import "./style.scss";
 import axios from "axios";
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import Banner from "../../users/theme/banner";
+import { memo, useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import BlogImg1 from '../../../style/img/blog/main-blog/m-blog-4.jpg';
-// import BlogsCategoryImg3 from '../../../style/img/blog/cat-post/cat-post-3.jpg';
-// import BlogsCategoryImg2 from '../../../style/img/blog/cat-post/cat-post-2.jpg';
-// import BlogsCategoryImg1 from '../../../style/img/blog/cat-post/cat-post-1.jpg';
-// import BlogImg2 from '../../../style/img/blog/main-blog/m-blog-2.jpg';
-// import BlogImg3 from '../../../style/img/blog/main-blog/m-blog-3.jpg';
-// import BlogImg4 from '../../../style/img/blog/main-blog/m-blog-4.jpg';
-// import BlogImg5 from '../../../style/img/blog/main-blog/m-blog-5.jpg';
+import Banner from "../../users/theme/banner";
+import "./style.scss";
 
-import Cookies from 'js-cookie';
 import { useTranslation } from "react-i18next";
 const BlogsPage = () => {
 
@@ -38,7 +30,7 @@ const BlogsPage = () => {
         };
 
         fetchNews();
-    }, []);
+    }, [api]);
 
     return <>
         <Banner pageTitle={t('pageTitle_news')} />
@@ -58,7 +50,7 @@ const BlogsPage = () => {
                                                 <Link to={"/news-detail/" + singleNew.blogId}>
                                                     <h2>{singleNew.title}</h2>
                                                 </Link>
-                                                <Link to={"/news-detail/" + singleNew.blogId} className="white_bg_btn">View More</Link>
+                                                <Link to={"/news-detail/" + singleNew.blogId} className="white_bg_btn">Xem ngay</Link>
                                             </div>
                                         </div>
                                     ))}

@@ -25,6 +25,7 @@
     "react-apexcharts": "^1.4.1",
     "react-bootstrap": "^2.8.0",
     "react-chartjs-2": "^5.2.0",
+    "react-date-range": "^1.4.0",
     "react-dom": "^18.2.0",
     "react-facebook": "^9.0.12",
     "react-i18next": "^13.2.2",

@@ -90,7 +90,7 @@ const ListProductsAdmin = () => {
                             products.map(product => (
                                 <div className="col" key={product.id}>
                                     <div className="card h-100">
-                                        <img className="card-img-top" src={product.listImage[0].path} alt="image" />
+                                        <img className="card-img-top img_list_product_admin" src={product.listImage[0].path} alt="image" />
                                         <div className="card-body">
                                             <h5 className="card-title">{product.name}</h5>
                                             <Link to={`${admin_url}/product_edit/${product.id}`} className="btn btn-outline-primary">

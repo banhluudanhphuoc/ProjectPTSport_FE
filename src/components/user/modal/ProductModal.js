@@ -101,7 +101,7 @@ const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) 
                 </Modal.Body>
                 <Modal.Footer>
 
-                    {product.totalQuantity > 0 ? (
+                    {/* {product.totalQuantity > 0 ? (
                         <Button className="btn_add_to_card" onClick={() => handleAddToCart(product)}>
                             {t('add_to_bag')}
                         </Button>
@@ -110,7 +110,7 @@ const ProductModal = ({ product, showModal, setShowModal, handleAddToCart, t }) 
                         <Button className="btn_add_to_card" onClick={() => handleAddToCartNull()}>
                             {t('add_to_bag')}
                         </Button>
-                    )}
+                    )} */}
 
 
 

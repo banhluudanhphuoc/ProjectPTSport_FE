@@ -1,18 +1,16 @@
-import { memo, useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
-import "./style.scss";
 import {
-    PasswordInput,
-    TextInput,
+    PasswordInput
 } from '@mantine/core';
-import Banner from "../../users/theme/banner";
-import { Link } from "react-router-dom";
-import LoginImg from '../../../style/img/login.jpg';
-import { useTranslation } from "react-i18next";
+import { useForm } from '@mantine/form';
 import axios from "axios";
-import { NotificationContainer, NotificationManager } from 'react-notifications';
 import Cookies from 'js-cookie';
+import { memo, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { useNavigate } from 'react-router-dom';
+import LoginImg from '../../../style/img/login.jpg';
+import Banner from "../../users/theme/banner";
+import "./style.scss";
 const ChangePassword = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -97,7 +95,7 @@ const ChangePassword = () => {
                     }
 
                 });
-                console.log(response);
+                //console.log(response);
                 if (response.status === 200) {
                     NotificationManager.success(response.data.message);
                     if (userToken) {

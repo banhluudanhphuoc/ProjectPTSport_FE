@@ -7,7 +7,7 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 import axios from 'axios';
 
 const OrdersListAdmin = () => {
-    const [orders, setOrders] = useState([]);
+
     const api_admin = process.env.REACT_APP_API_URL_ADMIN;
     const admin_url = process.env.REACT_APP_ADMIN_URL;
     const api = process.env.REACT_APP_API_URL;
@@ -20,7 +20,7 @@ const OrdersListAdmin = () => {
     const deliveringOrder = process.env.REACT_APP_ID_DELIVERING_ORDER;
     const doneOrder = process.env.REACT_APP_ID_DONE_ORDER;
     const cancelOrder = process.env.REACT_APP_ID_CANCEL_ORDER;
-
+    const [orders, setOrders] = useState([]);
     useEffect(() => {
 
         const fetchOrder = async () => {
@@ -67,7 +67,17 @@ const OrdersListAdmin = () => {
                 return "badge bg-label-dark";
         }
     };
+    function formatCurrency(amount) {
+        // Sử dụng NumberFormat để định dạng số
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        });
 
+        // Áp dụng định dạng và trả về chuỗi đã định dạng
+        const price = amount;
+        return formatter.format(price);
+    }
 
     return <>
         <NotificationContainer />
@@ -91,7 +101,7 @@ const OrdersListAdmin = () => {
                                 {orders.map((order) => (
                                     <tr>
                                         <td><i className="fab fa-angular fa-lg text-danger me-3"></i> <strong>{order.code}</strong></td>
-                                        <td>{order.totalPrice}</td>
+                                        <td>{formatCurrency(order.totalPrice)}</td>
 
                                         <td>
                                             <span className={getStatusBadgeClass(order.orderStatusID)}>

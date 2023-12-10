@@ -1,17 +1,16 @@
-import { memo, useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import "./style.scss";
 import {
     PasswordInput,
-    TextInput,
+    TextInput
 } from '@mantine/core';
-import Banner from "../../users/theme/banner";
-import { Link } from "react-router-dom";
-import LoginImg from '../../../style/img/login.jpg';
-import { useTranslation } from "react-i18next";
 import axios from "axios";
+import Cookies from 'js-cookie';
+import { memo, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { Link, useNavigate } from 'react-router-dom';
+import LoginImg from '../../../style/img/login.jpg';
+import Banner from "../../users/theme/banner";
+import "./style.scss";
 // import { useAuth } from "context/AuthContext";
 const LoginUserPage = () => {
     const { t, i18n } = useTranslation();

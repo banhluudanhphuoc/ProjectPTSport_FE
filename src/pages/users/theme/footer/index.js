@@ -1,12 +1,9 @@
-import { memo, useState, useEffect } from "react";
-import './style.scss';
+import { memo, useState } from "react";
 import { Link } from "react-router-dom";
-import logo from '../header/logo192.png';
-import { AiOutlineMail, AiOutlinePhone, AiTwotoneEnvironment, AiFillFacebook, AiFillInstagram, AiFillYoutube } from "react-icons/ai";
-import { Image } from "react-bootstrap";
+import './style.scss';
 
 import { useTranslation } from "react-i18next";
-import { FaFacebook, FaYoutube, FaInstagram, FaTwitter, FaHeart } from "react-icons/fa";
+import { FaFacebook, FaHeart, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 const Footer = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');
@@ -56,7 +53,7 @@ const Footer = () => {
                         <div className="single-footer-widget">
                             <h6>{t('footer_follow_us')}</h6>
                             <div className="footer-social d-flex align-items-center">
-                                <Link to="#"><FaFacebook className="icon_social" /></Link>
+                                <Link to="https://www.facebook.com/ptsports.online/"><FaFacebook className="icon_social" /></Link>
                                 <Link to="#"><FaTwitter className="icon_social" /></Link>
                                 <Link to="#"><FaYoutube className="icon_social" /></Link>
                                 <Link to="#"><FaInstagram className="icon_social" /></Link>

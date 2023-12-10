@@ -1,8 +1,4 @@
-import { memo, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { ROUTERS } from "utils/router";
-import { CartProvider, useCart } from "react-use-cart";
-import { Image } from "react-bootstrap";
+import { memo } from "react";
 
 
 const Banner = ({ pageTitle }) => {

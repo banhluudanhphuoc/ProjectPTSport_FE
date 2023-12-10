@@ -196,7 +196,7 @@ const EditProductAdmin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (discount !== "") {
+        if (discount) {
             try {
                 const formDataToSend = new FormData();
                 formDataToSend.append('name', productName);
@@ -398,7 +398,7 @@ const EditProductAdmin = () => {
                                                 >
 
 
-                                                    <option value="">Choose...</option>
+                                                    <option value='' >Chọn...</option>
                                                     {discounts && discounts.map((discount) => (
                                                         <option key={discount.id} value={discount.id}>
                                                             {discount.percentage} %
@@ -422,7 +422,7 @@ const EditProductAdmin = () => {
                                                     name="category"
                                                     value={category}
                                                 >
-                                                    <option value="" disabled>Choose...</option>
+                                                    <option value="" disabled>Chọn...</option>
                                                     {categories.map(category => (
                                                         <option key={category.categoryID} value={category.categoryID}>{category.categoryName}</option>
                                                     ))}
@@ -441,7 +441,7 @@ const EditProductAdmin = () => {
                                                     name="brand"
                                                     value={brand}
                                                 >
-                                                    <option value="" disabled>Choose...</option>
+                                                    <option value="" disabled>Chọn...</option>
                                                     {brands.map(brand => (
                                                         <option key={brand.catalogId} value={brand.catalogId}>{brand.catalogName}</option>
                                                     ))}

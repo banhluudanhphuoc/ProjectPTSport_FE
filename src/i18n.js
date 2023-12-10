@@ -7,6 +7,10 @@ import { initReactI18next } from "react-i18next";
 const resources = {
     VI: {
         translation: {
+            "in_stock": "Còn hàng",
+            "out_stock": "Hết hàng",
+            "size": "Kích cỡ",
+            "select_size": "Chọn kích cỡ",
             "menu_home": "Trang chủ",
             "menu_categries": "Danh Mục",
             "menu_brands": "Thương Hiệu",
@@ -66,6 +70,7 @@ const resources = {
             "add_to_bag": "Mua",
             "out_of_stock": "Hết Hàng",
             "wishlist": "Yêu thích",
+            "un_wishlist": "Bỏ yêu thích",
             "quick_view": "Xem nhanh",
             "view_more": "Xem chi tiết",
             "close": "Đóng",
@@ -261,6 +266,7 @@ const resources = {
             "message_total_quantity": "Vượt quá số lượng trong kho",
             "message_success_cancel_order": "Hủy đơn hàng thành công",
             "message_apply_coupon": "Hệ thống đang được nâng cấp",
+            "message_empty_size": "Vui lòng chọn kích cỡ",
 
 
             "modal_delete_wishlist_title": "Xác nhận xóa sản phẩm",
@@ -297,6 +303,10 @@ const resources = {
     },
     EN: {
         translation: {
+            "in_stock": "In Stock",
+            "out_stock": "Out Stock",
+            "size": "Size",
+            "select_size": "Select size",
             "menu_home": "Home",
             "menu_categries": "Categories",
             "menu_brands": "Brands",
@@ -355,6 +365,7 @@ const resources = {
             "add_to_bag": "Add to bag",
             "out_of_stock": "Out of stock",
             "wishlist": "Wishlist",
+            "un_wishlist": "Unwishlist",
             "quick_view": "Quick view",
             "view_more": "View more",
             "close": "Close",
@@ -549,6 +560,7 @@ const resources = {
             "message_total_quantity": "Exceeded quantity in stock",
             "message_success_cancel_order": "Order canceled successfully",
             "message_apply_coupon": "Hệ thống đang được nâng cấp",
+            "message_empty_size": "Please select a size",
 
             "modal_delete_wishlist_title": "Confirm product deletion",
             "modal_delete_wishlist": "Are you sure you want to remove this product from your Wishlist?",

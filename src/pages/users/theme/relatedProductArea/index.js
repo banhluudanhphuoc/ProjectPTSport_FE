@@ -1,17 +1,11 @@
-import { memo, useState, useEffect } from "react";
-import './style.scss';
+import { memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import logo from '../header/logo192.png';
-import { AiOutlineMail, AiOutlinePhone, AiTwotoneEnvironment, AiFillFacebook, AiFillInstagram, AiFillYoutube } from "react-icons/ai";
+import './style.scss';
 
-import { ROUTERS } from "utils/router";
-import { CartProvider, useCart } from "react-use-cart";
-import { Image } from "react-bootstrap";
 
-import r1 from '../../../../style/img/r1.jpg';
-import category5 from '../../../../style/img/category/c5.jpg';
-import { useTranslation } from "react-i18next";
 import axios from 'axios';
+import { useTranslation } from "react-i18next";
+import category5 from '../../../../style/img/category/c5.jpg';
 
 const Footer = () => {
     const { t, i18n } = useTranslation();
@@ -69,6 +63,7 @@ const Footer = () => {
                                     <div className="col-lg-4 col-md-4 col-sm-6 mb-20" key={product.id}>
                                         <div className="single-related-product d-flex">
                                             <Link to={'/product-detail/' + product.id}><img src={product.listImage[0].path} alt={product.name} width={"50px"} /></Link>
+
                                             <div className="desc">
                                                 <Link className="title" to={'/product-detail/' + product.id}>{product.name}</Link>
                                                 <div className="price">

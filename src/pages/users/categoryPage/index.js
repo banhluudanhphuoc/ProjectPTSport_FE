@@ -1,20 +1,17 @@
-import { memo, useState, useEffect } from "react";
-import './style.scss';
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Modal, Button, Image } from 'react-bootstrap';
 import axios from 'axios';
+import ProductItem from "components/user/items/ProductItem2";
+import ProductModal from "components/user/modal/ProductModal";
+import Cookies from 'js-cookie';
 import Banner from "pages/users/theme/banner";
-import { useTranslation } from "react-i18next";
-import { CartProvider, useCart } from "react-use-cart";
 import RelatedProductArea from "pages/users/theme/relatedProductArea";
+import { memo, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-import ProductModal from "components/user/modal/ProductModal";
-import ProductItem from "components/user/items/ProductItem2";
-import { GrFormPrevious, GrFormNext } from "react-icons/gr";
-import { FaEllipsis } from "react-icons/fa6";
-import { useLocation } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useCart } from "react-use-cart";
+import './style.scss';
 const CategoryPage = () => {
     const { addItem, items } = useCart();
     const { t, i18n } = useTranslation();
@@ -46,6 +43,7 @@ const CategoryPage = () => {
     const type = parts[1];
     const idFilter = parts[2];
     const [cart, setCart] = useState([]);
+    const [sortOption, setSortOption] = useState('default');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -65,8 +63,6 @@ const CategoryPage = () => {
                     // Handle the case when either type or idFilter is undefined
                     response = await axios.get(api + '/products', { maxRedirects: 5 });
                     setData(response.data);
-                    console.log(response.data);
-
                 }
 
             } catch (error) {
@@ -161,99 +157,105 @@ const CategoryPage = () => {
         return null;
     };
 
+    const sortedProducts = idFilter ? productsFilter : data.contents;
+
+    if (sortOption === 'high') {
+        sortedProducts.sort((a, b) => b.price - a.price);
+    } else if (sortOption === 'low') {
+        sortedProducts.sort((a, b) => a.price - b.price);
+    }
+
+    // const addToCart = (cartItem, cartItem2) => {
+    //     fetch(api + `/cart/${user.userId}`, {
+    //         method: 'PUT',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(cartItem),
+    //     })
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             setCart(data.itemList);
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error adding to cart:', error);
+    //         });
+    //     addItem(cartItem2);
+    // };
 
 
-    const addToCart = (cartItem, cartItem2) => {
-        fetch(api + `/cart/${user.userId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(cartItem),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setCart(data.itemList);
-            })
-            .catch((error) => {
-                console.error('Error adding to cart:', error);
-            });
-        addItem(cartItem2);
-    };
+    // const handleAddToCart = (item) => {
+    //     if (!userToken) {
+    //         NotificationManager.error(t('message_fail_add_to_cart'), t('message_failed'));
+    //     } else {
+    //         const productInCart = items.find(cartItem => cartItem.id === item.id);
+    //         if (productInCart) {
+    //             if (productInCart.quantity + 1 > item.totalQuantity) {
+    //                 NotificationManager.error(t('message_total_quantity'));
+    //             } else {
+    //                 const cartItem2 = {
+    //                     id: item.id,
+    //                     productName: item.name,
+    //                     sizeID: 2,
+    //                     colorID: 2,
+    //                     image: item.listImage[0].path,
+    //                     quantity: 1,
+    //                     price: item.discountedPrice,
+    //                     totalPrice: item.discountedPrice,
+    //                     //discountedPrice: item.discountedPrice,
+    //                 };
+    //                 const cartItem = {
+    //                     productID: item.id, // ID thực của sản phẩm
+    //                     productName: item.name,
+    //                     sizeID: 2,
+    //                     colorID: 2,
+    //                     //image: item.listImage[0].path,
+    //                     quantity: 1,
+    //                     //price: item.price,
+    //                     //totalPrice: item.price,
+    //                     //discountedPrice: item.discountedPrice,
+    //                 };
+    //                 addToCart(cartItem, cartItem2);
+
+    //                 // Hiển thị thông báo thành công
+    //                 NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
+    //                     navigate("/cart");
+    //                 });
+    //             }
+    //         } else {
+    //             const cartItem2 = {
+    //                 id: item.id,
+    //                 productName: item.name,
+    //                 sizeID: 2,
+    //                 colorID: 2,
+    //                 image: item.listImage[0].path,
+    //                 quantity: 1,
+    //                 price: item.discountedPrice,
+    //                 totalPrice: item.discountedPrice,
+    //                 //discountedPrice: item.discountedPrice,
+    //             };
+    //             const cartItem = {
+    //                 productID: item.id, // ID thực của sản phẩm
+    //                 productName: item.name,
+    //                 sizeID: 2,
+    //                 colorID: 2,
+    //                 //image: item.listImage[0].path,
+    //                 quantity: 1,
+    //                 //price: item.price,
+    //                 //totalPrice: item.price,
+    //                 //discountedPrice: item.discountedPrice,
+    //             };
+    //             addToCart(cartItem, cartItem2);
+
+    //             // Hiển thị thông báo thành công
+    //             NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
+    //                 navigate("/cart");
+    //             });
+    //         }
 
 
-    const handleAddToCart = (item) => {
-        if (!userToken) {
-            NotificationManager.error(t('message_fail_add_to_cart'), t('message_failed'));
-        } else {
-            const productInCart = items.find(cartItem => cartItem.id === item.id);
-            if (productInCart) {
-                if (productInCart.quantity + 1 > item.totalQuantity) {
-                    NotificationManager.error(t('message_total_quantity'));
-                } else {
-                    const cartItem2 = {
-                        id: item.id,
-                        productName: item.name,
-                        sizeID: 2,
-                        colorID: 2,
-                        image: item.listImage[0].path,
-                        quantity: 1,
-                        price: item.discountedPrice,
-                        totalPrice: item.discountedPrice,
-                        //discountedPrice: item.discountedPrice,
-                    };
-                    const cartItem = {
-                        productID: item.id, // ID thực của sản phẩm
-                        productName: item.name,
-                        sizeID: 2,
-                        colorID: 2,
-                        //image: item.listImage[0].path,
-                        quantity: 1,
-                        //price: item.price,
-                        //totalPrice: item.price,
-                        //discountedPrice: item.discountedPrice,
-                    };
-                    addToCart(cartItem, cartItem2);
-
-                    // Hiển thị thông báo thành công
-                    NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
-                        navigate("/cart");
-                    });
-                }
-            } else {
-                const cartItem2 = {
-                    id: item.id,
-                    productName: item.name,
-                    sizeID: 2,
-                    colorID: 2,
-                    image: item.listImage[0].path,
-                    quantity: 1,
-                    price: item.discountedPrice,
-                    totalPrice: item.discountedPrice,
-                    //discountedPrice: item.discountedPrice,
-                };
-                const cartItem = {
-                    productID: item.id, // ID thực của sản phẩm
-                    productName: item.name,
-                    sizeID: 2,
-                    colorID: 2,
-                    //image: item.listImage[0].path,
-                    quantity: 1,
-                    //price: item.price,
-                    //totalPrice: item.price,
-                    //discountedPrice: item.discountedPrice,
-                };
-                addToCart(cartItem, cartItem2);
-
-                // Hiển thị thông báo thành công
-                NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
-                    navigate("/cart");
-                });
-            }
-
-
-        }
-    };
+    //     }
+    // };
 
     return (
         <>
@@ -305,10 +307,10 @@ const CategoryPage = () => {
 
                         <div className="filter-bar d-flex flex-wrap align-items-center">
                             <div className="pagination">
-                                <select class="nice-select">
-                                    <option value="1">{t('sorting_default')}</option>
-                                    <option value="2">{t('sorting_price_high')}</option>
-                                    <option value="3">{t('sorting_price_low')}</option>
+                                <select class="nice-select" onChange={(e) => setSortOption(e.target.value)}>
+                                    <option value="default">{t('sorting_default')}</option>
+                                    <option value="high">{t('sorting_price_high')}</option>
+                                    <option value="low">{t('sorting_price_low')}</option>
                                 </select>
                             </div>
                             <div className="sorting mr-auto">
@@ -316,12 +318,12 @@ const CategoryPage = () => {
                             </div>
                             <div className="pagination">
 
-                                <Link href="#" className="prev-arrow" disabled={data.pageNumber === 0}>
+                                <Link className="prev-arrow" disabled={data.pageNumber === 0}>
                                     <GrFormPrevious />
                                 </Link>
                                 {renderPaginationLinks()}
                                 <Link
-                                    href="#"
+
                                     className="next-arrow"
                                     disabled={data.pageNumber === data.totalPages - 1 || data.lastPage}
                                 >
@@ -333,10 +335,10 @@ const CategoryPage = () => {
                         <!-- Start Best Seller --> */}
                         <section className="lattest-product-area pb-40 category-list">
                             <div className="row">
-                                {idFilter ? (productsFilter.map((item) => (
+                                {/* {idFilter ? (productsFilter.map((item) => (
                                     <ProductItem
                                         product={item}
-                                        handleAddToCart={handleAddToCart}
+                                        //handleAddToCart={handleAddToCart}
                                         t={t}
                                         setShowModal={setShowModal}
                                         key={item.id}
@@ -347,7 +349,7 @@ const CategoryPage = () => {
                                     data.contents.map((item) => (
                                         <ProductItem
                                             product={item}
-                                            handleAddToCart={handleAddToCart}
+                                            //handleAddToCart={handleAddToCart}
                                             t={t}
                                             setShowModal={setShowModal}
                                             key={item.id}
@@ -356,7 +358,18 @@ const CategoryPage = () => {
 
                                         />
                                     ))
-                                )}
+                                )} */}
+
+                                {sortedProducts.map((item) => (
+                                    <ProductItem
+                                        product={item}
+                                        t={t}
+                                        setShowModal={setShowModal}
+                                        key={item.id}
+                                        isInWishlist={isProductInWishlist(productsWishList, item.id)}
+                                        userId={user.userId}
+                                    />
+                                ))}
 
 
                             </div>
@@ -372,7 +385,7 @@ const CategoryPage = () => {
                     product={item}
                     showModal={showModal === item.id}
                     setShowModal={setShowModal}
-                    handleAddToCart={handleAddToCart}
+                    //handleAddToCart={handleAddToCart}
                     t={t}
                     key={item.id}
                 />
@@ -382,7 +395,7 @@ const CategoryPage = () => {
                         product={item}
                         showModal={showModal === item.id}
                         setShowModal={setShowModal}
-                        handleAddToCart={handleAddToCart}
+                        //handleAddToCart={handleAddToCart}
                         t={t}
                         key={item.id}
                     />

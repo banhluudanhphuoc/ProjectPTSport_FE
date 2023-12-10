@@ -1,32 +1,16 @@
-import { memo } from "react";
-import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
-import "./style.scss";
-import { Tab, Nav, Container, Row, Col } from 'react-bootstrap';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { memo, useEffect, useState } from "react";
+import { Nav, Tab } from 'react-bootstrap';
+import { useTranslation } from "react-i18next";
 import {
-    AiOutlineEdit,
-    AiOutlineDelete,
-    AiOutlineProfile,
-    AiOutlineNotification,
-    AiTwotoneEye,
-    AiTwotoneStar,
-    AiFillCheckCircle,
-    AiOutlineUser,
-    AiOutlineCheckCircle,
-    AiOutlineCloseCircle,
-    AiOutlineClockCircle,
-    AiOutlineLike,
-    AiFillCreditCard,
-    AiOutlineRocket,
+    AiFillCheckCircle, AiOutlineEdit, AiOutlineNotification, AiOutlineProfile, AiTwotoneEye,
+    AiTwotoneStar
 } from "react-icons/ai";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
-import ImgReview1 from '../../../style/img/product/review-1.png';
-import Cookies from 'js-cookie';
-import SizeChart from '../../../assets/users/size-charts/giay-nam.png';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import Banner from "../../users/theme/banner";
-import { useTranslation } from "react-i18next";
-import axios from 'axios';
+import "./style.scss";
 const ProfileCustomer = () => {
     const api = process.env.REACT_APP_API_URL;
     const { t, i18n } = useTranslation();
@@ -49,6 +33,21 @@ const ProfileCustomer = () => {
     const doneOrder = process.env.REACT_APP_ID_DONE_ORDER;
     const cancelOrder = process.env.REACT_APP_ID_CANCEL_ORDER;
     const hasPayOrder = process.env.REACT_APP_ID_HAS_PAY_ORDER;
+    const [sizes, setSizes] = useState();
+
+    useEffect(() => {
+        const fetchSizes = async () => {
+            try {
+                const response = await axios.get(`${api}/sizes`);
+                setSizes(response.data);
+
+            } catch (error) {
+                console.error('Error fetching size:', error);
+            }
+        };
+
+        fetchSizes();
+    }, [api]);
     useEffect(() => {
         if (!userToken) {
             navigate('/login-user');
@@ -79,6 +78,7 @@ const ProfileCustomer = () => {
                         'Content-Type': 'application/json',
                     }
                 });
+
                 const sortedOrders = response.data.sort((a, b) => {
                     // Sort by orderStatusID in ascending order
                     const orderStatusComparison = a.orderStatusID - b.orderStatusID;
@@ -90,6 +90,7 @@ const ProfileCustomer = () => {
                     }
 
                     return orderStatusComparison;
+
                 });
 
                 setOrder(sortedOrders);
@@ -233,31 +234,39 @@ const ProfileCustomer = () => {
                                                     {/* <div>
                                                         <img alt="" src={ImgReview1} className="profile_customer_right_orders_image" width="100px" />
                                                     </div> */}
+
                                                     {item.orderProducts.map((product) => {
-                                                        // Tìm sản phẩm tương ứng trong danh sách products
                                                         const matchedProduct = products.find(p => p.id === product.productID);
 
-                                                        // Kiểm tra xem sản phẩm có tồn tại không
+                                                        const findSizeName = (sizeID) => {
+                                                            const foundSize = sizes.find(sizefind => sizefind.id === sizeID);
+                                                            return foundSize ? foundSize.name : null;
+                                                        };
+
+                                                        const sizeName = findSizeName(product.sizeID);
+
                                                         if (matchedProduct) {
                                                             return (
                                                                 <div className="profile_customer_right_orders_mid_info" key={product.id}>
                                                                     <div>
-                                                                        {/* Hiển thị tên sản phẩm */}
-                                                                        <Link to={`/product-detail/${matchedProduct.id}`}>{t('profile_product_name')} : {matchedProduct.name}</Link>
+                                                                        <Link to={`/product-detail/${matchedProduct.id}`}>{t('profile_product_name')} : <b>{matchedProduct.name}</b></Link>
                                                                     </div>
                                                                     <div>
-                                                                        <span>{t('profile_product_quantity')} : {product.quantity} - </span>
-                                                                        <span>{t('profile_product_price')} : {formatCurrency(product.totalPrice)}</span>
+                                                                        <span>{t('size')} : <b>{sizeName}</b> - </span>
+                                                                        <span>{t('profile_product_quantity')} : <b>{product.quantity}</b> - </span>
+                                                                        <span>{t('profile_product_price')} : <b>{formatCurrency(product.totalPrice)}</b></span>
                                                                     </div>
                                                                 </div>
                                                             );
                                                         }
                                                     })}
 
+
+
                                                 </div>
                                                 <div className="profile_customer_right_orders_bottom" >
                                                     <Link to={'/order-detail-customer/' + item.id}>{t('profile_view_order_detail')}</Link>
-                                                    <span>{t('profile_order_total')} : {formatCurrency(item.totalPrice)}</span>
+                                                    <span>{t('profile_order_total')} : <b>{formatCurrency(item.totalPrice)}</b></span>
                                                 </div>
                                             </div>
                                         </div>

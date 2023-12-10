@@ -1,15 +1,15 @@
-import { memo, useState, useEffect } from "react";
-import "./style.scss";
 import axios from "axios";
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import Banner from "../../users/theme/banner";
-import { Container, Row } from "react-bootstrap";
-import ProductModal from "components/user/modal/ProductModal";
 import ProductItem from "components/user/items/ProductItem3";
-import { NotificationContainer, NotificationManager } from 'react-notifications';
+import ProductModal from "components/user/modal/ProductModal";
 import Cookies from 'js-cookie';
+import { memo, useEffect, useState } from "react";
+import { Container, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import { CartProvider, useCart } from "react-use-cart";
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { useNavigate } from 'react-router-dom';
+import { useCart } from "react-use-cart";
+import Banner from "../../users/theme/banner";
+import "./style.scss";
 const WishList = () => {
 
     const { addItem, items } = useCart();

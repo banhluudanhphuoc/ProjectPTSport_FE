@@ -1,25 +1,20 @@
-import React, { useState, useEffect, memo } from 'react';
+import {
+    Radio, TextInput
+} from '@mantine/core';
+import { hasLength, isNotEmpty, useForm } from '@mantine/form';
 import axios from 'axios';
-import { CartProvider, useCart } from "react-use-cart";
-import './style.scss';
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import Banner from "../../users/theme/banner";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
-import jsonData from '../../../data/address.json';
 import Cookies from 'js-cookie';
+import { memo, useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
-import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
-import {
-    PasswordInput,
-    TextInput,
-    Text,
-    rem,
-    Select,
-    Radio,
-} from '@mantine/core';
 import ReactLoading from 'react-loading';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCart } from "react-use-cart";
+import jsonData from '../../../data/address.json';
+import Banner from "../../users/theme/banner";
+import './style.scss';
 const CheckoutPage = () => {
     const userToken = Cookies.get('userToken');
     const {
@@ -291,6 +286,7 @@ const CheckoutPage = () => {
 
                     }
                 );
+                //console.log(response.data);
                 Cookies.set('userID', user.userId);
                 Cookies.set('customerName', values.customerName);
                 Cookies.set('customerAddress', `${values.customerAddress}, ${selectedWardName}, ${selectedDistrictName}, ${selectedCityName}`);
@@ -461,7 +457,7 @@ const CheckoutPage = () => {
                                             {productOnCart.map((item) => (
                                                 <tr key={item.productId}>
                                                     <td>
-                                                        {item.productName}
+                                                        {item.productName} - {t('size')} : {item.size.name}
                                                     </td>
                                                     <td>
                                                         {item.quantity}

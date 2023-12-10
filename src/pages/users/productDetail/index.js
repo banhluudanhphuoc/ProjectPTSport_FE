@@ -1,29 +1,29 @@
-import { memo, useEffect, useState } from "react";
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import CommentSection from "components/user/facebook/comment";
 import Cookies from 'js-cookie';
+import { memo, useCallback, useEffect, useState } from "react";
 
-import { Col, Container, Image, Nav, Row, Tab } from 'react-bootstrap';
+import { Col, Container, Nav, Row, Tab } from 'react-bootstrap';
 import { useTranslation } from "react-i18next";
 import { FaHeart, FaRegHeart, FaRegStar, FaStar } from "react-icons/fa";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
+import 'owl.carousel/dist/owl.carousel.min';
+import 'owl.carousel/dist/owl.carousel.min.js';
+import ReactImageMagnify from 'react-image-magnify';
+import OwlCarousel from 'react-owl-carousel';
 import Rating from "react-rating";
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useCart } from "react-use-cart";
 import SizeChart from '../../../assets/users/size-charts/giay-nam.png';
 import Banner from "../../users/theme/banner";
 import RelatedProductArea from "../theme/relatedProductArea";
 import './style.scss';
-import { CartProvider, useCart } from "react-use-cart";
-import ReactImageMagnify from 'react-image-magnify';
-import OwlCarousel from 'react-owl-carousel';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
-import 'owl.carousel/dist/owl.carousel.min.js';
-import 'owl.carousel/dist/owl.carousel.min';
 const ProductDetail = () => {
     const postUrl = process.env.REACT_APP_URL;
     const { t, i18n } = useTranslation();
@@ -36,8 +36,12 @@ const ProductDetail = () => {
     const auth = process.env.REACT_APP_API_URL_AUTH;
     const [user, setUser] = useState([]);
     const [productsWishList, setProductsWishList] = useState([]);
-    const { addItem, items } = useCart();
-
+    const { addItem, items, updateItemQuantity } = useCart();
+    const [sizesText, setSizesText] = useState([]);
+    const [sizesNumber, setSizesNumber] = useState([]);
+    const [size, setSize] = useState();
+    const [sizes, setSizes] = useState();
+    const [productOnCart, setProductOnCart] = useState([]);
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -45,6 +49,7 @@ const ProductDetail = () => {
                 setProduct(response.data);
                 setMainImage(response.data.listImage[0].path);
                 setProductListImage(response.data.listImage);
+                //console.log(response.data);
             } catch (error) {
                 console.error('Error fetching product:', error);
             }
@@ -68,6 +73,7 @@ const ProductDetail = () => {
                     setUser(response.data);
                     // Call fetchProducts after setUser
                     fetchProductsWishList(response.data.userId);
+                    fetchItemCart(response.data.userId);
                 } catch (error) {
                     console.error('Error fetching Brand:', error);
                 }
@@ -83,6 +89,19 @@ const ProductDetail = () => {
                     });
 
                     setProductsWishList(response.data.productDtos);
+                } catch (error) {
+                    console.error('Error fetching products:', error);
+                }
+            };
+
+            const fetchItemCart = async (userId) => {
+                try {
+                    const response = await axios.get(api + '/cart/' + userId);
+
+                    setProductOnCart(response.data.itemList); // .itemList
+                    // console.log(response.data.itemList);
+                    // console.log(items);
+                    //console.log(response);
                 } catch (error) {
                     console.error('Error fetching products:', error);
                 }
@@ -105,7 +124,7 @@ const ProductDetail = () => {
     }
     const addToWishlist = async () => {
         if (!userToken) {
-            NotificationManager.error(t('message_fail_add_wish_list'), t('message_failed'));
+            NotificationManager.error(t('message_fail_add_wish_list'), t('message_failed'), 1500);
         }
         try {
             // Make an API request to add the product to the wishlist
@@ -118,7 +137,7 @@ const ProductDetail = () => {
 
             // Handle the response as needed
             if (response.ok) {
-                NotificationManager.success(t('message_success_add_wish_list'), t('message_success'));
+                NotificationManager.success(t('message_success_add_wish_list'), t('message_success'), 1500);
                 setTimeout(function () {
                     window.location.href = "/wish-list";
                 }, 500);
@@ -155,87 +174,185 @@ const ProductDetail = () => {
     };
 
     const navigate = useNavigate();
-    const handleAddToCart = (item) => {
+
+
+    const handleAddToCart = (event, item) => {
+        event.preventDefault();
         if (!userToken) {
-            NotificationManager.error(t('message_fail_add_to_cart'), t('message_failed'));
+            NotificationManager.error(t('message_fail_add_to_cart'), t('message_failed'), 1500);
         } else {
-            const productInCart = items.find(cartItem => cartItem.id === item.id);
-            if (productInCart) {
-                if (productInCart.quantity + 1 > item.totalQuantity) {
-                    NotificationManager.error(t('message_total_quantity'));
+            if (size === undefined || size === "0") {
+                NotificationManager.error(t('message_empty_size'), t('message_failed'), 1500);
+                return;
+            } else {
+
+                const productInCart = items.find(cartItem => cartItem.productID === item.id);
+
+                const calculateTotalQuantityForProduct = (items, productId) => {
+                    const filteredItems = items.filter(item => item.productID === productId);
+                    const totalQuantity = filteredItems.reduce((total, currentItem) => total + currentItem.quantity, 0);
+                    return totalQuantity;
+                };
+
+                const productIdToCalculate = item.id;
+                const totalQuantityForProduct = calculateTotalQuantityForProduct(items, productIdToCalculate);
+
+
+                const findSizeName = (size) => {
+                    const foundSize = sizes.find(sizefind => String(sizefind.id) === size);
+                    return foundSize ? foundSize.name : null;
+                };
+                const sizeName = findSizeName(size);
+
+                if (productInCart) {
+                    if (productInCart.sizeID === size) {
+
+                        if (totalQuantityForProduct + 1 > item.totalQuantity) {
+                            NotificationManager.error(t('message_total_quantity'), '', 1500);
+                        } else {
+                            const cartItem2 = {
+                                id: item.id,
+                                productID: item.id,
+                                productName: item.name,
+                                sizeID: size,
+                                sizeName: sizeName,
+                                colorID: 2,
+                                image: item.listImage[0].path,
+                                quantity: 1,
+                                price: item.discountedPrice,
+                                totalPrice: item.discountedPrice,
+                            };
+
+                            const cartItem = {
+                                productID: item.id,
+                                productName: item.name,
+                                sizeID: size,
+                                colorID: 2,
+                                quantity: 1,
+                            };
+                            addToCart(cartItem, cartItem2);
+
+                            NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 1500, () => {
+                                navigate("/cart");
+                            });
+                        }
+                    } else {
+                        if (totalQuantityForProduct + 1 > item.totalQuantity) {
+                            NotificationManager.error(t('message_total_quantity'), '', 1500);
+                        } else {
+
+                            const cartItem2 = {
+                                id: 900 + size,
+                                productID: item.id,
+                                productName: item.name,
+                                sizeID: size,
+                                sizeName: sizeName,
+                                colorID: 2,
+                                image: item.listImage[0].path,
+                                quantity: 1,
+                                price: item.discountedPrice,
+                                totalPrice: item.discountedPrice,
+                            };
+                            const cartItem = {
+                                productID: item.id,
+                                productName: item.name,
+                                sizeID: size,
+                                colorID: 2,
+                                quantity: 1,
+                            };
+                            addToCart(cartItem, cartItem2);
+
+                            NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 1500, () => {
+                                navigate("/cart");
+                            });
+                        }
+                    }
                 } else {
+
                     const cartItem2 = {
                         id: item.id,
+                        productID: item.id,
                         productName: item.name,
-                        sizeID: 2,
+                        sizeID: size,
+                        sizeName: sizeName,
                         colorID: 2,
                         image: item.listImage[0].path,
                         quantity: 1,
                         price: item.discountedPrice,
                         totalPrice: item.discountedPrice,
-                        //discountedPrice: item.discountedPrice,
                     };
                     const cartItem = {
-                        productID: item.id, // ID thực của sản phẩm
+                        productID: item.id,
                         productName: item.name,
-                        sizeID: 2,
+                        sizeID: size,
                         colorID: 2,
-                        //image: item.listImage[0].path,
                         quantity: 1,
-                        //price: item.price,
-                        //totalPrice: item.price,
-                        //discountedPrice: item.discountedPrice,
                     };
                     addToCart(cartItem, cartItem2);
 
-                    // Hiển thị thông báo thành công
-                    NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
+                    NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 1500, () => {
                         navigate("/cart");
                     });
+
                 }
-            } else {
-                const cartItem2 = {
-                    id: item.id,
-                    productName: item.name,
-                    sizeID: 2,
-                    colorID: 2,
-                    image: item.listImage[0].path,
-                    quantity: 1,
-                    price: item.discountedPrice,
-                    totalPrice: item.discountedPrice,
-                    //discountedPrice: item.discountedPrice,
-                };
-                const cartItem = {
-                    productID: item.id, // ID thực của sản phẩm
-                    productName: item.name,
-                    sizeID: 2,
-                    colorID: 2,
-                    //image: item.listImage[0].path,
-                    quantity: 1,
-                    //price: item.price,
-                    //totalPrice: item.price,
-                    //discountedPrice: item.discountedPrice,
-                };
-                addToCart(cartItem, cartItem2);
-
-                // Hiển thị thông báo thành công
-                NotificationManager.success(t('notification_add_product_to_cart_success'), t('notification_add_product_to_cart_success_title'), 3000, () => {
-                    navigate("/cart");
-                });
             }
-
 
         }
     };
 
 
+
+
+
     const handleAddToCartNull = () => {
-        NotificationManager.error(t('message_total_quantity'));
+        NotificationManager.error(t('message_total_quantity'), '', 1500);
     };
 
+    useEffect(() => {
+        const fetchSizes = async () => {
+            try {
+                const response = await axios.get(`${api}/sizes`);
+                const sizeToFill = response.data;
+
+                // Use optional chaining to avoid errors if there are no numeric characters
+                const textData = sizeToFill
+                    .filter(item => !/\d+/.test(item.name))
+                    .map(item => ({
+                        id: item.id,
+                        remainingData: item.name.trim(),
+                    }));
+
+                // Filter out items without numeric characters in their names
+                const filteredData = sizeToFill.filter(item => /\d+/.test(item.name));
+
+                // Extract and parse numeric values with associated ids
+                const numericDataFiltered = filteredData.map(item => ({
+                    id: item.id,
+                    numericValue: parseInt(item.name.match(/\d+/)[0], 10),
+                }));
+                setSizes(response.data);
+                setSizesText(textData);
+                setSizesNumber(numericDataFiltered); // Use the filtered numeric data with ids
+                // textData chứa các chuỗi, numericData chứa các số
+
+            } catch (error) {
+                console.error('Error fetching size:', error);
+            }
+        };
+
+        fetchSizes();
+    }, [api]);
 
 
 
+    const handleSizeChange = useCallback((e) => {
+        const value = e.target.value;
+        setSize(value);
+    }, []);
+
+
+    const clothes = process.env.REACT_APP_CATEGORY_CLOTHES;
+    const shoes = process.env.REACT_APP_CATEGORY_SHOES;
 
     return (
         <>
@@ -305,16 +422,55 @@ const ProductDetail = () => {
                                 <ul className="list">
                                     {/* <li><Link className="active" href="#"><span>Category</span> : Household</Link></li> */}
                                     {product.totalQuantity > 0 ? (
-                                        <li><Link href="#" className="stock-product-detail"><span>Còn hàng</span></Link></li>
+                                        <li><Link href="#" className="stock-product-detail"><span>{t('in_stock')}</span></Link></li>
 
-                                    ) : (<li><Link href="#" className="stock-product-detail"><span>Hết hàng</span></Link></li>)}
+                                    ) : (<li><Link href="#" className="stock-product-detail"><span>{t('out_stock')}</span></Link></li>)}
 
                                 </ul>
                                 <div dangerouslySetInnerHTML={{ __html: product.description }}></div>
+                                {product.categoryID === parseInt(clothes) &&
+                                    <div className="mb-2 col-md-4">
+                                        <label className="form-label" htmlFor="product-size">{t('size')}</label>
+                                        <div className="input-group input-group-merge">
+                                            <select
+                                                className="form-select"
+                                                id="product-size"
+                                                aria-describedby="product-size-icon"
+                                                onChange={handleSizeChange}
+                                                name="size"
+                                            >
+                                                <option value="0" selected>{t('select_size')}</option>
+                                                {sizesText.map(size => (
+                                                    <option key={size.id} value={size.id}>{size.remainingData}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                }
+                                {product.categoryID === parseInt(shoes) &&
+                                    <div className="mb-2 col-md-4">
+                                        <label className="form-label" htmlFor="product-size">{t('size')}</label>
+                                        <div className="input-group input-group-merge">
+                                            <select
+                                                className="form-select"
+                                                id="product-size"
+                                                aria-describedby="product-size-icon"
+                                                onChange={handleSizeChange}
+                                                name="size"
+                                            >
+                                                <option value="0" selected>{t('select_size')}</option>
+                                                {sizesNumber.map(size => (
+                                                    <option key={size.id} value={size.id}>{size.numericValue}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                }
+
 
                                 <div className="card_area d-flex align-items-center">
                                     {product.totalQuantity > 0 ? (
-                                        <Link className="primary-btn btn-product-detail" onClick={() => handleAddToCart(product)}>{t("add_to_bag")}</Link>
+                                        <Link className="primary-btn btn-product-detail" onClick={(event) => handleAddToCart(event, product)}>{t("add_to_bag")}</Link>
                                     ) : (
                                         <Link className="primary-btn btn-product-detail" onClick={handleAddToCartNull}>{t("add_to_bag")}</Link>
                                     )}

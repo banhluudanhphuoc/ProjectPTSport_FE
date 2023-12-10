@@ -39,9 +39,7 @@ import { useTranslation } from "react-i18next";
 import 'react-notifications/lib/notifications.css';
 import { useCart } from "react-use-cart";
 
-import MyChatComponent from 'components/user/facebook/chat';
 // import MyChatComponent from 'components/user/chat';
-import MessengerCustomerChat from 'react-messenger-customer-chat';
 const HomePage = () => {
 
     const { addItem, items } = useCart();
@@ -170,7 +168,7 @@ const HomePage = () => {
                 // console.log(response.status);
                 // Lấy 8 sản phẩm đầu tiên từ mảng contents
                 setProducts(response.data);
-
+                //console.log(response.data);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }

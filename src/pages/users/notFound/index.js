@@ -1,9 +1,7 @@
-import React from 'react';
-import "./style.scss";
-import { memo, useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
-import Banner from "../../users/theme/banner";
+import { memo } from "react";
 import Img404 from "../../../assets/users/404/page-misc-error-light.png";
+import Banner from "../../users/theme/banner";
+import "./style.scss";
 const NotFound = () => {
     return <>
         <Banner pageTitle={"404 Not Found"} />

@@ -49,13 +49,16 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
     return (
         <>
             <div
-                className="col-lg-3 col-md-6 product-item mt-2 card mb-2"
+                className="col-lg-3 col-md-6 product-item mt-2 mb-2"
                 key={product.id}
             >
                 <div className="single-product">
                     <Link to={'/product-detail/' + product.id}>
                         <img className="img-fluid img-product-item" src={product.listImage[0].path} alt="" />
                     </Link>
+                    {product.totalQuantity === 0 && (
+                        <div className='out_stock_product'>{t('out_stock')}</div>
+                    )}
                     <div className="product-details">
                         <h6>{product.name}</h6>
                         <div className="price">
@@ -69,7 +72,7 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
                             )}
                         </div>
                         <div className="prd-bottom">
-                            {product.totalQuantity > 0 ? (
+                            {/* {product.totalQuantity > 0 ? (
                                 <Link className="social-info" onClick={() => handleAddToCart(product)} >
                                     <span><IoBagAdd /></span>
                                     <p className="hover-text">{t('add_to_bag')}</p>
@@ -79,10 +82,10 @@ const ProductItem = ({ product, handleAddToCart, t, setShowModal, isInWishlist, 
                                     <span><AiOutlineClose /></span>
                                     <p className="hover-text">{t('out_of_stock')}</p>
                                 </Link>
-                            )}
+                            )} */}
                             <Link to={'/wish-list'} className="social-info" onClick={() => deleteToWishlist(product)} >
                                 <span><FaHeart /></span>
-                                <p className="hover-text">{t('wishlist')}</p>
+                                <p className="hover-text">{t('un_wishlist')}</p>
                             </Link>
                             <Link to={''} className="social-info" onClick={() => setShowModal(product.id)}>
                                 <span><FaEye /></span>

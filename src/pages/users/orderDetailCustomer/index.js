@@ -1,12 +1,12 @@
-import React, { useState, useEffect, memo } from 'react';
-import "./style.scss";
 import axios from "axios";
-import { Modal, Button, Image } from 'react-bootstrap';
-import Banner from "../../users/theme/banner";
-import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { memo, useEffect, useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import { useTranslation } from "react-i18next";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import Banner from "../../users/theme/banner";
+import "./style.scss";
 
 const OrderDetailCustomer = () => {
     const { orderID } = useParams();
@@ -36,7 +36,21 @@ const OrderDetailCustomer = () => {
     const doneOrder = process.env.REACT_APP_ID_DONE_ORDER;
     const cancelOrder = process.env.REACT_APP_ID_CANCEL_ORDER;
     const hasPayOrder = process.env.REACT_APP_ID_HAS_PAY_ORDER;
+    const [sizes, setSizes] = useState();
+    const [date, setDate] = useState();
+    useEffect(() => {
+        const fetchSizes = async () => {
+            try {
+                const response = await axios.get(`${api}/sizes`);
+                setSizes(response.data);
 
+            } catch (error) {
+                console.error('Error fetching size:', error);
+            }
+        };
+
+        fetchSizes();
+    }, [api]);
     useEffect(() => {
         if (!userToken) {
             navigate('/login-user');
@@ -57,6 +71,20 @@ const OrderDetailCustomer = () => {
                 });
                 setOrder(orderResponse.data);
                 console.log(orderResponse);
+
+
+                const createdAtDate = new Date(orderResponse.data.createdAt);
+                const options = {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    timeZone: 'UTC',
+                };
+                const formattedDate = createdAtDate.toLocaleString('en-US', options);
+                setDate(formattedDate);
             } catch (error) {
                 // Handle errors
                 console.error('Error fetching data:', error);
@@ -113,21 +141,35 @@ const OrderDetailCustomer = () => {
     };
 
 
+    const handlePrintOrder = () => {
+        window.print();
+    };
+
     return <>
         <NotificationContainer />
         <Banner pageTitle={t('pageTitle_order_detail')} />
-        <div className="container card ">
+        <div className="container card mb-3 mt-3 printable-content">
             <div className="row mt-5 ml-3">
-                <div className="col-md-9">
+                <div className="col-md-8">
                     <h2>{t('order_detail')}</h2>
                     <p><strong>{t('order_detail_number')}:</strong> {order.code}</p>
-                    {/* <p><strong>{t('order_detail_date')}:</strong> date </p> */}
+                    <p><strong>{t('order_detail_date')}:</strong>{date}</p>
                     <p><strong>{t('order_detail_status')}:</strong> <span className="badge bg-label-primary me-1">{order?.orderStatus?.name}</span></p>
                 </div>
-                <div className="col-md-3 align-right d-flex">
+                <div className="col-md-4 align-right d-flex">
                     <Link to="/profile-customer">
                         <Button className="btn btn-customer mr-3">{t('order_detail_button_back')}</Button>
                     </Link>
+                    <Link>
+                        <Button
+                            type="button"
+                            className="btn btn-success mr-3"
+                            onClick={handlePrintOrder}
+                        >
+                            In
+                        </Button>
+                    </Link>
+
                     {order.orderStatusID === parseInt(awaitConfirmOrder) &&
                         <Link>
                             <button
@@ -149,7 +191,12 @@ const OrderDetailCustomer = () => {
                     <ul className="list-group">
                         {order?.orderProducts?.map((product) => {
                             const matchedProduct = products.find(p => p.id === product.productID);
+                            const findSizeName = (sizeID) => {
+                                const foundSize = sizes.find(sizefind => sizefind.id === sizeID);
+                                return foundSize ? foundSize.name : null;
+                            };
 
+                            const sizeName = findSizeName(product.sizeID);
                             // Kiểm tra xem sản phẩm có tồn tại không
                             if (matchedProduct) {
                                 return (
@@ -159,9 +206,10 @@ const OrderDetailCustomer = () => {
                                                 <img src={matchedProduct.listImage[0].path} alt='img product' className="img-fluid" width={"150px"} height={"150px"} />
                                             </div>
                                             <div className="col-md-9">
-                                                <p><strong>{t('order_detail_product_name')}:</strong> {matchedProduct.name}</p>
-                                                <p><strong>{t('order_detail_product_price')}:</strong> {formatCurrency(product.totalPrice)}</p>
-                                                <p><strong>{t('order_detail_product_quantity')}:</strong> {product.quantity}</p>
+                                                <p><strong>{t('order_detail_product_name')} : </strong> {matchedProduct.name}</p>
+                                                <p><strong>{t('size')} : </strong>{sizeName}</p>
+                                                <p><strong>{t('order_detail_product_price')} : </strong> {formatCurrency(product.totalPrice)}</p>
+                                                <p><strong>{t('order_detail_product_quantity')} : </strong> {product.quantity}</p>
                                             </div>
                                         </div>
                                     </li>

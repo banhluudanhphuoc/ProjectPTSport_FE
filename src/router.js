@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 
 import NotFound from "pages/users/notFound";
 import MasterLayout from "./pages/users/theme/masterLayout";
-import ProfilePage from "./pages/users/profilePage";
+
 import ProductDetail from "./pages/users/productDetail";
 import CartPage from "./pages/users/cartPage";
 import CategoryPage from "pages/users/categoryPage";
@@ -118,7 +118,6 @@ const UserRoutes = () => {
                 <Route path={ROUTERS.USER.PROFILE_CUSTOMER} element={<ProfileCustomer />} />
                 <Route path={ROUTERS.USER.CONFIRM_PHONE_NUMBER} element={<ConfirmPhoneNumber />} />
                 <Route path={ROUTERS.USER.HOME} element={<HomePage />} />
-                <Route path={ROUTERS.USER.PROFILE} element={<ProfilePage />} />
                 <Route path={ROUTERS.USER.PRODUCT_DETAIL} element={<ProductDetail />} />
                 <Route path={ROUTERS.USER.CART} element={<CartPage />} />
                 <Route path={ROUTERS.USER.CATEGORY_PAGE} element={<CategoryPage />} />

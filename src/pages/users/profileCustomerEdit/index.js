@@ -1,32 +1,15 @@
-import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect, memo } from 'react';
-import { useTranslation } from "react-i18next";
-import "./style.scss";
+import {
+    Box, Button, Card, Grid, Group
+} from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import axios from "axios";
-import {
-    PasswordInput,
-    Group,
-    Button,
-    Box,
-    Card,
-    TextInput,
-    Grid,
-    Text,
-    ThemeIcon,
-    List,
-    Tabs,
-    rem,
-    NativeSelect,
-    Avatar,
-    Select,
-} from '@mantine/core';
 import Cookies from 'js-cookie';
+import { memo, useEffect, useState } from 'react';
+import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
 import Banner from "../../users/theme/banner";
-import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
-import { Link } from "react-router-dom";
-// import { useAuth } from "context/AuthContext";
-import { parse, isValid, format } from 'date-fns';
+import "./style.scss";
+import { format, isValid } from 'date-fns';
 const ProfileCustomerEdit = () => {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('VI');

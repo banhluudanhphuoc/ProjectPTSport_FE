@@ -1,13 +1,13 @@
-import { memo, useState } from "react";
-import "./style.scss";
-import { PasswordInput, TextInput } from '@mantine/core';
-import Banner from "../theme/banner";
-import { Link } from "react-router-dom";
-import LoginImg from '../../../style/img/login.jpg';
-import { useTranslation } from "react-i18next";
+import { TextInput } from '@mantine/core';
 import axios from 'axios';
+import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import ReactLoading from 'react-loading';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { Link } from "react-router-dom";
+import LoginImg from '../../../style/img/login.jpg';
+import Banner from "../theme/banner";
+import "./style.scss";
 const FotgotPassword = () => {
     const { t, i18n } = useTranslation();
     const [email, setEmail] = useState('');

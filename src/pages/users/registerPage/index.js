@@ -1,27 +1,21 @@
-import React, { useState, memo, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import "./style.scss";
-import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
 import {
     PasswordInput,
-    TextInput,
-    Text,
-    rem,
-    NativeSelect,
+    TextInput
 } from '@mantine/core';
-import LoginImg from '../../../style/img/login.jpg';
 import { DateInput } from '@mantine/dates';
+import { isEmail, isNotEmpty, useForm } from '@mantine/form';
 import axios from "axios";
-import { Link } from "react-router-dom";
-import Banner from "../../users/theme/banner";
-import { Container, Col, Row } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import { Modal, Button, Image } from 'react-bootstrap';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
-import RegistrationModal from 'components/user/modal/RegistrationModal';
-import ReactLoading from 'react-loading';
-import Cookies from 'js-cookie';
 import { format } from 'date-fns';
+import Cookies from 'js-cookie';
+import { memo, useEffect, useState } from 'react';
+import { Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+import ReactLoading from 'react-loading';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { Link, useNavigate } from 'react-router-dom';
+import LoginImg from '../../../style/img/login.jpg';
+import Banner from "../../users/theme/banner";
+import "./style.scss";
 const RegisterPage = () => {
 
     const { t, i18n } = useTranslation();

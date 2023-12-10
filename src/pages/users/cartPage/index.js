@@ -74,6 +74,8 @@ const CartPage = () => {
                 const response = await axios.get(api + '/cart/' + userId);
 
                 setProductOnCart(response.data.itemList); // .itemList
+                // console.log(response.data.itemList);
+                // console.log(items);
                 //console.log(response);
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -96,18 +98,7 @@ const CartPage = () => {
 
 
 
-    // useEffect(() => {
-    //     // Update 'items' whenever 'productOnCart' changes
-    //     if (productOnCart.length > 0) {
-    //         setItems(productOnCart);
-    //     }
-    // }, [productOnCart]);
 
-    // useEffect(() => {
-    //     if (totalUniqueItems === 0) {
-    //         navigate('/category-page');
-    //     }
-    // }, [totalUniqueItems]);
 
 
     const handleDeleteProduct = (event, item) => {
@@ -124,16 +115,22 @@ const CartPage = () => {
 
     function getIdFromItemList(items, productOnCart) {
         if (Array.isArray(productOnCart)) {
-            const foundItem = productOnCart.find(item => item.productID === items.id);
+
+            const foundItem = productOnCart.find(item => item.productID === items.productID && Number(item.size.id) === Number(items.sizeID));
+
+
             return foundItem ? foundItem.id : null;
         } else {
             console.error('productOnCart is not an array or is undefined.');
             return null;
         }
     }
+
+
     function getIdFromItemList1(items, productOnCart) {
         if (Array.isArray(productOnCart)) {
-            const foundItem = productOnCart.find(item => item.productID === items.id);
+            const foundItem = productOnCart.find(item => item.productID === items.productID);
+            //console.log(foundItem);
             return foundItem ? foundItem.productID : null;
         } else {
             console.error('productOnCart is not an array or is undefined.');
@@ -154,7 +151,7 @@ const CartPage = () => {
                     `${api}/cart/update/${user.userId}/${idCartItem}`,
                     {
                         "productID": idItem,
-                        "sizeID": 2,
+                        "sizeID": item.sizeID,
                         "colorID": 2,
                         "quantity": item.quantity - 1
                     },
@@ -181,22 +178,35 @@ const CartPage = () => {
 
         const idItem = getIdFromItemList1(item, productOnCart);
         const idCartItem = getIdFromItemList(item, productOnCart);
+        //console.log(idCartItem);
+
+
+        //console.log(sizeIdOnCart);
 
         if (idCartItem !== null) {
             try {
-                const response = await axios.get(api + "/products/" + idItem);
-                const totalQuantity = response.data.totalQuantity;
+                const responseProduct = await axios.get(api + "/products/" + idItem);
+                const totalQuantity = responseProduct.data.totalQuantity;
 
-                // Check if increasing the quantity exceeds totalQuantity
-                if (item.quantity + 1 > totalQuantity) {
-                    NotificationManager.error(t('message_total_quantity'));
+                const calculateTotalQuantityForProduct = (items, productId) => {
+                    const filteredItems = items.filter(itemProduct => itemProduct.productID === productId);
+
+                    const totalQuantity = filteredItems.reduce((total, currentItem) => total + currentItem.quantity, 0);
+                    return totalQuantity;
+                };
+                const productIdToCalculate = item.productID;
+                const totalQuantityForProduct = calculateTotalQuantityForProduct(items, productIdToCalculate);
+
+
+                if (totalQuantityForProduct + 1 > totalQuantity) {
+                    NotificationManager.error(t('message_total_quantity'), '', 1500);
                     return;
                 } else {
                     await axios.put(
                         `${api}/cart/update/${user.userId}/${idCartItem}`,
                         {
                             "productID": idItem,
-                            "sizeID": 2,
+                            "sizeID": item.sizeID,
                             "colorID": 2,
                             "quantity": item.quantity + 1
                         },
@@ -235,7 +245,7 @@ const CartPage = () => {
                 setShowConfirmationModal(false);
                 NotificationManager.success(t('message_success_delete_to_cart'),
                     t('message_success'),
-                    2000
+                    1500
                 );
             } catch (error) {
                 console.error('Error deleting product:', error);
@@ -290,13 +300,14 @@ const CartPage = () => {
                                                         <img src={item.image} alt="" width={100} />
                                                     </div>
                                                     <div className="media-body media-body-custom">
-                                                        <p>{item.productName}</p>
+                                                        <p>{item.productName} - {t('size')} : {item.sizeName}</p>
                                                         <span className="ml-5">
                                                             <Link onClick={(event) => handleDeleteProduct(event, item)}>
                                                                 <Icon icon="ph:x" />
                                                             </Link>
                                                         </span>
                                                     </div>
+
                                                 </div>
                                             </td>
                                             <td>

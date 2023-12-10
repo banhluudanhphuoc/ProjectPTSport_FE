@@ -1,11 +1,9 @@
-import { memo } from "react";
-import "./style.scss";
-import React, { useState, useEffect } from 'react';
+import { memo, useState } from "react";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Banner from "../../users/theme/banner";
-import { Container, Row, Col, } from "react-bootstrap";
-import { useTranslation } from "react-i18next";
-import { Button } from "react-bootstrap"; // Fix this import
+import "./style.scss";
 
 import ReactInputVerificationCode from 'react-input-verification-code';
 
