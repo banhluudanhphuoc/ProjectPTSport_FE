@@ -22,7 +22,7 @@ const CategoryPage = () => {
         contents: [],
         lastPage: false,
         pageNumber: 0,
-        pageSize: 9,
+        pageSize: 10,
         totalElements: 0,
         totalPages: 0,
     });
@@ -45,6 +45,21 @@ const CategoryPage = () => {
     const [cart, setCart] = useState([]);
     const [sortOption, setSortOption] = useState('default');
 
+
+    const goToPage = async (page) => {
+        try {
+            const response = await axios.get(api + '/products', {
+                params: {
+                    pageNumber: page,
+                    pageSize: data.pageSize,
+                },
+            });
+            setData(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -63,6 +78,7 @@ const CategoryPage = () => {
                     // Handle the case when either type or idFilter is undefined
                     response = await axios.get(api + '/products', { maxRedirects: 5 });
                     setData(response.data);
+                    console.log(response.data);
                 }
 
             } catch (error) {
@@ -142,20 +158,7 @@ const CategoryPage = () => {
     };
 
 
-    const renderPaginationLinks = () => {
-        const links = [];
-        if (data.pageNumber) {
-            for (let i = 1; i <= data.totalPages; i++) {
-                links.push(
-                    <Link key={i} className={i === data.pageNumber + 1 ? 'active' : ''}>
-                        {i}
-                    </Link>
-                );
-            }
-            return links;
-        }
-        return null;
-    };
+
 
     const sortedProducts = idFilter ? productsFilter : data.contents;
 
@@ -164,6 +167,35 @@ const CategoryPage = () => {
     } else if (sortOption === 'low') {
         sortedProducts.sort((a, b) => a.price - b.price);
     }
+
+    const handleNextPage = () => {
+        if (!data.lastPage) {
+            goToPage(data.pageNumber + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (data.pageNumber > 0) {
+            goToPage(data.pageNumber - 1);
+        }
+    };
+
+
+    const renderPaginationLinks = () => {
+        const links = [];
+        for (let i = 0; i < data.totalPages; i++) {
+            links.push(
+                <Link
+                    key={i}
+                    onClick={() => goToPage(i)}
+                    className={i === data.pageNumber ? 'active' : ''}
+                >
+                    {i + 1}
+                </Link>
+            );
+        }
+        return links;
+    };
 
     // const addToCart = (cartItem, cartItem2) => {
     //     fetch(api + `/cart/${user.userId}`, {
@@ -317,14 +349,14 @@ const CategoryPage = () => {
 
                             </div>
                             <div className="pagination">
-
-                                <Link className="prev-arrow" disabled={data.pageNumber === 0}>
+                                <Link to="#" className="prev-arrow" onClick={handlePrevPage} disabled={data.pageNumber === 0}>
                                     <GrFormPrevious />
                                 </Link>
                                 {renderPaginationLinks()}
                                 <Link
-
+                                    to="#"
                                     className="next-arrow"
+                                    onClick={handleNextPage}
                                     disabled={data.pageNumber === data.totalPages - 1 || data.lastPage}
                                 >
                                     <GrFormNext />
