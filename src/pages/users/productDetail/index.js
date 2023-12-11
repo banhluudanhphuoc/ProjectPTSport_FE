@@ -24,6 +24,7 @@ import SizeChart from '../../../assets/users/size-charts/giay-nam.png';
 import Banner from "../../users/theme/banner";
 import RelatedProductArea from "../theme/relatedProductArea";
 import './style.scss';
+import MyShareComponent from 'components/user/facebook/share';
 const ProductDetail = () => {
     const postUrl = process.env.REACT_APP_URL;
     const { t, i18n } = useTranslation();
@@ -481,6 +482,13 @@ const ProductDetail = () => {
                                         <Link className="icon_btn btn-product-detail" onClick={addToWishlist}><span><FaRegHeart /></span></Link>
                                     )
                                     }
+                                    <div class="fb-share-button" data-href={postUrl + "/product-detail/" + product.id} data-layout="button_count" data-size="">
+
+                                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fproduct-detail%2F42&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
+                                            Chia sẻ
+                                        </a>
+                                    </div>
+
 
                                 </div>
                             </div>
